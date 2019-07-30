@@ -1,2 +1,2 @@
-# gorinse
-Web application to manage orders of cleaning services
+# package
+Laravel Package with Entrust Role Permission
