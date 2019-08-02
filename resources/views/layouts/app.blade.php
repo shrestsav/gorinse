@@ -36,6 +36,12 @@
       border-radius: .375rem;
       background: #f6f9fc;
     }
+    .sidenav .navbar-brand, .sidenav .navbar-heading {
+      padding: 1.5rem 0 1.5rem 1.5rem;
+    }
+    .navbar-vertical .navbar-brand-img, .navbar-vertical .navbar-brand>img {
+      max-height: 3rem;
+    }
   </style>
 </head>
 

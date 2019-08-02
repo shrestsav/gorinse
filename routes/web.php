@@ -24,4 +24,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('firestore','FirestoreController@index');
 	Route::get('set','FirestoreController@setData');
 	Route::get('whereData','FirestoreController@whereData');
+
+	Route::get('getFields/{fieldType}','CoreController@getFields');
+	Route::get('getSettings/{settingType}','CoreController@getSettings');
 });

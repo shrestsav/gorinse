@@ -27,30 +27,43 @@ class FirestoreController extends Controller
     }
     public function setData()
     {
-		$ordersRef = $this->db->collection('orders')->newDocument();
-		$ordersRef->set([
-		    'customer_id' => '3',
-		    'order_date' => '2019-02-03',
-		    'type' => 'normal',
-		    'pickup_place' => 'kathmandu',
-		    'pickup_time' => 'kathmandu',
-		    'dropoff_place' => 'kathmandu',
-		    'dropoff_time' => 'kathmandu',
-		    'total_amount' => 'kathmandu',
-		]);		
+		// $ordersRef = $this->db->collection('orders')->newDocument();
+		// $ordersRef->set([
+		//     'customer_id' => '3',
+		//     'order_date' => '2019-02-03',
+		//     'type' => 'normal',
+		//     'pickup_place' => 'kathmandu',
+		//     'pickup_time' => 'kathmandu',
+		//     'dropoff_place' => 'kathmandu',
+		//     'dropoff_time' => 'kathmandu',
+		//     'total_amount' => 'kathmandu',
+		//     'vat_amount' => 'kathmandu',
+		//     'delivery_charge' => 'kathmandu',
+		//     'status' => 'kathmandu',
+		// ]);		
 
 		$usersRef = $this->db->collection('users')->newDocument();
 		$usersRef->set([
-		    'username' => 'Utsav',
-		    'type' => 'normal',
-		    'f_name' => 'kathmandu',
-		    'l_name' => 'kathmandu',
-		    'last_login' => 'kathmandu',
+		    'username' => $this->getName(5),
+		    'fname' => $this->getName(6),
+		    'lname' => $this->getName(4),
 		    'registered_on' => 'kathmandu',
-		    'total_amount' => 'kathmandu',
+		    'address' => 'fasdfsdf',
 		]);
-		return $ordersRef->id();
+		return $usersRef->id();
     }
+
+    public function getName($n) { 
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+	    $randomString = ''; 
+	  
+	    for ($i = 0; $i < $n; $i++) { 
+	        $index = rand(0, strlen($characters) - 1); 
+	        $randomString .= $characters[$index]; 
+	    } 
+	  
+	    return $randomString; 
+	}
 
     public function whereData()
     {

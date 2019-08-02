@@ -3,7 +3,7 @@
   <div class="sidenav-header d-flex align-items-center">
     <router-link :to="{ name: 'dashboard'}" >
       <a class="navbar-brand" href="{{route('dashboard')}}" :href="''" >
-        <img src="{{asset('argon')}}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+        <img src="{{asset('system')}}/img/company-logo.png" class="navbar-brand-img" alt="...">
       </a>
     </router-link>
     <div class="ml-auto">
@@ -30,6 +30,26 @@
             </a>
           </router-link>
         </li>
+{{--         <li class="nav-item">
+          <a class="nav-link" href="#navbar-users" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-users" v-bind:class="{ active: currentMenu=='ordersMenu'}">
+            <i class="ni ni-ungroup text-orange"></i>
+            <span class="nav-link-text">Users</span>
+          </a>
+          <div class="collapse" id="navbar-users">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <router-link :to="{ name: 'createUser'}" >
+                  <a href="{{url('/v/users/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createUser' }">Create Users</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'users'}" >
+                  <a href="{{url('/v/users')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='users' }">Users</a>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </li> --}}
         <li class="nav-item">
           <a class="nav-link" href="#navbar-orders" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-orders" v-bind:class="{ active: currentMenu=='ordersMenu'}">
             <i class="ni ni-ungroup text-orange"></i>
@@ -44,7 +64,27 @@
               </li>
               <li class="nav-item">
                 <router-link :to="{ name: 'orders'}" >
-                  <a href="{{url('/v/orders')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='orders' }">New Orders</a>
+                  <a href="{{url('/v/orders')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='orders' }">Orders</a>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#navbar-drivers" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-drivers" v-bind:class="{ active: currentMenu=='driversMenu'}">
+            <i class="ni ni-ungroup text-orange"></i>
+            <span class="nav-link-text">Drivers</span>
+          </a>
+          <div class="collapse" id="navbar-drivers">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <router-link :to="{ name: 'createDriver'}" >
+                  <a href="{{url('/v/drivers/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createDriver' }">Add Driver</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'drivers'}" >
+                  <a href="{{url('/v/drivers')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='drivers' }">Drivers</a>
                 </router-link>
               </li>
             </ul>

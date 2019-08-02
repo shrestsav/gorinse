@@ -3,13 +3,14 @@
 @section('content')
 
 <!-- Header -->
-<div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+<div class="header py-7">
   <div class="container">
     <div class="header-body text-center mb-7">
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-8 px-5">
-          <h1 class="text-white">Welcome!</h1>
-          <p class="text-lead text-white">Welcome to our system, if you have the credentials then login or contact your administrator</p>
+          <img src="{{asset('system')}}/img/company-logo-full.png" width="200px">
+          {{-- <h1 class="text-white">Welcome!</h1>
+          <p class="text-lead text-white">Welcome to our system, if you have the credentials then login or contact your administrator</p> --}}
         </div>
       </div>
     </div>

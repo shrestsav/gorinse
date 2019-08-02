@@ -1,93 +1,176 @@
 <template>
-  <div class="card mb-4">
+  <div class="card">
     <div class="card-header">
-      <h3 class="mb-0">Test Page for creating orders</h3>
+      <div class="col-md-2">
+        <div class="nav-wrapper">
+          <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link mb-sm-3 mb-md-0 active" id="createOrder" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">Create Order</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="card-body">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-control-label" for="example3cols1Input">One of three cols</label>
-            <input type="text" class="form-control" id="example3cols1Input" placeholder="One of three cols">
+      <div v-for="(section,sec_name,index) in fields">
+        <h6 class="heading-small text-muted mb-4">{{sec_name}}</h6>
+        <div class="pl-lg-4">
+          <div class="row">
+            <div :class="'col-lg-'+item['col']" v-for="item,key in section">
+              <div class="form-group">
+                <label class="form-control-label" :for="'input-'+key">{{item['display_name']}}</label>
+                <input 
+                  v-if="item['type']==='text' || item['type']==='number'" 
+                  :class="{'not-validated':errors[key]}" 
+                  :type="item['type']" 
+                  :id="'input-'+key" 
+                  :placeholder="item['display_name']" 
+                  v-model="order[key]"
+                  class="form-control" 
+                >
+                <v-select
+                  class="form-control"  
+                  v-if="item['type']==='select' && key==='customer_id'" 
+                  v-model="order[key]" 
+                  :options="customers" 
+                  :reduce="fname => fname.id" 
+                  label="fname" 
+                  placeholder="Select Client"
+                />
+                <select class="form-control" v-if="item['type']==='select' && key==='order_type'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
+                  <option value="normal">Normal</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+                <select class="form-control" v-if="item['type']==='select' && key==='status'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
+                  <option :value="key" v-for="item,key in orderStatus">{{item}}</option>
+                </select>
+                <date-picker 
+                  v-if="item['type']==='date'"  
+                  v-model="order[key]"
+                  lang='en' 
+                  input-class="form-control"
+                ></date-picker>
+                <date-picker 
+                  v-if="item['type']==='datetime'"  
+                  v-model="order[key]"
+                  lang='en' 
+                  type="datetime" 
+                  input-class="form-control"
+                  format="YYYY-MM-DD hh:mm:ss a" :time-picker-options="{ start: '00:00', step: '00:30', end: '23:30' }"
+                ></date-picker>
+                <div class="invalid-feedback" style="display: block;" v-if="showErr">
+                  {{errors[key]}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-control-label" for="example3cols2Input">One of three cols</label>
-            <input type="text" class="form-control" id="example3cols2Input" placeholder="One of three cols">
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="form-control-label" for="example3cols3Input">One of three cols</label>
-            <input type="text" class="form-control" id="example3cols3Input" placeholder="One of three cols">
-          </div>
-        </div>
+        <hr class="my-4"/>
       </div>
-      <div class="row">
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="form-control-label" for="example4cols1Input">One of four cols</label>
-            <input type="text" class="form-control" id="example4cols1Input" placeholder="One of four cols">
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="form-control-label" for="example4cols2Input">One of four cols</label>
-            <input type="text" class="form-control" id="example4cols2Input" placeholder="One of four cols">
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="form-control-label" for="example4cols3Input">One of four cols</label>
-            <input type="text" class="form-control" id="example4cols3Input" placeholder="One of four cols">
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <div class="form-group">
-            <label class="form-control-label" for="example4cols3Input">One of four cols</label>
-            <input type="text" class="form-control" id="example4cols3Input" placeholder="One of four cols">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label" for="example2cols1Input">One of two cols</label>
-            <input type="text" class="form-control" id="example2cols1Input" placeholder="One of two cols">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label" for="example2cols2Input">One of two cols</label>
-            <input type="text" class="form-control" id="example2cols2Input" placeholder="One of two cols">
-          </div>
-        </div>
-      </div>
+    </div>
+    <div class="card-footer text-center">
+       <button class="btn btn-outline-primary" @click="save">Create</button>
     </div>
   </div>
 </template>
 
 <script>
+
+  import vSelect from 'vue-select'
+  import 'vue-select/dist/vue-select.css'
+  import DatePicker from 'vue2-datepicker'
+
   export default{
+    components: {
+      vSelect,DatePicker
+    },
     data(){
       return{
         errors:{},
+        showErr:false,
+        fields:{},
+        order:{
+          customer_id: '',
+          order_date: '',
+          order_type: '',
+          pickup_location: '',
+          pickup_datetime: '',
+          drop_location: '',
+          drop_datetime: '',
+          price: '',
+          vat_amount: '',
+          delivery_charge: '',
+          status: '',
+        },
       }
     },
     created(){
       this.$store.commit('changeCurrentPage', 'createOrder')
       this.$store.commit('changeCurrentMenu', 'ordersMenu')
-      this.$store.dispatch('getOrders')
+      this.$store.dispatch('getCustomers')
+      this.$store.dispatch('getOrderStatus')
     },
     mounted(){
+      this.defSettings();
     },
     methods:{
+      defSettings(){
+        axios.get('/getFields/createOrder').then(response => this.fields = response.data)
+      },
+      save(){
+        this.order.created_at = new Date();
+        this.order.updated_at = new Date();
+        if(this.validate()){
+          this.errors = {};
+          this.$store.dispatch('addOrder', this.order).then(() => {
+            showNotify('success','Order has been created')
+          })
+        }
+        else{
+          this.showErr = true;
+        }
+
+      },
+      validate(){
+        if(this.order.customer_id && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.drop_location && this.order.drop_datetime && this.order.price && this.order.vat_amount  && this.order.delivery_charge  && this.order.status){
+          return true;
+        }
+        if(!this.order.drop_location){
+          this.errors.drop_location = 'Drop Location Required';
+        }
+        if(!this.order.customer_id){
+          this.errors.customer_id = 'Select Customer';
+        }
+        if(!this.order.pickup_location){
+          this.errors.pickup_location = 'Pickup Location Required';
+        }
+        return false;
+      }
     },
     computed: {
+      customers(){
+        return this.$store.getters.customers
+      },
+      orderStatus(){
+        return this.$store.getters.orderStatus
+      }
     },
-    watch: {
-    },
+
   }
 
 </script>
+<style>
+  .mx-datepicker{
+    width: unset;
+    display: unset;
+  }
+  .mx-datepicker-popup{
+    top: 0 !important;
+  }
+  .not-validated{
+    border-color: #fb6340;
+  }
+  .form-control .vs__dropdown-toggle {
+    border: 0px !important;
+  }
+</style>
