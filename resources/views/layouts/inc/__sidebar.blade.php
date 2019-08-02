@@ -52,7 +52,7 @@
         </li> --}}
         <li class="nav-item">
           <a class="nav-link" href="#navbar-orders" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-orders" v-bind:class="{ active: currentMenu=='ordersMenu'}">
-            <i class="ni ni-ungroup text-orange"></i>
+            <i class="ni ni-cart text-info"></i>
             <span class="nav-link-text">Orders</span>
           </a>
           <div class="collapse" id="navbar-orders">
@@ -72,7 +72,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#navbar-drivers" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-drivers" v-bind:class="{ active: currentMenu=='driversMenu'}">
-            <i class="ni ni-ungroup text-orange"></i>
+            <i class="ni ni-bus-front-12 text-info"></i>
             <span class="nav-link-text">Drivers</span>
           </a>
           <div class="collapse" id="navbar-drivers">

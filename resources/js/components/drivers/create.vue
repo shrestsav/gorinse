@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="card-footer text-center">
-       <button class="btn btn-outline-primary" @click="save">Create</button>
+       <button class="btn btn-outline-info" @click="save">Create</button>
     </div>
   </div>
 </template>

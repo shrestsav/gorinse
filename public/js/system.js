@@ -40920,7 +40920,7 @@ var render = function() {
     _c("div", { staticClass: "card-footer text-center" }, [
       _c(
         "button",
-        { staticClass: "btn btn-outline-primary", on: { click: _vm.save } },
+        { staticClass: "btn btn-outline-info", on: { click: _vm.save } },
         [_vm._v("Create")]
       )
     ])
