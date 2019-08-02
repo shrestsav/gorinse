@@ -30078,16 +30078,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     validate: function validate() {
-      if (this.driver.fname && this.driver.lname && this.driver.username && this.driver.email) {
+      if (this.driver.fname && this.driver.username && this.driver.email && this.driver.d_o_b && this.driver.joined_date) {
         return true;
       }
 
       if (!this.driver.fname) {
         this.errors.fname = 'First name is required';
-      }
-
-      if (!this.driver.lname) {
-        this.errors.lname = 'Last name is required';
       }
 
       if (!this.driver.username) {
@@ -30096,6 +30092,14 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.driver.email) {
         this.errors.email = 'Email Required';
+      }
+
+      if (!this.driver.d_o_b) {
+        this.errors.d_o_b = 'Date of Birth Required';
+      }
+
+      if (!this.driver.joined_date) {
+        this.errors.joined_date = 'Joined Date Required';
       }
 
       return false;
