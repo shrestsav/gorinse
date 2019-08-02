@@ -92,28 +92,16 @@ export const store = new Vuex.Store({
 			.then(querySnapshot => {
 				let orders = [];
 				querySnapshot.forEach(doc => {
-					var customers = db.collection("users").doc(doc.data().customer_id);
-					customers.get().then(function(userDoc) {
-					    if (userDoc.exists) {
-					        console.log("Document data:", userDoc.data());
-					        orders.push({
-								id: doc.id,
-								customer_id: doc.data().customer_id,
-								customer_name: userDoc.data().fname,
-								order_type: doc.data().order_type,
-								order_date: doc.data().order_date.toDate(),
-								pickup_location: doc.data().pickup_location,
-								pickup_datetime: doc.data().pickup_datetime.toDate(),
-								drop_location: doc.data().drop_location,
-								drop_datetime: doc.data().drop_datetime.toDate(),
-							})
-					    } else {
-					        // doc.data() will be undefined in this case
-					        console.log("No such document!");
-					    }
-					}).catch(function(error) {
-					    console.log("Error getting document:", error);
-					});
+			        orders.push({
+						id: doc.id,
+						customer: doc.data().customer,
+						order_type: doc.data().order_type,
+						order_date: doc.data().order_date.toDate(),
+						pickup_location: doc.data().pickup_location,
+						pickup_datetime: doc.data().pickup_datetime.toDate(),
+						drop_location: doc.data().drop_location,
+						drop_datetime: doc.data().drop_datetime.toDate(),
+					}) 
 				})
 				// console.log(orders);
 				context.commit('setOrders',orders)
@@ -172,6 +160,22 @@ export const store = new Vuex.Store({
 			})
 			.catch(function(error) {
 			    console.error("Error adding document: ", error);
+			});
+		},
+		assignOrder(context, assign){
+			var orderRef = db.collection("orders").doc(assign.order_id);
+
+			// Set the "capital" field of the city 'DC'
+			orderRef.update({
+				status:'2',
+			    driver: assign.driver
+			})
+			.then(function() {
+			    console.log("Document successfully updated!");
+			})
+			.catch(function(error) {
+			    // The document probably doesn't exist.
+			    console.error("Error updating document: ", error);
 			});
 		}
 	}

@@ -56,7 +56,7 @@ return [
   ],
   'createOrder' => [
     'Order Information' => [
-      'customer_id' => [
+      'customer' => [
         'display_name' => 'Select Customer',
         'col' => '4',
         'type' =>  'select',

@@ -30197,6 +30197,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-select/dist/vue-select.css */ "./node_modules/vue-select/dist/vue-select.css");
+/* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -30220,15 +30224,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   props: ['orderKey'],
   data: function data() {
-    return {};
+    return {
+      assign: {},
+      showErr: false,
+      errors: {}
+    };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.$store.dispatch('getDrivers');
+  },
   computed: {
     order: function order() {
-      return this.$store.getters.orders[0];
+      return this.$store.getters.orders[this.orderKey];
+    },
+    drivers: function drivers() {
+      return this.$store.getters.drivers;
+    }
+  },
+  methods: {
+    setAssign: function setAssign() {
+      this.assign.order_id = this.order.id;
+
+      if (this.validate()) {
+        this.errors = {};
+        this.$store.dispatch('assignOrder', this.assign).then(function () {
+          showNotify('success', 'Order has been assigned');
+        });
+      } else {
+        this.showErr = true;
+      }
+    },
+    validate: function validate() {
+      if (this.assign.order_id && this.assign.driver) {
+        return true;
+      }
+
+      if (!this.assign.order_id) {
+        this.errors.order_id = 'Order ID Missing';
+      }
+
+      if (!this.assign.driver) {
+        this.errors.driver = 'Select Whom to assign first';
+      }
+
+      return false;
     }
   }
 });
@@ -30326,6 +30404,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -30339,19 +30425,7 @@ __webpack_require__.r(__webpack_exports__);
       errors: {},
       showErr: false,
       fields: {},
-      order: {
-        customer_id: '',
-        order_date: '',
-        order_type: '',
-        pickup_location: '',
-        pickup_datetime: '',
-        drop_location: '',
-        drop_datetime: '',
-        price: '',
-        vat_amount: '',
-        delivery_charge: '',
-        status: ''
-      }
+      order: {}
     };
   },
   created: function created() {
@@ -30385,12 +30459,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     validate: function validate() {
-      if (this.order.customer_id && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.status) {
+      if (this.order.customer && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.status) {
         return true;
       }
 
-      if (!this.order.customer_id) {
-        this.errors.customer_id = 'Select Customer';
+      if (!this.order.customer) {
+        this.errors.customer = 'Select Customer';
       }
 
       if (!this.order.order_date) {
@@ -30500,6 +30574,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      activeOrder: '',
       showAssign: false,
       errors: {}
     };
@@ -30518,7 +30593,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     showDetails: function showDetails(key) {// alert(key);
     },
-    assign: function assign(key) {// alert(key);
+    assign: function assign(key) {
+      this.activeOrder = key;
+      this.showAssign = true;
     }
   },
   computed: {
@@ -41199,10 +41276,94 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _vm._v("\n          " + _vm._s(_vm.order["customer_name"]) + "\n")
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("h4", { staticClass: "mb-0" }, [
+                    _c("a", { attrs: { href: "javascript:;" } }, [
+                      _vm._v(
+                        _vm._s(_vm.order.customer.fname) +
+                          " " +
+                          _vm._s(_vm.order.customer.lname)
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "text-success" }, [_vm._v("●")]),
+                  _vm._v(" "),
+                  _c("small", [_vm._v("Online")])
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mt-4" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("v-select", {
+                      staticClass: "form-control",
+                      attrs: {
+                        options: _vm.drivers,
+                        label: "fname",
+                        placeholder: "Drivers"
+                      },
+                      model: {
+                        value: _vm.assign.driver,
+                        callback: function($$v) {
+                          _vm.$set(_vm.assign, "driver", $$v)
+                        },
+                        expression: "assign.driver"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _vm.showErr
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "invalid-feedback",
+                      staticStyle: { display: "block" }
+                    },
+                    [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.errors.driver) +
+                          "\n        "
+                      )
+                    ]
+                  )
+                : _vm._e()
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-success",
+                  on: {
+                    click: function($event) {
+                      return _vm.setAssign()
+                    }
+                  }
+                },
+                [_vm._v("Create")]
+              )
+            ])
           ])
         ]
       )
@@ -41214,15 +41375,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-link ml-auto",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      )
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("h4", { staticClass: "mb-0" }, [
+        _c("a", { attrs: { href: "javascript:;" } }, [_vm._v("Items")])
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "text-success" }),
+      _c("small", [_vm._v("Dummy")]),
+      _vm._v(" "),
+      _c("span", { staticClass: "text-success" }),
+      _c("small", [_vm._v("Dummy")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { staticClass: "mb-1" }, [
+      _c("a", { attrs: { href: "javascript:;" } }, [_vm._v("Assign to")])
     ])
   }
 ]
@@ -41386,14 +41556,11 @@ var render = function() {
                           })
                         : _vm._e(),
                       _vm._v(" "),
-                      item["type"] === "select" && key === "customer_id"
+                      item["type"] === "select" && key === "customer"
                         ? _c("v-select", {
                             staticClass: "form-control",
                             attrs: {
                               options: _vm.customers,
-                              reduce: function(fname) {
-                                return fname.id
-                              },
                               label: "fname",
                               placeholder: "Customers"
                             },
@@ -41702,7 +41869,13 @@ var render = function() {
                     return _c("tr", [
                       _c("td", [_vm._v(_vm._s(++key))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.customer_name))]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(item.customer.fname) +
+                            " " +
+                            _vm._s(item.customer.lname)
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.order_type))]),
                       _vm._v(" "),
@@ -41769,7 +41942,9 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("assign", { attrs: { orderKey: "0" } })
+      _vm.showAssign
+        ? _c("assign", { attrs: { orderKey: _vm.activeOrder } })
+        : _vm._e()
     ],
     1
   )
@@ -58426,27 +58601,15 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       orderRef.where("status", "==", status).get().then(function (querySnapshot) {
         var orders = [];
         querySnapshot.forEach(function (doc) {
-          var customers = _firestore__WEBPACK_IMPORTED_MODULE_2__["default"].collection("users").doc(doc.data().customer_id);
-          customers.get().then(function (userDoc) {
-            if (userDoc.exists) {
-              console.log("Document data:", userDoc.data());
-              orders.push({
-                id: doc.id,
-                customer_id: doc.data().customer_id,
-                customer_name: userDoc.data().fname,
-                order_type: doc.data().order_type,
-                order_date: doc.data().order_date.toDate(),
-                pickup_location: doc.data().pickup_location,
-                pickup_datetime: doc.data().pickup_datetime.toDate(),
-                drop_location: doc.data().drop_location,
-                drop_datetime: doc.data().drop_datetime.toDate()
-              });
-            } else {
-              // doc.data() will be undefined in this case
-              console.log("No such document!");
-            }
-          })["catch"](function (error) {
-            console.log("Error getting document:", error);
+          orders.push({
+            id: doc.id,
+            customer: doc.data().customer,
+            order_type: doc.data().order_type,
+            order_date: doc.data().order_date.toDate(),
+            pickup_location: doc.data().pickup_location,
+            pickup_datetime: doc.data().pickup_datetime.toDate(),
+            drop_location: doc.data().drop_location,
+            drop_datetime: doc.data().drop_datetime.toDate()
           });
         }); // console.log(orders);
 
@@ -58499,6 +58662,19 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         console.log("Document written with ID: ", docRef.id);
       })["catch"](function (error) {
         console.error("Error adding document: ", error);
+      });
+    },
+    assignOrder: function assignOrder(context, assign) {
+      var orderRef = _firestore__WEBPACK_IMPORTED_MODULE_2__["default"].collection("orders").doc(assign.order_id); // Set the "capital" field of the city 'DC'
+
+      orderRef.update({
+        status: '2',
+        driver: assign.driver
+      }).then(function () {
+        console.log("Document successfully updated!");
+      })["catch"](function (error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
       });
     }
   }

@@ -27,7 +27,7 @@
             <tbody class="list">
               <tr v-for="item,key in orders">
                 <td>{{++key}}</td>
-                <td>{{item.customer_name}}</td>
+                <td>{{item.customer.fname}} {{item.customer.lname}}</td>
                 <td>{{item.order_type}}</td>
                 <td>{{item.order_date}}</td>
                 <td>{{item.pickup_location}}</td>
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <assign orderKey="0"></assign>
+    <assign :orderKey="activeOrder" v-if="showAssign"></assign>
   </div>
 </template>
 
@@ -62,6 +62,7 @@
     },
     data(){
       return{
+        activeOrder: '',
         showAssign: false,
         errors:{},
       }
@@ -83,7 +84,8 @@
         // alert(key);
       },
       assign(key){
-        // alert(key);
+        this.activeOrder = key;
+        this.showAssign = true;
       },
     },
     computed: {

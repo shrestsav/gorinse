@@ -27,13 +27,21 @@
                   :placeholder="item['display_name']" 
                   v-model="order[key]"
                   class="form-control" 
-                >
+                ><!-- 
                 <v-select
                   class="form-control"  
                   v-if="item['type']==='select' && key==='customer_id'" 
                   v-model="order[key]" 
                   :options="customers" 
                   :reduce="fname => fname.id" 
+                  label="fname" 
+                  placeholder="Customers"
+                /> -->
+                <v-select
+                  class="form-control"  
+                  v-if="item['type']==='select' && key==='customer'" 
+                  v-model="order[key]" 
+                  :options="customers" 
                   label="fname" 
                   placeholder="Customers"
                 />
@@ -89,19 +97,7 @@
         errors:{},
         showErr:false,
         fields:{},
-        order:{
-          customer_id: '',
-          order_date: '',
-          order_type: '',
-          pickup_location: '',
-          pickup_datetime: '',
-          drop_location: '',
-          drop_datetime: '',
-          price: '',
-          vat_amount: '',
-          delivery_charge: '',
-          status: '',
-        },
+        order:{},
       }
     },
     created(){
@@ -129,14 +125,13 @@
         else{
           this.showErr = true;
         }
-
       },
       validate(){
-        if(this.order.customer_id && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.status){
+        if(this.order.customer && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.status){
           return true;
         }
-        if(!this.order.customer_id){
-          this.errors.customer_id = 'Select Customer';
+        if(!this.order.customer){
+          this.errors.customer = 'Select Customer';
         }
         if(!this.order.order_date){
           this.errors.order_date = 'Select Order Date';

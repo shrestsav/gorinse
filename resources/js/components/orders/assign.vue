@@ -9,12 +9,43 @@
           </button>
         </div>
         <div class="modal-body">
-          {{order['customer_name']}}
-<!-- {{order.order_type}}
-{{order.order_date}} -->
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="mb-0">
+                <a href="javascript:;">{{order.customer.fname}} {{order.customer.lname}}</a>
+              </h4>
+              <span class="text-success">●</span>
+              <small>Online</small>
+            </div>
+            <div class="col-md-6">
+              <h4 class="mb-0">
+                <a href="javascript:;">Items</a>
+              </h4>
+              <span class="text-success"></span><small>Dummy</small>
+              <span class="text-success"></span><small>Dummy</small>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-12">
+              <h4 class="mb-1">
+                <a href="javascript:;">Assign to</a>
+              </h4>
+              <v-select
+                class="form-control"  
+                v-model="assign.driver" 
+                :options="drivers" 
+                label="fname" 
+                placeholder="Drivers"
+              />
+            </div>
+          </div>
+          <div class="invalid-feedback" style="display: block;" v-if="showErr">
+            {{errors.driver}}
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          <button class="btn btn-outline-success" @click="setAssign()">Create</button>
         </div>
       </div>
     </div>
@@ -22,21 +53,57 @@
 </template>
 
 <script>
-
+  import vSelect from 'vue-select'
+  import 'vue-select/dist/vue-select.css'
+    
   export default{
+    components: {
+      vSelect
+    },
     props: ['orderKey'],
     data(){
       return{
-
+        assign:{},
+        showErr:false,
+        errors:{},
       }
     },
     mounted(){
-      
+      this.$store.dispatch('getDrivers')
     },
     computed: {
       order(){
-        return this.$store.getters.orders[0]
+        return this.$store.getters.orders[this.orderKey]
       },
+      drivers(){
+        return this.$store.getters.drivers
+      },
+    },
+    methods:{
+      setAssign(){
+        this.assign.order_id = this.order.id
+        if(this.validate()){
+          this.errors = {};
+          this.$store.dispatch('assignOrder', this.assign).then(() => {
+            showNotify('success','Order has been assigned')
+          })
+        }
+        else{
+          this.showErr = true;
+        }
+      },
+      validate(){
+        if(this.assign.order_id && this.assign.driver){
+          return true;
+        }
+        if(!this.assign.order_id){
+          this.errors.order_id = 'Order ID Missing';
+        }
+        if(!this.assign.driver){
+          this.errors.driver = 'Select Whom to assign first';
+        }
+        return false;
+      }
     },
 }
 
