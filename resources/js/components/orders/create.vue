@@ -35,7 +35,7 @@
                   :options="customers" 
                   :reduce="fname => fname.id" 
                   label="fname" 
-                  placeholder="Select Client"
+                  placeholder="Customers"
                 />
                 <select class="form-control" v-if="item['type']==='select' && key==='order_type'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
                   <option value="normal">Normal</option>
@@ -132,17 +132,26 @@
 
       },
       validate(){
-        if(this.order.customer_id && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.drop_location && this.order.drop_datetime && this.order.price && this.order.vat_amount  && this.order.delivery_charge  && this.order.status){
+        if(this.order.customer_id && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.status){
           return true;
-        }
-        if(!this.order.drop_location){
-          this.errors.drop_location = 'Drop Location Required';
         }
         if(!this.order.customer_id){
           this.errors.customer_id = 'Select Customer';
         }
+        if(!this.order.order_date){
+          this.errors.order_date = 'Select Order Date';
+        }
+        if(!this.order.order_type){
+          this.errors.order_type = 'Select Order Type';
+        }
         if(!this.order.pickup_location){
           this.errors.pickup_location = 'Pickup Location Required';
+        }
+        if(!this.order.pickup_datetime){
+          this.errors.pickup_datetime = 'Enter Pickup time';
+        }
+        if(!this.order.status){
+          this.errors.status = 'Select Status';
         }
         return false;
       }

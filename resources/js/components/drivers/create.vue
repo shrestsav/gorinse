@@ -29,6 +29,7 @@
                   class="form-control"  
                 >
                 <date-picker 
+                  :input-class="{'not-validated':errors[key]}" 
                   v-if="item['type']==='date'"  
                   v-model="driver[key]"
                   lang='en' 
