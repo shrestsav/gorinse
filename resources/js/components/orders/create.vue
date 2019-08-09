@@ -81,6 +81,7 @@
     </div>
     <div class="card-footer text-center">
        <button class="btn btn-outline-primary" @click="save">Create</button>
+       <button class="btn btn-outline-primary" @click="test">test</button>
     </div>
   </div>
 </template>
@@ -113,6 +114,27 @@
       this.defSettings();
     },
     methods:{
+      test(){
+        alert('fasdf')
+        var data = {
+          name : 'fsdfsdfsdf',
+          phone : '+9779808224917',
+        }
+        var header = {
+          Accept : 'application/json'
+        }
+        axios.post('/api/reg',data,header)
+            .then((response) => {
+              console.log(response)
+            })
+            .catch((error) => {
+              // console.log(error.response.data.errors)   
+            })
+        // axios.post('/api/orders')
+        //     .then(response => {
+        //       console.log(response)
+        //     }); 
+      },
       defSettings(){
         axios.get('/getFields/createOrder').then(response => this.fields = response.data)
       },

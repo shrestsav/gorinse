@@ -17,22 +17,23 @@ class AuthController extends Controller
         $request['OTP_timestamp'] = date('y-m-d hh:mm:ss');
 
         //Check if already exists
-        $check = User::where('phone',$request->phone);
+        $check = User::where('phone','=',$request->phone);
         if($check->exists()){
             $check->update([
                             'OTP' => $request['OTP']
                         ]);
+            return response()->json(['message'=>'OTP has been send to your phone from update']);
         }
         else{
             $validatedData = $request->validate([
-                'name' => 'required|max:55',
                 'phone'=> 'required|unique:users',
             ]);
             $customer = User::create($request->all());
             $customer->sendOTPs();
+            return response()->json(['message'=>'OTP has been send to your phone from create']);
         }
         
-        return response()->json(['message'=>'OTP has been send to your phone']);
+        
 
     }
     

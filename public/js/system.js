@@ -5740,6 +5740,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -5766,6 +5767,23 @@ __webpack_require__.r(__webpack_exports__);
     this.defSettings();
   },
   methods: {
+    test: function test() {
+      alert('fasdf');
+      var data = {
+        name: 'fsdfsdfsdf',
+        phone: '+9779808224917'
+      };
+      var header = {
+        Accept: 'application/json'
+      };
+      axios.post('/api/reg', data, header).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {// console.log(error.response.data.errors)   
+      }); // axios.post('/api/orders')
+      //     .then(response => {
+      //       console.log(response)
+      //     }); 
+    },
     defSettings: function defSettings() {
       var _this = this;
 
@@ -18113,6 +18131,12 @@ var render = function() {
         "button",
         { staticClass: "btn btn-outline-primary", on: { click: _vm.save } },
         [_vm._v("Create")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-outline-primary", on: { click: _vm.test } },
+        [_vm._v("test")]
       )
     ])
   ])
