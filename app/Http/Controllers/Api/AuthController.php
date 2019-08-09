@@ -72,7 +72,9 @@ class AuthController extends Controller
         }
         else{
             return response()->json([
-                                    'errors' => 'Sorry OTP doesnot match, try resending'
+                                    'errors' => 'Sorry OTP doesnot match, try resending',
+                                    'db_otp' => $getUnregisteredUser->OTP,
+                                    'post_otp'=> $OTP,
                                 ], Response::HTTP_NOT_FOUND);
         }
     }
