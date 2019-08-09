@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','OTP'
+        'name', 'email', 'password','phone','OTP','OTP_timestamp'
     ];
 
     /**
@@ -63,7 +63,7 @@ class User extends Authenticatable
         return $customers->get();
     }
 
-    public function sendOTPs()
+    public function sendOTP()
     {
         $OTP = $this->OTP;
         $this->notify(new OTPNotification($OTP));

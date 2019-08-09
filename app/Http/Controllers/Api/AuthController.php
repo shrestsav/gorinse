@@ -11,17 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function reg(Request $request)
+    public function phoneRegister(Request $request)
     {
         $request['OTP'] = rand(1000,9999);
-        $request['OTP_timestamp'] = date('y-m-d hh:mm:ss');
+        $request['OTP_timestamp'] = Date('Y-m-d H:i:s');
 
         //Check if already exists
         $check = User::where('phone','=',$request->phone);
         if($check->exists()){
             $check->update([
-                            'OTP' => $request['OTP']
-                        ]);
+                        'OTP' => $request['OTP'],
+                        'OTP_timestamp' => $request['OTP_timestamp']
+                    ]);
             return response()->json(['message'=>'OTP has been send to your phone from update']);
         }
         else{
@@ -29,7 +30,7 @@ class AuthController extends Controller
                 'phone'=> 'required|unique:users',
             ]);
             $customer = User::create($request->all());
-            $customer->sendOTPs();
+            $customer->sendOTP();
             return response()->json(['message'=>'OTP has been send to your phone from create']);
         }
         
@@ -39,6 +40,7 @@ class AuthController extends Controller
     
     public function login(Request $request)
     {
+        return Date('Y-m-d H:i:s');
         $validatedData = $request->validate([
             'phone' => 'required|max:55',
         ]);
@@ -82,7 +84,7 @@ class AuthController extends Controller
 
     public function sendOTP()
     {
-       return  User::find(14)->sendOTPs();
+       return  User::find(14)->sendOTP();
     }
 
 }

@@ -5768,7 +5768,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     test: function test() {
-      alert('fasdf');
       var data = {
         name: 'fsdfsdfsdf',
         phone: '+9779808224917'
@@ -5776,7 +5775,7 @@ __webpack_require__.r(__webpack_exports__);
       var header = {
         Accept: 'application/json'
       };
-      axios.post('/api/reg', data, header).then(function (response) {
+      axios.post('https://gorinse.thisisdemo.com/api/reg', data, header).then(function (response) {
         console.log(response);
       })["catch"](function (error) {// console.log(error.response.data.errors)   
       }); // axios.post('/api/orders')

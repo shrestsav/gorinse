@@ -115,7 +115,6 @@
     },
     methods:{
       test(){
-        alert('fasdf')
         var data = {
           name : 'fsdfsdfsdf',
           phone : '+9779808224917',
@@ -123,7 +122,7 @@
         var header = {
           Accept : 'application/json'
         }
-        axios.post('/api/reg',data,header)
+        axios.post('https://gorinse.thisisdemo.com/api/reg',data,header)
             .then((response) => {
               console.log(response)
             })
