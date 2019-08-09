@@ -12,7 +12,7 @@
           <div class="row">
             <div class="col-md-6">
               <h4 class="mb-0">
-                <a href="javascript:;">{{order.customer.fname}} {{order.customer.lname}}</a>
+                <a href="javascript:;">{{order.customer.name}}</a>
               </h4>
               <span class="text-success">●</span>
               <small>Online</small>
@@ -32,9 +32,10 @@
               </h4>
               <v-select
                 class="form-control"  
-                v-model="assign.driver" 
+                v-model="assign.driver_id" 
                 :options="drivers" 
-                label="fname" 
+                :reduce="name => name.id"
+                label="name" 
                 placeholder="Drivers"
               />
             </div>
@@ -60,7 +61,7 @@
     components: {
       vSelect
     },
-    props: ['orderKey'],
+    props: ['active'],
     data(){
       return{
         assign:{},
@@ -73,7 +74,7 @@
     },
     computed: {
       order(){
-        return this.$store.getters.orders[this.orderKey]
+        return this.$store.getters.orders.data[this.active.order]
       },
       drivers(){
         return this.$store.getters.drivers
@@ -86,23 +87,18 @@
           this.errors = {};
           this.$store.dispatch('assignOrder', this.assign).then(() => {
             showNotify('success','Order has been assigned')
+            this.$store.dispatch('getOrders',this.active)
           })
+          .catch((error) => {
+              alert(error)    
+            })
         }
         else{
           this.showErr = true;
         }
       },
       validate(){
-        if(this.assign.order_id && this.assign.driver){
-          return true;
-        }
-        if(!this.assign.order_id){
-          this.errors.order_id = 'Order ID Missing';
-        }
-        if(!this.assign.driver){
-          this.errors.driver = 'Select Whom to assign first';
-        }
-        return false;
+        return true;
       }
     },
 }

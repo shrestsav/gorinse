@@ -56,7 +56,7 @@ return [
   ],
   'createOrder' => [
     'Order Information' => [
-      'customer' => [
+      'customer_id' => [
         'display_name' => 'Select Customer',
         'col' => '4',
         'type' =>  'select',
@@ -66,17 +66,17 @@ return [
         'col' => '4',
         'type' =>  'date',
       ],
-      'order_type' => [
+      'type' => [
         'display_name' => 'Type',
         'col' => '4',
         'type' =>  'select',
       ],
-      'pickup_location' => [
+      'pick_location' => [
         'display_name' => 'Pickup Location',
         'col' => '4',
         'type' =>  'text',
       ],
-      'pickup_datetime' => [
+      'pick_datetime' => [
         'display_name' => 'Pickup Date & Time',
         'col' => '4',
         'type' =>  'datetime',

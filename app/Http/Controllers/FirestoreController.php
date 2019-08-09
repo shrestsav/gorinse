@@ -42,7 +42,7 @@ class FirestoreController extends Controller
 		//     'status' => 'kathmandu',
 		// ]);		
 
-		$usersRef = $this->db->collection('users')->newDocument();
+		$usersRef = $this->db->collection('users')->newDocument()->collection('orders')->newDocument();
 		$usersRef->set([
 		    'username' => $this->getName(5),
 		    'fname' => $this->getName(6),

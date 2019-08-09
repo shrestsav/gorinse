@@ -11,6 +11,15 @@ use Hash;
 class UserController extends Controller
 {
     /**
+     * @var User
+     */
+    private $user;
+
+    public function __construct(User $user){
+        $this->user = $user;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -120,5 +129,17 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
+    }
+    public function drivers()
+    {
+        $drivers = $this->user->driverList();
+
+        return $drivers;
+    }
+    public function customers()
+    {
+        $customers = $this->user->customerList();
+
+        return $customers;
     }
 }

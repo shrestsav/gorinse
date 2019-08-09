@@ -18,7 +18,6 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col" class="sort" data-sort="name">S.No.</th>
-                <th scope="col" class="sort" data-sort="name">Username</th>
                 <th scope="col" class="sort" data-sort="name">Name</th>
                 <th scope="col" class="sort" data-sort="budget">Email</th>
                 <th scope="col" class="sort" data-sort="status">Date of Birth</th>
@@ -29,8 +28,7 @@
             <tbody class="list">
               <tr v-for="item,key in drivers">
                 <td>{{++key}}</td>
-                <td>{{item.username}}</td>
-                <td>{{item.fname}} {{item.lname}}</td>
+                <td>{{item.name}}</td>
                 <td>{{item.email}}</td>
                 <td>{{item.d_o_b}}</td>
                 <td>{{item.address}}</td>

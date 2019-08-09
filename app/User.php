@@ -2,14 +2,16 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+use App\Notifications\OTPNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     use EntrustUserTrait;
     /**
      * The attributes that are mass assignable.
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','phone','OTP'
     ];
 
     /**
@@ -37,4 +39,44 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'customer_id');
+    }
+
+    public function driverList()
+    {
+        $drivers = $this->whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'driver');
+                       });
+
+        return $drivers->get();
+    }
+
+    public function customerList()
+    {
+        $customers = $this->whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'customer');
+                       });
+
+        return $customers->get();
+    }
+
+    public function sendOTPs()
+    {
+        $OTP = $this->OTP;
+        $this->notify(new OTPNotification($OTP));
+    }
+
+    /**
+     * Route notifications for the Nexmo channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForNexmo($notification)
+    {
+        return $this->phone;
+    }
 }

@@ -5,7 +5,7 @@ import Vue from 'vue'
 import {router} from './config/router'
 import {store} from './config/store'
 import VueNotification from "@kugatsu/vuenotification";
-
+Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.use(VueNotification, {
   timer: 20
 });

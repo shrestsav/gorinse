@@ -39,24 +39,26 @@
                 /> -->
                 <v-select
                   class="form-control"  
-                  v-if="item['type']==='select' && key==='customer'" 
+                  v-if="item['type']==='select' && key==='customer_id'" 
                   v-model="order[key]" 
-                  :options="customers" 
-                  label="fname" 
+                  :options="customers"
+                  :reduce="name => name.id"
+                  label="name" 
                   placeholder="Customers"
                 />
-                <select class="form-control" v-if="item['type']==='select' && key==='order_type'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
-                  <option value="normal">Normal</option>
-                  <option value="urgent">Urgent</option>
+                <select class="form-control" v-if="item['type']==='select' && key==='type'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
+                  <option value="1">Normal</option>
+                  <option value="2">Urgent</option>
                 </select>
-                <select class="form-control" v-if="item['type']==='select' && key==='status'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
-                  <option :value="key" v-for="item,key in orderStatus">{{item}}</option>
-                </select>
+                <!-- <select class="form-control" v-if="item['type']==='select' && key==='status'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
+                  <option value="1" selected>Pending</option>
+                </select> -->
                 <date-picker 
                   v-if="item['type']==='date'"  
                   v-model="order[key]"
                   lang='en' 
                   input-class="form-control"
+                  valueType="format" 
                 ></date-picker>
                 <date-picker 
                   v-if="item['type']==='datetime'"  
@@ -64,7 +66,8 @@
                   lang='en' 
                   type="datetime" 
                   input-class="form-control"
-                  format="YYYY-MM-DD hh:mm:ss a" :time-picker-options="{ start: '00:00', step: '00:30', end: '23:30' }"
+                  valueType="format" 
+                  format="YYYY-MM-DD hh:mm:ss" :time-picker-options="{ start: '00:00', step: '00:30', end: '23:30' }"
                 ></date-picker>
                 <div class="invalid-feedback" style="display: block;" v-if="showErr">
                   {{errors[key]}}
@@ -114,41 +117,22 @@
         axios.get('/getFields/createOrder').then(response => this.fields = response.data)
       },
       save(){
-        this.order.created_at = new Date();
-        this.order.updated_at = new Date();
         if(this.validate()){
           this.errors = {};
-          this.$store.dispatch('addOrder', this.order).then(() => {
-            showNotify('success','Order has been created')
-          })
+          this.$store.dispatch('addOrder', this.order)
+            .then(() => {
+              showNotify('success','Order has been created')
+            })
+            .catch((error) => {
+              console.log(error);   
+            })
         }
         else{
           this.showErr = true;
         }
       },
       validate(){
-        if(this.order.customer && this.order.order_date && this.order.order_type && this.order.pickup_location && this.order.pickup_datetime && this.order.status){
-          return true;
-        }
-        if(!this.order.customer){
-          this.errors.customer = 'Select Customer';
-        }
-        if(!this.order.order_date){
-          this.errors.order_date = 'Select Order Date';
-        }
-        if(!this.order.order_type){
-          this.errors.order_type = 'Select Order Type';
-        }
-        if(!this.order.pickup_location){
-          this.errors.pickup_location = 'Pickup Location Required';
-        }
-        if(!this.order.pickup_datetime){
-          this.errors.pickup_datetime = 'Enter Pickup time';
-        }
-        if(!this.order.status){
-          this.errors.status = 'Select Status';
-        }
-        return false;
+        return true;
       }
     },
     computed: {
