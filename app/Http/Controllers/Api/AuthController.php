@@ -13,10 +13,6 @@ class AuthController extends Controller
 {
     public function reg(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:55',
-            'phone'=> 'required|unique:users',
-        ]);
         $request['OTP'] = rand(1000,9999);
         $request['OTP_timestamp'] = date('y-m-d hh:mm:ss');
 
@@ -28,6 +24,10 @@ class AuthController extends Controller
                         ]);
         }
         else{
+            $validatedData = $request->validate([
+                'name' => 'required|max:55',
+                'phone'=> 'required|unique:users',
+            ]);
             $customer = User::create($request->all());
             $customer->sendOTPs();
         }
