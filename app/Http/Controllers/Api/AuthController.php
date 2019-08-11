@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Routing\UrlGenerator;
 
 class AuthController extends Controller
 {
@@ -63,11 +64,17 @@ class AuthController extends Controller
     }
 
     public function verifyOTP(Request $request)
-    {
+    {   
+        $validatedData = $request->validate([
+            'phone'=> 'required',
+            'OTP'=> 'required|numeric',
+        ]);
+        
+        $url = url('').'/oauth/token';
         $OTP = $request->OTP;
         $phone = $request->phone;
         $http = new \GuzzleHttp\Client();
-        $response = $http->post('http://go.rinse/oauth/token', [
+        $response = $http->post(url('').'/oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
                         'client_id' => 2,
@@ -111,6 +118,7 @@ class AuthController extends Controller
 
     public function test()
     {
+        return url('').'/oauth/token';
         // return 'something';
         $http = new \GuzzleHttp\Client();
         // $request = $http->get('google.com');
