@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +62,12 @@ class Handler extends ExceptionHandler
                     'errors' => 'Data does not exists'
                 ], Response::HTTP_NOT_FOUND);
             }
+            if($exception instanceof ClientException){
+                return response()->json([
+                    'errors' => 'Code Error, Your code may have expired or doesnot match. Please try resending the code'
+                ], Response::HTTP_NOT_FOUND);
+            }
         }
-
         return parent::render($request, $exception);
     }
 }

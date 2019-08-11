@@ -3,6 +3,7 @@
 return [
     'date_format' => 'Y-m-d',
     'time_format' => 'g:i A',
+    'OTP_expiry'  => 5,
     // 'orderStatus' => [
     //     'pending' => 'Pending',
     //     'assigned' => 'Assigned',

@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 Route::post('/phoneRegister','Api\AuthController@phoneRegister');
 Route::post('/verifyOTP','Api\AuthController@verifyOTP');
 
-Route::get('/test','Api\AuthController@login');
+Route::get('/test','Api\AuthController@test');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

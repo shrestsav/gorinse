@@ -23,7 +23,7 @@ class AuthController extends Controller
                         'OTP' => $request['OTP'],
                         'OTP_timestamp' => $request['OTP_timestamp']
                     ]);
-            return response()->json(['message'=>'OTP has been send to your phone from update']);
+            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'existing']);
         }
         else{
             $validatedData = $request->validate([
@@ -31,7 +31,7 @@ class AuthController extends Controller
             ]);
             $customer = User::create($request->all());
             $customer->sendOTP();
-            return response()->json(['message'=>'OTP has been send to your phone from create']);
+            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'new']);
         }
         
         
@@ -66,25 +66,76 @@ class AuthController extends Controller
     {
         $OTP = $request->OTP;
         $phone = $request->phone;
-        $getUnregisteredUser = User::where('phone',$phone)->first();
+        $http = new \GuzzleHttp\Client();
+        $response = $http->post('http://go.rinse/oauth/token', [
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'client_id' => 2,
+                        'client_secret' => 'wNfEEpIS6VUHVZKVhgUWGNjcNTUvkd5gGtsnCgnb',
+                        'username' => $phone,
+                        'password' => $OTP,
+                        'scope' => '',
+                    ],
+                    'http_errors' => false // add this to return errors in json
+                ]);
+        return json_decode((string) $response->getBody(), true);
+
+
+
+
+
+
+
+
+
+        // $getUnregisteredUser = User::where('phone',$phone)->first();
 
         //Check if the OTP is correct
-        if($getUnregisteredUser->OTP==$OTP){
-            $accessToken = $getUnregisteredUser->createToken('authToken hola')->accessToken;
-            return response()->json(['user'=>$getUnregisteredUser,'access_token'=>$accessToken]);
-        }
-        else{
-            return response()->json([
-                                    'errors' => 'Sorry OTP doesnot match, try resending',
-                                    'db_otp' => $getUnregisteredUser->OTP,
-                                    'post_otp'=> $OTP,
-                                ], Response::HTTP_NOT_FOUND);
-        }
+        // if($getUnregisteredUser->OTP==$OTP){
+        //     $accessToken = $getUnregisteredUser->createToken('authToken hola')->accessToken;
+        //     return response()->json(['user'=>$getUnregisteredUser,'access_token'=>$accessToken]);
+        // }
+        // else{
+        //     return response()->json([
+        //                             'errors' => 'Sorry OTP doesnot match, try resending',
+        //                             'db_otp' => $getUnregisteredUser->OTP,
+        //                             'post_otp'=> $OTP,
+        //                         ], Response::HTTP_NOT_FOUND);
+        // }
     }
 
     public function sendOTP()
     {
        return  User::find(14)->sendOTP();
+    }
+
+    public function test()
+    {
+        // return 'something';
+        $http = new \GuzzleHttp\Client();
+        // $request = $http->get('google.com');
+        // return $request->getBody();
+        $response = $http->post('http://go.rinse/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => 2,
+                'client_secret' => 'wNfEEpIS6VUHVZKVhgUWGNjcNTUvkd5gGtsnCgnb',
+                'username' => '+9779808224917',
+                'password' => '3067',
+                'scope' => '',
+            ],
+        ]);
+
+        // return $response;
+        return json_decode((string) $response->getBody(), true);
+
+
+
+
+        // $getUnregisteredUser = User::where('id',1)->first();
+        // $accessToken = $getUnregisteredUser->createToken('manual token');
+        // $accessToken = $getUnregisteredUser->createToken('manual token')->accessToken;
+        // return $accessToken;
     }
 
 }
