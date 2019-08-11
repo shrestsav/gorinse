@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/getOrders/{status}','OrderController@getOrders');
 	Route::post('/assignOrder','OrderController@assignOrder');
 	
+	Route::resource('/drivers','DriverController');
+
 	Route::get('/getDrivers','UserController@drivers');
 	Route::get('/getCustomers','UserController@customers');
 

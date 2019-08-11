@@ -8,6 +8,8 @@ import orders from '../components/orders/index.vue'
 import createOrder from '../components/orders/create.vue'
 import drivers from '../components/drivers/index.vue'
 import createDriver from '../components/drivers/create.vue'
+import services from '../components/services/index.vue'
+import createService from '../components/services/create.vue'
 
 const routes = [
   {name:'dashboard',  path: '/', component: dashboard },
@@ -17,6 +19,9 @@ const routes = [
 
   {name:'drivers',  path: '/v/drivers', component: drivers },
   {name:'createDriver',  path: '/v/drivers/create', component: createDriver },
+
+  {name:'services',  path: '/v/services', component: services },
+  {name:'createService',  path: '/v/services/create', component: createService },
 
 ]
 

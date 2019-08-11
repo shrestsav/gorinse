@@ -25,8 +25,8 @@ return [
         	'assigned_delivery' => 'Assigned for Delivery',
         ],
         'On Hold' => [
-        	'payment_pending' => 'Payment Pending',
-        	'delivered' => 'Delivered',
+        	// 'payment_pending' => 'Payment Pending',
+            'delivered' => 'Delivered',
         ],
         'Completed' => [
         	'paid' => 'Paid',

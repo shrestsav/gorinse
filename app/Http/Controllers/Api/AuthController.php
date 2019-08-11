@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Notifications\OTPNotification;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Routing\UrlGenerator;
 
 class AuthController extends Controller
 {
@@ -19,23 +20,29 @@ class AuthController extends Controller
 
         //Check if already exists
         $check = User::where('phone','=',$request->phone);
+
+        //If Exists login otherwise register as new customer
         if($check->exists()){
             $check->update([
                         'OTP' => $request['OTP'],
                         'OTP_timestamp' => $request['OTP_timestamp']
                     ]);
-            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'existing']);
+            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'existing','code'=>$request['OTP']]);
         }
         else{
             $validatedData = $request->validate([
                 'phone'=> 'required|unique:users',
             ]);
             $customer = User::create($request->all());
-            $customer->sendOTP();
-            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'new']);
+            $role_id = Role::where('name','customer')->first()->id;
+
+            //Assign User as Customer
+            $customer->attachRole($role_id);
+
+            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'new','code'=>$request['OTP']]);
         }
         
-        
+        // $customer->sendOTP();
 
     }
     
@@ -69,7 +76,7 @@ class AuthController extends Controller
             'phone'=> 'required',
             'OTP'=> 'required|numeric',
         ]);
-        
+
         $url = url('').'/oauth/token';
         $OTP = $request->OTP;
         $phone = $request->phone;
@@ -85,7 +92,9 @@ class AuthController extends Controller
                     ],
                     'http_errors' => false // add this to return errors in json
                 ]);
-        return json_decode((string) $response->getBody(), true);
+
+        $token_response = json_decode((string) $response->getBody(), true);
+        return $token_response;
 
 
 
@@ -113,11 +122,12 @@ class AuthController extends Controller
 
     public function sendOTP()
     {
-       return  User::find(14)->sendOTP();
+       return User::find(14)->sendOTP();
     }
 
     public function test()
     {
+        
         return url('').'/oauth/token';
         // return 'something';
         $http = new \GuzzleHttp\Client();

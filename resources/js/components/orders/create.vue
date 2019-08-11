@@ -42,8 +42,8 @@
                   v-if="item['type']==='select' && key==='customer_id'" 
                   v-model="order[key]" 
                   :options="customers"
-                  :reduce="name => name.id"
-                  label="name" 
+                  :reduce="fname => fname.id"
+                  label="fname" 
                   placeholder="Customers"
                 />
                 <select class="form-control" v-if="item['type']==='select' && key==='type'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
@@ -69,8 +69,8 @@
                   valueType="format" 
                   format="YYYY-MM-DD hh:mm:ss" :time-picker-options="{ start: '00:00', step: '00:30', end: '23:30' }"
                 ></date-picker>
-                <div class="invalid-feedback" style="display: block;" v-if="showErr">
-                  {{errors[key]}}
+                <div class="invalid-feedback" style="display: block;" v-if="errors[key]">
+                  {{errors[key][0]}}
                 </div>
               </div>
             </div>
@@ -81,7 +81,6 @@
     </div>
     <div class="card-footer text-center">
        <button class="btn btn-outline-primary" @click="save">Create</button>
-       <button class="btn btn-outline-primary" @click="test">test</button>
     </div>
   </div>
 </template>
@@ -98,8 +97,6 @@
     },
     data(){
       return{
-        errors:{},
-        showErr:false,
         fields:{},
         order:{},
       }
@@ -114,43 +111,11 @@
       this.defSettings();
     },
     methods:{
-      test(){
-        var data = {
-          name : 'fsdfsdfsdf',
-          phone : '+9779808224917',
-        }
-        var header = {
-          Accept : 'application/json'
-        }
-        axios.post('https://gorinse.thisisdemo.com/api/reg',data,header)
-            .then((response) => {
-              console.log(response)
-            })
-            .catch((error) => {
-              // console.log(error.response.data.errors)   
-            })
-        // axios.post('/api/orders')
-        //     .then(response => {
-        //       console.log(response)
-        //     }); 
-      },
       defSettings(){
         axios.get('/getFields/createOrder').then(response => this.fields = response.data)
       },
       save(){
-        if(this.validate()){
-          this.errors = {};
-          this.$store.dispatch('addOrder', this.order)
-            .then(() => {
-              showNotify('success','Order has been created')
-            })
-            .catch((error) => {
-              console.log(error);   
-            })
-        }
-        else{
-          this.showErr = true;
-        }
+        this.$store.dispatch('addOrder', this.order)
       },
       validate(){
         return true;
@@ -162,6 +127,9 @@
       },
       orderStatus(){
         return this.$store.getters.orderStatus
+      },
+      errors(){
+        return this.$store.getters.errors
       }
     },
 

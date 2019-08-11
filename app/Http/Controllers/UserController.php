@@ -48,12 +48,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'fname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
             'roles' => 'required'
         ]);
-        $input = $request->only('name', 'email', 'password');
+        $input = $request->only('fname', 'email', 'password');
         $input['password'] = Hash::make($input['password']); //Hash password
         $user = User::create($input); //Create User table entry
         //Attach the selected Roles
@@ -96,12 +96,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'fname' => 'required|max:255',
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'confirmed',
             'roles' => 'required'
         ]);
-        $input = $request->only('name', 'email', 'password');
+        $input = $request->only('fname', 'email', 'password');
         if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']); //update the password
         }else{
@@ -130,12 +130,7 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
     }
-    public function drivers()
-    {
-        $drivers = $this->user->driverList();
-
-        return $drivers;
-    }
+    
     public function customers()
     {
         $customers = $this->user->customerList();

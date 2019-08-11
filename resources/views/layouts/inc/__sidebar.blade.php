@@ -59,12 +59,32 @@
             <ul class="nav nav-sm flex-column">
               <li class="nav-item">
                 <router-link :to="{ name: 'createOrder'}" >
-                  <a href="{{url('/v/orders/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createOrder' }">Create Order(for testing)</a>
+                  <a href="{{url('/v/orders/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createOrder' }">Create Order</a>
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link :to="{ name: 'orders'}" >
                   <a href="{{url('/v/orders')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='orders' }">Orders</a>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#navbar-services" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-services" v-bind:class="{ active: currentMenu=='servicesMenu'}">
+            <i class="ni ni-cart text-info"></i>
+            <span class="nav-link-text">Services</span>
+          </a>
+          <div class="collapse" id="navbar-services">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <router-link :to="{ name: 'createService'}" >
+                  <a href="{{url('/v/services/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createService' }">Add Service</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'services'}" >
+                  <a href="{{url('/v/services')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='services' }">List</a>
                 </router-link>
               </li>
             </ul>

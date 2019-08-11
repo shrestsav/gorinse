@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','OTP','OTP_timestamp'
+        'fname','lname', 'email', 'password','phone','OTP','OTP_timestamp'
     ];
 
     /**
@@ -92,7 +92,7 @@ class User extends Authenticatable
                           $query->where('name', '=', 'driver');
                        });
 
-        return $drivers->get();
+        return $drivers->with('details')->get();
     }
 
     public function customerList()
@@ -108,6 +108,11 @@ class User extends Authenticatable
     {
         $OTP = $this->OTP;
         $this->notify(new OTPNotification($OTP));
+    }
+
+    public function details()
+    {
+        return $this->hasOne(UserDetail::class);
     }
 
 }

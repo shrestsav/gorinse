@@ -28,11 +28,11 @@
             <tbody class="list">
               <tr v-for="item,key in drivers">
                 <td>{{++key}}</td>
-                <td>{{item.name}}</td>
+                <td>{{item.fname}} {{item.lname}}</td>
                 <td>{{item.email}}</td>
-                <td>{{item.d_o_b}}</td>
-                <td>{{item.address}}</td>
-                <td>{{item.contact}}</td>
+                <td><span v-if="item.details">{{item.details.dob}}</span></td>
+                <td><span v-if="item.details">{{item.details.address}}</span</td>
+                <td>{{item.phone}}</td>
               </tr>
             </tbody>
           </table>

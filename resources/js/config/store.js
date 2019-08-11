@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
 		drivers:[],
 		customers:{},
 		orderStatus:{},
+		errors:{},
 	},
 	getters:{
 		orders(state){
@@ -24,6 +25,9 @@ export const store = new Vuex.Store({
 		},
 		orderStatus(state){
 			return state.orderStatus;
+		},
+		errors(state){
+			return state.errors;
 		}
 	},
 	mutations:{ 
@@ -44,6 +48,9 @@ export const store = new Vuex.Store({
 		},
 		setOrderStatus(state, orderStatus){
 			state.orderStatus = orderStatus
+		},
+		setErrors(state, errors){
+			state.errors = errors
 		}
 	},
 	actions:{
@@ -60,7 +67,7 @@ export const store = new Vuex.Store({
 	        });
 		},
 		getDrivers(context){
-			axios.get('/getDrivers')
+			axios.get('/drivers')
 	        .then(response => {
 	        	context.commit('setDrivers',response.data)
 	        });
@@ -74,25 +81,28 @@ export const store = new Vuex.Store({
 		addOrder(context, order){
 			axios.post('/orders',order)
 	          .then((response) => {
-	          	console.log(response)
-	            // this.$router.push({ name: 'staffs' });
+	          	context.commit('setErrors',{})
+	            showNotify('success','Order has been created')
 	          })
 	          .catch((error) => {
-	          	console.log(error.response.data.errors)
-	            // this.errors = error.response.data.errors;
-	            // for (var prop in this.errors) {
-	            //   showNotify('danger',this.errors[prop])
-	            // }       
+      			context.commit('setErrors',error.response.data.errors)
+	            for (var prop in error.response.data.errors) {
+	              showNotify('danger',error.response.data.errors[prop])
+	            }  
 	          })
 		},
 		addDriver(context, driver){
-			db.collection("drivers").add(driver)
-			.then(function(docRef) {
-			    console.log("Document written with ID: ", docRef.id);
-			})
-			.catch(function(error) {
-			    console.error("Error adding document: ", error);
-			});
+			axios.post('/drivers',driver)
+	          .then((response) => {
+	          	context.commit('setErrors',{})
+	            showNotify('success','Driver has been created')
+	          })
+	          .catch((error) => {
+	          	context.commit('setErrors',error.response.data.errors)
+	            for (var prop in error.response.data.errors) {
+	              showNotify('danger',error.response.data.errors[prop])
+	            }       
+	          })
 		},
 		assignOrder(context, assign){
 			// return Promise.reject(new Error('error from action "Test"!'))

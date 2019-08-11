@@ -13,30 +13,30 @@ return [
         'col' => '6',
         'type' =>  'text',
       ],
+      'phone' => [
+        'display_name' => 'Phone',
+        'col' => '4',
+        'type' =>  'text',
+      ],
       'username' => [
         'display_name' => 'Username',
-        'col' => '6',
+        'col' => '4',
         'type' =>  'text',
       ],
       'email' => [
         'display_name' => 'Email Address',
-        'col' => '6',
+        'col' => '4',
         'type' =>  'email',
       ],
-      'd_o_b' => [
+    ],
+    'Other Information' => [
+      'dob' => [
         'display_name' => 'Date of Birth',
         'col' => '4',
         'type' =>  'date',
       ],
-    ],
-    'Contact Information' => [
       'address' => [
         'display_name' => 'Address',
-        'col' => '4',
-        'type' =>  'text',
-      ],
-      'contact' => [
-        'display_name' => 'Contact No',
         'col' => '4',
         'type' =>  'text',
       ],
@@ -45,9 +45,7 @@ return [
         'col' => '4',
         'type' =>  'date',
       ],
-    ],
-    'About' => [
-      'about' => [
+      'description' => [
         'display_name' => 'About',
         'col' => '12',
         'type' =>  'textarea',
@@ -60,11 +58,6 @@ return [
         'display_name' => 'Select Customer',
         'col' => '4',
         'type' =>  'select',
-      ],
-      'order_date' => [
-        'display_name' => 'Order Date',
-        'col' => '4',
-        'type' =>  'date',
       ],
       'type' => [
         'display_name' => 'Type',
@@ -106,10 +99,19 @@ return [
         'col' => '4',
         'type' =>  'number',
       ],
-      'status' => [
-        'display_name' => 'Status',
-        'col' => '4',
-        'type' =>  'select',
+    ],
+  ],
+  'createService' => [
+    'Information' => [
+      'name' => [
+        'display_name' => 'Service Name',
+        'col' => '6',
+        'type' =>  'text',
+      ],
+      'price' => [
+        'display_name' => 'Service Price',
+        'col' => '6',
+        'type' =>  'number',
       ],
     ],
   ],

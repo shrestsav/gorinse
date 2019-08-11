@@ -62,12 +62,7 @@
 </template>
 
 <script>
-  import assign from './assign.vue'
- 
   export default{
-    components: {
-      assign
-    },
     data(){
       return{
         active:{
@@ -81,11 +76,10 @@
       }
     },
     created(){
-      this.$store.commit('changeCurrentPage', 'orders')
-      this.$store.commit('changeCurrentMenu', 'ordersMenu')
+      this.$store.commit('changeCurrentPage', 'services')
+      this.$store.commit('changeCurrentMenu', 'servicesMenu')
       // get pending orders on page load
-      this.getOrders('Pending')
-      this.$store.dispatch('getOrderStatus')
+      this.getOrders()
     },
     mounted(){
   
