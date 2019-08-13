@@ -31,9 +31,17 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/getOrders/{status}','OrderController@getOrders');
 	Route::post('/assignOrder','OrderController@assignOrder');
 	
+	Route::get('/services','CoreController@services');
+	Route::post('/services','CoreController@addService');	
+	Route::get('/categories','CoreController@categories');
+	Route::post('/categories','CoreController@addCategory');
+	Route::get('/items','CoreController@items');
+	Route::post('/items','CoreController@addItem');
+
 	Route::resource('/drivers','DriverController');
 
-	Route::get('/getDrivers','UserController@drivers');
+	Route::resource('/customers','CustomerController');
+
 	Route::get('/getCustomers','UserController@customers');
 
 	Route::get('getFields/{fieldType}','CoreController@getFields');

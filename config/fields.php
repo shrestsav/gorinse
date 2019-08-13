@@ -13,6 +13,11 @@ return [
         'col' => '6',
         'type' =>  'text',
       ],
+      'main_area' => [
+        'display_name' => 'Select Driver Area',
+        'col' => '4',
+        'type' =>  'select',
+      ],
       'phone' => [
         'display_name' => 'Phone',
         'col' => '4',
@@ -34,11 +39,6 @@ return [
         'display_name' => 'Date of Birth',
         'col' => '4',
         'type' =>  'date',
-      ],
-      'address' => [
-        'display_name' => 'Address',
-        'col' => '4',
-        'type' =>  'text',
       ],
       'joined_date' => [
         'display_name' => 'Joined Date',
@@ -112,6 +112,52 @@ return [
         'display_name' => 'Service Price',
         'col' => '6',
         'type' =>  'number',
+      ],
+      'description' => [
+        'display_name' => 'Description',
+        'col' => '12',
+        'type' =>  'textarea',
+        'placeholder' => 'Write Brief Description',
+      ],
+    ],
+  ],
+  'createCategory' => [
+    'Information' => [
+      'name' => [
+        'display_name' => 'Category Name',
+        'col' => '12',
+        'type' =>  'text',
+      ],
+      'description' => [
+        'display_name' => 'Description',
+        'col' => '12',
+        'type' =>  'textarea',
+        'placeholder' => 'Write Brief Description',
+      ],
+    ],
+  ],
+  'createItem' => [
+    'Information' => [
+      'category_id' => [
+        'display_name' => 'Choose Category',
+        'col' => '4',
+        'type' =>  'select',
+      ],
+      'name' => [
+        'display_name' => 'Item Name',
+        'col' => '4',
+        'type' =>  'text',
+      ],
+      'price' => [
+        'display_name' => 'Price',
+        'col' => '4',
+        'type' =>  'number',
+      ],
+      'description' => [
+        'display_name' => 'Description',
+        'col' => '12',
+        'type' =>  'textarea',
+        'placeholder' => 'Write Brief Description',
       ],
     ],
   ],

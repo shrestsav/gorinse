@@ -30,7 +30,7 @@
             </a>
           </router-link>
         </li>
-{{--         <li class="nav-item">
+        {{--<li class="nav-item">
           <a class="nav-link" href="#navbar-users" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-users" v-bind:class="{ active: currentMenu=='ordersMenu'}">
             <i class="ni ni-ungroup text-orange"></i>
             <span class="nav-link-text">Users</span>
@@ -71,26 +71,6 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#navbar-services" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-services" v-bind:class="{ active: currentMenu=='servicesMenu'}">
-            <i class="ni ni-cart text-info"></i>
-            <span class="nav-link-text">Services</span>
-          </a>
-          <div class="collapse" id="navbar-services">
-            <ul class="nav nav-sm flex-column">
-              <li class="nav-item">
-                <router-link :to="{ name: 'createService'}" >
-                  <a href="{{url('/v/services/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createService' }">Add Service</a>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link :to="{ name: 'services'}" >
-                  <a href="{{url('/v/services')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='services' }">List</a>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="#navbar-drivers" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-drivers" v-bind:class="{ active: currentMenu=='driversMenu'}">
             <i class="ni ni-bus-front-12 text-info"></i>
             <span class="nav-link-text">Drivers</span>
@@ -105,6 +85,46 @@
               <li class="nav-item">
                 <router-link :to="{ name: 'drivers'}" >
                   <a href="{{url('/v/drivers')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='drivers' }">Drivers</a>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#navbar-config" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-config" v-bind:class="{ active: currentMenu=='settingsMenu'}">
+            <i class="ni ni-cart text-info"></i>
+            <span class="nav-link-text">Manage</span>
+          </a>
+          <div class="collapse" id="navbar-config">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <router-link :to="{ name: 'createService'}" >
+                  <a href="{{url('/v/services/create')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createService' }">Add Service</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'services'}" >
+                  <a href="{{url('/v/services')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='services' }">Services</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'createCategory'}" >
+                  <a href="{{url('/v/createCategory')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createCategory' }">Add Category</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'categories'}" >
+                  <a href="{{url('/v/categories')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='categories' }">Categories</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'createItem'}" >
+                  <a href="{{url('/v/createItem')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='createItem' }">Add Items</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'items'}" >
+                  <a href="{{url('/v/items')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='items' }">Items</a>
                 </router-link>
               </li>
             </ul>

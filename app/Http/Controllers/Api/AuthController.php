@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\OTPNotification;
 use App\Role;
 use App\User;
+use App\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Validator;
@@ -127,7 +128,20 @@ class AuthController extends Controller
 
     public function test()
     {
-        
+        $address = [
+            [
+                'name' => 'bharatpur',
+                'location' => '19.123.4324.123.1234',
+                'Block' => 'D'
+            ],
+            [
+                'name' => 'Chitwan',
+                'location' => '66.112.432.123.132',
+                'Block' => 'E'
+            ],
+        ];
+        UserDetail::where('id',1)->update(['address' => json_encode($address,true)]);
+        return json_decode(UserDetail::find(1)->address);
         return url('').'/oauth/token';
         // return 'something';
         $http = new \GuzzleHttp\Client();

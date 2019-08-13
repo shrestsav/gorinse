@@ -13,7 +13,6 @@
     </div>
     <div class="card-body">
       <div v-for="(section,sec_name,index) in fields">
-        <h6 class="heading-small text-muted mb-4">{{sec_name}}</h6>
         <div class="pl-lg-4">
           <div class="row">
             <div :class="'col-lg-'+item['col']" v-for="item,key in section">
@@ -28,6 +27,14 @@
                   v-model="service[key]"
                   class="form-control" 
                 >
+                <textarea 
+                  v-if="item['type']==='textarea'" 
+                  rows="4" 
+                  :class="{'not-validated':errors[key]}" 
+                  class="form-control" 
+                  :placeholder="item['placeholder']" 
+                  v-model="service[key]"
+                ></textarea>
                 <div class="invalid-feedback" style="display: block;" v-if="errors[key]">
                   {{errors[key][0]}}
                 </div>
@@ -35,7 +42,6 @@
             </div>
           </div>
         </div>
-        <hr class="my-4"/>
       </div>
     </div>
     <div class="card-footer text-center">
@@ -55,7 +61,7 @@
     },
     created(){
       this.$store.commit('changeCurrentPage', 'createService')
-      this.$store.commit('changeCurrentMenu', 'servicesMenu')
+      this.$store.commit('changeCurrentMenu', 'settingsMenu')
     },
     mounted(){
       this.defSettings();

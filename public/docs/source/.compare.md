@@ -1,0 +1,322 @@
+---
+title: API Reference
+
+language_tabs:
+- bash
+- javascript
+
+includes:
+
+search: true
+
+toc_footers:
+- <a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a>
+---
+<!-- START_INFO -->
+# Info
+
+Welcome to the generated API reference.
+[Get Postman Collection](http://localhost:8000/docs/collection.json)
+
+<!-- END_INFO -->
+
+#general
+<!-- START_1c9eebe1db5f9432fc7af17b11a69642 -->
+## api/phoneRegister
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/phoneRegister" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/phoneRegister");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST api/phoneRegister`
+
+
+<!-- END_1c9eebe1db5f9432fc7af17b11a69642 -->
+
+<!-- START_9e99360c4a454c39c4cf5713b46ff9d5 -->
+## api/verifyOTP
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/verifyOTP" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/verifyOTP");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST api/verifyOTP`
+
+
+<!-- END_9e99360c4a454c39c4cf5713b46ff9d5 -->
+
+<!-- START_0bef4e738c9d6720ad43b062015d1078 -->
+## api/test
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/test" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/test");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+null
+```
+
+### HTTP Request
+`GET api/test`
+
+
+<!-- END_0bef4e738c9d6720ad43b062015d1078 -->
+
+<!-- START_f9301c03a9281c0847565f96e6f723de -->
+## Display a listing of the resource.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/orders" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/orders");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET api/orders`
+
+
+<!-- END_f9301c03a9281c0847565f96e6f723de -->
+
+<!-- START_285c87403b6cfdebe26bc357f22e870f -->
+## Store a newly created resource in storage.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/orders" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/orders");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST api/orders`
+
+
+<!-- END_285c87403b6cfdebe26bc357f22e870f -->
+
+<!-- START_7e6be1b9dd04564a7b1298dd260f3183 -->
+## Display the specified resource.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/orders/1" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/orders/1");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET api/orders/{order}`
+
+
+<!-- END_7e6be1b9dd04564a7b1298dd260f3183 -->
+
+<!-- START_37f7b8cec13991c44b134bb2186e9d1e -->
+## Update the specified resource in storage.
+
+> Example request:
+
+```bash
+curl -X PUT "http://localhost:8000/api/orders/1" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/orders/1");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`PUT api/orders/{order}`
+
+`PATCH api/orders/{order}`
+
+
+<!-- END_37f7b8cec13991c44b134bb2186e9d1e -->
+
+<!-- START_c280b55cf267ef09fc12c6b09ac78ede -->
+## Remove the specified resource from storage.
+
+> Example request:
+
+```bash
+curl -X DELETE "http://localhost:8000/api/orders/1" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"
+```
+
+```javascript
+const url = new URL("http://localhost:8000/api/orders/1");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`DELETE api/orders/{order}`
+
+
+<!-- END_c280b55cf267ef09fc12c6b09ac78ede -->
+
+

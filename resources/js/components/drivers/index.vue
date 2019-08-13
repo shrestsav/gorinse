@@ -19,6 +19,7 @@
               <tr>
                 <th scope="col" class="sort" data-sort="name">S.No.</th>
                 <th scope="col" class="sort" data-sort="name">Name</th>
+                <th scope="col" class="sort" data-sort="name">Area</th>
                 <th scope="col" class="sort" data-sort="budget">Email</th>
                 <th scope="col" class="sort" data-sort="status">Date of Birth</th>
                 <th scope="col" class="sort" data-sort="completion">Address</th>
@@ -29,6 +30,7 @@
               <tr v-for="item,key in drivers">
                 <td>{{++key}}</td>
                 <td>{{item.fname}} {{item.lname}}</td>
+                <td><span v-if="item.details">{{item.details.main_area}}</span></td>
                 <td>{{item.email}}</td>
                 <td><span v-if="item.details">{{item.details.dob}}</span></td>
                 <td><span v-if="item.details">{{item.details.address}}</span</td>

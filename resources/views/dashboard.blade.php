@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('headerMenu')
+  <headermenu></headermenu>
+@endsection
+
 @section('content')
 
 <!-- contents from vue js -->

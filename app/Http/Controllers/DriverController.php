@@ -47,16 +47,17 @@ class DriverController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $this->validate($request, [
             'fname' => 'required|max:255',
             'email' => 'email|max:255|unique:users',
             'phone' => 'required|unique:users',
+            'main_area' => 'required|numeric',
         ]);
         $driver = User::create($request->all()); 
         $role_id = Role::where('name','driver')->first()->id;
         $request['user_id'] = $driver->id;
         $driverDetails = UserDetail::create($request->all()); 
+        
         // Assign as Driver
         $driver->attachRole($role_id);
 

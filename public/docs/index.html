@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/all.js"></script>
+
+
+          <script>
+        $(function() {
+            setupLanguages(["bash","javascript"]);
+        });
+      </script>
+      </head>
+
+  <body class="">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        <img src="images/logo.png" />
+                    <div class="lang-selector">
+                                  <a href="#" data-language-name="bash">bash</a>
+                                  <a href="#" data-language-name="javascript">javascript</a>
+                            </div>
+                            <div class="search">
+              <input type="text" class="search" id="input-search" placeholder="Search">
+            </div>
+            <ul class="search-results"></ul>
+              <div id="toc">
+      </div>
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
+            </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+          <!-- START_INFO -->
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="http://localhost:8000/docs/collection.json">Get Postman Collection</a></p>
+<!-- END_INFO -->
+<h1>general</h1>
+<!-- START_1c9eebe1db5f9432fc7af17b11a69642 -->
+<h2>api/phoneRegister</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/phoneRegister" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/phoneRegister");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/phoneRegister</code></p>
+<!-- END_1c9eebe1db5f9432fc7af17b11a69642 -->
+<!-- START_9e99360c4a454c39c4cf5713b46ff9d5 -->
+<h2>api/verifyOTP</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/verifyOTP" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/verifyOTP");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/verifyOTP</code></p>
+<!-- END_9e99360c4a454c39c4cf5713b46ff9d5 -->
+<!-- START_0bef4e738c9d6720ad43b062015d1078 -->
+<h2>api/test</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/test" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/test");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/test</code></p>
+<!-- END_0bef4e738c9d6720ad43b062015d1078 -->
+<!-- START_f9301c03a9281c0847565f96e6f723de -->
+<h2>Display a listing of the resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/orders" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/orders");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/orders</code></p>
+<!-- END_f9301c03a9281c0847565f96e6f723de -->
+<!-- START_285c87403b6cfdebe26bc357f22e870f -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/orders" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/orders");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/orders</code></p>
+<!-- END_285c87403b6cfdebe26bc357f22e870f -->
+<!-- START_7e6be1b9dd04564a7b1298dd260f3183 -->
+<h2>Display the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/orders/1" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/orders/1");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/orders/{order}</code></p>
+<!-- END_7e6be1b9dd04564a7b1298dd260f3183 -->
+<!-- START_37f7b8cec13991c44b134bb2186e9d1e -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://localhost:8000/api/orders/1" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/orders/1");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT api/orders/{order}</code></p>
+<p><code>PATCH api/orders/{order}</code></p>
+<!-- END_37f7b8cec13991c44b134bb2186e9d1e -->
+<!-- START_c280b55cf267ef09fc12c6b09ac78ede -->
+<h2>Remove the specified resource from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost:8000/api/orders/1" \
+    -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU"</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost:8000/api/orders/1");
+
+let headers = {
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFhZjE2N2JhY2JlZGU5MGUxYzI0OWUzOTE0OTdiNDU2MWYxN2Q0NDg1YmIxZmVmYTQyMWNmMTZjMzViMzdmY2FjODQwNDg3OTU2NDAyMmM1In0.eyJhdWQiOiIyIiwianRpIjoiYWFmMTY3YmFjYmVkZTkwZTFjMjQ5ZTM5MTQ5N2I0NTYxZjE3ZDQ0ODViYjFmZWZhNDIxY2YxNmMzNWIzN2ZjYWM4NDA0ODc5NTY0MDIyYzUiLCJpYXQiOjE1NjU1MDU0NDcsIm5iZiI6MTU2NTUwNTQ0NywiZXhwIjoxNTk3MTI3ODQ3LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.LcUA-NO3Wr3bjMh_ozeGfJ-Z5NWDB5RqlPLYRN6NTDRx7VKCApwOPDB6gsAdwUTdyOAipEcx0c6M7muutmvCy30cdA-_nnWhyefWPV8n8X3Lh1u-5KzCCmIxNwhCUjJWOtaxBsaHZTG7hO3KeTiz9Wq_fKO5A3UaNcW2zEvKXUiFFK1-7Qt_Rwec-SFQVJoBgE1TcYYvVWDy1PMRcQtolAxSpAjlaNKfsPpXfQDldQPhEXj3BZJ04cMkNiTMlgQVwnVdlW-O8SmmbBr-CbUb7QPd9YiuJXl5G_Hhr4qFg9K34RYwj6s-h5nYJzNSti-pnEIUmUZWDDbwnINvU1dzdAyWtG_en4zbwAX1D5KccyyVFZ7i3kDMAVZf3xta2kGEOBpizCUDzICyuewNed-R5wpwxeWjxEr77kaHFtRs76Suu3UJlVgV5SfrqfMQ9hE-uYRjkH6ep72NHXnfkWmEGgV1g9ImI0npNUqG9VoTIJoCl5huPgYszCo2cnCyHtr7QCht7xrEQTfnUlejYGTsPwzN-GzZh_OlN5H5BBnkKARwnY5XLovoXDNuc-BwtPA5nTp2iS5B0ePweWK_S3sZ5H7Ioabn5von4wPeixA8P44rVeLs-taXumqWu4u1h7Pew5vq0Q60-Z0otRFMBDREDiYolOrAkO912Fm21nf10sU",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE api/orders/{order}</code></p>
+<!-- END_c280b55cf267ef09fc12c6b09ac78ede -->
+      </div>
+      <div class="dark-box">
+                        <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                              </div>
+                </div>
+    </div>
+  </body>
+</html>

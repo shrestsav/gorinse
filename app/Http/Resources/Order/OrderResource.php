@@ -14,11 +14,12 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'customer_id' => $this->customer_id,
-            'driver_id' => $this->driver_id,
-            'type' => $this->type,
-            'pick_location' => $this->pick_location,
-        ];
+        return parent::toArray($request);
+        // return [
+        //     'customer_id' => $this->customer_id,
+        //     'driver_id' => $this->driver_id,
+        //     'type' => $this->type,
+        //     'pick_location' => $this->pick_location,
+        // ];
     }
 }

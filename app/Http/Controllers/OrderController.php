@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Order\OrderCollection;
 use App\Http\Resources\Order\OrderResource;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
-use Auth;
 use App\User;
 use App\Order;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -18,8 +19,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Auth::id();
-        return Order::with('customer','driver')->get();
+        $orders = Order::with('customer','driver')->get();
+        return new OrderCollection($orders);
+        return $orders;
     }
 
     public function getOrders($status)
@@ -60,6 +62,7 @@ class OrderController extends Controller
     {
         $validatedData = $request->validate([
             'customer_id' => 'required|numeric',
+            'type' => 'required|numeric',
         ]);
         $order = Order::create($request->all());
 

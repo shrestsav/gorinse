@@ -20,6 +20,9 @@ Route::get('/test','Api\AuthController@test');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:api')->group(function () {
-	Route::apiResource('/orders','OrderController');
+
+Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
+    Route::apiResource('/orders','OrderController');
+    Route::get('/getAddress/{user_id}','CustomerController@getAddress');
+	Route::post('/addAddress','CustomerController@addAddress');
 });

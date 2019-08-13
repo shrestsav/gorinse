@@ -18,9 +18,9 @@ class CreateOrdersTable extends Migration
             $table->integer('customer_id')->unsigned();
             $table->integer('driver_id')->unsigned()->nullable();
             $table->smallInteger('type')->comment('1:Normal, 2:Urgent');
-            $table->string('pick_location')->nullable();
+            $table->smallInteger('pick_location')->nullable()->comment('From User Address Table');
             $table->datetime('pick_datetime')->nullable();
-            $table->string('drop_location')->nullable();
+            $table->smallInteger('drop_location')->nullable()->comment('From User Address Table');
             $table->datetime('drop_datetime')->nullable();
             $table->smallInteger('status')->default(0)->comment('See Config');
             $table->timestamps();

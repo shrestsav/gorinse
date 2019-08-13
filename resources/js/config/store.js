@@ -10,6 +10,9 @@ export const store = new Vuex.Store({
 		orders:[],
 		drivers:[],
 		customers:{},
+		services:{},
+		categories:{},
+		items:{},
 		orderStatus:{},
 		errors:{},
 	},
@@ -25,6 +28,15 @@ export const store = new Vuex.Store({
 		},
 		orderStatus(state){
 			return state.orderStatus;
+		},
+		services(state){
+			return state.services;
+		},
+		categories(state){
+			return state.categories;
+		},
+		items(state){
+			return state.items;
 		},
 		errors(state){
 			return state.errors;
@@ -49,6 +61,15 @@ export const store = new Vuex.Store({
 		setOrderStatus(state, orderStatus){
 			state.orderStatus = orderStatus
 		},
+		setServices(state, services){
+			state.services = services
+		},
+		setCategories(state, categories){
+			state.categories = categories
+		},
+		setItems(state, items){
+			state.items = items
+		},
 		setErrors(state, errors){
 			state.errors = errors
 		}
@@ -66,18 +87,6 @@ export const store = new Vuex.Store({
 	        	context.commit('setOrders',response.data)
 	        });
 		},
-		getDrivers(context){
-			axios.get('/drivers')
-	        .then(response => {
-	        	context.commit('setDrivers',response.data)
-	        });
-		},
-		getCustomers(context){
-			axios.get('/getCustomers')
-		        .then(response => {
-		          context.commit('setCustomers',response.data)
-		        });	
-		},
 		addOrder(context, order){
 			axios.post('/orders',order)
 	          .then((response) => {
@@ -91,6 +100,12 @@ export const store = new Vuex.Store({
 	            }  
 	          })
 		},
+		getDrivers(context){
+			axios.get('/drivers')
+	        .then(response => {
+	        	context.commit('setDrivers',response.data)
+	        });
+		},
 		addDriver(context, driver){
 			axios.post('/drivers',driver)
 	          .then((response) => {
@@ -103,6 +118,70 @@ export const store = new Vuex.Store({
 	              showNotify('danger',error.response.data.errors[prop])
 	            }       
 	          })
+		},
+		getServices(context){
+			axios.get('/services')
+		        .then(response => {
+		          context.commit('setServices',response.data)
+		        });	
+		},
+		addService(context, service){
+			axios.post('/services',service)
+	          .then((response) => {
+	          	context.commit('setErrors',{})
+	            showNotify('success',response.data)
+	          })
+	          .catch((error) => {
+      			context.commit('setErrors',error.response.data.errors)
+	            for (var prop in error.response.data.errors) {
+	              showNotify('danger',error.response.data.errors[prop])
+	            }  
+	          })
+		},
+		getCategories(context){
+			axios.get('/categories')
+		        .then(response => {
+		          context.commit('setCategories',response.data)
+		        });	
+		},
+		addCategory(context, category){
+			axios.post('/categories',category)
+	          .then((response) => {
+	          	context.commit('setErrors',{})
+	            showNotify('success',response.data)
+	          })
+	          .catch((error) => {
+      			context.commit('setErrors',error.response.data.errors)
+	            for (var prop in error.response.data.errors) {
+	              showNotify('danger',error.response.data.errors[prop])
+	            }  
+	          })
+		},
+		getItems(context){
+			axios.get('/items')
+		        .then(response => {
+		          context.commit('setItems',response.data)
+		        });	
+		},
+		addItem(context, item){
+			axios.post('/items',item)
+	          .then((response) => {
+	          	console.log(response)
+	          	context.commit('setErrors',{})
+	            showNotify('success',response.data)
+	          })
+	          .catch((error) => {
+      			context.commit('setErrors',error.response.data.errors)
+	            for (var prop in error.response.data.errors) {
+	              showNotify('danger',error.response.data.errors[prop])
+	            }  
+	          })
+		},
+		getCustomers(context){
+			axios.get('/customers')
+		        .then(response => {
+		          context.commit('setCustomers',response.data)
+		        });	
 		},
 		assignOrder(context, assign){
 			// return Promise.reject(new Error('error from action "Test"!'))

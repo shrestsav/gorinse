@@ -5,7 +5,7 @@
         <div class="nav-wrapper">
           <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
             <li class="nav-item">
-              <a class="nav-link mb-sm-3 mb-md-0 active" id="createOrder" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">Create Order</a>
+              <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">Create Order</a>
             </li>
           </ul>
         </div>
@@ -27,16 +27,7 @@
                   :placeholder="item['display_name']" 
                   v-model="order[key]"
                   class="form-control" 
-                ><!-- 
-                <v-select
-                  class="form-control"  
-                  v-if="item['type']==='select' && key==='customer_id'" 
-                  v-model="order[key]" 
-                  :options="customers" 
-                  :reduce="fname => fname.id" 
-                  label="fname" 
-                  placeholder="Customers"
-                /> -->
+                >
                 <v-select
                   class="form-control"  
                   v-if="item['type']==='select' && key==='customer_id'" 
@@ -50,9 +41,6 @@
                   <option value="1">Normal</option>
                   <option value="2">Urgent</option>
                 </select>
-                <!-- <select class="form-control" v-if="item['type']==='select' && key==='status'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
-                  <option value="1" selected>Pending</option>
-                </select> -->
                 <date-picker 
                   v-if="item['type']==='date'"  
                   v-model="order[key]"

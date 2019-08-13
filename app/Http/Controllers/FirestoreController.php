@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Google\Cloud\Firestore\FirestoreClient;
+// use Google\Cloud\Firestore\FirestoreClient;
 
 class FirestoreController extends Controller
 {
 	protected $db;
 	protected $name;
 
-	public function __construct()
-	{
-		$this->db = new FirestoreClient([
-	        'projectId' => env('GOOGLE_CLOUD_PROJECT'),
-	    ]);
-	}
+	// public function __construct()
+	// {
+	// 	$this->db = new FirestoreClient([
+	//         'projectId' => env('GOOGLE_CLOUD_PROJECT'),
+	//     ]);
+	// }
 
     public function index()
     {
