@@ -130,4 +130,10 @@ class OrderController extends Controller
 
         return response()->json('Successfully Assigned');
     }
+
+    public function testNotification($user_id)
+    {
+        $user = User::find($user_id)->pushNotification();
+        return 'send';
+    }
 }

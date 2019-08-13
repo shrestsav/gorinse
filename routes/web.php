@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('/getCustomers','UserController@customers');
 
+	Route::get('/testNotification/{user_id}','OrderController@testNotification');
+
 	Route::get('getFields/{fieldType}','CoreController@getFields');
 	Route::get('getSettings/{settingType}','CoreController@getSettings');
 });

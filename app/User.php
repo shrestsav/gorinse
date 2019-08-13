@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Notifications\OTPNotification;
+use App\Notifications\SystemNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -108,6 +109,11 @@ class User extends Authenticatable
     {
         $OTP = $this->OTP;
         $this->notify(new OTPNotification($OTP));
+    }
+
+    public function pushNotification()
+    {
+        $this->notify(new SystemNotification('hello world'));
     }
 
     public function details()
