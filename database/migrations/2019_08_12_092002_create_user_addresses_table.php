@@ -17,6 +17,7 @@ class CreateUserAddressesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned();
             $table->string('name',280)->nullable();            
+            $table->smallInteger('area_id')->nullable();            
             $table->string('map_coordinates',480)->nullable();            
             $table->string('building_community')->nullable();            
             $table->smallInteger('type')->nullable()->comment('See Config');            
