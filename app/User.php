@@ -4,6 +4,7 @@ namespace App;
 
 use App\Notifications\OTPNotification;
 use App\Notifications\SystemNotification;
+use App\Order;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -96,6 +97,15 @@ class User extends Authenticatable
         return $drivers->with('details')->get();
     }
 
+    public function adminList()
+    {
+        $superAdmin = $this->whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'superAdmin');
+                       });
+
+        return $superAdmin->get();
+    }
+
     public function customerList()
     {
         $customers = $this->whereHas('roles', function ($query) {
@@ -111,11 +121,6 @@ class User extends Authenticatable
         $this->notify(new OTPNotification($OTP));
     }
 
-    public function pushNotification()
-    {
-        $this->notify(new SystemNotification('hello world'));
-    }
-
     public function details()
     {
         return $this->hasOne(UserDetail::class);
@@ -125,5 +130,43 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAddress::class);
     }
+
+    //Notification Starts
+
+    public function pushNotification($notification)
+    {   
+        
+
+        $this->notify(new SystemNotification($notification));
+    }
+    
+    public static function notifyAcceptOrder($order_id)
+    {  
+        //All Admins and Customer who ordered will get notified
+        // return $order->driver_id;
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'superAdmin');
+                       })->pluck('id')->toArray();
+
+        $customer_id = $order->customer_id;
+
+        $app = app();
+        $notification = $app->make('stdClass');
+        $notification->notifyType = 'Order Accepted';
+        $notification->message = $order->driver->fname. ' just accepted order '.$order->id;
+        $notification->model = 'order';
+        $notification->url = $order->id;
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notification);
+        }
+        // Send Order Accepted Notification to Customer
+            User::find($customer_id)->pushNotification($notification);
+        
+        return true;
+    }
+
 
 }

@@ -13,8 +13,20 @@
             {{ csrf_field() }}
             {{ method_field('PATCH') }}
             <div class="form-group">
-              <label class="form-control-label">Display name</label>
-              <input type="text" class="form-control" name="name" value="{{$user->name}}" required autofocus>
+              <label class="form-control-label">First name</label>
+              <input type="text" class="form-control" name="fname" value="{{$user->fname}}" required autofocus>
+              <div class="invalid-feedback">
+                Name is Required
+              </div>     
+              @if ($errors->has('name'))
+                <div class="invalid-feedback" style="display: block;">
+                  {{ $errors->first('name') }}
+                </div>
+              @endif
+            </div> 
+            <div class="form-group">
+              <label class="form-control-label">Last name</label>
+              <input type="text" class="form-control" name="lname" value="{{$user->lname}}" required autofocus>
               <div class="invalid-feedback">
                 Name is Required
               </div>     

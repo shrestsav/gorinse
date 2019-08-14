@@ -10,28 +10,47 @@
       </div>
       <!-- List group -->
       <div class="list-group list-group-flush">
-        <a href="#!" class="list-group-item list-group-item-action" v-for="item in notifications">
+        <a href="#!" class="list-group-item list-group-item-action" v-for="item in newNotifications">
           <div class="row align-items-center">
             <div class="col-auto">
               <!-- Avatar -->
-              <img alt="Image placeholder" src="" class="avatar rounded-circle">
+              <!-- <img alt="Image placeholder" src="" class="avatar rounded-circle"> -->
             </div>
             <div class="col ml--2">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="mb-0 text-sm">John Snow</h4>
+                  <h4 class="mb-0 text-sm">{{item.notifyType}}</h4>
                 </div>
                 <div class="text-right text-muted">
                   <small>2 hrs ago</small>
                 </div>
               </div>
-              <p class="text-sm mb-0">{{item['data']}}</p>
+              <p class="text-sm mb-0">{{item.message}}</p>
+            </div>
+          </div>
+        </a>
+        <a href="#!" class="list-group-item list-group-item-action" v-for="item in notifications">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <!-- Avatar -->
+              <!-- <img alt="Image placeholder" src="" class="avatar rounded-circle"> -->
+            </div>
+            <div class="col ml--2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="mb-0 text-sm">{{item.data.notifyType}}</h4>
+                </div>
+                <div class="text-right text-muted">
+                  <small>2 hrs ago</small>
+                </div>
+              </div>
+              <p class="text-sm mb-0">{{item.data.message}}</p>
             </div>
           </div>
         </a>
       </div>
       <!-- View all -->
-      <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
+      <a href="javascript:;" class="dropdown-item text-center text-primary font-weight-bold py-3" @click="markAllAsRead()">Clear all</a>
     </div>
   </div>
 </template>
@@ -41,22 +60,36 @@
   export default{
     data(){
       return{
-        notifications:[],
+        newNotifications:[],
       }
     },
     computed: {
       count(){
-        return this.notifications.length
+        return this.notifications.length + this.newNotifications.length
+      },
+      notifications(){
+        return this.$store.getters.notifications
       }
     },
     mounted(){
+      this.$store.dispatch('getNotifications')
       Echo.private('App.User.' + 1)
       .notification((notification) => {
           console.log(notification);
-          this.notifications.push(notification)
+          this.$swal(notification.message);
+          this.newNotifications.push(notification)
       });
     },
     methods:{
+      markAllAsRead(){
+        this.$store.dispatch('setAllNotificationsRead').then(()=>{
+          this.newNotifications = []
+        })
+      },
+      showAlert(){
+            // Use sweetalert2
+            this.$swal('Hello Vue world!!!');
+        }
     }
   }
 </script>

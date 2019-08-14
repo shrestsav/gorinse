@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
 		categories:{},
 		items:{},
 		orderStatus:{},
+		notifications:{},
 		errors:{},
 	},
 	getters:{
@@ -37,6 +38,9 @@ export const store = new Vuex.Store({
 		},
 		items(state){
 			return state.items;
+		},
+		notifications(state){
+			return state.notifications;
 		},
 		errors(state){
 			return state.errors;
@@ -70,11 +74,27 @@ export const store = new Vuex.Store({
 		setItems(state, items){
 			state.items = items
 		},
+		setNotifications(state, notifications){
+			state.notifications = notifications
+		},
 		setErrors(state, errors){
 			state.errors = errors
 		}
 	},
 	actions:{
+		getNotifications(context){
+			axios.get('/notifications')
+	        .then(response => {
+	        	context.commit('setNotifications',response.data)
+	        });
+		},
+		setAllNotificationsRead(context){
+			axios.get('/markAllAsRead')
+	        .then(response => {
+	        	context.commit('setNotifications',[])
+	        	showNotify('success','All Notifications Cleared')
+	        });
+		},
 		getOrderStatus(context){
 			axios.get('/getSettings/orderStatus')
 	        .then(response => {

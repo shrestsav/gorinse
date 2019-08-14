@@ -11,15 +11,15 @@ use Illuminate\Notifications\Notification;
 class SystemNotification extends Notification
 {
     use Queueable;
-
+    public $message;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($message)
     {
-        $this->message = 'faksjdflkajskdf';
+        $this->message = $message;
     }
 
     /**
@@ -55,7 +55,9 @@ class SystemNotification extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'data' => $this->message
+            'notifyType' => $this->message->notifyType,
+            'message' => $this->message->message,
+            'url' => $this->message->message,
         ]);
     }
     /**
@@ -67,7 +69,9 @@ class SystemNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'data' => $this->message
+            'notifyType' => $this->message->notifyType,
+            'message' => $this->message->message,
+            'url' => $this->message->message,
         ];
     }
 }

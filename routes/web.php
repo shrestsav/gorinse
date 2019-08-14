@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\TaskEvent;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,8 +46,13 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('/getCustomers','UserController@customers');
 
+	Route::get('/notifications','UserController@notifications');
+	Route::get('/markAllAsRead','UserController@markAllAsRead');
 	Route::get('/testNotification/{user_id}','OrderController@testNotification');
 
+	Route::get('event',function(){
+		event(new TaskEvent('Hey how are you'));
+	});
 	Route::get('getFields/{fieldType}','CoreController@getFields');
 	Route::get('getSettings/{settingType}','CoreController@getSettings');
 });

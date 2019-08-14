@@ -8,6 +8,11 @@ import {store} from './config/store'
 import VueNotification from "@kugatsu/vuenotification";
 import headermenu from './components/headerMenu.vue'
 import notification from './components/notification.vue'
+import VueSweetalert2 from 'vue-sweetalert2';
+ 
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.use(VueNotification, {

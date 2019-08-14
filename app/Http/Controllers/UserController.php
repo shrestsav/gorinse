@@ -7,6 +7,7 @@ use App\User;
 use App\Role;
 use DB;
 use Hash;
+use Auth;
 
 class UserController extends Controller
 {
@@ -129,6 +130,21 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
+    }
+
+    public function notifications()
+    {
+        return response()->json(User::find(Auth::id())->unreadNotifications);
+    }
+
+    public function markAllAsRead()
+    {
+        $user = User::find(Auth::id());
+
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+        return response()->json(['message'=>'All Notifications Marked as read']);
     }
 
 }

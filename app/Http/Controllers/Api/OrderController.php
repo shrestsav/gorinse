@@ -80,15 +80,15 @@ class OrderController extends Controller
             'order_id' => 'required',
         ]);
 
-        $order = Order::where('id','=',$request->order_id);
+        $order = Order::find($request->order_id);
 
         if($order->first()->status==0){
             $order->update(['driver_id' => Auth::id(), 'status' => 2]);
+            User::notifyAcceptOrder($request->order_id);
         }
         else{
-            return response()->json(['error'=>'You cannot accept this order, It has already been accepted'],401);
+            return response()->json(['error'=>'You cannot accept this order, It has already been accepted'],403);
         }
-        User::find(1)->pushNotification();
         return response()->json(['message' => 'Successfully Accepted']);
     }
 
@@ -100,7 +100,18 @@ class OrderController extends Controller
      */
     public function pendingOrders()
     {
-        $orders = Order::where('status','=',0)->get();
+        $driver_area = User::find(Auth::id())->details->area_id;
+        $orders = Order::select('orders.id',
+                                'orders.type',
+                                'orders.customer_id',
+                                'orders.pick_location',
+                                'orders.created_at',
+                                'pick.name as pick_location_name')
+                        ->join('user_addresses as pick','orders.pick_location','=','pick.id')
+                        ->where('orders.status','=',0)
+                        ->where('pick.area_id','=',$driver_area)
+                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
+                        ->get();
 
         return response()->json($orders);
     }

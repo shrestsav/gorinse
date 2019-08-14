@@ -81,6 +81,6 @@ class CustomerController extends Controller
         ]);
         $request['user_id'] = Auth::id();
         $address = UserAddress::create($request->all());
-        return response()->json($address);
+        return response()->json($address,201);
     }
 }

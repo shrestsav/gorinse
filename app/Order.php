@@ -26,4 +26,14 @@ class Order extends Model
     {
         return $this->belongsTo(User::class,'driver_id');
     }
+
+    public function pick_location_details()
+    {
+        return $this->belongsTo(UserAddress::class,'pick_location');
+    }
+
+    public function drop_location_details()
+    {
+        return $this->belongsTo(UserAddress::class,'drop_location');
+    }
 }
