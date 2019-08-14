@@ -25,4 +25,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
     Route::apiResource('/orders','OrderController');
     Route::get('/getAddress/{user_id}','CustomerController@getAddress');
 	Route::post('/addAddress','CustomerController@addAddress');
+	Route::apiResource('/customers','CustomerController');
+	//Driver API
+	Route::post('/acceptOrder','OrderController@acceptOrder');
+	Route::get('/pendingOrders','OrderController@pendingOrders');
 });

@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('headerMenu')
-  <headermenu></headermenu>
+  	<headermenu></headermenu>
+@endsection
+
+@section('notification')
+	<notification></notification>
 @endsection
 
 @section('content')

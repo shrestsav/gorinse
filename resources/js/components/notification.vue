@@ -1,0 +1,62 @@
+<template>
+  <div>
+    <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="ni ni-bell-55"><span class="notification_count" v-if="count">{{count}}</span></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
+      <!-- Dropdown header -->
+      <div class="px-3 py-3">
+        <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">{{count}}</strong> notifications.</h6>
+      </div>
+      <!-- List group -->
+      <div class="list-group list-group-flush">
+        <a href="#!" class="list-group-item list-group-item-action" v-for="item in notifications">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <!-- Avatar -->
+              <img alt="Image placeholder" src="" class="avatar rounded-circle">
+            </div>
+            <div class="col ml--2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="mb-0 text-sm">John Snow</h4>
+                </div>
+                <div class="text-right text-muted">
+                  <small>2 hrs ago</small>
+                </div>
+              </div>
+              <p class="text-sm mb-0">{{item['data']}}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- View all -->
+      <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
+    </div>
+  </div>
+</template>
+
+<script type="text/javascript">
+  
+  export default{
+    data(){
+      return{
+        notifications:[],
+      }
+    },
+    computed: {
+      count(){
+        return this.notifications.length
+      }
+    },
+    mounted(){
+      Echo.private('App.User.' + 1)
+      .notification((notification) => {
+          console.log(notification);
+          this.notifications.push(notification)
+      });
+    },
+    methods:{
+    }
+  }
+</script>

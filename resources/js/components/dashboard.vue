@@ -70,4 +70,11 @@
     left: 25px;
     color: white;
   }
+  .notification_count{
+    padding: 1px 7px 6px 7px;
+    border-radius: 17px;
+    background: #7d8a92;
+    position: relative;
+    top: -7px;
+  }
 </style>

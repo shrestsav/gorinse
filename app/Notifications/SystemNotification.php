@@ -3,9 +3,10 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class SystemNotification extends Notification
 {
@@ -18,7 +19,7 @@ class SystemNotification extends Notification
      */
     public function __construct()
     {
-        //
+        $this->message = 'faksjdflkajskdf';
     }
 
     /**
@@ -29,7 +30,7 @@ class SystemNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -45,7 +46,18 @@ class SystemNotification extends Notification
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }
-
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->message
+        ]);
+    }
     /**
      * Get the array representation of the notification.
      *
@@ -55,7 +67,7 @@ class SystemNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'data' => 'This is my first notification'
+            'data' => $this->message
         ];
     }
 }

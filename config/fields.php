@@ -67,7 +67,7 @@ return [
       'pick_location' => [
         'display_name' => 'Pickup Location',
         'col' => '4',
-        'type' =>  'text',
+        'type' =>  'number',
       ],
       'pick_datetime' => [
         'display_name' => 'Pickup Date & Time',
@@ -77,7 +77,7 @@ return [
       'drop_location' => [
         'display_name' => 'Drop Location',
         'col' => '4',
-        'type' =>  'text',
+        'type' =>  'number',
       ],
       'drop_datetime' => [
         'display_name' => 'Drop Date & Time',

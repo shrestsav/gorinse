@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use App\UserAddress;
 use Illuminate\Http\Request;
+use Auth;
 
 class CustomerController extends Controller
 {
@@ -15,7 +17,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customer = User::select('id','fname','lname','phone','created_at','updated_at')->where('id',Auth::id())->with('details','addresses')->first();
+        return response()->json($customer);
     }
 
     /**
@@ -72,8 +75,10 @@ class CustomerController extends Controller
     public function addAddress(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'required|numeric',
+            'area_id' => 'required|numeric',
+            'type' => 'required|numeric',
         ]);
+        $request['user_id'] => Auth::id();
         $address = UserAddress::create($request->all());
         return response()->json($address);
     }
