@@ -66,8 +66,9 @@ class CustomerController extends Controller
         //
     }
 
-    public function getAddress($user_id)
+    public function getAddress()
     {
+        $user_id = Auth::id();
         $address = UserAddress::where('user_id',$user_id)->get();
         return response()->json($address);
     }
@@ -78,7 +79,7 @@ class CustomerController extends Controller
             'area_id' => 'required|numeric',
             'type' => 'required|numeric',
         ]);
-        $request['user_id'] => Auth::id();
+        $request['user_id'] = Auth::id();
         $address = UserAddress::create($request->all());
         return response()->json($address);
     }
