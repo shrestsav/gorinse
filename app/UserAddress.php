@@ -14,7 +14,8 @@ class UserAddress extends Model
         'building_community',
         'type',
         'appartment_no',
-        'remarks'
+        'remarks',
+        'is_default'
     ];
 
     public function user()

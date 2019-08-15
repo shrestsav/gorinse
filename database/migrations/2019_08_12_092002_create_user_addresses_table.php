@@ -22,7 +22,8 @@ class CreateUserAddressesTable extends Migration
             $table->string('building_community')->nullable();            
             $table->smallInteger('type')->nullable()->comment('See Config');            
             $table->string('appartment_no')->nullable();            
-            $table->text('remarks')->nullable();            
+            $table->text('remarks')->nullable(); 
+            $table->smallInteger('is_default')->default(0);              
             $table->timestamps();
         });
     }

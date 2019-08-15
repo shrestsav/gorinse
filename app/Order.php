@@ -36,4 +36,9 @@ class Order extends Model
     {
         return $this->belongsTo(UserAddress::class,'drop_location');
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

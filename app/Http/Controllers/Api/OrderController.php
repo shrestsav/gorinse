@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Order\OrderCollection;
 use App\Order;
+use App\OrderItem;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -93,7 +94,7 @@ class OrderController extends Controller
     }
 
     /**
-     * List of pending orders.
+     * List of pending orders for drivers of that specific area.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -114,5 +115,61 @@ class OrderController extends Controller
                         ->get();
 
         return response()->json($orders);
+    }
+    /**
+     * List of pending orders for drivers of that specific area.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function orderItems(Request $request)
+    {
+        $order_id = $request->order_id;
+        return $this->generateInvoice($order_id);
+        foreach($request->items as $service_id => $items){
+            foreach ($items as $item) {
+                $orderItem = new OrderItem;
+                $orderItem->order_id = $order_id;
+                $orderItem->service_id = $service_id;
+                $orderItem->item_id = $item['item_id'];
+                $orderItem->quantity = $item['quantity'];
+                $orderItem->remarks = $item['remarks'];
+                $orderItem->save();
+            }
+            
+        }
+        return response()->json(['message','Order Items saved']);
+    }
+    public function test()
+    {
+        return Order::with('orderItems.service','orderItems.item')->get();
+        return response()->json(['message','Order Items saved']);
+    }
+    public function generateInvoice($order_id)
+    {
+        $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
+        // return $orderDetails;
+        $grandTotal = 0;
+        $invoiceArr = [];
+        foreach ($orderDetails->orderItems as $item) {
+            $itemQuantity = $item['quantity'];
+            $serviceCharge = $item['service']['price'];
+            $itemCharge = $item['item']['price'];
+            $total = ($itemCharge+$serviceCharge)*$itemQuantity;
+            $grandTotal += $total;
+
+            $invoice = [
+                'service' => $item['service']['name'],
+                'item' => $item['item']['name'],
+                'total' => $total,
+            ];
+            
+            array_push($invoiceArr,$invoice);
+        };
+        $invoiceCollection = [
+            'invoice_details' => $invoiceArr,
+            'grand_total' => $grandTotal
+        ];
+        return $invoiceCollection;
     }
 }
