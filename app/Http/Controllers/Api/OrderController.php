@@ -136,7 +136,6 @@ class OrderController extends Controller
                 $orderItem->remarks = $item['remarks'];
                 $orderItem->save();
             }
-            
         }
         return response()->json(['message','Order Items saved']);
     }
@@ -147,6 +146,8 @@ class OrderController extends Controller
     }
     public function generateInvoice($order_id)
     {
+        $service_ids = OrderItem::where('order_id',$order_id)->groupBy('service_id')->pluck('service_id')->toArray();
+        return $service_ids;
         $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
         // return $orderDetails;
         $grandTotal = 0;
@@ -163,7 +164,7 @@ class OrderController extends Controller
                 'item' => $item['item']['name'],
                 'total' => $total,
             ];
-            
+
             array_push($invoiceArr,$invoice);
         };
         $invoiceCollection = [

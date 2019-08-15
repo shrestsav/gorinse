@@ -79,7 +79,7 @@ class CustomerController extends Controller
             'area_id' => 'required|numeric',
             'type' => 'required|numeric',
         ]);
-        $request['user_id'] = Auth::id();
+        $request['user_id'] = Auth::id(); 
         $address = UserAddress::create($request->all());
         return response()->json($address,201);
     }
