@@ -35,7 +35,10 @@ class OrderController extends Controller
         $validatedData = $request->validate([
             'type' => 'required|numeric',
             'pick_location' => 'required|numeric',
+            'pick_date' => 'required',
+            'pick_timerange' => 'required',
             'drop_location' => 'required|numeric',
+            'payment' => 'required|numeric'
         ]);
         $request['customer_id'] = Auth::id();
         $order = Order::create($request->all());

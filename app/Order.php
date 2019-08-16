@@ -11,10 +11,13 @@ class Order extends Model
         'driver_id',
 		'type',
 		'pick_location',
-		'pick_datetime',
+		'pick_date',
+		'pick_timerange',
 		'drop_location',
-		'drop_datetime',
-		'status',
+        'drop_date',
+        'drop_timerange',
+        'payment',
+		'status'
     ];
 
     public function customer()
