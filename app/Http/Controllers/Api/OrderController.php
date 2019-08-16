@@ -32,7 +32,18 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'type' => 'required|numeric',
+            'pick_location' => 'required|numeric',
+            'drop_location' => 'required|numeric',
+        ]);
+        $request['customer_id'] = Auth::id();
+        $order = Order::create($request->all());
+
+        return response()->json([
+            "status" => "200",
+            "message" => "Order Created Successfully"
+        ], 200);
     }
 
     /**
@@ -84,11 +95,14 @@ class OrderController extends Controller
         $order = Order::find($request->order_id);
 
         if($order->first()->status==0){
-            $order->update(['driver_id' => Auth::id(), 'status' => 2]);
+            $order->update(['driver_id' => Auth::id(), 'status' => 1]);
             User::notifyAcceptOrder($request->order_id);
         }
         else{
-            return response()->json(['error'=>'You cannot accept this order, It has already been accepted'],403);
+            return response()->json([
+                'status'=>'403',
+                'error'=>'You cannot accept this order, It has already been accepted'
+            ],403);
         }
         return response()->json(['message' => 'Successfully Accepted']);
     }
@@ -125,7 +139,6 @@ class OrderController extends Controller
     public function orderItems(Request $request)
     {
         $order_id = $request->order_id;
-        return $this->generateInvoice($order_id);
         foreach($request->items as $service_id => $items){
             foreach ($items as $item) {
                 $orderItem = new OrderItem;
@@ -137,7 +150,7 @@ class OrderController extends Controller
                 $orderItem->save();
             }
         }
-        return response()->json(['message','Order Items saved']);
+        return response()->json($this->generateInvoice($order_id));
     }
     public function test()
     {
@@ -146,31 +159,51 @@ class OrderController extends Controller
     }
     public function generateInvoice($order_id)
     {
-        $service_ids = OrderItem::where('order_id',$order_id)->groupBy('service_id')->pluck('service_id')->toArray();
-        return $service_ids;
         $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
-        // return $orderDetails;
-        $grandTotal = 0;
+        $totalAmount = 0;
+        $totalQuantity = 0;
         $invoiceArr = [];
         foreach ($orderDetails->orderItems as $item) {
             $itemQuantity = $item['quantity'];
             $serviceCharge = $item['service']['price'];
             $itemCharge = $item['item']['price'];
-            $total = ($itemCharge+$serviceCharge)*$itemQuantity;
-            $grandTotal += $total;
+            $amount = ($itemCharge+$serviceCharge)*$itemQuantity;
+            $totalQuantity += $itemQuantity;
+            $totalAmount += $amount;
 
             $invoice = [
                 'service' => $item['service']['name'],
                 'item' => $item['item']['name'],
-                'total' => $total,
+                'quantity' => $itemQuantity,
+                'total' => $amount,
             ];
 
             array_push($invoiceArr,$invoice);
         };
-        $invoiceCollection = [
-            'invoice_details' => $invoiceArr,
-            'grand_total' => $grandTotal
+        $collection = collect($invoiceArr);
+        $grouped_collection = $collection->groupBy(['service'])->toArray();       
+        $vatPercent = 40;
+        $VAT = ($vatPercent/100)*$totalAmount;
+        $deliveryCharge = (5/100)*$totalAmount;
+        $grandTotal = $totalAmount+$VAT+$deliveryCharge;
+        
+        $invoice = [
+            "total_quantity" => $totalQuantity,
+            "total_amount" => $totalAmount,
+            "VAT ({$vatPercent} %)" => $VAT,
+            "delivery_charge" => $deliveryCharge,
+            "grand_total" => $grandTotal
         ];
+        $other = [
+            'name' => 'Utsav Shrestha',
+        ];
+        $invoiceCollection = [
+            "customer_details" => $other,
+            "items_details" => $grouped_collection,
+            "invoice_details" => $invoice,
+            
+        ];
+
         return $invoiceCollection;
     }
 }

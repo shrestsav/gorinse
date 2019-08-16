@@ -18,4 +18,8 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class);
     }
+    // public function servicestest()
+    // {
+    //     return $this->hasMany(OrderItem::class,'');
+    // }
 }
