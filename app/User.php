@@ -135,8 +135,6 @@ class User extends Authenticatable
 
     public function pushNotification($notification)
     {   
-        
-
         $this->notify(new SystemNotification($notification));
     }
     

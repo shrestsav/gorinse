@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -77,10 +78,17 @@ class AuthController extends Controller
             'phone'=> 'required',
             'OTP'=> 'required|numeric',
         ]);
-
+        $role = '';
+        $user_id = '';
         $url = url('').'/oauth/token';
         $OTP = $request->OTP;
         $phone = $request->phone;
+        $user = User::where('phone',$phone);
+        if($user->exists()){
+            $user_id = $user->first()->id;
+            $role = $user->first()->roles()->first()->name;
+
+        }
         $http = new \GuzzleHttp\Client();
         $response = $http->post(url('').'/oauth/token', [
                     'form_params' => [
@@ -91,19 +99,17 @@ class AuthController extends Controller
                         'password' => $OTP,
                         'scope' => '',
                     ],
-                    'http_errors' => false // add this to return errors in json
+                    'http_errors' => true // add this to return errors in json
                 ]);
 
         $token_response = json_decode((string) $response->getBody(), true);
-        return $token_response;
 
-
-
-
-
-
-
-
+        $result = [
+            'tokens' => $token_response,
+            'role' =>$role,
+            'user_id' =>$user_id,
+        ];
+        return response()->json($result);
 
         // $getUnregisteredUser = User::where('phone',$phone)->first();
 
@@ -121,6 +127,15 @@ class AuthController extends Controller
         // }
     }
 
+    public function checkRole()
+    {
+        $role = Auth::user()->roles()->first()->name;
+
+        return response()->json([
+            'user_id' => Auth::id(),
+            'role' => $role
+        ]);
+    }
     public function sendOTP()
     {
        return User::find(14)->sendOTP();

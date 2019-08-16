@@ -36,13 +36,17 @@ return [
         1 => 'Apartment',
         2 => 'Villa',
         3 => 'Hotel',
-        4 => 'Office',
+        4 => 'Office'
     ],
     'mainArea' => [
-    	1 => 'Dubai',
+        1 => 'Dubai',
         2 => 'AbuDabi',
         3 => 'UAE',
-        4 => 'Kathmandu',
+        4 => 'Kathmandu'
+    ],
+    'orderType' => [
+    	1 => 'Normal',
+        2 => 'Urgent'
     ],
 
 ];

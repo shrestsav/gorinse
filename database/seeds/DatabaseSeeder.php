@@ -36,7 +36,17 @@ class DatabaseSeeder extends Seeder
                 'name' => 'admin', 
                 'display_name' => 'Admin', 
                 'description' => 'Admin Role'
-            ]
+            ],
+            [
+                'name' => 'customer', 
+                'display_name' => 'Customer', 
+                'description' => 'Customer Level Role'
+            ],
+            [
+                'name' => 'driver', 
+                'display_name' => 'Driver', 
+                'description' => 'Driver Level Role'
+            ],
         ];
         
         foreach ($other_roles as $key => $value) {

@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -54,18 +55,27 @@ class Handler extends ExceptionHandler
         if($request->expectsJson()){
             if($exception instanceof NotFoundHttpException){
                 return response()->json([
+                    'status' => '404',
                     'errors' => 'This url does not exists'
                 ], Response::HTTP_NOT_FOUND);
             }
             if($exception instanceof ModelNotFoundException){
                 return response()->json([
+                    'status' => '404',
                     'errors' => 'Data does not exists'
                 ], Response::HTTP_NOT_FOUND);
             }
             if($exception instanceof ClientException){
                 return response()->json([
+                    'status' => '401',
                     'errors' => 'Code Error, Your code may have expired or doesnot match. Please try resending the code'
-                ], Response::HTTP_NOT_FOUND);
+                ], 401);
+            }
+            if($exception instanceof HttpException){
+                return response()->json([
+                    'status' => '403',
+                    'errors' => 'You do not have priviledge to access this route'
+                ], 403);
             }
         }
         return parent::render($request, $exception);

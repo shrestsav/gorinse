@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
+	Route::get('/checkRole','AuthController@checkRole');
     Route::apiResource('/orders','OrderController');
     Route::get('/getAddress','CustomerController@getAddress');
 	Route::post('/addAddress','CustomerController@addAddress');
@@ -29,7 +30,16 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	
 	Route::post('/orderItems','OrderController@orderItems');
 	Route::get('/test','OrderController@test');
+	
+	Route::group(['middleware' => ['role:driver']], function() {
+		Route::post('/acceptOrder','OrderController@acceptOrder');
+		Route::get('/pendingOrders','OrderController@pendingOrders');
+		Route::get('/services','CoreController@services');
+		Route::get('/items','CoreController@items');
+	});
+
 	//Driver API
-	Route::post('/acceptOrder','OrderController@acceptOrder');
-	Route::get('/pendingOrders','OrderController@pendingOrders');
+	
+
+	Route::get('/configs/{configType}','CoreController@getSettings');
 });
