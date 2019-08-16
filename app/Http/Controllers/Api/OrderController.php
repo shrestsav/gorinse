@@ -141,19 +141,30 @@ class OrderController extends Controller
      */
     public function orderItems(Request $request)
     {
+        $validatedData = $request->validate([
+            'order_id' => 'required',
+        ]);
         $order_id = $request->order_id;
-        foreach($request->items as $service_id => $items){
-            foreach ($items as $item) {
-                $orderItem = new OrderItem;
-                $orderItem->order_id = $order_id;
-                $orderItem->service_id = $service_id;
-                $orderItem->item_id = $item['item_id'];
-                $orderItem->quantity = $item['quantity'];
-                $orderItem->remarks = $item['remarks'];
-                $orderItem->save();
+        if(Order::where('id',$order_id)->exists()){
+            foreach($request->items as $service_id => $items){
+                foreach ($items as $item) {
+                    $orderItem = new OrderItem;
+                    $orderItem->order_id = $order_id;
+                    $orderItem->service_id = $service_id;
+                    $orderItem->item_id = $item['item_id'];
+                    $orderItem->quantity = $item['quantity'];
+                    $orderItem->remarks = $item['remarks'];
+                    $orderItem->save();
+                }
             }
+            return response()->json($this->generateInvoice($order_id));
         }
-        return response()->json($this->generateInvoice($order_id));
+        else{
+            return response()->json([
+                'status' => '404',
+                'message' => 'Order doesnot exist' 
+            ]);
+        }
     }
     public function test()
     {
