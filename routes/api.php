@@ -25,6 +25,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/checkRole','AuthController@checkRole');
     Route::apiResource('/orders','OrderController');
 
+    Route::post('/createProfile','AuthController@createProfile');
+
 	Route::apiResource('/customers','CustomerController');
 	Route::post('/updateProfile','CustomerController@updateProfile');
 	Route::post('/changePhone','CustomerController@changePhone');

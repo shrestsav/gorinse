@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 use Auth;
 
 class AuthController extends Controller
@@ -41,7 +42,11 @@ class AuthController extends Controller
             //Assign User as Customer
             $customer->attachRole($role_id);
 
-            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'new','code'=>$request['OTP']]);
+            return response()->json([
+                        'message'=>'OTP has been send to your phone',
+                        'user_status' => 'new',
+                        'code'=>$request['OTP']
+                    ]);
         }
         
         // $customer->sendOTP();
@@ -127,6 +132,30 @@ class AuthController extends Controller
         // }
     }
 
+    public function createProfile(Request $request)
+    {
+        $validatedData = $request->validate([
+            'fname' => 'required',
+        ]);
+        $userInput = $request->only('fname', 'lname', 'email');
+        $userDetailsInput = $request->only('referred_by');
+        $address = User::where('id',Auth::id())->update($userInput);
+        $random_string = substr($request->fname, 0, 3).rand(100,999).Str::random(10);
+        $referral_id = strtoupper(substr($random_string, 0, 8));
+        //Save User Photo 
+        $userDetail = UserDetail::updateOrCreate(
+                ['user_id' => Auth::id()],
+                [
+                    'referred_by' => $userDetailsInput['referred_by'],
+                    'referral_id' => $referral_id
+                ],
+            );
+
+        return response()->json([
+                'status' => '201',
+                'message'=> 'Profile Updated Successfully' 
+            ],201);
+    }
     public function checkRole()
     {
         $role = Auth::user()->roles()->first()->name;

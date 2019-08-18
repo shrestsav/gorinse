@@ -24,7 +24,8 @@ class CreateUserDetailsTable extends Migration
             $table->text('description')->nullable();
             $table->date('joined_date')->nullable();
             $table->longText('documents')->nullable();
-
+            $table->string('referral_id')->nullable();
+            $table->string('referred_by')->nullable();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
 
