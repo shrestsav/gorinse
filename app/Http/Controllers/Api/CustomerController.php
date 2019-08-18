@@ -18,7 +18,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = User::select('id','fname','lname','phone','created_at','updated_at')->where('id',Auth::id())->with('details','addresses')->first();
+        $customer = User::select('id','fname','lname','phone','email','created_at','updated_at')->where('id',Auth::id())->with('details','addresses')->first();
         return response()->json($customer);
     }
 
