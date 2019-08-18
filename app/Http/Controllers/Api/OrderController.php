@@ -166,11 +166,12 @@ class OrderController extends Controller
             ]);
         }
     }
+
     public function test()
     {
-        return Order::with('orderItems.service','orderItems.item')->get();
-        return response()->json(['message','Order Items saved']);
+        return dd('Something in the way');
     }
+
     public function generateInvoice($order_id)
     {
         $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
@@ -210,6 +211,7 @@ class OrderController extends Controller
         ];
         $other = [
             'name' => 'Utsav Shrestha',
+            'order_type' => 'Urgent/Normal',
         ];
         $invoiceCollection = [
             "customer_details" => $other,
