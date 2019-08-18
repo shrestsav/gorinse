@@ -135,7 +135,7 @@ class AuthController extends Controller
     public function createProfile(Request $request)
     {
         $validatedData = $request->validate([
-            'fname' => 'required',
+            'fname' => 'required'
         ]);
         $userInput = $request->only('fname', 'lname', 'email');
         $userDetailsInput = $request->only('referred_by');
@@ -148,8 +148,7 @@ class AuthController extends Controller
                 [
                     'referred_by' => $userDetailsInput['referred_by'],
                     'referral_id' => $referral_id
-                ],
-            );
+                ]);
 
         return response()->json([
                 'status' => '201',
