@@ -149,12 +149,12 @@ class User extends Authenticatable
 
         $customer_id = $order->customer_id;
 
-        $app = app();
-        $notification = $app->make('stdClass');
-        $notification->notifyType = 'Order Accepted';
-        $notification->message = $order->driver->fname. ' just accepted order '.$order->id;
-        $notification->model = 'order';
-        $notification->url = $order->id;
+        $notification = [
+            'notifyType' => 'order_accepted',
+            'message' => $order->driver->fname. ' just accepted order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
 
         // Send Order Accepted Notification to All Superadmins
         foreach($superAdmin_ids as $id){
@@ -162,6 +162,40 @@ class User extends Authenticatable
         }
         // Send Order Accepted Notification to Customer
             User::find($customer_id)->pushNotification($notification);
+        
+        return true;
+    }
+
+    public static function notifyInvoiceGenerated($order_id)
+    {  
+        //All Admins and Customer who ordered will get notified
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                                  $query->where('name', '=', 'superAdmin');
+                               })->pluck('id')->toArray();
+
+        $customer_id = $order->customer_id;
+
+        $notificationAdmin = [
+            'notifyType' => 'invoice_generated',
+            'message' => $order->driver->fname. ' has generated an invoice for order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        $notificationCustomer = [
+            'notifyType' => 'invoice_generated',
+            'message' => 'An Invoice has been generated for your order, please check and confirm your order',
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notificationAdmin);
+        }
+        // Send Order Accepted Notification to Customer
+        User::find($customer_id)->pushNotification($notificationCustomer);
         
         return true;
     }

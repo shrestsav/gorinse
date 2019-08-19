@@ -19,10 +19,10 @@
             <div class="col ml--2">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="mb-0 text-sm">{{item.notifyType}}</h4>
+                  <h4 class="mb-0 text-sm">{{item.notifyType.split("_").join(" ") | capitalize}}</h4>
                 </div>
                 <div class="text-right text-muted">
-                  <small>2 hrs ago</small>
+                  <small>{{ dateDiff(item.created_at)}}</small>
                 </div>
               </div>
               <p class="text-sm mb-0">{{item.message}}</p>
@@ -38,10 +38,10 @@
             <div class="col ml--2">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="mb-0 text-sm">{{item.data.notifyType}}</h4>
+                  <h4 class="mb-0 text-sm">{{item.data.notifyType.split("_").join(" ") | capitalize}}</h4>
                 </div>
                 <div class="text-right text-muted">
-                  <small>2 hrs ago</small>
+                  <small>{{ dateDiff(item.data.created_at)}}</small>
                 </div>
               </div>
               <p class="text-sm mb-0">{{item.data.message}}</p>
@@ -81,15 +81,26 @@
       });
     },
     methods:{
+      dateDiff(date){
+        var date = new Date(date+' UTC')
+        return this.$moment(date).fromNow() // a
+      },
       markAllAsRead(){
         this.$store.dispatch('setAllNotificationsRead').then(()=>{
           this.newNotifications = []
         })
       },
       showAlert(){
-            // Use sweetalert2
-            this.$swal('Hello Vue world!!!');
-        }
+        // Use sweetalert2
+        this.$swal('Hello Vue world!!!');
+      }
+    },
+    filters: {
+      capitalize: function (value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.toUpperCase()
+      }
     }
   }
 </script>

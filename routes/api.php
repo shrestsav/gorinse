@@ -25,18 +25,20 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/checkRole','AuthController@checkRole');
     Route::apiResource('/orders','OrderController');
 
-    Route::post('/createProfile','AuthController@createProfile');
+	Route::group(['middleware' => ['role:customer']], function() {
+		Route::post('/createProfile','AuthController@createProfile');
 
-	Route::apiResource('/customers','CustomerController');
-	Route::post('/updateProfile','CustomerController@updateProfile');
-	Route::post('/changePhone','CustomerController@changePhone');
-	Route::post('/updatePhone','CustomerController@updatePhone');
+		Route::apiResource('/customers','CustomerController');
+		Route::post('/updateProfile','CustomerController@updateProfile');
+		Route::post('/changePhone','CustomerController@changePhone');
+		Route::post('/updatePhone','CustomerController@updatePhone');
 
-    Route::get('/getAddress','CustomerController@getAddress');
-	Route::post('/addAddress','CustomerController@addAddress');
-	Route::post('/updateAddress','CustomerController@updateAddress');
-	
-	Route::post('/orderItems','OrderController@orderItems');
+		Route::get('/getAddress','CustomerController@getAddress');
+		Route::post('/addAddress','CustomerController@addAddress');
+		Route::post('/updateAddress','CustomerController@updateAddress');
+		Route::get('/generateInvoice/{order_id}','OrderController@customerOrderInvoice');
+	});
+
 	Route::get('/test','OrderController@test');
 	
 	Route::group(['middleware' => ['role:driver']], function() {
@@ -44,6 +46,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::get('/pendingOrders','OrderController@pendingOrders');
 		Route::get('/services','CoreController@services');
 		Route::get('/items','CoreController@items');
+		Route::post('/orderItems','OrderController@orderItems');
 	});
 
 	//Driver API

@@ -88,12 +88,16 @@ class AuthController extends Controller
 
         if($customer->exists()){
             $customer->update(['OTP' => $OTP, 'OTP_timestamp' => $OTP_timestamp]);
-            return response()->json(['message'=>'OTP has been send to your phone']);
+            return response()->json([
+                'status' => '200',
+                'message'=>'OTP has been send to your phone'
+            ],200);
         }
         else{
             return response()->json([
-                                    'errors' => 'User doesnot exist, Please register first'
-                                ], Response::HTTP_NOT_FOUND);
+                        'status' => '404',
+                        'message' => 'User doesnot exist, Please register first'
+                    ], Response::HTTP_NOT_FOUND);
         }
     }
 

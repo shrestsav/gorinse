@@ -4,6 +4,8 @@ return [
     'date_format' => 'Y-m-d',
     'time_format' => 'g:i A',
     'OTP_expiry'  => 5,
+    'VAT'  => 5,
+    'delivery_charge'  => 105,
     // 'orderStatus' => [
     //     'pending' => 'Pending',
     //     'assigned' => 'Assigned',

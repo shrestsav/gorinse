@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Order\OrderCollection;
+use App\Item;
 use App\Order;
 use App\OrderItem;
+use App\Service;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -122,7 +124,7 @@ class OrderController extends Controller
         else{
             return response()->json([
                 'status'=>'403',
-                'error'=>'You cannot accept this order, It has already been accepted'
+                'message'=>'You cannot accept this order, It has already been accepted'
             ],403);
         }
         return response()->json(['message' => 'Successfully Accepted']);
@@ -172,31 +174,69 @@ class OrderController extends Controller
         }
 
         $order_id = $request->order_id;
-        if(Order::where('id',$order_id)->exists()){
-            foreach($request->items as $service_id => $items){
-                foreach ($items as $item) {
-                    $orderItem = new OrderItem;
-                    $orderItem->order_id = $order_id;
-                    $orderItem->service_id = $service_id;
-                    $orderItem->item_id = $item['item_id'];
-                    $orderItem->quantity = $item['quantity'];
-                    $orderItem->remarks = $item['remarks'];
-                    $orderItem->save();
+        $order = Order::where('id',$order_id);
+        if($order->exists()){
+            if(Auth::id()==$order->first()->driver_id){
+                foreach($request->items as $service_id => $items){
+                    $serviceCharge = Service::find($service_id)->price;
+                    foreach ($items as $item) {
+                        $itemCharge = Item::find($item['item_id'])->price;
+                        $orderItem = new OrderItem;
+                        $orderItem->order_id = $order_id;
+                        $orderItem->service_id = $service_id;
+                        $orderItem->item_id = $item['item_id'];
+                        $orderItem->quantity = $item['quantity'];
+                        $orderItem->rate = $serviceCharge+$itemCharge;
+                        $orderItem->remarks = $item['remarks'];
+                        $orderItem->save();
+                    }
                 }
+                $order->update([
+                        'status' => 2,
+                        'VAT' => config('settings.VAT'),
+                        'delivery_charge' => config('settings.delivery_charge')
+                    ]);
+                User::notifyInvoiceGenerated($order_id);
+                return response()->json($this->generateInvoice($order_id));
             }
-            return response()->json($this->generateInvoice($order_id));
+            else{
+                return response()->json([
+                    'status' => '403',
+                    'message' => 'You donot have access to this order' 
+                ],403);
+            }
         }
         else{
             return response()->json([
                 'status' => '404',
                 'message' => 'Order doesnot exist' 
-            ]);
+            ],404);
         }
     }
 
     public function test()
     {
         return dd('Something in the way');
+    }    
+
+    public function customerOrderInvoice($order_id)
+    {
+        $order = Order::where('id',$order_id);
+        if(!$order->exists()){
+            return response()->json([
+                    'status' => '404',
+                    'message' => 'Order not found',
+                ], 404);
+        }
+        elseif($order->first()->customer_id!=Auth::id()){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You donot have permission to view invoice for this order',
+                ], 403);
+        }
+        else{
+            return response()->json($this->generateInvoice($order_id));
+        }
     }
 
     public function generateInvoice($order_id)
@@ -207,9 +247,10 @@ class OrderController extends Controller
         $invoiceArr = [];
         foreach ($orderDetails->orderItems as $item) {
             $itemQuantity = $item['quantity'];
-            $serviceCharge = $item['service']['price'];
-            $itemCharge = $item['item']['price'];
-            $amount = ($itemCharge+$serviceCharge)*$itemQuantity;
+            // $serviceCharge = $item['service']['price'];
+            // $itemCharge = $item['item']['price'];
+            $rate = $item['rate'];
+            $amount = $rate*$itemQuantity;
             $totalQuantity += $itemQuantity;
             $totalAmount += $amount;
 
@@ -224,9 +265,9 @@ class OrderController extends Controller
         };
         $collection = collect($invoiceArr);
         $grouped_collection = $collection->groupBy(['service'])->toArray();       
-        $vatPercent = 40;
+        $vatPercent = $orderDetails->VAT;
         $VAT = ($vatPercent/100)*$totalAmount;
-        $deliveryCharge = (5/100)*$totalAmount;
+        $deliveryCharge = $orderDetails->delivery_charge;
         $grandTotal = $totalAmount+$VAT+$deliveryCharge;
         
         $invoice = [
@@ -238,7 +279,7 @@ class OrderController extends Controller
         ];
         $other = [
             'name' => 'Utsav Shrestha',
-            'order_type' => 'Urgent/Normal',
+            'order_type' => config('settings.orderType')[$orderDetails->type],
         ];
         $invoiceCollection = [
             "customer_details" => $other,

@@ -55,9 +55,10 @@ class SystemNotification extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'notifyType' => $this->message->notifyType,
-            'message' => $this->message->message,
-            'url' => $this->message->message,
+            'notifyType' => $this->message['notifyType'],
+            'message' => $this->message['message'],
+            'url' => $this->message['url'],
+            'created_at' => Date('Y-m-d h:i:s')
         ]);
     }
     /**
@@ -69,9 +70,10 @@ class SystemNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'notifyType' => $this->message->notifyType,
-            'message' => $this->message->message,
-            'url' => $this->message->message,
+            'notifyType' => $this->message['notifyType'],
+            'message' => $this->message['message'],
+            'url' => $this->message['url'],
+            'created_at' => Date('Y-m-d h:i:s')
         ];
     }
 }

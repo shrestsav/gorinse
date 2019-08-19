@@ -26,6 +26,14 @@ class CreateOrdersTable extends Migration
             $table->string('drop_timerange')->nullable();
             $table->smallInteger('payment');
             $table->smallInteger('status')->default(0)->comment('See Config');
+            $table->integer('VAT')->nullable();
+            $table->integer('delivery_charge')->nullable();
+
+            $table->dateTime('PFC')->nullable()->comment('Picked From Customer');
+            $table->dateTime('DAO')->nullable()->comment('Dropped At Office');
+            $table->dateTime('PFO')->nullable()->comment('Picked From Office');
+            $table->dateTime('DTC')->nullable()->comment('Delivered To Customer');
+            $table->dateTime('Payment_Time')->nullable();
             $table->timestamps();
         });
     }
