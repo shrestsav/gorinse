@@ -88,9 +88,9 @@ class CustomerController extends Controller
             );
         } 
         return response()->json([
-                'status' => '201',
+                'status' => '200',
                 'message'=> 'Profile Updated Successfully' 
-            ],201);
+            ],200);
     }
 
     public function changePhone(Request $request)
@@ -196,9 +196,9 @@ class CustomerController extends Controller
                         'remarks' => $request->remarks,
                     ]);
             return response()->json([
-                'status' => '201',
+                'status' => '200',
                 'message'=> 'Address Updated Successfully' 
-            ],201);
+            ],200);
         }
         else{
             return response()->json([

@@ -154,9 +154,9 @@ class AuthController extends Controller
                 ]);
 
         return response()->json([
-                'status' => '201',
+                'status' => '200',
                 'message'=> 'Profile Updated Successfully' 
-            ],201);
+            ],200);
     }
     public function checkRole()
     {
