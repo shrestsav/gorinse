@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function phoneRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'=> 'required|unique:users',
+            'phone'=> 'required',
         ]);
 
         if ($validator->fails()) {
@@ -45,7 +45,17 @@ class AuthController extends Controller
             return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'existing','code'=>$request['OTP']]);
         }
         else{
-            
+            $validator = Validator::make($request->all(), [
+                'phone'=> 'unique:users',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '422',
+                    'message' => 'Validation Failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
             $customer = User::create($request->all());
             $role_id = Role::where('name','customer')->first()->id;
 
