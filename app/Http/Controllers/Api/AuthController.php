@@ -18,6 +18,18 @@ class AuthController extends Controller
 {
     public function phoneRegister(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'phone'=> 'required|unique:users',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $request['OTP'] = rand(1000,9999);
         $request['OTP_timestamp'] = Date('Y-m-d H:i:s');
 
@@ -33,9 +45,7 @@ class AuthController extends Controller
             return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'existing','code'=>$request['OTP']]);
         }
         else{
-            $validatedData = $request->validate([
-                'phone'=> 'required|unique:users',
-            ]);
+            
             $customer = User::create($request->all());
             $role_id = Role::where('name','customer')->first()->id;
 
@@ -79,10 +89,19 @@ class AuthController extends Controller
 
     public function verifyOTP(Request $request)
     {   
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'phone'=> 'required',
             'OTP'=> 'required|numeric',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $role = '';
         $user_id = '';
         $url = url('').'/oauth/token';
@@ -115,28 +134,22 @@ class AuthController extends Controller
             'user_id' =>$user_id,
         ];
         return response()->json($result);
-
-        // $getUnregisteredUser = User::where('phone',$phone)->first();
-
-        //Check if the OTP is correct
-        // if($getUnregisteredUser->OTP==$OTP){
-        //     $accessToken = $getUnregisteredUser->createToken('authToken hola')->accessToken;
-        //     return response()->json(['user'=>$getUnregisteredUser,'access_token'=>$accessToken]);
-        // }
-        // else{
-        //     return response()->json([
-        //                             'errors' => 'Sorry OTP doesnot match, try resending',
-        //                             'db_otp' => $getUnregisteredUser->OTP,
-        //                             'post_otp'=> $OTP,
-        //                         ], Response::HTTP_NOT_FOUND);
-        // }
     }
 
     public function createProfile(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'fname' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $userInput = $request->only('fname', 'lname', 'email');
         $userDetailsInput = $request->only('referred_by');
         $address = User::where('id',Auth::id())->update($userInput);
@@ -155,7 +168,7 @@ class AuthController extends Controller
 
         return response()->json([
                 'status' => '200',
-                'message'=> 'Profile Updated Successfully' 
+                'message'=> 'Profile Created Successfully' 
             ],200);
     }
     public function checkRole()

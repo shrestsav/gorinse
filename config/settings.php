@@ -23,6 +23,7 @@ return [
         ],
         'Ready for Delivery' => [
             'assigned_delivery' => 'Assigned for Delivery',
+            //Picked status pani halney
         ],
         'On Hold' => [
             // 'payment_pending' => 'Payment Pending',

@@ -9,6 +9,7 @@ use App\OrderItem;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Validator;
 
 class OrderController extends Controller
 {
@@ -32,7 +33,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'type' => 'required|numeric',
             'pick_location' => 'required|numeric',
             'pick_date' => 'required',
@@ -40,6 +41,15 @@ class OrderController extends Controller
             'drop_location' => 'required|numeric',
             'payment' => 'required|numeric'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $request['customer_id'] = Auth::id();
         $order = Order::create($request->all());
 
@@ -91,9 +101,17 @@ class OrderController extends Controller
      */
     public function acceptOrder(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'order_id' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
 
         $order = Order::find($request->order_id);
 
@@ -141,9 +159,18 @@ class OrderController extends Controller
      */
     public function orderItems(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'order_id' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $order_id = $request->order_id;
         if(Order::where('id',$order_id)->exists()){
             foreach($request->items as $service_id => $items){

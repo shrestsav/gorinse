@@ -8,6 +8,7 @@ use App\UserAddress;
 use App\UserDetail;
 use Illuminate\Http\Request;
 use Auth;
+use Validator;
 
 class CustomerController extends Controller
 {
@@ -69,9 +70,21 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $validatedData = $request->validate([
-            'fname' => 'required',
-        ]);
+        $msgs = [
+            "fname.required" => "First Name Cannot be empty"
+        ];
+        $validator = Validator::make($request->all(), [
+            "fname" => 'required',
+        ],$msgs);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $input = $request->only('fname', 'lname', 'email');
         $address = User::where('id',Auth::id())->update($input);
         
@@ -95,9 +108,19 @@ class CustomerController extends Controller
 
     public function changePhone(Request $request)
     {
-        $validatedData = $request->validate([
-            'newPhone' => 'required',
+        $validator = Validator::make($request->all(), [
+            "newPhone" => 'required',
         ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors();
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $error,
+            ], 422);
+        }
+
         $OTP = rand(1000,9999);
         $OTP_timestamp = Date('Y-m-d H:i:s');
         User::where('id',Auth::id())->update([
@@ -113,10 +136,19 @@ class CustomerController extends Controller
 
     public function updatePhone(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'newPhone' => 'required',
             'OTP' => 'required|numeric',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $user = User::find(Auth::id());
         $OTP_timestamp = \Carbon\Carbon::parse($user->OTP_timestamp);
         $current = \Carbon\Carbon::now();
@@ -134,7 +166,7 @@ class CustomerController extends Controller
         else{
             return response()->json([
                 'status' => '403',
-                'message'=> 'OTP did not match', 
+                'message'=> 'OTP did not match or may have expired', 
             ],403);
         }
         
@@ -150,10 +182,18 @@ class CustomerController extends Controller
     {
         unset($request['map_coordinates']);
 
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'area_id' => 'required|numeric',
             'type' => 'required|numeric',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
         
         $request['user_id'] = Auth::id(); 
 
@@ -173,9 +213,19 @@ class CustomerController extends Controller
     public function updateAddress(Request $request)
     {
         unset($request['map_coordinates']);
-        $validatedData = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'address_id' => 'required|numeric',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         $map_coordinates = null; 
         if($request->lattitude && $request->longitude){
             $coordinates = [
