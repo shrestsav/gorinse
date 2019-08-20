@@ -70,23 +70,52 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
-        // $msgs = [
-        //     "fname.required" => "First Name Cannot be empty"
-        // ];
-        // $validator = Validator::make($request->all(), [
-        //     "fname" => 'required',
-        // ],$msgs);
+        if ($request->fname || $request->lname) {
+            $msgs = [
+                "fname.required" => "First Name Cannot be empty"
+            ];
+            $validator = Validator::make($request->all(), [
+                "fname" => ['required', 'string', 'max:255'],
+            ],$msgs);
 
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'status' => '422',
-        //         'message' => 'Validation Failed',
-        //         'errors' => $validator->errors(),
-        //     ], 422);
-        // }
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '422',
+                    'message' => 'Validation Failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+            $input = $request->only('fname', 'lname');
+            $address = User::where('id',Auth::id())->update($input);
 
-        $input = $request->only('fname', 'lname', 'email');
-        $address = User::where('id',Auth::id())->update($input);
+            return response()->json([
+                'status' => '200',
+                'message'=> 'Profile Updated Successfully' 
+            ],200);
+        }
+
+        if ($request->email) {
+            $validator = Validator::make($request->all(), [
+               'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '422',
+                    'message' => 'Validation Failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+
+            $input = $request->only('fname', 'lname');
+            $address = User::where('id',Auth::id())->update($input);
+
+            return response()->json([
+                'status' => '200',
+                'message'=> 'Email Updated Successfully' 
+            ],200);
+        }
+        
         
         //Save User Photo 
         if ($request->hasFile('photo')) {
@@ -99,11 +128,18 @@ class CustomerController extends Controller
                 ['user_id' => Auth::id()],
                 ['photo' => $fileName]
             );
-        } 
-        return response()->json([
+
+            return response()->json([
                 'status' => '200',
-                'message'=> 'Profile Updated Successfully' 
+                'message'=> 'Photo Updated Successfully', 
+                'url' => asset('files/users/'.Auth::id().'/'.$fileName)
             ],200);
+        } 
+
+        return response()->json([
+                    'status' => '400',
+                    'message' => 'Why you here?'
+                ], 400);
     }
 
     public function changePhone(Request $request)
