@@ -200,5 +200,66 @@ class User extends Authenticatable
         return true;
     }
 
+    public static function notifyInvoiceConfirmed($order_id)
+    {  
+        //All Admins and Customer who ordered will get notified
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                                  $query->where('name', '=', 'superAdmin');
+                               })->pluck('id')->toArray();
+
+        $driver_id = $order->driver_id;
+
+        $notification = [
+            'notifyType' => 'invoice_confirmed',
+            'message' => $order->customer->fname. ' has confirmed invoice for order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notification);
+        }
+        // Send Order Accepted Notification to Customer
+        User::find($driver_id)->pushNotification($notification);
+        
+        return true;
+    }
+
+    public static function notifyDroppedAtOffice($order_id)
+    {  
+        //All Admins and Customer who ordered will get notified
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                                  $query->where('name', '=', 'superAdmin');
+                               })->pluck('id')->toArray();
+
+        $customer_id = $order->customer_id;
+
+        $notificationAdmin = [
+            'notifyType' => 'dropped_at_office',
+            'message' => $order->driver->fname. ' has dropped clothes at office for order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        $notificationCustomer = [
+            'notifyType' => 'dropped_at_office',
+            'message' => 'Your clothes for order has been sent for dry washing',
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notificationAdmin);
+        }
+        // Send Order Accepted Notification to Customer
+        User::find($customer_id)->pushNotification($notificationCustomer);
+        
+        return true;
+    }
+
 
 }

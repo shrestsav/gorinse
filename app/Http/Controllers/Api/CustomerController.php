@@ -70,20 +70,20 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $msgs = [
-            "fname.required" => "First Name Cannot be empty"
-        ];
-        $validator = Validator::make($request->all(), [
-            "fname" => 'required',
-        ],$msgs);
+        // $msgs = [
+        //     "fname.required" => "First Name Cannot be empty"
+        // ];
+        // $validator = Validator::make($request->all(), [
+        //     "fname" => 'required',
+        // ],$msgs);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => '422',
-                'message' => 'Validation Failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => '422',
+        //         'message' => 'Validation Failed',
+        //         'errors' => $validator->errors(),
+        //     ], 422);
+        // }
 
         $input = $request->only('fname', 'lname', 'email');
         $address = User::where('id',Auth::id())->update($input);

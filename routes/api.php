@@ -15,8 +15,6 @@ use Illuminate\Http\Request;
 Route::post('/phoneRegister','Api\AuthController@phoneRegister');
 Route::post('/verifyOTP','Api\AuthController@verifyOTP');
 
-Route::get('/test','Api\AuthController@test');
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -37,9 +35,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::post('/addAddress','CustomerController@addAddress');
 		Route::post('/updateAddress','CustomerController@updateAddress');
 		Route::get('/generateInvoice/{order_id}','OrderController@customerOrderInvoice');
+		Route::get('/confirmInvoice/{order_id}','OrderController@customerConfirmInvoice');
 	});
-
-	Route::get('/test','OrderController@test');
 	
 	Route::group(['middleware' => ['role:driver']], function() {
 		Route::post('/acceptOrder','OrderController@acceptOrder');
@@ -47,8 +44,10 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::get('/services','CoreController@services');
 		Route::get('/items','CoreController@items');
 		Route::post('/orderItems','OrderController@orderItems');
+		Route::get('/dropAtOffice/{order_id}','OrderController@driverDropAtOffice');
 	});
 
+	Route::get('/test','OrderController@test');
 	//Driver API
 	
 

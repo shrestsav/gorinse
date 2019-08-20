@@ -216,7 +216,9 @@ class OrderController extends Controller
 
     public function test()
     {
-        return dd('Something in the way');
+        config(['settings.VAT' => 'America/Chicago']);
+        // \Config::set('settings.VAT','fsdf');
+        return config('settings.VAT');
     }    
 
     public function customerOrderInvoice($order_id)
@@ -237,6 +239,82 @@ class OrderController extends Controller
         else{
             return response()->json($this->generateInvoice($order_id));
         }
+    }
+
+    public function customerConfirmInvoice($order_id)
+    {
+        $order = Order::where('id',$order_id);
+        if(!$order->exists()){
+            return response()->json([
+                    'status' => '404',
+                    'message' => 'Order not found',
+                ], 404);
+        }
+        elseif($order->first()->customer_id!=Auth::id()){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You donot have permission to view invoice for this order',
+                ], 403);
+        }
+        elseif($order->first()->status==2){
+            $confirmInvoice = $order->update([
+                                'status' => 3,
+                                'PFC'    => date(config('settings.dateTime'))
+                            ]);
+            User::notifyInvoiceConfirmed($order_id);
+            if(!$confirmInvoice){
+                return response()->json([
+                        'status' => '400',
+                        'message' => 'Sorry the Order Invoice could not be confirmed',
+                    ], 400);
+            }
+            return response()->json([
+                    'status' => '200',
+                    'message' => 'Order Invoice has been confirmed',
+                ], 200);
+        }
+        return response()->json([
+                    'status' => '400',
+                    'message' => 'Something is wrong with the request',
+                ], 400);
+    }
+
+    public function driverDropAtOffice($order_id)
+    {
+        $order = Order::where('id',$order_id);
+        if(!$order->exists()){
+            return response()->json([
+                    'status' => '404',
+                    'message' => 'Order not found',
+                ], 404);
+        }
+        elseif($order->first()->driver_id!=Auth::id()){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You donot have permission to view this order',
+                ], 403);
+        }
+        elseif($order->first()->status==3){
+            $confirmInvoice = $order->update([
+                                'status' => 4,
+                                'DAO'    => date(config('settings.dateTime'))
+                            ]);
+            User::notifyDroppedAtOffice($order_id);
+            if(!$confirmInvoice){
+                return response()->json([
+                        'status' => '400',
+                        'message' => 'Sorry the Order status could not be updated',
+                    ], 400);
+            }
+            return response()->json([
+                    'status' => '200',
+                    'message' => 'Order Status changed to On Work',
+                ], 200);
+        }
+        return response()->json([
+                    'status' => '400',
+                    'message' => 'Something is wrong with the request',
+                ], 400);
     }
 
     public function generateInvoice($order_id)

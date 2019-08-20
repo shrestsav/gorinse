@@ -3,6 +3,7 @@
 return [
     'date_format' => 'Y-m-d',
     'time_format' => 'g:i A',
+    'dateTime'    => 'Y-m-d h:i:s',
     'OTP_expiry'  => 5,
     'VAT'  => 5,
     'delivery_charge'  => 105,

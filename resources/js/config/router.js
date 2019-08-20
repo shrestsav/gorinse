@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import dashboard from '../components/dashboard.vue'
+import appDefaults from '../components/appDefaults.vue'
 import orders from '../components/orders/index.vue'
 import createOrder from '../components/orders/create.vue'
 import drivers from '../components/drivers/index.vue'
@@ -17,6 +18,8 @@ import createItem from '../components/items/create.vue'
 
 const routes = [
   {name:'dashboard',  path: '/', component: dashboard },
+
+  {name:'appDefaults',  path: '/v/appDefaults', component: appDefaults },
 
   {name:'orders',  path: '/v/orders', component: orders },
   {name:'createOrder',  path: '/v/orders/create', component: createOrder },

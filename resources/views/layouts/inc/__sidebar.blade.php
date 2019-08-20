@@ -127,6 +127,11 @@
                   <a href="{{url('/v/items')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='items' }">Items</a>
                 </router-link>
               </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'appDefaults'}" >
+                  <a href="{{url('/v/appDefaults')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='items' }">Application Defaults</a>
+                </router-link>
+              </li>
             </ul>
           </div>
         </li>
