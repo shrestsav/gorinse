@@ -39,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/categories','CoreController@addCategory');
 	Route::get('/items','CoreController@items');
 	Route::post('/items','CoreController@addItem');
+	Route::get('/appDefaults','CoreController@appDefaults');
+	Route::post('/appDefaults','CoreController@updateAppDefaults');
 
 	Route::resource('/drivers','DriverController');
 

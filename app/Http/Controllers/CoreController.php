@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Item;
+use App\AppDefault;
 use App\Category;
+use App\Item;
 use App\Service;
+use Illuminate\Http\Request;
 
 class CoreController extends Controller
 {
@@ -79,6 +80,36 @@ class CoreController extends Controller
 
         $item = Item::create($request->all());
         return response()->json('Successfully Added');
+    }
+
+    public function appDefaults()
+    {
+        $appDefaults = AppDefault::first();
+        $appDefaults['company_logo_url'] = asset('files/'.$appDefaults->company_logo);
+        $appDefaults['order_time'] = json_decode($appDefaults->order_time);
+        $appDefaults['driver_notes'] = json_decode($appDefaults->driver_notes);
+        $appDefaults['online_chat'] = json_decode($appDefaults->online_chat);
+        
+        return response()->json($appDefaults);
+    }
+    public function updateAppDefaults(Request $request)
+    {
+        $input = [];
+        if($request->saveType=='generalSetting'){
+            $input = $request->only('VAT', 'delivery_charge','OTP_expiry');
+        }
+        if($request->saveType=='supportSetting'){
+            $input = $request->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
+            $input['online_chat'] = json_encode($input['online_chat']);
+        }
+        if($request->saveType=='orderSetting'){
+            $input['order_time'] = json_encode($request->order_time);
+            $input['driver_notes'] = json_encode($request->driver_notes);
+        }
+        
+        $update = AppDefault::where('id',$request->id)->update($input);
+
+        return response()->json('Successfully Updated');
     }
 
 }

@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
 		items:{},
 		orderStatus:{},
 		notifications:{},
+		appDefaults:{},
 		errors:{},
 	},
 	getters:{
@@ -41,6 +42,9 @@ export const store = new Vuex.Store({
 		},
 		notifications(state){
 			return state.notifications;
+		},
+		appDefaults(state){
+			return state.appDefaults;
 		},
 		errors(state){
 			return state.errors;
@@ -77,11 +81,34 @@ export const store = new Vuex.Store({
 		setNotifications(state, notifications){
 			state.notifications = notifications
 		},
+		setAppDefaults(state, appDefaults){
+			state.appDefaults = appDefaults
+		},
 		setErrors(state, errors){
 			state.errors = errors
 		}
 	},
 	actions:{
+		getAppDefaults(context){
+			axios.get('/appDefaults')
+	        .then(response => {
+	        	context.commit('setAppDefaults',response.data)
+	        });
+		},
+		updateAppDefaults(context, appDefaults){
+			axios.post('/appDefaults',appDefaults)
+	          .then((response) => {
+	          	console.log(response)
+	          	context.commit('setErrors',{})
+	            showNotify('success','App Default has been created')
+	          })
+	          .catch((error) => {
+      			context.commit('setErrors',error.response.data.errors)
+	            for (var prop in error.response.data.errors) {
+	              showNotify('danger',error.response.data.errors[prop])
+	            }  
+	          })
+		},
 		getNotifications(context){
 			axios.get('/notifications')
 	        .then(response => {

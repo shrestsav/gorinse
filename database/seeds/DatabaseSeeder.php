@@ -55,20 +55,20 @@ class DatabaseSeeder extends Seeder
         }
 
         $order_time = [
-            ['00:00 - 01:00'],
-            ['01:00 - 02:00'],
-            ['02:00 - 03:00'],
-            ['03:00 - 04:00'],
-            ['04:00 - 05:00'],
-            ['05:00 - 06:00'],
-            ['06:00 - 07:00'],
-            ['07:00 - 08:00'],
-            ['08:00 - 09:00']
+            '00:00 - 01:00',
+            '01:00 - 02:00',
+            '02:00 - 03:00',
+            '03:00 - 04:00',
+            '04:00 - 05:00',
+            '05:00 - 06:00',
+            '06:00 - 07:00',
+            '07:00 - 08:00',
+            '08:00 - 09:00'
         ];
         $driver_notes = [
-            ['Hole in pant'],
-            ['Button is missing'],
-            ['Very Rough pant']
+            'Hole in pant',
+            'Button is missing',
+            'Very Rough pant'
         ];
         $online_chat = [
             'time'  => '9am - 11pm',
@@ -78,6 +78,7 @@ class DatabaseSeeder extends Seeder
         $appDefaults = [
             'VAT' => 5,
             'delivery_charge' => 105,
+            'OTP_expiry' => 5,
             'order_time' => json_encode($order_time),
             'driver_notes' => json_encode($driver_notes),
             'FAQ_link' => 'https://www.faq.com',
