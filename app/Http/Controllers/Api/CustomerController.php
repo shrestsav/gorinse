@@ -107,7 +107,7 @@ class CustomerController extends Controller
                 ], 422);
             }
 
-            $input = $request->only('fname', 'lname');
+            $input = $request->only('email');
             $address = User::where('id',Auth::id())->update($input);
 
             return response()->json([
