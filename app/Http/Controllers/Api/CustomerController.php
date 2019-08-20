@@ -20,6 +20,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customer = User::select('id','fname','lname','phone','email','created_at','updated_at')->where('id',Auth::id())->with('details','addresses')->first();
+        $customer->details->photo = asset('files/users/'.Auth::id().'/'.$customer->details->photo);
         return response()->json($customer);
     }
 
