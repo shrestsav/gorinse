@@ -5351,35 +5351,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -66178,347 +66149,124 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-12" }, [
+      _c("div", { staticClass: "col-lg-4" }, [
         _c("div", { staticClass: "card-wrapper" }, [
-          _c("div", { staticClass: "col-lg-6" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h3", { staticClass: "mb-0" }, [_vm._v("Form controls")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("form", [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "mb-0" }, [_vm._v("VAT (%)")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c(
-                      "label",
-                      {
-                        staticClass: "form-control-label",
-                        attrs: { for: "exampleFormControlInput1" }
-                      },
-                      [_vm._v("Email address")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "email",
-                        id: "exampleFormControlInput1",
-                        placeholder: "name@example.com"
-                      }
-                    })
+                      "div",
+                      { staticClass: "input-group input-group-merge" },
+                      [
+                        _c("div", { staticClass: "input-group-prepend" }, [
+                          _c("span", { staticClass: "input-group-text" }, [
+                            _c("i", { staticClass: "fas fa-user" })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: { placeholder: "Your name", type: "text" }
+                        })
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "div",
+                      { staticClass: "input-group input-group-merge" },
+                      [
+                        _c("div", { staticClass: "input-group-prepend" }, [
+                          _c("span", { staticClass: "input-group-text" }, [
+                            _c("i", { staticClass: "fas fa-envelope" })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: { placeholder: "Email address", type: "email" }
+                        })
+                      ]
+                    )
                   ])
                 ])
               ])
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-lg-4" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h3", { staticClass: "mb-0" }, [_vm._v("HTML5 inputs")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("form", [
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-text-input" }
-                      },
-                      [_vm._v("Text")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          value: "John Snow",
-                          id: "example-text-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-search-input" }
-                      },
-                      [_vm._v("Search")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "search",
-                          value: "Tell me your secret ...",
-                          id: "example-search-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-email-input" }
-                      },
-                      [_vm._v("Email")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "email",
-                          value: "argon@example.com",
-                          id: "example-email-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-url-input" }
-                      },
-                      [_vm._v("URL")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "url",
-                          value: "https://www.creative-tim.com",
-                          id: "example-url-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-tel-input" }
-                      },
-                      [_vm._v("Phone")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "tel",
-                          value: "40-(770)-888-444",
-                          id: "example-tel-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-password-input" }
-                      },
-                      [_vm._v("Password")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "password",
-                          value: "password",
-                          id: "example-password-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-number-input" }
-                      },
-                      [_vm._v("Number")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "number",
-                          value: "23",
-                          id: "example-number-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-datetime-local-input" }
-                      },
-                      [_vm._v("Datetime")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "datetime-local",
-                          value: "2018-11-23T10:30:00",
-                          id: "example-datetime-local-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-date-input" }
-                      },
-                      [_vm._v("Date")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "date",
-                          value: "2018-11-23",
-                          id: "example-date-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-month-input" }
-                      },
-                      [_vm._v("Month")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "month",
-                          value: "2018-11",
-                          id: "example-month-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-week-input" }
-                      },
-                      [_vm._v("Week")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "week",
-                          value: "2018-W23",
-                          id: "example-week-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-time-input" }
-                      },
-                      [_vm._v("Time")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "time",
-                          value: "10:30:00",
-                          id: "example-time-input"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group row" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "col-md-2 col-form-label form-control-label",
-                        attrs: { for: "example-color-input" }
-                      },
-                      [_vm._v("Color")]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "color",
-                          value: "#5e72e4",
-                          id: "example-color-input"
-                        }
-                      })
-                    ])
-                  ])
-                ])
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "mb-0" }, [_vm._v("Delivery Charge")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "number" }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "mb-0" }, [_vm._v("Order Time")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "number" }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-lg-4" }, [
+        _c("div", { staticClass: "card-wrapper" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "mb-0" }, [_vm._v("VAT (%)")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "number" }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-lg-4" }, [
+        _c("div", { staticClass: "card-wrapper" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h3", { staticClass: "mb-0" }, [_vm._v("VAT (%)")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "number" }
+                })
               ])
             ])
           ])

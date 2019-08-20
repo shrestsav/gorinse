@@ -1,116 +1,87 @@
 <template>
-       <div class="row">
-        <div class="col-lg-12">
-          <div class="card-wrapper">
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="mb-0">Form controls</h3>
-                </div>
-                <div class="card-body">
-                  <form>
-                    <div class="form-group">
-                      <label class="form-control-label" for="exampleFormControlInput1">Email address</label>
-                      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">VAT (%)</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-group input-group-merge">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                          </div>
+                          <input class="form-control" placeholder="Your name" type="text">
+                        </div>
+                      </div>
                     </div>
-                  </form>
-                </div>
-              </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-group input-group-merge">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                          </div>
+                          <input class="form-control" placeholder="Email address" type="email">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Delivery Charge</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <input type="number" class="form-control">
             </div>
-            <div class="col-lg-4">
-              <div class="card">
-                <!-- Card header -->
-                <div class="card-header">
-                  <h3 class="mb-0">HTML5 inputs</h3>
-                </div>
-                <!-- Card body -->
-                <div class="card-body">
-                  <form>
-                    <div class="form-group row">
-                      <label for="example-text-input" class="col-md-2 col-form-label form-control-label">Text</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="text" value="John Snow" id="example-text-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-search-input" class="col-md-2 col-form-label form-control-label">Search</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="search" value="Tell me your secret ..." id="example-search-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-email-input" class="col-md-2 col-form-label form-control-label">Email</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="email" value="argon@example.com" id="example-email-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-url-input" class="col-md-2 col-form-label form-control-label">URL</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="url" value="https://www.creative-tim.com" id="example-url-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-tel-input" class="col-md-2 col-form-label form-control-label">Phone</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="tel" value="40-(770)-888-444" id="example-tel-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-password-input" class="col-md-2 col-form-label form-control-label">Password</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="password" value="password" id="example-password-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-number-input" class="col-md-2 col-form-label form-control-label">Number</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="number" value="23" id="example-number-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-datetime-local-input" class="col-md-2 col-form-label form-control-label">Datetime</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="datetime-local" value="2018-11-23T10:30:00" id="example-datetime-local-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-date-input" class="col-md-2 col-form-label form-control-label">Date</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="date" value="2018-11-23" id="example-date-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-month-input" class="col-md-2 col-form-label form-control-label">Month</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="month" value="2018-11" id="example-month-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-week-input" class="col-md-2 col-form-label form-control-label">Week</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="week" value="2018-W23" id="example-week-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-time-input" class="col-md-2 col-form-label form-control-label">Time</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="time" value="10:30:00" id="example-time-input">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="example-color-input" class="col-md-2 col-form-label form-control-label">Color</label>
-                      <div class="col-md-10">
-                        <input class="form-control" type="color" value="#5e72e4" id="example-color-input">
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">Order Time</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <input type="number" class="form-control">
             </div>
           </div>
         </div>
       </div>
+    </div>        
+    <div class="col-lg-4">
+      <div class="card-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">VAT (%)</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <input type="number" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>       
+    <div class="col-lg-4">
+      <div class="card-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0">VAT (%)</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <input type="number" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 

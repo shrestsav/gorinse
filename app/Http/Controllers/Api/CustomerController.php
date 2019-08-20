@@ -116,9 +116,19 @@ class CustomerController extends Controller
             ],200);
         }
         
-        
         //Save User Photo 
         if ($request->hasFile('photo')) {
+            $validator = Validator::make($request->all(), [
+                "photo" => 'mimes:jpeg,bmp,png|max:3072',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '422',
+                    'message' => 'Validation Failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
             $photo = $request->file('photo');
             $fileName = 'dp_user_'.Auth::id().'.'.$photo->getClientOriginalExtension();
             $uploadDirectory = public_path('files'.DS.'users'.DS.Auth::id());
@@ -138,7 +148,7 @@ class CustomerController extends Controller
 
         return response()->json([
                     'status' => '400',
-                    'message' => 'Why you here?'
+                    'message' => 'No parameters found to complete the request'
                 ], 400);
     }
 
