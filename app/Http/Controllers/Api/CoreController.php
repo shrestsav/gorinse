@@ -34,6 +34,7 @@ class CoreController extends Controller
             ],403);
         }
     }
+
     public function supportInfo()
     {
         $appDefaults = AppDefault::first();
@@ -41,6 +42,17 @@ class CoreController extends Controller
         $appDefaults['online_chat'] = json_decode($appDefaults->online_chat);
 
         $input = $appDefaults->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
+
+        return response()->json($input);
+    }    
+
+    public function orderDefaults()
+    {
+        $appDefaults = AppDefault::first();
+        $appDefaults['order_time'] = json_decode($appDefaults->order_time);
+        $appDefaults['driver_notes'] = json_decode($appDefaults->driver_notes);
+
+        $input = $appDefaults->only('order_time', 'driver_notes');
 
         return response()->json($input);
     }

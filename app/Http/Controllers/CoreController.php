@@ -7,6 +7,7 @@ use App\Category;
 use App\Item;
 use App\Service;
 use Illuminate\Http\Request;
+use Validator;
 
 class CoreController extends Controller
 {
@@ -94,7 +95,6 @@ class CoreController extends Controller
     }
     public function updateAppDefaults(Request $request)
     {
-        return $request->logoFile;
         $input = [];
         if($request->saveType=='generalSetting'){
             $input = $request->only('VAT', 'delivery_charge','OTP_expiry');
@@ -103,7 +103,6 @@ class CoreController extends Controller
             $input = $request->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
 
             if ($request->hasFile('logoFile')) {
-                return 'u lala';
                 $validator = Validator::make($request->all(), [
                     "logoFile" => 'mimes:jpeg,bmp,png|max:3072',
                 ]);
@@ -122,12 +121,9 @@ class CoreController extends Controller
 
                 $input['company_logo'] = $fileName;
             }
-
-            $input['online_chat'] = json_encode($input['online_chat']);
         }
         if($request->saveType=='orderSetting'){
-            $input['order_time'] = json_encode($request->order_time);
-            $input['driver_notes'] = json_encode($request->driver_notes);
+            $input = $request->only('order_time', 'driver_notes');
         }
         
         $update = AppDefault::where('id',$request->id)->update($input);

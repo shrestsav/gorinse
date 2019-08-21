@@ -42,8 +42,8 @@
                 </div>
               </div>
             </div>
-            <div class="text-center">
-              <button class="btn btn-outline-primary pull-right" @click="save('generalSetting')">Save</button>
+            <div class="float-right">
+              <button class="btn btn-outline-primary" @click="save('generalSetting')">Save</button>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
                 <br>
                 <div class="custom-file">
                   <input type="file" class="custom-file-input" lang="en" ref="file" v-on:change="handleFileUpload()">
-                  <label class="custom-file-label">Select Logo</label>
+                  <label class="custom-file-label">Company Logo</label>
                 </div>                
               </div>
               <div class="col-md-8">
@@ -123,8 +123,8 @@
                 </div>
               </div>
             </div>
-            <div class="text-center">
-              <button class="btn btn-outline-primary pull-right" @click="save('supportSetting')">Save</button>
+            <div class="float-right">
+              <button class="btn btn-outline-primary" @click="save('supportSetting')">Save</button>
             </div>
           </div>
         </div>
@@ -134,33 +134,46 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6">
-                <label class="form-control-label">Order Active Time</label>
-                <div class="form-group" v-for="timerange,key in appDefaults.order_time">
-                  <div class="input-group input-group-merge" >
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-clock"></i></span>
+              <div class="col-md-12">
+                <label class="form-control-label">Order Active Hours</label>
+                <div class="row">
+                  <div class="col-md-2" v-for="timerange,key in appDefaults.order_time">
+                    <div class="form-group">
+                      <div class="input-group input-group-merge" >
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                        </div>
+                        <input class="form-control" type="text"  v-model="appDefaults.order_time[key]">
+                      </div>
                     </div>
-                    <input class="form-control" type="text"  v-model="appDefaults.order_time[key]">
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" @click="addTime()">Add Time</button>
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addTime()">Add Time</button>
+                </div>
               </div>
-              <div class="col-md-6">
+              <br><br><br>
+              <div class="col-md-12">
                 <label class="form-control-label">Driver Predefined Notes</label>
-                <div class="form-group" v-for="note,key in appDefaults.driver_notes">
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <div class="row">
+                  <div class="col-md-4" v-for="note,key in appDefaults.driver_notes">
+                    <div class="form-group">
+                      <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+                        </div>
+                        <input class="form-control" type="text" v-model="appDefaults.driver_notes[key]">
+                      </div>
                     </div>
-                    <input class="form-control" type="text" v-model="appDefaults.driver_notes[key]">
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" @click="addDriverNotes()">Add Notes</button>
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary btn-sm" @click="addDriverNotes()">Add Notes</button>
+                </div>
               </div>
             </div>
-            <div class="text-center">
-              <button class="btn btn-outline-primary pull-right" @click="save('orderSetting')">Save</button>
+            <div class="float-right">
+              <button class="btn btn-outline-primary" @click="save('orderSetting')">Save</button>
             </div>
           </div>
         </div>
@@ -174,6 +187,7 @@
   export default{
     data(){
       return{
+
       }
     },
     created(){
@@ -186,12 +200,43 @@
     },
     methods:{
       save(part){
-        this.appDefaults.saveType = part
-        this.$store.dispatch('updateAppDefaults', this.appDefaults)
+        let formData = new FormData()
+
+        formData.append('saveType', part)
+        for (var key in this.appDefaults) {
+            formData.append(key, this.appDefaults[key]);
+        }
+        formData.append('order_time',JSON.stringify(this.appDefaults.order_time))
+        formData.append('online_chat',JSON.stringify(this.appDefaults.online_chat))
+        formData.append('driver_notes',JSON.stringify(this.appDefaults.driver_notes))
+        
+        axios.post('/appDefaults',formData)
+          .then((response) => {
+            console.log(response)
+            showNotify('success','App Default has been created')
+          })
+          .catch((error) => {
+            for (var prop in error.response.data.errors) {
+              showNotify('danger',error.response.data.errors[prop])
+            }  
+          })
+
+
+
+
+
+
+
+
+
+
+
+        
+        // this.$store.dispatch('updateAppDefaults', this.appDefaults)
       },
       handleFileUpload(){
-        alert('file changed')
         this.appDefaults.logoFile = this.$refs.file.files[0];
+        this.appDefaults.company_logo_url = URL.createObjectURL(this.appDefaults.logoFile);
       },
       addTime(){
         if(this.appDefaults.order_time[this.appDefaults.order_time.length-1]!="")

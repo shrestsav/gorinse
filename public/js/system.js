@@ -5436,6 +5436,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -5448,12 +5461,28 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {},
   methods: {
     save: function save(part) {
-      this.appDefaults.saveType = part;
-      this.$store.dispatch('updateAppDefaults', this.appDefaults);
+      var formData = new FormData();
+      formData.append('saveType', part);
+
+      for (var key in this.appDefaults) {
+        formData.append(key, this.appDefaults[key]);
+      }
+
+      formData.append('order_time', JSON.stringify(this.appDefaults.order_time));
+      formData.append('online_chat', JSON.stringify(this.appDefaults.online_chat));
+      formData.append('driver_notes', JSON.stringify(this.appDefaults.driver_notes));
+      axios.post('/appDefaults', formData).then(function (response) {
+        console.log(response);
+        showNotify('success', 'App Default has been created');
+      })["catch"](function (error) {
+        for (var prop in error.response.data.errors) {
+          showNotify('danger', error.response.data.errors[prop]);
+        }
+      }); // this.$store.dispatch('updateAppDefaults', this.appDefaults)
     },
     handleFileUpload: function handleFileUpload() {
-      alert('file changed');
       this.appDefaults.logoFile = this.$refs.file.files[0];
+      this.appDefaults.company_logo_url = URL.createObjectURL(this.appDefaults.logoFile);
     },
     addTime: function addTime() {
       if (this.appDefaults.order_time[this.appDefaults.order_time.length - 1] != "") this.appDefaults.order_time.push("");else this.$swal({
@@ -66368,11 +66397,11 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "text-center" }, [
+            _c("div", { staticClass: "float-right" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-outline-primary pull-right",
+                  staticClass: "btn btn-outline-primary",
                   on: {
                     click: function($event) {
                       return _vm.save("generalSetting")
@@ -66412,7 +66441,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("label", { staticClass: "custom-file-label" }, [
-                    _vm._v("Select Logo")
+                    _vm._v("Company Logo")
                   ])
                 ])
               ]),
@@ -66636,11 +66665,11 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "text-center" }, [
+            _c("div", { staticClass: "float-right" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-outline-primary pull-right",
+                  staticClass: "btn btn-outline-primary",
                   on: {
                     click: function($event) {
                       return _vm.save("supportSetting")
@@ -66658,54 +66687,59 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c(
-                "div",
-                { staticClass: "col-md-6" },
-                [
-                  _c("label", { staticClass: "form-control-label" }, [
-                    _vm._v("Order Active Time")
-                  ]),
-                  _vm._v(" "),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("Order Active Hours")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "row" },
                   _vm._l(_vm.appDefaults.order_time, function(timerange, key) {
-                    return _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "div",
-                        { staticClass: "input-group input-group-merge" },
-                        [
-                          _vm._m(11, true),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.appDefaults.order_time[key],
-                                expression: "appDefaults.order_time[key]"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text" },
-                            domProps: {
-                              value: _vm.appDefaults.order_time[key]
-                            },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                    return _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-group input-group-merge" },
+                          [
+                            _vm._m(11, true),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.appDefaults.order_time[key],
+                                  expression: "appDefaults.order_time[key]"
                                 }
-                                _vm.$set(
-                                  _vm.appDefaults.order_time,
-                                  key,
-                                  $event.target.value
-                                )
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text" },
+                              domProps: {
+                                value: _vm.appDefaults.order_time[key]
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.appDefaults.order_time,
+                                    key,
+                                    $event.target.value
+                                  )
+                                }
                               }
-                            }
-                          })
-                        ]
-                      )
+                            })
+                          ]
+                        )
+                      ])
                     ])
                   }),
-                  _vm._v(" "),
+                  0
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
                   _c(
                     "button",
                     {
@@ -66719,58 +66753,66 @@ var render = function() {
                     },
                     [_vm._v("Add Time")]
                   )
-                ],
-                2
-              ),
+                ])
+              ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-md-6" },
-                [
-                  _c("label", { staticClass: "form-control-label" }, [
-                    _vm._v("Driver Predefined Notes")
-                  ]),
-                  _vm._v(" "),
+              _c("br"),
+              _c("br"),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("Driver Predefined Notes")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "row" },
                   _vm._l(_vm.appDefaults.driver_notes, function(note, key) {
-                    return _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "div",
-                        { staticClass: "input-group input-group-merge" },
-                        [
-                          _vm._m(12, true),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.appDefaults.driver_notes[key],
-                                expression: "appDefaults.driver_notes[key]"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text" },
-                            domProps: {
-                              value: _vm.appDefaults.driver_notes[key]
-                            },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                    return _c("div", { staticClass: "col-md-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "div",
+                          { staticClass: "input-group input-group-merge" },
+                          [
+                            _vm._m(12, true),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.appDefaults.driver_notes[key],
+                                  expression: "appDefaults.driver_notes[key]"
                                 }
-                                _vm.$set(
-                                  _vm.appDefaults.driver_notes,
-                                  key,
-                                  $event.target.value
-                                )
+                              ],
+                              staticClass: "form-control",
+                              attrs: { type: "text" },
+                              domProps: {
+                                value: _vm.appDefaults.driver_notes[key]
+                              },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.appDefaults.driver_notes,
+                                    key,
+                                    $event.target.value
+                                  )
+                                }
                               }
-                            }
-                          })
-                        ]
-                      )
+                            })
+                          ]
+                        )
+                      ])
                     ])
                   }),
-                  _vm._v(" "),
+                  0
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-center" }, [
                   _c(
                     "button",
                     {
@@ -66784,16 +66826,15 @@ var render = function() {
                     },
                     [_vm._v("Add Notes")]
                   )
-                ],
-                2
-              )
+                ])
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "text-center" }, [
+            _c("div", { staticClass: "float-right" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-outline-primary pull-right",
+                  staticClass: "btn btn-outline-primary",
                   on: {
                     click: function($event) {
                       return _vm.save("orderSetting")
@@ -66930,7 +66971,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fas fa-envelope" })
+        _c("i", { staticClass: "fas fa-sticky-note" })
       ])
     ])
   }
@@ -91976,23 +92017,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     getAppDefaults: function getAppDefaults(context) {
       axios.get('/appDefaults').then(function (response) {
         context.commit('setAppDefaults', response.data);
-      });
-    },
-    updateAppDefaults: function updateAppDefaults(context, appDefaults) {
-      axios.post('/appDefaults', appDefaults, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        console.log(response);
-        context.commit('setErrors', {});
-        showNotify('success', 'App Default has been created');
-      })["catch"](function (error) {
-        context.commit('setErrors', error.response.data.errors);
-
-        for (var prop in error.response.data.errors) {
-          showNotify('danger', error.response.data.errors[prop]);
-        }
       });
     },
     getNotifications: function getNotifications(context) {

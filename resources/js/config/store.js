@@ -95,26 +95,6 @@ export const store = new Vuex.Store({
 	        	context.commit('setAppDefaults',response.data)
 	        });
 		},
-		updateAppDefaults(context, appDefaults){
-			axios.post('/appDefaults',appDefaults,
-				{
-				    headers: {
-				        'Content-Type': 'multipart/form-data'
-				    }
-				}
-			)
-	          .then((response) => {
-	          	console.log(response)
-	          	context.commit('setErrors',{})
-	            showNotify('success','App Default has been created')
-	          })
-	          .catch((error) => {
-      			context.commit('setErrors',error.response.data.errors)
-	            for (var prop in error.response.data.errors) {
-	              showNotify('danger',error.response.data.errors[prop])
-	            }  
-	          })
-		},
 		getNotifications(context){
 			axios.get('/notifications')
 	        .then(response => {

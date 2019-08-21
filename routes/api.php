@@ -51,5 +51,6 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	//Driver API
 	
 	Route::get('/supportInfo','CoreController@supportInfo');
+	Route::get('/orderDefaults','CoreController@orderDefaults');
 	Route::get('/configs/{configType}','CoreController@getSettings');
 });
