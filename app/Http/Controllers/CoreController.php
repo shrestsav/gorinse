@@ -94,12 +94,35 @@ class CoreController extends Controller
     }
     public function updateAppDefaults(Request $request)
     {
+        return $request->logoFile;
         $input = [];
         if($request->saveType=='generalSetting'){
             $input = $request->only('VAT', 'delivery_charge','OTP_expiry');
         }
         if($request->saveType=='supportSetting'){
             $input = $request->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
+
+            if ($request->hasFile('logoFile')) {
+                return 'u lala';
+                $validator = Validator::make($request->all(), [
+                    "logoFile" => 'mimes:jpeg,bmp,png|max:3072',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => '422',
+                        'message' => 'Validation Failed',
+                        'errors' => $validator->errors(),
+                    ], 422);
+                }
+                $photo = $request->file('logoFile');
+                $fileName = 'company_logo.'.$photo->getClientOriginalExtension();
+                $uploadDirectory = public_path('files');
+                $photo->move($uploadDirectory, $fileName);
+
+                $input['company_logo'] = $fileName;
+            }
+
             $input['online_chat'] = json_encode($input['online_chat']);
         }
         if($request->saveType=='orderSetting'){

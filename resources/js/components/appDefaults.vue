@@ -58,7 +58,7 @@
                 <img :src="appDefaults.company_logo_url" class="img-center img-fluid" style="height: 109px;">
                 <br>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" lang="en">
+                  <input type="file" class="custom-file-input" lang="en" ref="file" v-on:change="handleFileUpload()">
                   <label class="custom-file-label">Select Logo</label>
                 </div>                
               </div>
@@ -189,17 +189,27 @@
         this.appDefaults.saveType = part
         this.$store.dispatch('updateAppDefaults', this.appDefaults)
       },
+      handleFileUpload(){
+        alert('file changed')
+        this.appDefaults.logoFile = this.$refs.file.files[0];
+      },
       addTime(){
         if(this.appDefaults.order_time[this.appDefaults.order_time.length-1]!="")
           this.appDefaults.order_time.push("")
         else
-          this.$swal('First Fill Empty Rows');
+          this.$swal({
+            type: 'error',
+            title: 'First Fill Empty Rows',
+          });
       },
       addDriverNotes(){
         if(this.appDefaults.driver_notes[this.appDefaults.driver_notes.length-1]!="")
           this.appDefaults.driver_notes.push("")
         else
-          this.$swal('First Fill Empty Rows');
+          this.$swal({
+            type: 'error',
+            title: 'First Fill Empty Rows',
+          });
       }
     },
     computed: {

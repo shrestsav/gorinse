@@ -5451,11 +5451,21 @@ __webpack_require__.r(__webpack_exports__);
       this.appDefaults.saveType = part;
       this.$store.dispatch('updateAppDefaults', this.appDefaults);
     },
+    handleFileUpload: function handleFileUpload() {
+      alert('file changed');
+      this.appDefaults.logoFile = this.$refs.file.files[0];
+    },
     addTime: function addTime() {
-      if (this.appDefaults.order_time[this.appDefaults.order_time.length - 1] != "") this.appDefaults.order_time.push("");else this.$swal('First Fill Empty Rows');
+      if (this.appDefaults.order_time[this.appDefaults.order_time.length - 1] != "") this.appDefaults.order_time.push("");else this.$swal({
+        type: 'error',
+        title: 'First Fill Empty Rows'
+      });
     },
     addDriverNotes: function addDriverNotes() {
-      if (this.appDefaults.driver_notes[this.appDefaults.driver_notes.length - 1] != "") this.appDefaults.driver_notes.push("");else this.$swal('First Fill Empty Rows');
+      if (this.appDefaults.driver_notes[this.appDefaults.driver_notes.length - 1] != "") this.appDefaults.driver_notes.push("");else this.$swal({
+        type: 'error',
+        title: 'First Fill Empty Rows'
+      });
     }
   },
   computed: {
@@ -66389,7 +66399,22 @@ var render = function() {
                 _vm._v(" "),
                 _c("br"),
                 _vm._v(" "),
-                _vm._m(5)
+                _c("div", { staticClass: "custom-file" }, [
+                  _c("input", {
+                    ref: "file",
+                    staticClass: "custom-file-input",
+                    attrs: { type: "file", lang: "en" },
+                    on: {
+                      change: function($event) {
+                        return _vm.handleFileUpload()
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "custom-file-label" }, [
+                    _vm._v("Select Logo")
+                  ])
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-8" }, [
@@ -66404,7 +66429,7 @@ var render = function() {
                         "div",
                         { staticClass: "input-group input-group-merge" },
                         [
-                          _vm._m(6),
+                          _vm._m(5),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -66446,7 +66471,7 @@ var render = function() {
                         "div",
                         { staticClass: "input-group input-group-merge" },
                         [
-                          _vm._m(7),
+                          _vm._m(6),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -66490,7 +66515,7 @@ var render = function() {
                             "div",
                             { staticClass: "input-group input-group-merge" },
                             [
-                              _vm._m(8),
+                              _vm._m(7),
                               _vm._v(" "),
                               _c("input", {
                                 directives: [
@@ -66528,7 +66553,7 @@ var render = function() {
                             "div",
                             { staticClass: "input-group input-group-merge" },
                             [
-                              _vm._m(9),
+                              _vm._m(8),
                               _vm._v(" "),
                               _c("input", {
                                 directives: [
@@ -66574,7 +66599,7 @@ var render = function() {
                         "div",
                         { staticClass: "input-group input-group-merge" },
                         [
-                          _vm._m(10),
+                          _vm._m(9),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -66629,7 +66654,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card" }, [
-          _vm._m(11),
+          _vm._m(10),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "row" }, [
@@ -66647,7 +66672,7 @@ var render = function() {
                         "div",
                         { staticClass: "input-group input-group-merge" },
                         [
-                          _vm._m(12, true),
+                          _vm._m(11, true),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -66712,7 +66737,7 @@ var render = function() {
                         "div",
                         { staticClass: "input-group input-group-merge" },
                         [
-                          _vm._m(13, true),
+                          _vm._m(12, true),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -66829,19 +66854,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "mb-0" }, [_vm._v("Support Page Setting")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "custom-file" }, [
-      _c("input", {
-        staticClass: "custom-file-input",
-        attrs: { type: "file", lang: "en" }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "custom-file-label" }, [_vm._v("Select Logo")])
     ])
   },
   function() {
@@ -91967,7 +91979,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       });
     },
     updateAppDefaults: function updateAppDefaults(context, appDefaults) {
-      axios.post('/appDefaults', appDefaults).then(function (response) {
+      axios.post('/appDefaults', appDefaults, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
         console.log(response);
         context.commit('setErrors', {});
         showNotify('success', 'App Default has been created');

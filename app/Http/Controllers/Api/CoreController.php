@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AppDefault;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Service;
@@ -32,5 +33,15 @@ class CoreController extends Controller
                 'message'=> 'Setting type required'
             ],403);
         }
+    }
+    public function supportInfo()
+    {
+        $appDefaults = AppDefault::first();
+        $appDefaults['company_logo'] = asset('files/'.$appDefaults->company_logo);
+        $appDefaults['online_chat'] = json_decode($appDefaults->online_chat);
+
+        $input = $appDefaults->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
+
+        return response()->json($input);
     }
 }

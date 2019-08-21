@@ -96,7 +96,13 @@ export const store = new Vuex.Store({
 	        });
 		},
 		updateAppDefaults(context, appDefaults){
-			axios.post('/appDefaults',appDefaults)
+			axios.post('/appDefaults',appDefaults,
+				{
+				    headers: {
+				        'Content-Type': 'multipart/form-data'
+				    }
+				}
+			)
 	          .then((response) => {
 	          	console.log(response)
 	          	context.commit('setErrors',{})
