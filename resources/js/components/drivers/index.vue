@@ -30,7 +30,7 @@
               <tr v-for="item,key in drivers">
                 <td>{{++key}}</td>
                 <td>{{item.fname}} {{item.lname}}</td>
-                <td><span v-if="item.details">{{item.details.main_area}}</span></td>
+                <td><span v-if="item.details">{{item.details.area_id}}</span></td>
                 <td>{{item.email}}</td>
                 <td><span v-if="item.details">{{item.details.dob}}</span></td>
                 <td><span v-if="item.details">{{item.details.address}}</span</td>

@@ -18,7 +18,7 @@ class CreateUserDetailsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('gender')->nullable();
             $table->smallInteger('home_address')->nullable()->comment('From User Address Table');
-            $table->smallInteger('area_id')->nullable();
+            $table->smallInteger('area_id')->nullable(); //Driver's main area ID
             $table->date('dob')->nullable();
             $table->string('photo')->nullable();
             $table->text('description')->nullable();

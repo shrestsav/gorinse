@@ -13,7 +13,7 @@ return [
         'col' => '6',
         'type' =>  'text',
       ],
-      'main_area' => [
+      'area_id' => [
         'display_name' => 'Select Driver Area',
         'col' => '4',
         'type' =>  'select',

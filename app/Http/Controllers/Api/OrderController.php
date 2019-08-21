@@ -117,7 +117,7 @@ class OrderController extends Controller
 
         $order = Order::find($request->order_id);
 
-        if($order->first()->status==0){
+        if($order->status==0){
             $order->update(['driver_id' => Auth::id(), 'status' => 1]);
             User::notifyAcceptOrder($request->order_id);
         }

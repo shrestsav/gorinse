@@ -44,7 +44,7 @@
                   placeholder="Write something about driver" 
                   v-model="driver[key]"
                 ></textarea>
-                <select class="form-control" v-if="item['type']==='select' && key==='main_area'" v-model="driver[key]" :class="{'not-validated':errors[key]}" >
+                <select class="form-control" v-if="item['type']==='select' && key==='area_id'" v-model="driver[key]" :class="{'not-validated':errors[key]}" >
                   <option v-for="location,key in mainArea" :value="key">{{location}}</option>
                 </select>
                 <div class="invalid-feedback" style="display: block;" v-if="errors[key]">

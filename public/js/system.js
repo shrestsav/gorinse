@@ -67598,7 +67598,7 @@ var render = function() {
                           })
                         : _vm._e(),
                       _vm._v(" "),
-                      item["type"] === "select" && key === "main_area"
+                      item["type"] === "select" && key === "area_id"
                         ? _c(
                             "select",
                             {
@@ -67766,7 +67766,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     item.details
-                      ? _c("span", [_vm._v(_vm._s(item.details.main_area))])
+                      ? _c("span", [_vm._v(_vm._s(item.details.area_id))])
                       : _vm._e()
                   ]),
                   _vm._v(" "),
