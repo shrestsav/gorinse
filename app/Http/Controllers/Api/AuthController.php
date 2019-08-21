@@ -30,7 +30,8 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $request['OTP'] = rand(1000,9999);
+        // $request['OTP'] = rand(1000,9999);
+        $request['OTP'] = 1111;
         $request['OTP_timestamp'] = Date('Y-m-d H:i:s');
 
         //Check if already exists
