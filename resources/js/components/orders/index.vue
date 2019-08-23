@@ -18,20 +18,19 @@
                 <th scope="col" class="sort">S.No.</th>
                 <th scope="col" class="sort">Customer</th>
                 <th scope="col" class="sort">Order Type</th>
-                <th scope="col" class="sort">Date</th>
                 <th scope="col" class="sort">Pickup From</th>
                 <th scope="col" class="sort">Pickup Time</th>
                 <th scope="col" class="sort">Assigned to</th>
                 <th scope="col" class="sort">Status</th>
+                <th scope="col" class="sort">Ordered</th>
                 <th scope="col" class="sort">Action</th>
               </tr>
             </thead>
             <tbody class="list">
-              <tr v-for="(item,index) in orders.data">
+              <tr v-for="(item,index) in orders.data" v-bind:class="{ urgent: checkPending(index) }">
                 <td>{{index+1}}</td>
                 <td><span v-if="item.customer">{{item.customer.fname}}</span></td>
                 <td>{{item.type}}</td>
-                <td>{{item.created_at}}</td>
                 <td>{{item.pick_location_details.name}}</td>
                 <td>{{item.pick_date}}</td>
                 <td>
@@ -41,6 +40,7 @@
                 <td>
                   <span>{{ getStatus(item.status) }}</span>
                 </td>
+                <td>{{ dateDiff(item.created_at)}}</td>
                 <td>
                   <div class="dropdown">
                     <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -117,6 +117,22 @@
       assign(index){
         this.active.order = index;
         this.showAssign = true;
+      },      
+      dateDiff(date){
+        var date = new Date(date+' UTC')
+        return this.$moment(date).fromNow() // a
+      },
+      checkPending(index){
+        const date = this.orders.data[index].created_at
+        const createdAt = this.$moment(new Date(date+' UTC'))
+        const currentTime = this.$moment(Date.now()); 
+        const passed_minute = Math.abs(createdAt.diff(currentTime, 'minutes'))
+        console.log(passed_minute)
+        if(this.orders.data[index].status==0 && passed_minute>=10){
+          return true
+        }
+        else
+          return false
       },
     },
     computed: {
@@ -142,8 +158,13 @@
         return this.orderStatus['Completed'];
       }
     },
-    watch: {
-    },
   }
 
 </script>
+
+<style type="text/css" scoped>
+  .urgent{
+    background: #ffd7d47d;
+    color: #853737;
+  }
+</style>
