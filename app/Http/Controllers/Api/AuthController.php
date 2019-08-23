@@ -127,7 +127,7 @@ class AuthController extends Controller
         if($user->exists()){
             $user_id = $user->first()->id;
             $role = $user->first()->roles()->first()->name;
-            $details = $user->first()->details;
+            $details = $user->first()->fname;
             if($details)
                 $user_details = true;
         }
