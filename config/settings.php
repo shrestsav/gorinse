@@ -4,16 +4,20 @@ return [
     'date_format' => 'Y-m-d',
     'time_format' => 'g:i A',
     'dateTime'    => 'Y-m-d h:i:s',
+    'rows'  => 10,
     'OTP_expiry'  => 5,
     'VAT'  => 5,
     'delivery_charge'  => 105,
-    // 'orderStatus' => [
-    //     'pending' => 'Pending',
-    //     'assigned' => 'Assigned',
-    //     'processing' => 'Processing',
-    //     'done' => 'Done',
-    //     'returned' => 'Returned',
-    // ],
+    'orderStatuses' => [
+        0 => 'Pending',
+        1 => 'Assigned',
+        2 => 'Invoice Generated',
+        3 => 'Confirmed by Customer',
+        4 => 'On Work',
+        5 => 'Assigned for Delivery',
+        6 => 'Delivered',
+        7 => 'Paid'
+    ],
     'orderStatus' => [
         'Pending' => [
             'pending' => 'Pending',

@@ -54,11 +54,15 @@ class OrderController extends Controller
 
         $request['customer_id'] = Auth::id();
         $order = Order::create($request->all());
-
-        return response()->json([
-            "status" => "200",
-            "message" => "Order Created Successfully"
-        ], 200);
+        
+        if($order){
+            User::notifyNewOrder($order->id);
+            return response()->json([
+                "status" => "200",
+                "message" => "Order Created Successfully"
+            ], 200);
+        }
+        
     }
 
     /**
@@ -186,17 +190,17 @@ class OrderController extends Controller
                         $orderItem->service_id = $service_id;
                         $orderItem->item_id = $item['item_id'];
                         $orderItem->quantity = $item['quantity'];
-                        $orderItem->rate = $serviceCharge+$itemCharge;
+                        $orderItem->service_charge = $serviceCharge;
+                        $orderItem->item_charge = $itemCharge;
                         $orderItem->remarks = $item['remarks'];
                         $orderItem->save();
                     }
                 }
                 $order->update([
-                        'status' => 2,
                         'VAT' => config('settings.VAT'),
                         'delivery_charge' => config('settings.delivery_charge')
                     ]);
-                User::notifyInvoiceGenerated($order_id);
+                // User::notifyInvoiceGenerated($order_id);
                 return response()->json($this->generateInvoice($order_id));
             }
             else{
@@ -211,6 +215,52 @@ class OrderController extends Controller
                 'status' => '404',
                 'message' => 'Order doesnot exist' 
             ],404);
+        }
+    }
+
+    public function sendOrderInvoiceForApproval(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $order_id = $request->order_id;
+        $order = Order::where('id',$order_id);
+        
+        if(!$order->exists()){
+            return response()->json([
+                'status' => '404',
+                'message' => 'Order not found',
+            ], 404);
+        }
+        elseif($order->first()->driver_id!=Auth::id()){
+            return response()->json([
+                'status' => '403',
+                'message' => 'You donot have permission to view invoice for this order',
+            ], 403);
+        }
+
+        if($order->first()->status==1){
+            $order->update([ 'status' => 2 ]);
+            User::notifyInvoiceGenerated($order_id);
+            return response()->json([
+                    'status' => '200',
+                    'message' => 'Order Invoice has been sent for approval',
+                ], 200);
+        }
+        else{
+            return response()->json([
+                'status' => '403',
+                'message' => 'You donot have access to this order' 
+            ],403);
         }
     }
 
@@ -327,7 +377,7 @@ class OrderController extends Controller
             $itemQuantity = $item['quantity'];
             // $serviceCharge = $item['service']['price'];
             // $itemCharge = $item['item']['price'];
-            $rate = $item['rate'];
+            $rate = $item['service_charge']+$item['item_charge'];
             $amount = $rate*$itemQuantity;
             $totalQuantity += $itemQuantity;
             $totalAmount += $amount;
@@ -351,7 +401,8 @@ class OrderController extends Controller
         $invoice = [
             "total_quantity" => $totalQuantity,
             "total_amount" => $totalAmount,
-            "VAT ({$vatPercent} %)" => $VAT,
+            "VAT_percent"  => $vatPercent,
+            "VAT" => $VAT,
             "delivery_charge" => $deliveryCharge,
             "grand_total" => $grandTotal
         ];

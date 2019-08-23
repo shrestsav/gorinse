@@ -39,7 +39,10 @@ class OrderController extends Controller
         else if($status==='Completed')
           $statusArr = ['8'];
 
-        $orders = Order::whereIn('status',$statusArr)->with('customer','driver')->paginate(5);
+        $orders = Order::whereIn('status',$statusArr)
+                        ->with('customer','driver','pick_location_details','drop_location_details','orderItems')
+                        ->orderBy('status','ASC')
+                        ->paginate(config('settings.rows'));
         return response()->json($orders);
     }
     /**
@@ -80,9 +83,19 @@ class OrderController extends Controller
     // {
     //     //
     // }
-    public function show(Order $order)
+    public function show($id)
     {
-        return new OrderResource($order);
+        $id = 2;
+        $order = Order::where('id',$id)
+                        ->with('customer','driver','pick_location_details','drop_location_details')
+                        ->first();
+        $invoice = Order::generateInvoice($id);
+
+        $response = [
+            'details' => $order,
+            'invoice' => $invoice
+        ];
+        return response()->json($response);
     }
 
     /**
@@ -126,7 +139,11 @@ class OrderController extends Controller
             'order_id' => 'required',
         ]);
 
-        $assign = Order::where('id','=',$request->order_id)->update(['driver_id' => $request->driver_id, 'status' => 2]);
+        $assign = Order::where('id','=',$request->order_id)
+                        ->update([
+                            'driver_id' => $request->driver_id, 
+                            'status' => 1
+                        ]);
 
         return response()->json('Successfully Assigned');
     }

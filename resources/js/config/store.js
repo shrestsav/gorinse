@@ -8,6 +8,7 @@ export const store = new Vuex.Store({
 		currentPage:'',
 		currentMenu:'',
 		orders:[],
+		orderDetails:{},
 		drivers:[],
 		customers:{},
 		services:{},
@@ -21,6 +22,9 @@ export const store = new Vuex.Store({
 	getters:{
 		orders(state){
 			return state.orders;
+		},
+		orderDetails(state){
+			return state.orderDetails;
 		},
 		drivers(state){
 			return state.drivers;
@@ -59,6 +63,9 @@ export const store = new Vuex.Store({
 		},
 		setOrders(state, orders){
 			state.orders = orders
+		},
+		setOrderDetails(state, orderDetails){
+			state.orderDetails = orderDetails
 		},
 		setDrivers(state, drivers){
 			state.drivers = drivers
@@ -118,6 +125,12 @@ export const store = new Vuex.Store({
 			axios.get('/getOrders/'+orderObj.status+'?page=' + orderObj.page)
 	        .then(response => {
 	        	context.commit('setOrders',response.data)
+	        });
+		},
+		getOrderDetails(context,order_id){
+			axios.get('/orders/'+order_id)
+	        .then(response => {
+	        	context.commit('setOrderDetails',response.data)
 	        });
 		},
 		addOrder(context, order){

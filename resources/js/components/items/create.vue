@@ -76,9 +76,11 @@
     created(){
       this.$store.commit('changeCurrentPage', 'createItem')
       this.$store.commit('changeCurrentMenu', 'settingsMenu')
+      this.$store.dispatch('getCategories')
+      this.defSettings();
     },
     mounted(){
-      this.defSettings();
+      
     },
     methods:{
       defSettings(){
@@ -93,7 +95,6 @@
         return this.$store.getters.errors
       },
       categories(){
-        this.$store.dispatch('getCategories')
         return this.$store.getters.categories
       }
     },

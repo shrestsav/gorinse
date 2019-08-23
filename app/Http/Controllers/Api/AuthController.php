@@ -119,6 +119,7 @@ class AuthController extends Controller
 
         $role = '';
         $user_id = '';
+        $user_details = false;
         $url = url('').'/oauth/token';
         $OTP = $request->OTP;
         $phone = $request->phone;
@@ -126,7 +127,9 @@ class AuthController extends Controller
         if($user->exists()){
             $user_id = $user->first()->id;
             $role = $user->first()->roles()->first()->name;
-
+            $details = $user->first()->details;
+            if($details)
+                $user_details = true;
         }
         $http = new \GuzzleHttp\Client();
         $response = $http->post(url('').'/oauth/token', [
@@ -147,6 +150,7 @@ class AuthController extends Controller
             'tokens' => $token_response,
             'role' =>$role,
             'user_id' =>$user_id,
+            'user_details' =>$user_details,
         ];
         return response()->json($result);
     }

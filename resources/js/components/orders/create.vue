@@ -78,6 +78,7 @@
   import vSelect from 'vue-select'
   import 'vue-select/dist/vue-select.css'
   import DatePicker from 'vue2-datepicker'
+  import {fields} from '../../config/fields'
 
   export default{
     components: {
@@ -85,7 +86,6 @@
     },
     data(){
       return{
-        fields:{},
         order:{},
       }
     },
@@ -96,12 +96,9 @@
       this.$store.dispatch('getOrderStatus')
     },
     mounted(){
-      this.defSettings();
+      
     },
     methods:{
-      defSettings(){
-        axios.get('/getFields/createOrder').then(response => this.fields = response.data)
-      },
       save(){
         this.$store.dispatch('addOrder', this.order)
       },
@@ -118,6 +115,9 @@
       },
       errors(){
         return this.$store.getters.errors
+      },
+      fields(){
+        return fields.createOrder
       }
     },
 

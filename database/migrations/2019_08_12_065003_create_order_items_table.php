@@ -19,7 +19,8 @@ class CreateOrderItemsTable extends Migration
             $table->integer('service_id')->unsigned();
             $table->integer('item_id')->unsigned();
             $table->integer('quantity')->unsigned();
-            $table->integer('rate')->unsigned()->comment('Service Charge + Item Charge');
+            $table->integer('service_charge')->unsigned();
+            $table->integer('item_charge')->unsigned();
             $table->text('remarks')->nullable();
             $table->timestamps();
         });

@@ -47,6 +47,7 @@
     created(){
       this.$store.commit('changeCurrentPage', 'services')
       this.$store.commit('changeCurrentMenu', 'settingsMenu')
+      this.$store.dispatch('getServices')
     },
     mounted(){
   
@@ -55,7 +56,6 @@
     },
     computed: {
       services(){
-        this.$store.dispatch('getServices')
         return this.$store.getters.services
       }
     },

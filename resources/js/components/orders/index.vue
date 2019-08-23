@@ -15,14 +15,15 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort" data-sort="name">S.No.</th>
-                <th scope="col" class="sort" data-sort="name">Customer</th>
-                <th scope="col" class="sort" data-sort="budget">Order Type</th>
-                <th scope="col" class="sort" data-sort="status">Date</th>
-                <th scope="col" class="sort" data-sort="completion">Pickup From</th>
-                <th scope="col" class="sort" data-sort="completion">Pickup Time</th>
-                <th scope="col" class="sort" data-sort="completion">Assigned to</th>
-                <th scope="col" class="sort" data-sort="completion">Action</th>
+                <th scope="col" class="sort">S.No.</th>
+                <th scope="col" class="sort">Customer</th>
+                <th scope="col" class="sort">Order Type</th>
+                <th scope="col" class="sort">Date</th>
+                <th scope="col" class="sort">Pickup From</th>
+                <th scope="col" class="sort">Pickup Time</th>
+                <th scope="col" class="sort">Assigned to</th>
+                <th scope="col" class="sort">Status</th>
+                <th scope="col" class="sort">Action</th>
               </tr>
             </thead>
             <tbody class="list">
@@ -30,12 +31,15 @@
                 <td>{{index+1}}</td>
                 <td><span v-if="item.customer">{{item.customer.fname}}</span></td>
                 <td>{{item.type}}</td>
-                <td>{{item.order_date}}</td>
-                <td>{{item.pick_location}}</td>
-                <td>{{item.pick_datetime}}</td>
+                <td>{{item.created_at}}</td>
+                <td>{{item.pick_location_details.name}}</td>
+                <td>{{item.pick_date}}</td>
                 <td>
-                  <span v-if="item.status === 0">Pending</span>
+                  <span v-if="item.status === 0">Not Assigned</span>
                   <span v-if="item.status !== 0">{{item.driver.fname}} {{item.driver.lname}}</span>
+                </td>
+                <td>
+                  <span>{{ getStatus(item.status) }}</span>
                 </td>
                 <td>
                   <div class="dropdown">
@@ -43,8 +47,9 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:;" @click="showDetails(index)">Details</a>
-                      <a class="dropdown-item" href="javascript:;" @click="assign(index)"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order">Assign</a>
+                      <a class="dropdown-item" href="javascript:;" @click="details(item.id)"  data-toggle="modal" data-target="#orderDetails" title="Show Order Details">Details</a>
+                      <a class="dropdown-item" href="javascript:;" @click="assign(index)"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status === 0">Assign</a>
+                      <a class="dropdown-item" href="javascript:;" @click="assign(index)"  title="Show Invoice" v-if="item.status === 2">Show Invoice</a>
                     </div>
                   </div>
                 </td>
@@ -58,24 +63,28 @@
       </div>
     </div>
     <assign :active="active" v-if="showAssign"></assign>
+    <show :active="active" v-if="showDetails"></show>
   </div>
 </template>
 
 <script>
   import assign from './assign.vue'
+  import show from './show.vue'
+  import {settings} from '../../config/settings'
  
   export default{
     components: {
-      assign
+      assign,show
     },
     data(){
       return{
         active:{
           page:1,
-          order:'',
+          order_id:'',
           status:'Pending',
         },
         showAssign: false,
+        showDetails: false,
         errors:{},
         message:'',
       }
@@ -88,7 +97,6 @@
       this.$store.dispatch('getOrderStatus')
     },
     mounted(){
-  
     },
     methods:{
       getOrders(status){
@@ -99,16 +107,20 @@
         this.active.page = page,
         this.$store.dispatch('getOrders',this.active)
       },
-      showDetails(key){
-        // alert(key);
+      getStatus(status) {
+        return settings.orderStatuses[status]
       },
-      assign(id){
-        this.active.order = id;
+      details(id){
+        this.active.order_id = id;
+        this.showDetails = true;
+      },
+      assign(index){
+        this.active.order = index;
         this.showAssign = true;
       },
     },
     computed: {
-      orders: function (){
+      orders(){
         return this.$store.getters.orders
       },
       orderStatus(){

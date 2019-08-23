@@ -77,4 +77,16 @@
     position: relative;
     top: -7px;
   }
+  .modal-fullscreen{
+    max-width: unset;
+    width: 90%;
+  }
+  body{
+    zoom:90%;
+  }
+  .modal-backdrop {
+      width: 100%;
+      height: 100%;
+  }
+
 </style>

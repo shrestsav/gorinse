@@ -1,6 +1,6 @@
 <template>
   <div class="modal fade" id="assignOrder" tabindex="-1" role="dialog" aria-labelledby="add_staffs_modal" aria-hidden="true">
-    <div class="modal-dialog modal- modal-dialog-centered modal- modal-fullscreen" role="document">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
       <div class="modal-content">
         <div class="modal-header text-center">
           <h6 class="modal-title" id="modal-title-default">Assign Order</h6>

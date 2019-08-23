@@ -131,13 +131,55 @@ class User extends Authenticatable
         return $this->hasMany(UserAddress::class);
     }
 
-    //Notification Starts
-
+    /*****************************
+    *
+    * Notifications
+    *
+    ******************************/
     public function pushNotification($notification)
     {   
         $this->notify(new SystemNotification($notification));
     }
     
+    public static function notifyNewOrder($order_id)
+    {  
+        //All Admins and Customer who ordered will get notified
+
+        $order = Order::find($order_id);
+        $area_id = $order->pick_location_details->area_id;
+        $driver_ids = User::whereHas('roles', function ($query) {
+                              $query->where('name', '=', 'driver');
+                           })
+                            ->join('user_details as ud','users.id','=','ud.user_id')
+                            ->where('ud.area_id','=',$area_id)
+                            ->pluck('users.id')
+                            ->toArray();
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'superAdmin');
+                       })->pluck('id')->toArray();
+
+        // $customer_id = $order->customer_id;
+
+        $notification = [
+            'notifyType' => 'new_order',
+            'message' => $order->customer->fname. ' just created a new order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notification);
+        }
+
+        // Send Notification to All Drivers of that particular area
+        foreach($driver_ids as $id){
+            User::find($id)->pushNotification($notification);
+        }
+        
+        return true;
+    }
+
     public static function notifyAcceptOrder($order_id)
     {  
         //All Admins and Customer who ordered will get notified

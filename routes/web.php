@@ -17,8 +17,6 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
 
-Route::get('/otp', 'Api\AuthController@sendOTP');
-
 Route::middleware(['auth'])->group(function () {
 	Route::get('/v/{any}', 'HomeController@index')->where('any', '.*');
 	Route::group(['prefix' => 'admin', 'middleware' => ['role:superAdmin']], function() {
