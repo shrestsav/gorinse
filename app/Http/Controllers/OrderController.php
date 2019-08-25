@@ -43,6 +43,7 @@ class OrderController extends Controller
                         ->with('customer','driver','pick_location_details','drop_location_details','orderItems')
                         ->orderBy('status','ASC')
                         ->paginate(config('settings.rows'));
+                        
         return response()->json($orders);
     }
     /**
@@ -79,10 +80,6 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     //
-    // }
     public function show($id)
     {
         $id = 2;

@@ -22,8 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('customer','driver')->get();
-        return new OrderCollection($orders);
+        $orders = Order::where('customer_id',Auth::id())->with('customer','driver')->get();
         return $orders;
     }
 

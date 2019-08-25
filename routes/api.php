@@ -36,6 +36,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::post('/updateAddress','CustomerController@updateAddress');
 		Route::get('/generateInvoice/{order_id}','OrderController@customerOrderInvoice');
 		Route::get('/confirmInvoice/{order_id}','OrderController@customerConfirmInvoice');
+
+		Route::apiResource('/cards','CardController');
 	});
 	
 	Route::group(['middleware' => ['role:driver']], function() {
