@@ -62,6 +62,7 @@
 <script>
   import vSelect from 'vue-select'
   import 'vue-select/dist/vue-select.css'
+  import {fields} from '../../config/fields'
 
   export default{
     components: {
@@ -69,33 +70,40 @@
     },
     data(){
       return{
-        fields:{},
         item:{},
+        errors:{},
       }
     },
     created(){
       this.$store.commit('changeCurrentPage', 'createItem')
       this.$store.commit('changeCurrentMenu', 'settingsMenu')
       this.$store.dispatch('getCategories')
-      this.defSettings();
     },
     mounted(){
       
     },
     methods:{
-      defSettings(){
-        axios.get('/getFields/createItem').then(response => this.fields = response.data)
-      },
       save(){
-        this.$store.dispatch('addItem', this.item)
+        axios.post('/items',this.item)
+        .then((response) => {
+          this.errors ={}
+          this.item = {}
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
       }
     },
     computed: {
-      errors(){
-        return this.$store.getters.errors
-      },
       categories(){
         return this.$store.getters.categories
+      },
+      fields(){
+        return fields.createItem
       }
     },
 

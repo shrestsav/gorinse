@@ -14,6 +14,8 @@ export const store = new Vuex.Store({
 		services:{},
 		categories:{},
 		items:{},
+		mainAreas:{},
+		offers:{},
 		orderStatus:{},
 		notifications:{},
 		appDefaults:{},
@@ -43,6 +45,12 @@ export const store = new Vuex.Store({
 		},
 		items(state){
 			return state.items;
+		},
+		mainAreas(state){
+			return state.mainAreas;
+		},
+		offers(state){
+			return state.offers;
 		},
 		notifications(state){
 			return state.notifications;
@@ -84,6 +92,12 @@ export const store = new Vuex.Store({
 		},
 		setItems(state, items){
 			state.items = items
+		},
+		setMainAreas(state, mainAreas){
+			state.mainAreas = mainAreas
+		},
+		setOffers(state, offers){
+			state.offers = offers
 		},
 		setNotifications(state, notifications){
 			state.notifications = notifications
@@ -171,37 +185,11 @@ export const store = new Vuex.Store({
 		          context.commit('setServices',response.data)
 		        });	
 		},
-		addService(context, service){
-			axios.post('/services',service)
-	          .then((response) => {
-	          	context.commit('setErrors',{})
-	            showNotify('success',response.data)
-	          })
-	          .catch((error) => {
-      			context.commit('setErrors',error.response.data.errors)
-	            for (var prop in error.response.data.errors) {
-	              showNotify('danger',error.response.data.errors[prop])
-	            }  
-	          })
-		},
 		getCategories(context){
 			axios.get('/categories')
 		        .then(response => {
 		          context.commit('setCategories',response.data)
 		        });	
-		},
-		addCategory(context, category){
-			axios.post('/categories',category)
-	          .then((response) => {
-	          	context.commit('setErrors',{})
-	            showNotify('success',response.data)
-	          })
-	          .catch((error) => {
-      			context.commit('setErrors',error.response.data.errors)
-	            for (var prop in error.response.data.errors) {
-	              showNotify('danger',error.response.data.errors[prop])
-	            }  
-	          })
 		},
 		getItems(context){
 			axios.get('/items')
@@ -209,19 +197,17 @@ export const store = new Vuex.Store({
 		          context.commit('setItems',response.data)
 		        });	
 		},
-		addItem(context, item){
-			axios.post('/items',item)
-	          .then((response) => {
-	          	console.log(response)
-	          	context.commit('setErrors',{})
-	            showNotify('success',response.data)
-	          })
-	          .catch((error) => {
-      			context.commit('setErrors',error.response.data.errors)
-	            for (var prop in error.response.data.errors) {
-	              showNotify('danger',error.response.data.errors[prop])
-	            }  
-	          })
+		getMainAreas(context){
+			axios.get('/mainAreas')
+		        .then(response => {
+		          context.commit('setMainAreas',response.data)
+		        });	
+		},
+		getOffers(context){
+			axios.get('/offers')
+		        .then(response => {
+		          context.commit('setOffers',response.data)
+		        });	
 		},
 		getCustomers(context){
 			axios.get('/customers')

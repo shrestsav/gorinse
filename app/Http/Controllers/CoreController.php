@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\AppDefault;
 use App\Category;
 use App\Item;
+use App\MainArea;
+use App\Offer;
 use App\Service;
 use Illuminate\Http\Request;
 use Validator;
@@ -77,10 +79,87 @@ class CoreController extends Controller
             'category_id' => 'required|numeric',
             'name' => 'required|unique:items',
             'price' => 'required|numeric',
+            'icon' => 'required|string',
         ]);
 
         $item = Item::create($request->all());
         return response()->json('Successfully Added');
+    }
+
+    public function mainAreas()
+    {
+        $mainAreas = MainArea::all();
+        return response()->json($mainAreas);
+    }
+
+    public function addMainArea(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:main_areas',
+        ]);
+
+        $mainArea = MainArea::create($request->all());
+        return response()->json('Successfully Added');
+    }
+
+    public function deleteMainArea($id)
+    {
+        $mainArea = MainArea::findOrFail($id);
+
+        $mainArea->delete();
+        return response()->json('Main Area Deleted');
+    }
+
+    public function offers()
+    {
+        $offers = Offer::orderBy('id','DESC')->get();
+        return response()->json($offers);
+    }
+
+    public function addOffer(Request $request)
+    {
+        $validatedData = $request->validate([
+            'offer_name' => 'required|string',
+            'offer_description' => 'required|string',
+            'offer_image' => 'required|mimes:jpeg,png|max:3072',
+        ]);
+
+        $offer = new Offer();
+        $offer->name = $request['offer_name'];
+        $offer->description = $request['offer_description'];
+        $offer->status = $request['status'];
+
+        $offer->save();
+            
+        $image = $request->file('offer_image');
+        $fileName = 'banner_offer_'.$offer->id.'.'.$image->getClientOriginalExtension();
+        $uploadDirectory = public_path('files'.DS.'offer_banners');
+        $image->move($uploadDirectory, $fileName);
+
+        Offer::where('id',$offer->id)->update(['image' => $fileName]);
+        
+        return response()->json('Successfully Added');
+    }
+
+    public function changeOfferStatus(Request $request)
+    {
+        $validatedData = $request->validate([
+            'status' => 'required|digits:1',
+            'id' => 'required|numeric',
+        ]);
+        $input = $request->only('status', 'id');
+
+        $update = Offer::where('id',$input['id'])->update(['status' => $input['status']]);
+        
+        return response()->json('Status Changed');
+    }
+    
+    public function deleteOffer($id)
+    {
+        $offer = Offer::findOrFail($id);
+
+        $offer->delete();
+        return response()->json('Offer Deleted');
     }
 
     public function appDefaults()

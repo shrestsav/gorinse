@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\AppDefault;
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\MainArea;
+use App\Offer;
 use App\Service;
 use Illuminate\Http\Request;
 
@@ -18,7 +20,7 @@ class CoreController extends Controller
 
     public function items()
     {
-        $items = Category::select('id','name')->with('items:id,category_id,name')->get();
+        $items = Category::select('id','name')->with('items:id,category_id,name,icon')->get();
         return response()->json($items);
     }
     public function getSettings($settingType)
@@ -55,5 +57,23 @@ class CoreController extends Controller
         $input = $appDefaults->only('order_time', 'driver_notes');
 
         return response()->json($input);
+    }
+
+    public function mainAreas()
+    {
+        $mainAreas = MainArea::select('id','name')->get();
+        
+        return response()->json($mainAreas);
+    }
+
+    public function offers()
+    {
+        $offers = Offer::where('status',1)->get();
+        $url = asset('files/offer_banners/');
+        $data = [
+            'data' => $offers,
+            'imageUrl' =>$url
+        ];
+        return response()->json($data);
     }
 }

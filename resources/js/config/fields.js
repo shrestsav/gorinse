@@ -138,18 +138,23 @@ export const fields = {
     'Information' : {
       'category_id' : {
         'display_name' : 'Choose Category',
-        'col' : '4',
+        'col' : '3',
         'type' :  'select',
       },
       'name' : {
         'display_name' : 'Item Name',
-        'col' : '4',
+        'col' : '3',
         'type' :  'text',
       },
       'price' : {
         'display_name' : 'Price',
-        'col' : '4',
+        'col' : '3',
         'type' :  'number',
+      },
+      'icon' : {
+        'display_name' : 'Icon Code',
+        'col' : '3',
+        'type' :  'text',
       },
       'description' : {
         'display_name' : 'Description',

@@ -15,8 +15,13 @@ return [
         3 => 'Confirmed by Customer',
         4 => 'On Work',
         5 => 'Assigned for Delivery',
-        6 => 'Delivered',
-        7 => 'Paid'
+        //New
+        6 => 'Picked for Delivery',
+
+        7 => 'Delivered',
+        //New
+        8 => 'Delivery Received by Customer', 
+        9 => 'Paid'
     ],
     'orderStatus' => [
         'Pending' => [

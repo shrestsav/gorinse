@@ -51,12 +51,13 @@
 </template>
 
 <script>
+  import {fields} from '../../config/fields'
 
   export default{
     data(){
       return{
-        fields:{},
         service:{},
+        errors:{},
       }
     },
     created(){
@@ -64,19 +65,27 @@
       this.$store.commit('changeCurrentMenu', 'settingsMenu')
     },
     mounted(){
-      this.defSettings();
+
     },
     methods:{
-      defSettings(){
-        axios.get('/getFields/createService').then(response => this.fields = response.data)
-      },
       save(){
-        this.$store.dispatch('addService', this.service)
+        axios.post('/services',this.service)
+        .then((response) => {
+          this.errors = {} 
+          this.service = {}
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
       }
     },
     computed: {
-      errors(){
-        return this.$store.getters.errors
+      fields(){
+        return fields.createService
       }
     },
 

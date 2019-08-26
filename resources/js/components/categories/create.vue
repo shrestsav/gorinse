@@ -51,12 +51,13 @@
 </template>
 
 <script>
+  import {fields} from '../../config/fields'
 
   export default{
     data(){
       return{
-        fields:{},
         category:{},
+        errors:{},
       }
     },
     created(){
@@ -64,19 +65,27 @@
       this.$store.commit('changeCurrentMenu', 'settingsMenu')
     },
     mounted(){
-      this.defSettings();
+
     },
     methods:{
-      defSettings(){
-        axios.get('/getFields/createCategory').then(response => this.fields = response.data)
-      },
       save(){
-        this.$store.dispatch('addCategory', this.category)
+        axios.post('/categories',this.category)
+        .then((response) => {
+          this.errors = {}
+          this.category = {}
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
       }
     },
     computed: {
-      errors(){
-        return this.$store.getters.errors
+      fields(){
+        return fields.createCategory
       }
     },
 

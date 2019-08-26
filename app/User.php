@@ -92,9 +92,12 @@ class User extends Authenticatable
     {
         $drivers = $this->whereHas('roles', function ($query) {
                           $query->where('name', '=', 'driver');
-                       });
+                       })
+                        ->with('details')
+                        ->orderBy('id','DESC')
+                        ->get();
 
-        return $drivers->with('details')->get();
+        return $drivers;
     }
 
     public function adminList()

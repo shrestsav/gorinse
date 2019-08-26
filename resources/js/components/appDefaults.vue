@@ -4,9 +4,16 @@
       <div class="card-wrapper">
         <div class="card">
           <div class="card-header">
-            <h3 class="mb-0">General Settings</h3>
+            <div class="row">
+              <div class="col">
+                <h3 class="mb-0">General</h3>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('general')">{{modules.general.icon}}</button>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" v-if="modules.general.display">
             <div class="row">
               <div class="col-md-4">
                 <div class="form-group">
@@ -49,16 +56,23 @@
         </div>
         <div class="card">
           <div class="card-header">
-            <h3 class="mb-0">Support Page Setting</h3>
+            <div class="row">
+              <div class="col">
+                <h3 class="mb-0">Support Page</h3>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('supportPage')">{{modules.supportPage.icon}}</button>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" v-if="modules.supportPage.display">
             <div class="row">
               <div class="col-md-4">
                 <!-- <label class="form-control-label text-center">Company Logo</label> -->
                 <img :src="appDefaults.company_logo_url" class="img-center img-fluid" style="height: 109px;">
                 <br>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" lang="en" ref="file" v-on:change="handleFileUpload()">
+                  <input type="file" class="custom-file-input" lang="en" ref="file" v-on:change="logoFileUpload()">
                   <label class="custom-file-label">Company Logo</label>
                 </div>                
               </div>
@@ -130,9 +144,16 @@
         </div>
         <div class="card">
           <div class="card-header">
-            <h3 class="mb-0">Order Settings</h3>
+            <div class="row">
+              <div class="col">
+                <h3 class="mb-0">Order</h3>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('order')">{{modules.order.icon}}</button>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" v-if="modules.order.display">
             <div class="row">
               <div class="col-md-12">
                 <label class="form-control-label">Order Active Hours</label>
@@ -177,6 +198,134 @@
             </div>
           </div>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col">
+                <h3 class="mb-0">Main Areas</h3>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('mainArea')">{{modules.mainArea.icon}}</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" v-if="modules.mainArea.display">
+            <div class="row">
+              <div class="bootstrap-tagsinput">
+                <span class="tag badge badge-primary" v-for="item in mainAreas">
+                  {{item.name}}
+                  <span data-role="remove" @click="deleteArea(item.id)"></span>
+                </span>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-control-label">Area Name</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+                    </div>
+                    <input :class="{'not-validated':errors.name}" class="form-control" type="text" v-model="mainArea.name">
+                  </div>
+                  <div class="invalid-feedback" style="display: block;" v-if="errors.name">
+                    {{errors.name[0]}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="float-right">
+              <button class="btn btn-outline-primary" @click="saveMainArea()">Create</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h5 class="h3 mb-0">Banner Offers</h5>
+              </div>
+              <div class="col-4 text-right">
+                <button type="button" class="btn btn-info btn-sm" @click="addOffer()" v-if="modules.offers.display">Add Offer</button>
+                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('offers')">{{modules.offers.icon}}</button>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive" v-if="modules.offers.display">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th>S.No</th>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- For adding new Offers -->
+                <tr v-if="newOffer">
+                  <td></td>
+                  <td>
+                    <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
+                    <br>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" lang="en" ref="offerFile" v-on:change="offerFileUpload()" :class="{'not-validated':errors.offer_image}">
+                      <label class="custom-file-label">Offer Image</label>
+                      <div class="invalid-feedback" style="display: block;" v-if="errors.offer_image">
+                        {{errors.offer_image[0]}}
+                      </div>
+                    </div>  
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <input v-model="offer.offer_name" :class="{'not-validated':errors.offer_name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 300px;">
+                      <div class="invalid-feedback" style="display: block;" v-if="errors.offer_name">
+                        {{errors.offer_name[0]}}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <textarea v-model="offer.offer_description" :class="{'not-validated':errors.offer_description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 300px;"></textarea>
+                      <div class="invalid-feedback" style="display: block;" v-if="errors.offer_description">
+                        {{errors.offer_description[0]}}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="form-control" v-model="offer.status">
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-success btn-sm" @click="saveOffer()">+</button>
+                    <button type="button" class="btn btn-danger btn-sm" @click="discardOffer()">-</button>
+                  </td>
+                </tr>
+                <!-- For Old Order List -->
+                <tr v-for="item,key in offers">
+                  <td>{{key+1}}</td>
+                  <td><img :src="base_url+'/files/offer_banners/'+item['image']" style="height: 200px; max-width: 300px;"></td>
+                  <td><b>{{item['name']}}</b></td>
+                  <td>{{item['description']}}</td>
+                  <td>
+                    <select class="form-control" v-model="item.status" @change="changeOfferStatus(key)">
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-danger btn-sm" @click="deleteOffer(item.id)">-</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>        
   </div>
@@ -187,13 +336,40 @@
   export default{
     data(){
       return{
-
+        modules:{
+          general : {
+            display : false,
+            icon : "+",
+          },
+          supportPage : {
+            display : false,
+            icon : "+",
+          },
+          order : {
+            display : false,
+            icon : "+",
+          },
+          mainArea : {
+            display : false,
+            icon : "+",
+          },
+          offers : {
+            display : false,
+            icon : "+",
+          },
+        },
+        offer:{},
+        newOffer:false,
+        mainArea:{},
+        errors:{},
       }
     },
     created(){
       this.$store.commit('changeCurrentPage', 'dashboard')
       this.$store.commit('changeCurrentMenu', 'dashboardMenu')
       this.$store.dispatch('getAppDefaults')
+      this.$store.dispatch('getMainAreas')
+      this.$store.dispatch('getOffers')
     },
     mounted(){
       
@@ -220,21 +396,48 @@
               showNotify('danger',error.response.data.errors[prop])
             }  
           })
-
-
-
-
-
-
-
-
-
-
-
         
         // this.$store.dispatch('updateAppDefaults', this.appDefaults)
       },
-      handleFileUpload(){
+      saveMainArea(){
+        axios.post('/mainArea',this.mainArea)
+        .then((response) => {
+          console.log(response.data)
+          this.errors ={}
+          this.mainArea = {}
+          this.$store.dispatch('getMainAreas')
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
+      },
+      deleteArea(id){
+        this.$swal({
+          title: 'Are you sure?',
+          text: "This may mess things up for customers!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
+            axios.delete('/mainArea/'+id)
+            .then((response) => {
+              this.$store.dispatch('getMainAreas')
+              showNotify('success',response.data)
+            })
+            .catch((error) => {  
+              showNotify('danger',error.response.data.errors)
+            })
+          }
+        })
+      },
+      logoFileUpload(){
         this.appDefaults.logoFile = this.$refs.file.files[0];
         this.appDefaults.company_logo_url = URL.createObjectURL(this.appDefaults.logoFile);
       },
@@ -255,11 +458,116 @@
             type: 'error',
             title: 'First Fill Empty Rows',
           });
+      },
+
+      //Offer Methods
+
+      addOffer(){
+        this.offer = {
+          'offer_name' : '',
+          'offer_image': '',
+          'offer_description': '',
+          'status': 0,
+          'offer_url':''
+        }
+        this.newOffer = true
+      },
+      offerFileUpload(){
+        this.offer.offer_image = this.$refs.offerFile.files[0];
+        this.offer.offer_url = URL.createObjectURL(this.offer.offer_image);
+      },
+      saveOffer(){
+        let offerForm = new FormData()
+
+        for (var key in this.offer) {
+            offerForm.append(key, this.offer[key]);
+        }
+        
+        axios.post('/offers',offerForm)
+        .then((response) => {
+          this.$store.dispatch('getOffers')
+          this.offer = {}
+          this.newOffer = false
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
+      },
+      discardOffer(){
+        this.offer = {}
+        this.newOffer = false
+      },
+      deleteOffer(id){
+        this.$swal({
+          title: 'Are you sure?',
+          text: "You may not undo this",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
+            axios.delete('/offers/'+id)
+            .then((response) => {
+              this.$store.dispatch('getOffers')
+              showNotify('success',response.data)
+            })
+            .catch((error) => {  
+              showNotify('danger',error.response.data.errors)
+            })
+          }
+        })
+      },
+      changeOfferStatus(key){
+        this.$swal({
+          title: 'Are you sure?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.value) {
+            axios.post('/changeOfferStatus/',this.offers[key])
+            .then((response) => {
+              this.$store.dispatch('getOffers')
+              showNotify('success',response.data)
+            })
+            .catch((error) => {  
+              showNotify('danger',error.response.data.errors)
+            })
+          }
+        })
+      },
+      toggleModule(module){
+        // alert(modules[module])
+        if(this.modules[module].display){
+          this.modules[module].display = false
+          this.modules[module].icon = "+"
+        }
+        else{
+          this.modules[module].display = true
+          this.modules[module].icon = "-"
+        }
       }
     },
     computed: {
       appDefaults(){
         return this.$store.getters.appDefaults
+      },
+      mainAreas(){
+        return this.$store.getters.mainAreas
+      },
+      offers(){
+        return this.$store.getters.offers
+      },
+      base_url(){
+        return window.location.origin
       }
     },
   }
