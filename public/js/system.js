@@ -5599,6 +5599,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5620,13 +5646,16 @@ __webpack_require__.r(__webpack_exports__);
           icon: "+"
         },
         offers: {
-          display: false,
+          display: true,
           icon: "+"
         }
       },
       offer: {},
       newOffer: false,
-      editOffer: false,
+      modifyOrder: {
+        id: '',
+        edit: false
+      },
       mainArea: {},
       errors: {}
     };
@@ -5785,7 +5814,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     editOffer: function editOffer(key) {
       this.offer = this.offers[key];
-      this.editOffer = true;
+      this.modifyOrder.id = this.offers[key].id;
+      this.modifyOrder.edit = true;
+    },
+    cancelEditOffer: function cancelEditOffer() {
+      this.offer = {};
+      this.modifyOrder.id = '';
+      this.modifyOrder.edit = false;
+    },
+    editExistingOrder: function editExistingOrder(edit_id) {
+      if (this.modifyOrder.id == edit_id && this.modifyOrder.edit) return true;else return false;
     },
     changeOfferStatus: function changeOfferStatus(key) {
       var _this5 = this;
@@ -67762,7 +67800,7 @@ var render = function() {
                     _c(
                       "tbody",
                       [
-                        _vm.newOffer || _vm.editOffer
+                        _vm.newOffer
                           ? _c("tr", [
                               _c("td"),
                               _vm._v(" "),
@@ -68029,91 +68067,285 @@ var render = function() {
                               })
                             ]),
                             _vm._v(" "),
-                            _c("td", [_c("b", [_vm._v(_vm._s(item["name"]))])]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(item["description"]))]),
-                            _vm._v(" "),
                             _c("td", [
-                              _c(
-                                "select",
-                                {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: item.status,
-                                      expression: "item.status"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  on: {
-                                    change: [
-                                      function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          item,
-                                          "status",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
+                              _vm.editExistingOrder(item["id"])
+                                ? _c("div", { staticClass: "form-group" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.offer.name,
+                                          expression: "offer.name"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      class: {
+                                        "not-validated": _vm.errors.name
                                       },
-                                      function($event) {
-                                        return _vm.changeOfferStatus(key)
+                                      staticStyle: { height: "300px" },
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "OFFER TITLE"
+                                      },
+                                      domProps: { value: _vm.offer.name },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.offer,
+                                            "name",
+                                            $event.target.value
+                                          )
+                                        }
                                       }
-                                    ]
-                                  }
-                                },
-                                [
-                                  _c("option", { attrs: { value: "1" } }, [
-                                    _vm._v("Active")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "0" } }, [
-                                    _vm._v("Inactive")
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors.name
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "invalid-feedback",
+                                            staticStyle: { display: "block" }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(_vm.errors.name[0]) +
+                                                "\n                    "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
                                   ])
-                                ]
-                              )
+                                : _c("b", [_vm._v(_vm._s(item["name"]))])
                             ]),
                             _vm._v(" "),
                             _c("td", [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.deleteOffer(item.id)
-                                    }
-                                  }
-                                },
-                                [_vm._v("-")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-info btn-sm",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.editOffer(key)
-                                    }
-                                  }
-                                },
-                                [_vm._v("-")]
-                              )
+                              _vm.editExistingOrder(item["id"])
+                                ? _c("div", { staticClass: "form-group" }, [
+                                    _c("textarea", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.offer.description,
+                                          expression: "offer.description"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      class: {
+                                        "not-validated": _vm.errors.description
+                                      },
+                                      staticStyle: { height: "300px" },
+                                      attrs: {
+                                        rows: "8",
+                                        placeholder:
+                                          "BRIEF DESCRIPTION OF OFFER"
+                                      },
+                                      domProps: {
+                                        value: _vm.offer.description
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.offer,
+                                            "description",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors.description
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "invalid-feedback",
+                                            staticStyle: { display: "block" }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(
+                                                  _vm.errors.description[0]
+                                                ) +
+                                                "\n                    "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                : _c("div", [
+                                    _vm._v(_vm._s(item["description"]))
+                                  ])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm.editExistingOrder(item["id"])
+                                ? _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.offer.status,
+                                          expression: "offer.status"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.offer,
+                                            "status",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "1" } }, [
+                                        _vm._v("Active")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("option", { attrs: { value: "0" } }, [
+                                        _vm._v("Inactive")
+                                      ])
+                                    ]
+                                  )
+                                : _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: item.status,
+                                          expression: "item.status"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      on: {
+                                        change: [
+                                          function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.$set(
+                                              item,
+                                              "status",
+                                              $event.target.multiple
+                                                ? $$selectedVal
+                                                : $$selectedVal[0]
+                                            )
+                                          },
+                                          function($event) {
+                                            return _vm.changeOfferStatus(key)
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "1" } }, [
+                                        _vm._v("Active")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("option", { attrs: { value: "0" } }, [
+                                        _vm._v("Inactive")
+                                      ])
+                                    ]
+                                  )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm.editExistingOrder(item["id"])
+                                ? _c("div", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success btn-sm",
+                                        attrs: { type: "button" }
+                                      },
+                                      [_vm._v("Edit")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-info btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.cancelEditOffer()
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Cancel")]
+                                    )
+                                  ])
+                                : _c("div", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteOffer(item.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("-")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-info btn-sm",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editOffer(key)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("-")]
+                                    )
+                                  ])
                             ])
                           ])
                         })

@@ -266,7 +266,7 @@
               </thead>
               <tbody>
                 <!-- For adding new Offers -->
-                <tr v-if="newOffer || editOffer">
+                <tr v-if="newOffer">
                   <td></td>
                   <td>
                     <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
@@ -310,17 +310,43 @@
                 <tr v-for="item,key in offers">
                   <td>{{key+1}}</td>
                   <td><img :src="base_url+'/files/offer_banners/'+item['image']" style="height: 200px; max-width: 300px;"></td>
-                  <td><b>{{item['name']}}</b></td>
-                  <td>{{item['description']}}</td>
                   <td>
-                    <select class="form-control" v-model="item.status" @change="changeOfferStatus(key)">
+                    <div class="form-group" v-if="editExistingOrder(item['id'])">
+                      <input v-model="offer.name" :class="{'not-validated':errors.name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 300px;">
+                      <div class="invalid-feedback" style="display: block;" v-if="errors.name">
+                        {{errors.name[0]}}
+                      </div>
+                    </div>
+                    <b v-else>{{item['name']}}</b>
+                  </td>
+                  <td>
+                    <div class="form-group" v-if="editExistingOrder(item['id'])">
+                      <textarea v-model="offer.description" :class="{'not-validated':errors.description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 300px;"></textarea>
+                      <div class="invalid-feedback" style="display: block;" v-if="errors.description">
+                        {{errors.description[0]}}
+                      </div>
+                    </div>
+                    <div v-else>{{item['description']}}</div>
+                  </td>
+                  <td>
+                    <select class="form-control" v-model="offer.status" v-if="editExistingOrder(item['id'])">
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
+                    </select>
+                    <select class="form-control" v-model="item.status" @change="changeOfferStatus(key)" v-else>
                       <option value="1">Active</option>
                       <option value="0">Inactive</option>
                     </select>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger btn-sm" @click="deleteOffer(item.id)">-</button>
-                    <button type="button" class="btn btn-info btn-sm" @click="editOffer(key)">-</button>
+                    <div v-if="editExistingOrder(item['id'])">
+                      <button type="button" class="btn btn-success btn-sm">Edit</button>
+                      <button type="button" class="btn btn-info btn-sm" @click="cancelEditOffer()">Cancel</button>
+                    </div>
+                    <div v-else>
+                      <button type="button" class="btn btn-danger btn-sm" @click="deleteOffer(item.id)">-</button>
+                      <button type="button" class="btn btn-info btn-sm" @click="editOffer(key)">-</button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -355,13 +381,16 @@
             icon : "+",
           },
           offers : {
-            display : false,
+            display : true,
             icon : "+",
           },
         },
         offer:{},
         newOffer:false,
-        editOffer:false,
+        modifyOrder:{
+          id:'',
+          edit:false,
+        },
         mainArea:{},
         errors:{},
       }
@@ -525,7 +554,19 @@
       },
       editOffer(key){
         this.offer = this.offers[key]
-        this.editOffer = true
+        this.modifyOrder.id = this.offers[key].id
+        this.modifyOrder.edit = true
+      },
+      cancelEditOffer(){
+        this.offer = {}
+        this.modifyOrder.id = ''
+        this.modifyOrder.edit = false
+      },
+      editExistingOrder(edit_id){
+        if(this.modifyOrder.id == edit_id && this.modifyOrder.edit)
+          return true
+        else 
+          return false
       },
       changeOfferStatus(key){
         this.$swal({
