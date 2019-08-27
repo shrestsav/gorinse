@@ -266,7 +266,7 @@
               </thead>
               <tbody>
                 <!-- For adding new Offers -->
-                <tr v-if="newOffer">
+                <tr v-if="newOffer || editOffer">
                   <td></td>
                   <td>
                     <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
@@ -320,6 +320,7 @@
                   </td>
                   <td>
                     <button type="button" class="btn btn-danger btn-sm" @click="deleteOffer(item.id)">-</button>
+                    <button type="button" class="btn btn-info btn-sm" @click="editOffer(key)">-</button>
                   </td>
                 </tr>
               </tbody>
@@ -360,6 +361,7 @@
         },
         offer:{},
         newOffer:false,
+        editOffer:false,
         mainArea:{},
         errors:{},
       }
@@ -396,8 +398,6 @@
               showNotify('danger',error.response.data.errors[prop])
             }  
           })
-        
-        // this.$store.dispatch('updateAppDefaults', this.appDefaults)
       },
       saveMainArea(){
         axios.post('/mainArea',this.mainArea)
@@ -522,6 +522,10 @@
             })
           }
         })
+      },
+      editOffer(key){
+        this.offer = this.offers[key]
+        this.editOffer = true
       },
       changeOfferStatus(key){
         this.$swal({

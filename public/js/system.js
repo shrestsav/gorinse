@@ -5598,6 +5598,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5625,6 +5626,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       offer: {},
       newOffer: false,
+      editOffer: false,
       mainArea: {},
       errors: {}
     };
@@ -5656,7 +5658,7 @@ __webpack_require__.r(__webpack_exports__);
         for (var prop in error.response.data.errors) {
           showNotify('danger', error.response.data.errors[prop]);
         }
-      }); // this.$store.dispatch('updateAppDefaults', this.appDefaults)
+      });
     },
     saveMainArea: function saveMainArea() {
       var _this = this;
@@ -5780,6 +5782,10 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    },
+    editOffer: function editOffer(key) {
+      this.offer = this.offers[key];
+      this.editOffer = true;
     },
     changeOfferStatus: function changeOfferStatus(key) {
       var _this5 = this;
@@ -67756,7 +67762,7 @@ var render = function() {
                     _c(
                       "tbody",
                       [
-                        _vm.newOffer
+                        _vm.newOffer || _vm.editOffer
                           ? _c("tr", [
                               _c("td"),
                               _vm._v(" "),
@@ -68089,6 +68095,20 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       return _vm.deleteOffer(item.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("-")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.editOffer(key)
                                     }
                                   }
                                 },

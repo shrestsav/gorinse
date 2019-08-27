@@ -61,7 +61,7 @@ class CoreController extends Controller
 
     public function mainAreas()
     {
-        $mainAreas = MainArea::select('id','name')->get();
+        $mainAreas = MainArea::pluck('name','id')->toArray();
         
         return response()->json($mainAreas);
     }
