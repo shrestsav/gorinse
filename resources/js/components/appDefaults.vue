@@ -310,13 +310,13 @@
                 <!-- For Old Order List -->
                 <tr v-for="item,key in offers">
                   <td>{{key+1}}</td>
-                  <td>
+                  <td>{{offer.offer_url}}
                     <div v-if="editExistingOrder(item['id'])">
                       <div class="banner_images">
                         <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
                       </div>
                       <div class="custom-file" style="width: 274px; ">
-                        <input type="file" class="custom-file-input" lang="en" ref="offerFile" v-on:change="offerFileUpload()" :class="{'not-validated':errors.offer_image}">
+                        <input type="file" class="custom-file-input" lang="en" v-on:change="editOfferImage" :class="{'not-validated':errors.offer_image}">
                         <label class="custom-file-label">Offer Image</label>
                         <div class="invalid-feedback" style="display: block;" v-if="errors.offer_image">
                           {{errors.offer_image[0]}}
@@ -519,8 +519,12 @@
         this.newOffer = true
       },
       offerFileUpload(){
-        this.offer.offer_image = this.$refs.offerFile.files[0];
-        this.offer.offer_url = URL.createObjectURL(this.offer.offer_image);
+        this.offer.offer_image = this.$refs.offerFile.files[0]
+        this.offer.offer_url = URL.createObjectURL(this.offer.offer_image)
+      },
+      editOfferImage(e){
+        this.offer.offer_image = e.target.files[0]
+        this.offer.offer_url = URL.createObjectURL(this.offer.offer_image)
       },
       saveOffer(){
         let offerForm = new FormData()

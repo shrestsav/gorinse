@@ -5779,6 +5779,10 @@ __webpack_require__.r(__webpack_exports__);
       this.offer.offer_image = this.$refs.offerFile.files[0];
       this.offer.offer_url = URL.createObjectURL(this.offer.offer_image);
     },
+    editOfferImage: function editOfferImage(e) {
+      this.offer.offer_image = e.target.files[0];
+      this.offer.offer_url = URL.createObjectURL(this.offer.offer_image);
+    },
     saveOffer: function saveOffer() {
       var _this3 = this;
 
@@ -68074,6 +68078,10 @@ var render = function() {
                             _c("td", [_vm._v(_vm._s(key + 1))]),
                             _vm._v(" "),
                             _c("td", [
+                              _vm._v(
+                                _vm._s(_vm.offer.offer_url) +
+                                  "\n                  "
+                              ),
                               _vm.editExistingOrder(item["id"])
                                 ? _c("div", [
                                     _c(
@@ -68096,19 +68104,13 @@ var render = function() {
                                       },
                                       [
                                         _c("input", {
-                                          ref: "offerFile",
-                                          refInFor: true,
                                           staticClass: "custom-file-input",
                                           class: {
                                             "not-validated":
                                               _vm.errors.offer_image
                                           },
                                           attrs: { type: "file", lang: "en" },
-                                          on: {
-                                            change: function($event) {
-                                              return _vm.offerFileUpload()
-                                            }
-                                          }
+                                          on: { change: _vm.editOfferImage }
                                         }),
                                         _vm._v(" "),
                                         _c(
