@@ -269,9 +269,10 @@
                 <tr v-if="newOffer">
                   <td></td>
                   <td>
-                    <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
-                    <br>
-                    <div class="custom-file">
+                    <div class="banner_images">
+                      <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
+                    </div>
+                    <div class="custom-file" style="width: 274px; ">
                       <input type="file" class="custom-file-input" lang="en" ref="offerFile" v-on:change="offerFileUpload()" :class="{'not-validated':errors.offer_image}">
                       <label class="custom-file-label">Offer Image</label>
                       <div class="invalid-feedback" style="display: block;" v-if="errors.offer_image">
@@ -281,7 +282,7 @@
                   </td>
                   <td>
                     <div class="form-group">
-                      <input v-model="offer.offer_name" :class="{'not-validated':errors.offer_name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 300px;">
+                      <input v-model="offer.offer_name" :class="{'not-validated':errors.offer_name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 250px;">
                       <div class="invalid-feedback" style="display: block;" v-if="errors.offer_name">
                         {{errors.offer_name[0]}}
                       </div>
@@ -289,7 +290,7 @@
                   </td>
                   <td>
                     <div class="form-group">
-                      <textarea v-model="offer.offer_description" :class="{'not-validated':errors.offer_description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 300px;"></textarea>
+                      <textarea v-model="offer.offer_description" :class="{'not-validated':errors.offer_description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 250px;"></textarea>
                       <div class="invalid-feedback" style="display: block;" v-if="errors.offer_description">
                         {{errors.offer_description[0]}}
                       </div>
@@ -309,10 +310,14 @@
                 <!-- For Old Order List -->
                 <tr v-for="item,key in offers">
                   <td>{{key+1}}</td>
-                  <td><img :src="base_url+'/files/offer_banners/'+item['image']" style="height: 200px; max-width: 300px;"></td>
+                  <td>
+                    <div class="banner_images">
+                      <img :src="base_url+'/files/offer_banners/'+item['image']" height="200px">
+                    </div>
+                  </td>
                   <td>
                     <div class="form-group" v-if="editExistingOrder(item['id'])">
-                      <input v-model="offer.name" :class="{'not-validated':errors.name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 300px;">
+                      <input v-model="offer.name" :class="{'not-validated':errors.name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 250px;">
                       <div class="invalid-feedback" style="display: block;" v-if="errors.name">
                         {{errors.name[0]}}
                       </div>
@@ -321,7 +326,7 @@
                   </td>
                   <td>
                     <div class="form-group" v-if="editExistingOrder(item['id'])">
-                      <textarea v-model="offer.description" :class="{'not-validated':errors.description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 300px;"></textarea>
+                      <textarea v-model="offer.description" :class="{'not-validated':errors.description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 250px;"></textarea>
                       <div class="invalid-feedback" style="display: block;" v-if="errors.description">
                         {{errors.description[0]}}
                       </div>

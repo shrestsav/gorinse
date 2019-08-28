@@ -121,7 +121,11 @@ class OrderController extends Controller
         $order = Order::find($request->order_id);
 
         if($order->status==0){
-            $order->update(['driver_id' => Auth::id(), 'status' => 1]);
+            $order->update([
+                'driver_id' => Auth::id(), 
+                'pick_assigned_by' => Auth::id(),
+                'PAT' => Date('Y-m-d h:i:s'),
+                'status' => 1]);
             User::notifyAcceptOrder($request->order_id);
         }
         else{
@@ -154,27 +158,39 @@ class OrderController extends Controller
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
                         ->get();
 
-        $collection = collect([
-            'image_url' => asset('files/products/'),
-            'pending' => $orders
-        ]);
-        // $data = $collection->merge($orders);        
+        // $map = $orders->map(function($order){
+        //    $data['user_firstName'] = $order->id;
+        //    $data['user_lastName'] = $order->type;
+        //    return $data;
+        // });
 
-        // $collection = collect($orders);
-        // $data = $collection->merge($orders);
-
-        $acceptedOrders = Order::select('orders.id',
-                                        'orders.type',
-                                        'orders.customer_id',
-                                        'orders.pick_location',
-                                        'orders.created_at',
-                                        'pick.name as pick_location_name')
-                        ->where('orders.status','>=',1)
-                        ->where('orders.status','<=',4)
-                        ->where('orders.driver_id','=',$driver_area)
+        $acceptedOrders = Order::select('id',
+                                        'type',
+                                        'customer_id',
+                                        'pick_location',
+                                        'created_at')
+                        ->where('status','>=',1)
+                        ->where('status','<=',4)
+                        ->where('driver_id','=',Auth::id())
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
                         ->get();
 
+        $assignedForDrop = Order::select('id',
+                                         'type',
+                                         'customer_id',
+                                         'pick_location',
+                                         'created_at')
+                        ->where('status','>=',5)
+                        ->where('status','<=',6)
+                        ->where('drop_driver_id','=',Auth::id())
+                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
+                        ->get();
+
+        $collection = collect([
+            'pending' => $orders,
+            'pick' => $acceptedOrders,
+            'drop' => $assignedForDrop,
+        ]);
         return response()->json($collection);
     }
     /**

@@ -9,6 +9,7 @@ class Order extends Model
     protected $fillable = [
         'customer_id',
         'driver_id',
+        'pick_assigned_by',
 		'type',
 		'pick_location',
 		'pick_date',
@@ -17,7 +18,9 @@ class Order extends Model
         'drop_date',
         'drop_timerange',
         'payment',
-		'status'
+		'status',
+
+        'PAT'
     ];
 
     public function customer()

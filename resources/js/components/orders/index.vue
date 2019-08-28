@@ -35,7 +35,7 @@
                 <td>{{item.pick_date}}</td>
                 <td>
                   <span v-if="item.status === 0">Not Assigned</span>
-                  <span v-if="item.status !== 0">{{item.driver.fname}} {{item.driver.lname}}</span>
+                  <span v-if="item.status !== 0 && item.driver">{{item.driver.fname}} {{item.driver.lname}}</span>
                 </td>
                 <td>
                   <span>{{ getStatus(item.status) }}</span>

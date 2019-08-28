@@ -88,5 +88,9 @@
       width: 100%;
       height: 100%;
   }
+  .banner_images{
+    width: 274px; 
+    overflow: hidden;
+  }
 
 </style>

@@ -5625,6 +5625,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -12040,7 +12045,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.mx-datepicker{\n  width: unset;\n  display: unset;\n}\n.mx-datepicker-popup{\n  top: 0 !important;\n}\n.not-validated{\n  border-color: #fb6340;\n}\n.form-control .vs__dropdown-toggle {\n  border: 0px !important;\n}\n.table td, .table th {\n  padding: 0.8rem;\n}\n.nav-pills .nav-item:not(:last-child) {\n  padding-right: unset;\n}\n.nav-pills .nav-link {\n  border-radius: unset;\n}\n.nav-wrapper{\n  padding: unset;\n}\n.status_count{\n  padding: 2px 7px;\n  border-radius: 17px;\n  background: #F44336;\n  position: relative;\n  left: 25px;\n  color: white;\n}\n.notification_count{\n  padding: 1px 7px 6px 7px;\n  border-radius: 17px;\n  background: #7d8a92;\n  position: relative;\n  top: -7px;\n}\n.modal-fullscreen{\n  max-width: unset;\n  width: 90%;\n}\nbody{\n  zoom:90%;\n}\n.modal-backdrop {\n    width: 100%;\n    height: 100%;\n}\n\n", ""]);
+exports.push([module.i, "\n.mx-datepicker{\n  width: unset;\n  display: unset;\n}\n.mx-datepicker-popup{\n  top: 0 !important;\n}\n.not-validated{\n  border-color: #fb6340;\n}\n.form-control .vs__dropdown-toggle {\n  border: 0px !important;\n}\n.table td, .table th {\n  padding: 0.8rem;\n}\n.nav-pills .nav-item:not(:last-child) {\n  padding-right: unset;\n}\n.nav-pills .nav-link {\n  border-radius: unset;\n}\n.nav-wrapper{\n  padding: unset;\n}\n.status_count{\n  padding: 2px 7px;\n  border-radius: 17px;\n  background: #F44336;\n  position: relative;\n  left: 25px;\n  color: white;\n}\n.notification_count{\n  padding: 1px 7px 6px 7px;\n  border-radius: 17px;\n  background: #7d8a92;\n  position: relative;\n  top: -7px;\n}\n.modal-fullscreen{\n  max-width: unset;\n  width: 90%;\n}\nbody{\n  zoom:90%;\n}\n.modal-backdrop {\n    width: 100%;\n    height: 100%;\n}\n.banner_images{\n  width: 274px; \n  overflow: hidden;\n}\n\n", ""]);
 
 // exports
 
@@ -67805,54 +67810,61 @@ var render = function() {
                               _c("td"),
                               _vm._v(" "),
                               _c("td", [
-                                _c("img", {
-                                  staticClass: "img-center img-fluid",
-                                  staticStyle: { height: "200px" },
-                                  attrs: { src: _vm.offer.offer_url }
-                                }),
+                                _c("div", { staticClass: "banner_images" }, [
+                                  _c("img", {
+                                    staticClass: "img-center img-fluid",
+                                    staticStyle: { height: "200px" },
+                                    attrs: { src: _vm.offer.offer_url }
+                                  })
+                                ]),
                                 _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "custom-file" }, [
-                                  _c("input", {
-                                    ref: "offerFile",
-                                    staticClass: "custom-file-input",
-                                    class: {
-                                      "not-validated": _vm.errors.offer_image
-                                    },
-                                    attrs: { type: "file", lang: "en" },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.offerFileUpload()
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "custom-file",
+                                    staticStyle: { width: "274px" }
+                                  },
+                                  [
+                                    _c("input", {
+                                      ref: "offerFile",
+                                      staticClass: "custom-file-input",
+                                      class: {
+                                        "not-validated": _vm.errors.offer_image
+                                      },
+                                      attrs: { type: "file", lang: "en" },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.offerFileUpload()
+                                        }
                                       }
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "label",
-                                    { staticClass: "custom-file-label" },
-                                    [_vm._v("Offer Image")]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm.errors.offer_image
-                                    ? _c(
-                                        "div",
-                                        {
-                                          staticClass: "invalid-feedback",
-                                          staticStyle: { display: "block" }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                      " +
-                                              _vm._s(
-                                                _vm.errors.offer_image[0]
-                                              ) +
-                                              "\n                    "
-                                          )
-                                        ]
-                                      )
-                                    : _vm._e()
-                                ])
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      { staticClass: "custom-file-label" },
+                                      [_vm._v("Offer Image")]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.errors.offer_image
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "invalid-feedback",
+                                            staticStyle: { display: "block" }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(
+                                                  _vm.errors.offer_image[0]
+                                                ) +
+                                                "\n                    "
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
                               ]),
                               _vm._v(" "),
                               _c("td", [
@@ -67870,7 +67882,7 @@ var render = function() {
                                     class: {
                                       "not-validated": _vm.errors.offer_name
                                     },
-                                    staticStyle: { height: "300px" },
+                                    staticStyle: { height: "250px" },
                                     attrs: {
                                       type: "text",
                                       placeholder: "OFFER TITLE"
@@ -67925,7 +67937,7 @@ var render = function() {
                                       "not-validated":
                                         _vm.errors.offer_description
                                     },
-                                    staticStyle: { height: "300px" },
+                                    staticStyle: { height: "250px" },
                                     attrs: {
                                       rows: "8",
                                       placeholder: "BRIEF DESCRIPTION OF OFFER"
@@ -68053,18 +68065,17 @@ var render = function() {
                             _c("td", [_vm._v(_vm._s(key + 1))]),
                             _vm._v(" "),
                             _c("td", [
-                              _c("img", {
-                                staticStyle: {
-                                  height: "200px",
-                                  "max-width": "300px"
-                                },
-                                attrs: {
-                                  src:
-                                    _vm.base_url +
-                                    "/files/offer_banners/" +
-                                    item["image"]
-                                }
-                              })
+                              _c("div", { staticClass: "banner_images" }, [
+                                _c("img", {
+                                  attrs: {
+                                    src:
+                                      _vm.base_url +
+                                      "/files/offer_banners/" +
+                                      item["image"],
+                                    height: "200px"
+                                  }
+                                })
+                              ])
                             ]),
                             _vm._v(" "),
                             _c("td", [
@@ -68083,7 +68094,7 @@ var render = function() {
                                       class: {
                                         "not-validated": _vm.errors.name
                                       },
-                                      staticStyle: { height: "300px" },
+                                      staticStyle: { height: "250px" },
                                       attrs: {
                                         type: "text",
                                         placeholder: "OFFER TITLE"
@@ -68139,7 +68150,7 @@ var render = function() {
                                       class: {
                                         "not-validated": _vm.errors.description
                                       },
-                                      staticStyle: { height: "300px" },
+                                      staticStyle: { height: "250px" },
                                       attrs: {
                                         rows: "8",
                                         placeholder:
@@ -70886,7 +70897,7 @@ var render = function() {
                             ? _c("span", [_vm._v("Not Assigned")])
                             : _vm._e(),
                           _vm._v(" "),
-                          item.status !== 0
+                          item.status !== 0 && item.driver
                             ? _c("span", [
                                 _vm._v(
                                   _vm._s(item.driver.fname) +

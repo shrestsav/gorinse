@@ -139,6 +139,8 @@ class OrderController extends Controller
         $assign = Order::where('id','=',$request->order_id)
                         ->update([
                             'driver_id' => $request->driver_id, 
+                            'pick_assigned_by' => Auth::id(),
+                            'PAT' => Date('Y-m-d h:i:s'),
                             'status' => 1
                         ]);
 
