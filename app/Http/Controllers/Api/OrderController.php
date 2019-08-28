@@ -154,7 +154,28 @@ class OrderController extends Controller
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
                         ->get();
 
-        return response()->json($orders);
+        $collection = collect([
+            'image_url' => asset('files/products/'),
+            'pending' => $orders
+        ]);
+        // $data = $collection->merge($orders);        
+
+        // $collection = collect($orders);
+        // $data = $collection->merge($orders);
+
+        $acceptedOrders = Order::select('orders.id',
+                                        'orders.type',
+                                        'orders.customer_id',
+                                        'orders.pick_location',
+                                        'orders.created_at',
+                                        'pick.name as pick_location_name')
+                        ->where('orders.status','>=',1)
+                        ->where('orders.status','<=',4)
+                        ->where('orders.driver_id','=',$driver_area)
+                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
+                        ->get();
+
+        return response()->json($collection);
     }
     /**
      * List of pending orders for drivers of that specific area.

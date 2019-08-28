@@ -16,7 +16,12 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('customer_id')->unsigned();
-            $table->integer('driver_id')->unsigned()->nullable();
+            $table->integer('driver_id')->unsigned()->nullable()->comment('Pick Driver ID');
+
+            $table->integer('pick_assigned_by')->unsigned()->nullable();
+            $table->integer('drop_driver_id')->unsigned()->nullable();
+            $table->integer('drop_assigned_by')->unsigned()->nullable();
+
             $table->smallInteger('type')->comment('1:Normal, 2:Urgent');
             $table->smallInteger('pick_location')->comment('From User Address Table');
             $table->date('pick_date');
@@ -29,11 +34,13 @@ class CreateOrdersTable extends Migration
             $table->integer('VAT')->nullable();
             $table->integer('delivery_charge')->nullable();
 
+            $table->dateTime('PAT')->nullable()->comment('Pick Assigned Time / Accepted Time');
+            $table->dateTime('DAT')->nullable()->comment('Drop Assigned Time');
             $table->dateTime('PFC')->nullable()->comment('Picked From Customer');
             $table->dateTime('DAO')->nullable()->comment('Dropped At Office');
             $table->dateTime('PFO')->nullable()->comment('Picked From Office');
             $table->dateTime('DTC')->nullable()->comment('Delivered To Customer');
-            $table->dateTime('Payment_Time')->nullable();
+            $table->dateTime('PT')->nullable()->comment('Payment Time');
             $table->timestamps();
         });
     }

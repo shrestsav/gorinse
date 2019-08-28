@@ -8,6 +8,7 @@ class PaymentCard extends Model
 {
     protected $fillable = [
     	'user_id',
+    	'name',
     	'type',
     	'card_no',
     	'month_year',

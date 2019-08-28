@@ -17,7 +17,8 @@ class CreatePaymentCardsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->unsigned();
             $table->smallInteger('type')->comment('1: Visa, 2: Master Card');
-            $table->integer('card_no')->unsigned();
+            $table->string('name')->nullable();
+            $table->bigInteger('card_no');
             $table->string('month_year');
             $table->integer('csv')->unsigned();
             $table->timestamps();

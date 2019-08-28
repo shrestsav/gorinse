@@ -30,8 +30,9 @@ class CardController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'name' => 'required',
             'type' => 'required|digits:1',
-            'card_no' => 'required|digits:3',
+            'card_no' => 'required|digits:16',
             'month_year' => 'required',
             'csv' => 'required|digits:3'
         ]);
