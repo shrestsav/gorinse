@@ -311,13 +311,25 @@
                 <tr v-for="item,key in offers">
                   <td>{{key+1}}</td>
                   <td>
-                    <div class="banner_images">
+                    <div v-if="editExistingOrder(item['id'])">
+                      <div class="banner_images">
+                        <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
+                      </div>
+                      <div class="custom-file" style="width: 274px; ">
+                        <input type="file" class="custom-file-input" lang="en" ref="offerFile" v-on:change="offerFileUpload()" :class="{'not-validated':errors.offer_image}">
+                        <label class="custom-file-label">Offer Image</label>
+                        <div class="invalid-feedback" style="display: block;" v-if="errors.offer_image">
+                          {{errors.offer_image[0]}}
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="banner_images" v-else>
                       <img :src="base_url+'/files/offer_banners/'+item['image']" height="200px">
                     </div>
                   </td>
                   <td>
                     <div class="form-group" v-if="editExistingOrder(item['id'])">
-                      <input v-model="offer.name" :class="{'not-validated':errors.name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 250px;">
+                      <input v-model="offer.name" :class="{'not-validated':errors.name}"  type="text" class="form-control" placeholder="OFFER TITLE" style="height: 180px;">
                       <div class="invalid-feedback" style="display: block;" v-if="errors.name">
                         {{errors.name[0]}}
                       </div>
@@ -326,7 +338,7 @@
                   </td>
                   <td>
                     <div class="form-group" v-if="editExistingOrder(item['id'])">
-                      <textarea v-model="offer.description" :class="{'not-validated':errors.description}" class="form-control" rows="8" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 250px;"></textarea>
+                      <textarea v-model="offer.description" :class="{'not-validated':errors.description}" class="form-control" rows="7" placeholder="BRIEF DESCRIPTION OF OFFER" style="height: 180px;"></textarea>
                       <div class="invalid-feedback" style="display: block;" v-if="errors.description">
                         {{errors.description[0]}}
                       </div>
@@ -349,8 +361,8 @@
                       <button type="button" class="btn btn-info btn-sm" @click="cancelEditOffer()">Cancel</button>
                     </div>
                     <div v-else>
-                      <button type="button" class="btn btn-danger btn-sm" @click="deleteOffer(item.id)">-</button>
-                      <button type="button" class="btn btn-info btn-sm" @click="editOffer(key)">-</button>
+                      <button type="button" class="btn btn-danger btn-sm" @click="deleteOffer(item.id)"><i class="far fa-trash-alt"></i></button>
+                      <button type="button" class="btn btn-info btn-sm" @click="editOffer(key)"><i class="far fa-edit"></i></button>
                     </div>
                   </td>
                 </tr>
