@@ -22,7 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::where('customer_id',Auth::id())->with('customer','driver')->get();
+        $orders = Order::where('customer_id',Auth::id())->with('customer','pickDriver')->get();
         return $orders;
     }
 
@@ -150,6 +150,7 @@ class OrderController extends Controller
                                 'orders.type',
                                 'orders.customer_id',
                                 'orders.pick_location',
+                                'orders.status',
                                 'orders.created_at',
                                 'pick.name as pick_location_name')
                         ->join('user_addresses as pick','orders.pick_location','=','pick.id')
@@ -168,6 +169,7 @@ class OrderController extends Controller
                                         'type',
                                         'customer_id',
                                         'pick_location',
+                                        'status',
                                         'created_at')
                         ->where('status','>=',1)
                         ->where('status','<=',4)
@@ -179,17 +181,20 @@ class OrderController extends Controller
                                          'type',
                                          'customer_id',
                                          'pick_location',
+                                         'drop_location',
+                                         'status',
                                          'created_at')
                         ->where('status','>=',5)
                         ->where('status','<=',6)
                         ->where('drop_driver_id','=',Auth::id())
-                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
+                        ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
                         ->get();
 
         $collection = collect([
             'pending' => $orders,
             'pick' => $acceptedOrders,
             'drop' => $assignedForDrop,
+            'orderStatus' => config('settings.orderStatuses')
         ]);
         return response()->json($collection);
     }

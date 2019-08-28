@@ -6777,8 +6777,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       assign: {},
-      showErr: false,
-      errors: {}
+      showErr: false
     };
   },
   mounted: function mounted() {
@@ -6797,22 +6796,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.assign.order_id = this.order.id;
+      this.assign.type = this.active.type;
+      axios.post('/assignOrder', this.assign).then(function (response) {
+        _this.assign = {};
 
-      if (this.validate()) {
-        this.errors = {};
-        this.$store.dispatch('assignOrder', this.assign).then(function () {
-          showNotify('success', 'Order has been assigned');
+        _this.$store.dispatch('getOrders', _this.active);
 
-          _this.$store.dispatch('getOrders', _this.active);
-        })["catch"](function (error) {
-          alert(error);
-        });
-      } else {
-        this.showErr = true;
-      }
-    },
-    validate: function validate() {
-      return true;
+        showNotify('success', response.data);
+      })["catch"](function (error) {});
     }
   }
 });
@@ -7038,6 +7029,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7083,8 +7082,9 @@ __webpack_require__.r(__webpack_exports__);
       this.active.order_id = id;
       this.showDetails = true;
     },
-    assign: function assign(index) {
+    assign: function assign(index, type) {
       this.active.order = index;
+      this.active.type = type;
       this.showAssign = true;
     },
     dateDiff: function dateDiff(date) {
@@ -7096,11 +7096,7 @@ __webpack_require__.r(__webpack_exports__);
       var createdAt = this.$moment(new Date(date + ' UTC'));
       var currentTime = this.$moment(Date.now());
       var passed_minute = Math.abs(createdAt.diff(currentTime, 'minutes'));
-      console.log(passed_minute);
-
-      if (this.orders.data[index].status == 0 && passed_minute >= 10) {
-        return true;
-      } else return false;
+      if (this.orders.data[index].status == 0 && passed_minute >= 10) return true;else return false;
     }
   },
   computed: {
@@ -70326,27 +70322,11 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-6" }, [
-                  _c("h4", { staticClass: "mb-0" }, [
-                    _c("a", { attrs: { href: "javascript:;" } }, [
-                      _vm._v(_vm._s(_vm.order.customer.name))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "text-success" }, [_vm._v("●")]),
-                  _vm._v(" "),
-                  _c("small", [_vm._v("Online")])
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row mt-4" }, [
                 _c(
                   "div",
                   { staticClass: "col-md-12" },
                   [
-                    _vm._m(1),
+                    _vm._m(0),
                     _vm._v(" "),
                     _c("v-select", {
                       staticClass: "form-control",
@@ -70371,22 +70351,10 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.showErr
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "invalid-feedback",
-                      staticStyle: { display: "block" }
-                    },
-                    [
-                      _vm._v(
-                        "\n          " +
-                          _vm._s(_vm.errors.driver) +
-                          "\n        "
-                      )
-                    ]
-                  )
-                : _vm._e()
+              _c("div", {
+                staticClass: "invalid-feedback",
+                staticStyle: { display: "block" }
+              })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
@@ -70419,22 +70387,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("h4", { staticClass: "mb-0" }, [
-        _c("a", { attrs: { href: "javascript:;" } }, [_vm._v("Items")])
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "text-success" }),
-      _c("small", [_vm._v("Dummy")]),
-      _vm._v(" "),
-      _c("span", { staticClass: "text-success" }),
-      _c("small", [_vm._v("Dummy")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -70899,12 +70851,28 @@ var render = function() {
                             ? _c("span", [_vm._v("Not Assigned")])
                             : _vm._e(),
                           _vm._v(" "),
-                          item.status !== 0 && item.driver
+                          item.status !== 0 && item.pick_driver
                             ? _c("span", [
                                 _vm._v(
-                                  _vm._s(item.driver.fname) +
+                                  _vm._s(item.pick_driver.fname) +
                                     " " +
-                                    _vm._s(item.driver.lname)
+                                    _vm._s(item.pick_driver.lname)
+                                )
+                              ])
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          item.status < 5
+                            ? _c("span", [_vm._v("Not Assigned")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          item.status >= 5 && item.drop_driver
+                            ? _c("span", [
+                                _vm._v(
+                                  _vm._s(item.drop_driver.fname) +
+                                    " " +
+                                    _vm._s(item.drop_driver.lname)
                                 )
                               ])
                             : _vm._e()
@@ -70963,30 +70931,38 @@ var render = function() {
                                         },
                                         on: {
                                           click: function($event) {
-                                            return _vm.assign(index)
+                                            return _vm.assign(
+                                              index,
+                                              "pickAssign"
+                                            )
                                           }
                                         }
                                       },
-                                      [_vm._v("Assign")]
+                                      [_vm._v("Assign for Pickup")]
                                     )
                                   : _vm._e(),
                                 _vm._v(" "),
-                                item.status === 2
+                                item.status === 4
                                   ? _c(
                                       "a",
                                       {
                                         staticClass: "dropdown-item",
                                         attrs: {
                                           href: "javascript:;",
-                                          title: "Show Invoice"
+                                          "data-toggle": "modal",
+                                          "data-target": "#assignOrder",
+                                          title: "Assign Drop Order"
                                         },
                                         on: {
                                           click: function($event) {
-                                            return _vm.assign(index)
+                                            return _vm.assign(
+                                              index,
+                                              "dropAssign"
+                                            )
                                           }
                                         }
                                       },
-                                      [_vm._v("Show Invoice")]
+                                      [_vm._v("Assign for Delivery")]
                                     )
                                   : _vm._e()
                               ]
@@ -71053,7 +71029,11 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Assigned to")
+          _vm._v("Picked By")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
+          _vm._v("Dropped By")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
@@ -94455,10 +94435,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       axios.get('/customers').then(function (response) {
         context.commit('setCustomers', response.data);
       });
-    },
-    assignOrder: function assignOrder(context, assign) {
-      // return Promise.reject(new Error('error from action "Test"!'))
-      axios.post('/assignOrder', assign).then(function (response) {})["catch"](function (error) {});
     }
   }
 });

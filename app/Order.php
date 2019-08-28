@@ -28,9 +28,19 @@ class Order extends Model
         return $this->belongsTo(User::class,'customer_id');
     }
 
-    public function driver()
+    // public function driver()
+    // {
+    //     return $this->belongsTo(User::class,'driver_id');
+    // }
+
+    public function pickDriver()
     {
         return $this->belongsTo(User::class,'driver_id');
+    }
+
+    public function dropDriver()
+    {
+        return $this->belongsTo(User::class,'drop_driver_id');
     }
 
     public function pick_location_details()

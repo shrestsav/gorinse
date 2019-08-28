@@ -20,7 +20,8 @@
                 <th scope="col" class="sort">Order Type</th>
                 <th scope="col" class="sort">Pickup From</th>
                 <th scope="col" class="sort">Pickup Time</th>
-                <th scope="col" class="sort">Assigned to</th>
+                <th scope="col" class="sort">Picked By</th>
+                <th scope="col" class="sort">Dropped By</th>
                 <th scope="col" class="sort">Status</th>
                 <th scope="col" class="sort">Ordered</th>
                 <th scope="col" class="sort">Action</th>
@@ -35,7 +36,11 @@
                 <td>{{item.pick_date}}</td>
                 <td>
                   <span v-if="item.status === 0">Not Assigned</span>
-                  <span v-if="item.status !== 0 && item.driver">{{item.driver.fname}} {{item.driver.lname}}</span>
+                  <span v-if="item.status !== 0 && item.pick_driver">{{item.pick_driver.fname}} {{item.pick_driver.lname}}</span>
+                </td>
+                <td>
+                  <span v-if="item.status < 5">Not Assigned</span>
+                  <span v-if="item.status >= 5 && item.drop_driver">{{item.drop_driver.fname}} {{item.drop_driver.lname}}</span>
                 </td>
                 <td>
                   <span>{{ getStatus(item.status) }}</span>
@@ -47,9 +52,12 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                      
                       <a class="dropdown-item" href="javascript:;" @click="details(item.id)"  data-toggle="modal" data-target="#orderDetails" title="Show Order Details">Details</a>
-                      <a class="dropdown-item" href="javascript:;" @click="assign(index)"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status === 0">Assign</a>
-                      <a class="dropdown-item" href="javascript:;" @click="assign(index)"  title="Show Invoice" v-if="item.status === 2">Show Invoice</a>
+                      
+                      <a class="dropdown-item" href="javascript:;" @click="assign(index,'pickAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status === 0">Assign for Pickup</a>
+
+                      <a class="dropdown-item" href="javascript:;" @click="assign(index,'dropAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Drop Order" v-if="item.status === 4">Assign for Delivery</a>
                     </div>
                   </div>
                 </td>
@@ -114,8 +122,9 @@
         this.active.order_id = id;
         this.showDetails = true;
       },
-      assign(index){
+      assign(index,type){
         this.active.order = index;
+        this.active.type = type;
         this.showAssign = true;
       },      
       dateDiff(date){
@@ -127,10 +136,8 @@
         const createdAt = this.$moment(new Date(date+' UTC'))
         const currentTime = this.$moment(Date.now()); 
         const passed_minute = Math.abs(createdAt.diff(currentTime, 'minutes'))
-        console.log(passed_minute)
-        if(this.orders.data[index].status==0 && passed_minute>=10){
+        if(this.orders.data[index].status==0 && passed_minute>=10)
           return true
-        }
         else
           return false
       },

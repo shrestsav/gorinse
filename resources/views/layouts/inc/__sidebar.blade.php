@@ -51,7 +51,15 @@
           </div>
         </li> --}}
         <li class="nav-item">
-          <a class="nav-link" href="#navbar-orders" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-orders" v-bind:class="{ active: currentMenu=='ordersMenu'}">
+          <router-link :to="{ name: 'orders'}" >
+            <a class="nav-link" href="{{url('/v/orders')}}" :href="''" v-bind:class="{ active: currentMenu=='ordersMenu' }">
+              <i class="ni ni-cart text-info"></i>
+              <span class="nav-link-text">Orders</span>
+            </a>
+          </router-link>
+        </li>
+{{--         <li class="nav-item">
+          <a class="nav-link" href="#navbar-orders" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-orders" v-bind:class="{ active: currentMenu=='ordersMenu'}"> 
             <i class="ni ni-cart text-info"></i>
             <span class="nav-link-text">Orders</span>
           </a>
@@ -69,8 +77,16 @@
               </li>
             </ul>
           </div>
-        </li>
+        </li> --}}
         <li class="nav-item">
+          <router-link :to="{ name: 'drivers'}" >
+            <a class="nav-link" href="{{url('/v/drivers')}}" :href="''" v-bind:class="{ active: currentMenu=='driversMenu' }">
+              <i class="ni ni-bus-front-12 text-info"></i>
+              <span class="nav-link-text">Drivers</span>
+            </a>
+          </router-link>
+        </li>
+{{--         <li class="nav-item">
           <a class="nav-link" href="#navbar-drivers" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-drivers" v-bind:class="{ active: currentMenu=='driversMenu'}">
             <i class="ni ni-bus-front-12 text-info"></i>
             <span class="nav-link-text">Drivers</span>
@@ -89,7 +105,7 @@
               </li>
             </ul>
           </div>
-        </li>
+        </li> --}}
         <li class="nav-item">
           <a class="nav-link" href="#navbar-config" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-config" v-bind:class="{ active: currentMenu=='settingsMenu'}">
             <i class="ni ni-cart text-info"></i>

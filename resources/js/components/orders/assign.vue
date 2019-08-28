@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-6">
               <h4 class="mb-0">
                 <a href="javascript:;">{{order.customer.name}}</a>
@@ -24,8 +24,8 @@
               <span class="text-success"></span><small>Dummy</small>
               <span class="text-success"></span><small>Dummy</small>
             </div>
-          </div>
-          <div class="row mt-4">
+          </div> -->
+          <div class="row">
             <div class="col-md-12">
               <h4 class="mb-1">
                 <a href="javascript:;">Assign to</a>
@@ -40,8 +40,8 @@
               />
             </div>
           </div>
-          <div class="invalid-feedback" style="display: block;" v-if="showErr">
-            {{errors.driver}}
+          <div class="invalid-feedback" style="display: block;">
+           <!--  {{errors.driver}} -->
           </div>
         </div>
         <div class="modal-footer">
@@ -66,7 +66,6 @@
       return{
         assign:{},
         showErr:false,
-        errors:{},
       }
     },
     mounted(){
@@ -83,22 +82,16 @@
     methods:{
       setAssign(){
         this.assign.order_id = this.order.id
-        if(this.validate()){
-          this.errors = {};
-          this.$store.dispatch('assignOrder', this.assign).then(() => {
-            showNotify('success','Order has been assigned')
-            this.$store.dispatch('getOrders',this.active)
-          })
-          .catch((error) => {
-              alert(error)    
-            })
-        }
-        else{
-          this.showErr = true;
-        }
-      },
-      validate(){
-        return true;
+        this.assign.type = this.active.type
+
+        axios.post('/assignOrder',this.assign)
+        .then((response) => {
+          this.assign = {}
+          this.$store.dispatch('getOrders',this.active)
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+        })
       }
     },
 }

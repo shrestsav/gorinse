@@ -214,14 +214,6 @@ export const store = new Vuex.Store({
 		        .then(response => {
 		          context.commit('setCustomers',response.data)
 		        });	
-		},
-		assignOrder(context, assign){
-			// return Promise.reject(new Error('error from action "Test"!'))
-			axios.post('/assignOrder',assign)
-	          .then((response) => {
-	          })
-	          .catch((error) => {
-	          })
 		}
 	}
 })

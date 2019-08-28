@@ -19,7 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('customer','driver')->get();
+        $orders = Order::with('customer','pickDriver','dropDriver')->get();
         return new OrderCollection($orders);
         return $orders;
     }
@@ -40,7 +40,7 @@ class OrderController extends Controller
           $statusArr = ['8'];
 
         $orders = Order::whereIn('status',$statusArr)
-                        ->with('customer','driver','pick_location_details','drop_location_details','orderItems')
+                        ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver')
                         ->orderBy('status','ASC')
                         ->paginate(config('settings.rows'));
                         
@@ -84,7 +84,7 @@ class OrderController extends Controller
     {
         $id = 2;
         $order = Order::where('id',$id)
-                        ->with('customer','driver','pick_location_details','drop_location_details')
+                        ->with('customer','pickDriver','pick_location_details','drop_location_details')
                         ->first();
         $invoice = Order::generateInvoice($id);
 
@@ -134,15 +134,27 @@ class OrderController extends Controller
         $validatedData = $request->validate([
             'driver_id' => 'required',
             'order_id' => 'required',
+            'type' => 'required',
         ]);
 
-        $assign = Order::where('id','=',$request->order_id)
-                        ->update([
-                            'driver_id' => $request->driver_id, 
-                            'pick_assigned_by' => Auth::id(),
-                            'PAT' => Date('Y-m-d h:i:s'),
-                            'status' => 1
-                        ]);
+        if($request->type=='pickAssign'){
+            $assign = Order::where('id','=',$request->order_id)
+                            ->update([
+                                'driver_id' => $request->driver_id, 
+                                'pick_assigned_by' => Auth::id(),
+                                'PAT' => Date('Y-m-d h:i:s'),
+                                'status' => 1
+                            ]);
+        }
+        if($request->type=='dropAssign'){
+            $assign = Order::where('id','=',$request->order_id)
+                            ->update([
+                                'drop_driver_id' => $request->driver_id, 
+                                'drop_assigned_by' => Auth::id(),
+                                'DAT' => Date('Y-m-d h:i:s'),
+                                'status' => 5
+                            ]);
+        }
 
         return response()->json('Successfully Assigned');
     }
