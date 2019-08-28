@@ -324,7 +324,7 @@
                       </div>
                     </div> 
                     <div class="banner_images" v-else>
-                      <img :src="base_url+'/files/offer_banners/'+item['image']" height="200px">
+                      <img :src="base_url+'/files/offer_banners/'+item['image']" class="img-center img-fluid" style="height: 200px;">
                     </div>
                   </td>
                   <td>
@@ -571,6 +571,8 @@
       },
       editOffer(key){
         this.offer = this.offers[key]
+        this.offer.offer_url = this.base_url+'/files/offer_banners/'+this.offer.image
+
         this.modifyOrder.id = this.offers[key].id
         this.modifyOrder.edit = true
       },

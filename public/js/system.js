@@ -5831,6 +5831,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     editOffer: function editOffer(key) {
       this.offer = this.offers[key];
+      this.offer.offer_url = this.base_url + '/files/offer_banners/' + this.offer.image;
       this.modifyOrder.id = this.offers[key].id;
       this.modifyOrder.edit = true;
     },
@@ -68141,12 +68142,13 @@ var render = function() {
                                   ])
                                 : _c("div", { staticClass: "banner_images" }, [
                                     _c("img", {
+                                      staticClass: "img-center img-fluid",
+                                      staticStyle: { height: "200px" },
                                       attrs: {
                                         src:
                                           _vm.base_url +
                                           "/files/offer_banners/" +
-                                          item["image"],
-                                        height: "200px"
+                                          item["image"]
                                       }
                                     })
                                   ])
