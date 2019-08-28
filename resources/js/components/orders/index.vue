@@ -31,7 +31,7 @@
                 <td>{{index+1}}</td>
                 <td><span v-if="item.customer">{{item.customer.fname}}</span></td>
                 <td>{{item.type}}</td>
-                <td v-if="item.pick_location_details>{{item.pick_location_details.name}}</td>
+                <td v-if="item.pick_location_details">{{item.pick_location_details.name}}</td>
                 <td>{{item.pick_date}}</td>
                 <td>
                   <span v-if="item.status === 0">Not Assigned</span>

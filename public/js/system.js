@@ -70886,17 +70886,29 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.type))]),
                         _vm._v(" "),
-                        _vm._v(' === 0">Not Assigned'),
-                        _vm._v(" "),
-                        item.status !== 0 && item.driver
-                          ? _c("span", [
-                              _vm._v(
-                                _vm._s(item.driver.fname) +
-                                  " " +
-                                  _vm._s(item.driver.lname)
-                              )
+                        item.pick_location_details
+                          ? _c("td", [
+                              _vm._v(_vm._s(item.pick_location_details.name))
                             ])
                           : _vm._e(),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.pick_date))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          item.status === 0
+                            ? _c("span", [_vm._v("Not Assigned")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          item.status !== 0 && item.driver
+                            ? _c("span", [
+                                _vm._v(
+                                  _vm._s(item.driver.fname) +
+                                    " " +
+                                    _vm._s(item.driver.lname)
+                                )
+                              ])
+                            : _vm._e()
+                        ]),
                         _vm._v(" "),
                         _c("td", [
                           _c("span", [
