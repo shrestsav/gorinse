@@ -310,8 +310,9 @@
                 <!-- For Old Order List -->
                 <tr v-for="item,key in offers">
                   <td>{{key+1}}</td>
-                  <td>{{offer.offer_url}}
+                  <td>
                     <div v-if="editExistingOrder(item['id'])">
+                      {{offer.offer_url}}
                       <div class="banner_images">
                         <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
                       </div>
@@ -402,7 +403,9 @@
             icon : "+",
           },
         },
-        offer:{},
+        offer:{
+          offer_url:'',
+        },
         newOffer:false,
         modifyOrder:{
           id:'',
@@ -524,7 +527,7 @@
       },
       editOfferImage(e){
         this.offer.offer_image = e.target.files[0]
-        this.offer.offer_url = URL.createObjectURL(this.offer.offer_image)
+        this.offer = Object.assign({}, this.offer, { offer_url: URL.createObjectURL(this.offer.offer_image) })
       },
       saveOffer(){
         let offerForm = new FormData()

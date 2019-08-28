@@ -9,4 +9,9 @@ export const settings = {
                 'Delivered',
                 'Paid'
 	],
+        'orderType' : {
+                1 : 'Normal',
+                2 : 'Urgent'
+        },
+
 }

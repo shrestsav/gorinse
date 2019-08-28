@@ -31,7 +31,7 @@
               <tr v-for="(item,index) in orders.data" v-bind:class="{ urgent: checkPending(index) }">
                 <td>{{index+1}}</td>
                 <td><span v-if="item.customer">{{item.customer.fname}}</span></td>
-                <td>{{item.type}}</td>
+                <td>{{getOrderType(item.type)}}</td>
                 <td v-if="item.pick_location_details">{{item.pick_location_details.name}}</td>
                 <td>{{item.pick_date}}</td>
                 <td>
@@ -117,6 +117,9 @@
       },
       getStatus(status) {
         return settings.orderStatuses[status]
+      },
+      getOrderType(type) {
+        return settings.orderType[type]
       },
       details(id){
         this.active.order_id = id;

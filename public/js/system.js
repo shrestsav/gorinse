@@ -5642,6 +5642,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5667,7 +5668,9 @@ __webpack_require__.r(__webpack_exports__);
           icon: "+"
         }
       },
-      offer: {},
+      offer: {
+        offer_url: ''
+      },
       newOffer: false,
       modifyOrder: {
         id: '',
@@ -5781,7 +5784,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     editOfferImage: function editOfferImage(e) {
       this.offer.offer_image = e.target.files[0];
-      this.offer.offer_url = URL.createObjectURL(this.offer.offer_image);
+      this.offer = Object.assign({}, this.offer, {
+        offer_url: URL.createObjectURL(this.offer.offer_image)
+      });
     },
     saveOffer: function saveOffer() {
       var _this3 = this;
@@ -7094,6 +7099,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getStatus: function getStatus(status) {
       return _config_settings__WEBPACK_IMPORTED_MODULE_2__["settings"].orderStatuses[status];
+    },
+    getOrderType: function getOrderType(type) {
+      return _config_settings__WEBPACK_IMPORTED_MODULE_2__["settings"].orderType[type];
     },
     details: function details(id) {
       this.active.order_id = id;
@@ -68078,12 +68086,13 @@ var render = function() {
                             _c("td", [_vm._v(_vm._s(key + 1))]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(
-                                _vm._s(_vm.offer.offer_url) +
-                                  "\n                  "
-                              ),
                               _vm.editExistingOrder(item["id"])
                                 ? _c("div", [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(_vm.offer.offer_url) +
+                                        "\n                    "
+                                    ),
                                     _c(
                                       "div",
                                       { staticClass: "banner_images" },
@@ -70922,7 +70931,7 @@ var render = function() {
                             : _vm._e()
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.type))]),
+                        _c("td", [_vm._v(_vm._s(_vm.getOrderType(item.type)))]),
                         _vm._v(" "),
                         item.pick_location_details
                           ? _c("td", [
@@ -94304,7 +94313,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "settings", function() { return settings; });
 var settings = {
-  'orderStatuses': ['Pending', 'Assigned', 'Invoice Generated', 'Confirmed by Customer', 'On Work', 'Assigned for Delivery', 'Delivered', 'Paid']
+  'orderStatuses': ['Pending', 'Assigned', 'Invoice Generated', 'Confirmed by Customer', 'On Work', 'Assigned for Delivery', 'Delivered', 'Paid'],
+  'orderType': {
+    1: 'Normal',
+    2: 'Urgent'
+  }
 };
 
 /***/ }),
@@ -94607,8 +94620,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\ShreStsaV\Development\gorinse\resources\js\system.js */"./resources/js/system.js");
-module.exports = __webpack_require__(/*! E:\ShreStsaV\Development\gorinse\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Quick Access\WORK STUFFS\CODEILO\gorinse\resources\js\system.js */"./resources/js/system.js");
+module.exports = __webpack_require__(/*! D:\Quick Access\WORK STUFFS\CODEILO\gorinse\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
