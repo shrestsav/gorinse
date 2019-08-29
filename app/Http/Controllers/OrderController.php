@@ -138,19 +138,31 @@ class OrderController extends Controller
         ]);
 
         if($request->type=='pickAssign'){
+            // $validatedData = $request->validate([
+            //     'pick_date' => 'required',
+            //     'pick_timerange' => 'required',
+            // ]);
             $assign = Order::where('id','=',$request->order_id)
                             ->update([
                                 'driver_id' => $request->driver_id, 
                                 'pick_assigned_by' => Auth::id(),
+                                // 'pick_date' => $request->pick_date,
+                                // 'pick_timerange' => $request->pick_timerange,
                                 'PAT' => Date('Y-m-d h:i:s'),
                                 'status' => 1
                             ]);
         }
         if($request->type=='dropAssign'){
+            $validatedData = $request->validate([
+                'drop_date' => 'required',
+                'drop_timerange' => 'required',
+            ]);
             $assign = Order::where('id','=',$request->order_id)
                             ->update([
                                 'drop_driver_id' => $request->driver_id, 
                                 'drop_assigned_by' => Auth::id(),
+                                'drop_date' => $request->drop_date,
+                                'drop_timerange' => $request->drop_timerange,
                                 'DAT' => Date('Y-m-d h:i:s'),
                                 'status' => 5
                             ]);

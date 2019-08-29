@@ -48,6 +48,7 @@
 <body>
 
   <div id="app">
+    <vue-progress-bar></vue-progress-bar>
     <!-- Sidenav -->
     <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
 

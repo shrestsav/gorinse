@@ -196,7 +196,7 @@ class User extends Authenticatable
 
         $notification = [
             'notifyType' => 'order_accepted',
-            'message' => $order->driver->fname. ' just accepted order '.$order->id,
+            'message' => $order->pickDriver->fname. ' just accepted order '.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -223,7 +223,7 @@ class User extends Authenticatable
 
         $notificationAdmin = [
             'notifyType' => 'invoice_generated',
-            'message' => $order->driver->fname. ' has generated an invoice for order '.$order->id,
+            'message' => $order->pickDriver->fname. ' has generated an invoice for order '.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -284,7 +284,7 @@ class User extends Authenticatable
 
         $notificationAdmin = [
             'notifyType' => 'dropped_at_office',
-            'message' => $order->driver->fname. ' has dropped clothes at office for order '.$order->id,
+            'message' => $order->pickDriver->fname. ' has dropped clothes at office for order '.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];

@@ -68,4 +68,5 @@ Route::middleware(['auth'])->group(function () {
 	});
 	Route::get('getFields/{fieldType}','CoreController@getFields');
 	Route::get('getSettings/{settingType}','CoreController@getSettings');
+	Route::get('orderTime','CoreController@orderTime');
 });

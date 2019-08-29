@@ -17,6 +17,7 @@ export const store = new Vuex.Store({
 		mainAreas:{},
 		offers:{},
 		orderStatus:{},
+		orderTime:{},
 		notifications:{},
 		appDefaults:{},
 		errors:{},
@@ -36,6 +37,9 @@ export const store = new Vuex.Store({
 		},
 		orderStatus(state){
 			return state.orderStatus;
+		},
+		orderTime(state){
+			return state.orderTime;
 		},
 		services(state){
 			return state.services;
@@ -83,6 +87,9 @@ export const store = new Vuex.Store({
 		},
 		setOrderStatus(state, orderStatus){
 			state.orderStatus = orderStatus
+		},
+		setOrderTime(state, orderTime){
+			state.orderTime = orderTime
 		},
 		setServices(state, services){
 			state.services = services
@@ -133,6 +140,12 @@ export const store = new Vuex.Store({
 			axios.get('/getSettings/orderStatus')
 	        .then(response => {
 	        	context.commit('setOrderStatus',response.data)
+	        });
+		},
+		getOrderTime(context){
+			axios.get('/orderTime')
+	        .then(response => {
+	        	context.commit('setOrderTime',response.data)
 	        });
 		},
 		getOrders(context,orderObj){

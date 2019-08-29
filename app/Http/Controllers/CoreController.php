@@ -210,4 +210,11 @@ class CoreController extends Controller
         return response()->json('Successfully Updated');
     }
 
+    public function orderTime()
+    {
+        $appDefaults = AppDefault::first();
+        $orderTime = json_decode($appDefaults->order_time);
+
+        return response()->json($orderTime);
+    }
 }

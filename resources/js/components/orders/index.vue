@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <assign :active="active" v-if="showAssign"></assign>
+    <assign :active="active" v-if="showAssign" ref="assign"></assign>
     <show :active="active" v-if="showDetails"></show>
   </div>
 </template>
@@ -87,11 +87,12 @@
     data(){
       return{
         active:{
+          order:'',
           page:1,
           order_id:'',
           status:'Pending',
         },
-        showAssign: false,
+        showAssign: true,
         showDetails: false,
         errors:{},
         message:'',
@@ -129,6 +130,7 @@
         this.active.order = index;
         this.active.type = type;
         this.showAssign = true;
+        this.$refs.assign.mount()
       },      
       dateDiff(date){
         var date = new Date(date+' UTC')

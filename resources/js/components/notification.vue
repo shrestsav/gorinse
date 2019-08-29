@@ -9,7 +9,7 @@
         <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">{{count}}</strong> notifications.</h6>
       </div>
       <!-- List group -->
-      <div class="list-group list-group-flush">
+      <div class="list-group list-group-flush notifications-window">
         <a href="#!" class="list-group-item list-group-item-action" v-for="item in newNotifications">
           <div class="row align-items-center">
             <div class="col-auto">
@@ -104,3 +104,11 @@
     }
   }
 </script>
+
+<style type="text/css" scoped>
+  .notifications-window
+  {
+    height: 500px;
+    overflow: auto;
+  }
+</style>

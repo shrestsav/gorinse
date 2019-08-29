@@ -22,8 +22,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::where('customer_id',Auth::id())->with('customer','pickDriver')->get();
-        return $orders;
+        $orders = Order::where('customer_id',Auth::id())->with('customer','pickDriver','dropDriver')->get();
+
+        $collection = collect([
+            'orders' => $orders,
+            'orderStatus' => config('settings.orderStatuses')
+        ]);
+        return $collection;
     }
 
     /**
@@ -145,14 +150,17 @@ class OrderController extends Controller
      */
     public function pendingOrders()
     {
+        $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->format('Y-m-d');
         $driver_area = User::find(Auth::id())->details->area_id;
-        $orders = Order::select('orders.id',
-                                'orders.type',
-                                'orders.customer_id',
-                                'orders.pick_location',
-                                'orders.status',
-                                'orders.created_at',
-                                'pick.name as pick_location_name')
+        $pickPending = Order::select('orders.id',
+                                     'orders.type',
+                                     'orders.customer_id',
+                                     'orders.pick_location',
+                                     'orders.pick_date',
+                                     'orders.pick_timerange',
+                                     'orders.status',
+                                     'orders.created_at',
+                                     'pick.name as pick_location_name')
                         ->join('user_addresses as pick','orders.pick_location','=','pick.id')
                         ->where('orders.status','=',0)
                         ->where('pick.area_id','=',$driver_area)
@@ -165,34 +173,51 @@ class OrderController extends Controller
         //    return $data;
         // });
 
-        $acceptedOrders = Order::select('id',
-                                        'type',
-                                        'customer_id',
-                                        'pick_location',
-                                        'status',
-                                        'created_at')
-                        ->where('status','>=',1)
-                        ->where('status','<=',4)
-                        ->where('driver_id','=',Auth::id())
-                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
+        $activeOrder = Order::select('id',
+                                     'type',
+                                     'customer_id',
+                                     'pick_location',
+                                     'pick_date',
+                                     'pick_timerange',
+                                     'drop_location',
+                                     'drop_date',
+                                     'drop_timerange',
+                                     'status',
+                                     'created_at')
+                        ->where(function ($query){
+                            $query->where('status','>=',1)
+                                  ->where('status','<=',4)
+                                  ->where('driver_id','=',Auth::id());
+                        })
+                        ->orWhere(function ($query) use ($today){
+                            $query->where('status','>=',5)
+                                  ->where('status','<=',6)
+                                  ->whereDate('drop_date','=',$today)
+                                  ->where('drop_driver_id','=',Auth::id());
+                        })
+                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community','drop_location_details:id,name,map_coordinates,building_community')
                         ->get();
+
 
         $assignedForDrop = Order::select('id',
                                          'type',
                                          'customer_id',
                                          'pick_location',
                                          'drop_location',
+                                         'drop_date',
+                                         'drop_timerange',
                                          'status',
                                          'created_at')
                         ->where('status','>=',5)
                         ->where('status','<=',6)
+                        ->whereDate('drop_date','!=',$today)
                         ->where('drop_driver_id','=',Auth::id())
                         ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
                         ->get();
 
         $collection = collect([
-            'pending' => $orders,
-            'pick' => $acceptedOrders,
+            'active' => $activeOrder,
+            'pick' => $pickPending,
             'drop' => $assignedForDrop,
             'orderStatus' => config('settings.orderStatuses')
         ]);

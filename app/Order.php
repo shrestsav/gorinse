@@ -28,10 +28,11 @@ class Order extends Model
         return $this->belongsTo(User::class,'customer_id');
     }
 
-    // public function driver()
-    // {
-    //     return $this->belongsTo(User::class,'driver_id');
-    // }
+    //Pahila yo use garthyo ailey gardaina, hataihalna bhayena
+    public function driver()
+    {
+        return $this->belongsTo(User::class,'driver_id');
+    }
 
     public function pickDriver()
     {

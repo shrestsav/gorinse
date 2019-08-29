@@ -48,6 +48,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::post('/orderItems','OrderController@orderItems');
 		Route::post('/sendOrderInvoiceForApproval','OrderController@sendOrderInvoiceForApproval');
 		Route::get('/dropAtOffice/{order_id}','OrderController@driverDropAtOffice');
+		Route::post('/changeMainArea','DriverController@changeMainArea');
 	});
 
 	Route::get('/test','OrderController@test');

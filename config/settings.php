@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'timezone' => 'Asia/Dubai',
     'date_format' => 'Y-m-d',
     'time_format' => 'g:i A',
     'dateTime'    => 'Y-m-d h:i:s',
