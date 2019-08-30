@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AppDefault;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Order\OrderCollection;
 use App\Item;
@@ -229,10 +230,71 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function orderItems(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'order_id' => 'required',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => '422',
+    //             'message' => 'Validation Failed',
+    //             'errors' => $validator->errors(),
+    //         ], 422);
+    //     }
+
+    //     $order_id = $request->order_id;
+    //     $order = Order::where('id',$order_id);
+    //     if($order->exists()){
+    //         if(Auth::id()==$order->first()->driver_id){
+    //             foreach($request->items as $service_id => $items){
+    //                 $serviceCharge = Service::find($service_id)->price;
+    //                 foreach ($items as $item) {
+    //                     $itemCharge = Item::find($item['item_id'])->price;
+    //                     $orderItem = new OrderItem;
+    //                     $orderItem->order_id = $order_id;
+    //                     $orderItem->service_id = $service_id;
+    //                     $orderItem->item_id = $item['item_id'];
+    //                     $orderItem->quantity = $item['quantity'];
+    //                     $orderItem->service_charge = $serviceCharge;
+    //                     $orderItem->item_charge = $itemCharge;
+    //                     $orderItem->remarks = $item['remarks'];
+    //                     $orderItem->save();
+    //                 }
+    //             }
+    //             $order->update([
+    //                     'VAT' => config('settings.VAT'),
+    //                     'delivery_charge' => config('settings.delivery_charge')
+    //                 ]);
+    //             // User::notifyInvoiceGenerated($order_id);
+    //             return response()->json($this->generateInvoice($order_id));
+    //         }
+    //         else{
+    //             return response()->json([
+    //                 'status' => '403',
+    //                 'message' => 'You donot have access to this order' 
+    //             ],403);
+    //         }
+    //     }
+    //     else{
+    //         return response()->json([
+    //             'status' => '404',
+    //             'message' => 'Order doesnot exist' 
+    //         ],404);
+    //     }
+    // }    
+    /**
+     * Add Items to Orders.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function orderItems(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => 'required',
+            'order_id' => 'required|numeric',
+            'service_id' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -243,29 +305,32 @@ class OrderController extends Controller
             ], 422);
         }
 
+        $appDefault = AppDefault::firstOrFail();
+        $VAT = $appDefault->VAT;
+        $deliveryCharge = $appDefault->delivery_charge;
+
         $order_id = $request->order_id;
+        $service_id = $request->service_id;
+        $serviceCharge = Service::findOrFail($service_id)->price;
         $order = Order::where('id',$order_id);
         if($order->exists()){
             if(Auth::id()==$order->first()->driver_id){
-                foreach($request->items as $service_id => $items){
-                    $serviceCharge = Service::find($service_id)->price;
-                    foreach ($items as $item) {
-                        $itemCharge = Item::find($item['item_id'])->price;
-                        $orderItem = new OrderItem;
-                        $orderItem->order_id = $order_id;
-                        $orderItem->service_id = $service_id;
-                        $orderItem->item_id = $item['item_id'];
-                        $orderItem->quantity = $item['quantity'];
-                        $orderItem->service_charge = $serviceCharge;
-                        $orderItem->item_charge = $itemCharge;
-                        $orderItem->remarks = $item['remarks'];
-                        $orderItem->save();
-                    }
+                foreach($request->items as $item){
+                    $itemCharge = Item::findOrFail($item['item_id'])->price;
+                    $orderItem = new OrderItem;
+                    $orderItem->order_id = $order_id;
+                    $orderItem->service_id = $service_id;
+                    $orderItem->item_id = $item['item_id'];
+                    $orderItem->quantity = $item['quantity'];
+                    $orderItem->service_charge = $serviceCharge;
+                    $orderItem->item_charge = $itemCharge;
+                    $orderItem->remarks = $item['remarks'];
+                    $orderItem->save();
                 }
                 $order->update([
-                        'VAT' => config('settings.VAT'),
-                        'delivery_charge' => config('settings.delivery_charge')
-                    ]);
+                    'VAT' => $VAT,
+                    'delivery_charge' => $deliveryCharge
+                ]);
                 // User::notifyInvoiceGenerated($order_id);
                 return response()->json($this->generateInvoice($order_id));
             }
@@ -435,7 +500,7 @@ class OrderController extends Controller
 
     public function generateInvoice($order_id)
     {
-        $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
+        $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item','customer')->first();
         $totalAmount = 0;
         $totalQuantity = 0;
         $invoiceArr = [];
@@ -473,7 +538,7 @@ class OrderController extends Controller
             "grand_total" => $grandTotal
         ];
         $other = [
-            'name' => 'Utsav Shrestha',
+            'name' => $orderDetails->customer->fname.' '.$orderDetails->customer->lname,
             'order_type' => config('settings.orderType')[$orderDetails->type],
         ];
         $invoiceCollection = [

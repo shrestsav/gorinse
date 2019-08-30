@@ -5642,7 +5642,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5811,12 +5810,36 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    saveEditedOffer: function saveEditedOffer() {
+      var _this4 = this;
+
+      var offerForm = new FormData();
+
+      for (var key in this.offer) {
+        offerForm.append(key, this.offer[key]);
+      }
+
+      axios.post('/offers/edit/' + this.offer.id, offerForm).then(function (response) {
+        _this4.$store.dispatch('getOffers');
+
+        _this4.offer = {};
+        _this4.modifyOrder.id = '';
+        _this4.modifyOrder.edit = true;
+        showNotify('success', response.data);
+      })["catch"](function (error) {
+        _this4.errors = error.response.data.errors;
+
+        for (var prop in error.response.data.errors) {
+          showNotify('danger', error.response.data.errors[prop]);
+        }
+      });
+    },
     discardOffer: function discardOffer() {
       this.offer = {};
       this.newOffer = false;
     },
     deleteOffer: function deleteOffer(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.$swal({
         title: 'Are you sure?',
@@ -5829,7 +5852,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           axios["delete"]('/offers/' + id).then(function (response) {
-            _this4.$store.dispatch('getOffers');
+            _this5.$store.dispatch('getOffers');
 
             showNotify('success', response.data);
           })["catch"](function (error) {
@@ -5853,7 +5876,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.modifyOrder.id == edit_id && this.modifyOrder.edit) return true;else return false;
     },
     changeOfferStatus: function changeOfferStatus(key) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$swal({
         title: 'Are you sure?',
@@ -5864,8 +5887,8 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes'
       }).then(function (result) {
         if (result.value) {
-          axios.post('/changeOfferStatus/', _this5.offers[key]).then(function (response) {
-            _this5.$store.dispatch('getOffers');
+          axios.post('/changeOfferStatus/', _this6.offers[key]).then(function (response) {
+            _this6.$store.dispatch('getOffers');
 
             showNotify('success', response.data);
           })["catch"](function (error) {
@@ -68196,11 +68219,6 @@ var render = function() {
                             _c("td", [
                               _vm.editExistingOrder(item["id"])
                                 ? _c("div", [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(_vm.offer.offer_url) +
-                                        "\n                    "
-                                    ),
                                     _c(
                                       "div",
                                       { staticClass: "banner_images" },
@@ -68504,7 +68522,8 @@ var render = function() {
                                       "button",
                                       {
                                         staticClass: "btn btn-success btn-sm",
-                                        attrs: { type: "button" }
+                                        attrs: { type: "button" },
+                                        on: { click: _vm.saveEditedOffer }
                                       },
                                       [_vm._v("Edit")]
                                     ),

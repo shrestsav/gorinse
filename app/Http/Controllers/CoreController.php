@@ -141,6 +141,35 @@ class CoreController extends Controller
         return response()->json('Successfully Added');
     }
 
+    public function editOffer(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+        ]);
+
+        $offer = Offer::findOrFail($id);
+        $offer->update([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'status' => $request['status']
+        ]);
+
+        if ($request->hasFile('offer_image')) {
+            $validator = Validator::make($request->all(), [
+                'offer_image' => 'required|mimes:jpeg,png|max:3072',
+            ]);
+            $image = $request->file('offer_image');
+            $fileName = 'banner_offer_'.$offer->id.'.'.$image->getClientOriginalExtension();
+            $uploadDirectory = public_path('files'.DS.'offer_banners');
+            $image->move($uploadDirectory, $fileName);
+
+            $offer->update(['image' => $fileName]);
+        }
+        
+        return response()->json('Successfully Updated');
+    }
+
     public function changeOfferStatus(Request $request)
     {
         $validatedData = $request->validate([

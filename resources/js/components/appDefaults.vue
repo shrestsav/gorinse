@@ -312,7 +312,6 @@
                   <td>{{key+1}}</td>
                   <td>
                     <div v-if="editExistingOrder(item['id'])">
-                      {{offer.offer_url}}
                       <div class="banner_images">
                         <img :src="offer.offer_url" class="img-center img-fluid" style="height: 200px;">
                       </div>
@@ -358,7 +357,7 @@
                   </td>
                   <td>
                     <div v-if="editExistingOrder(item['id'])">
-                      <button type="button" class="btn btn-success btn-sm">Edit</button>
+                      <button type="button" class="btn btn-success btn-sm" @click="saveEditedOffer">Edit</button>
                       <button type="button" class="btn btn-info btn-sm" @click="cancelEditOffer()">Cancel</button>
                     </div>
                     <div v-else>
@@ -541,6 +540,28 @@
           this.$store.dispatch('getOffers')
           this.offer = {}
           this.newOffer = false
+          showNotify('success',response.data)
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
+      },
+      saveEditedOffer(){
+        let offerForm = new FormData()
+
+        for (var key in this.offer) {
+            offerForm.append(key, this.offer[key]);
+        }
+        
+        axios.post('/offers/edit/'+this.offer.id,offerForm)
+        .then((response) => {
+          this.$store.dispatch('getOffers')
+          this.offer = {}
+          this.modifyOrder.id = ''
+          this.modifyOrder.edit = true
           showNotify('success',response.data)
         })
         .catch((error) => {

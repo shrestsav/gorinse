@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::delete('/mainArea/{id}','CoreController@deleteMainArea');
 	Route::get('/offers','CoreController@offers');
 	Route::post('/offers','CoreController@addOffer');
+	Route::post('/offers/edit/{id}','CoreController@editOffer');
 	Route::post('/changeOfferStatus','CoreController@changeOfferStatus');
 	Route::delete('/offers/{id}','CoreController@deleteOffer');
 

@@ -13,15 +13,15 @@ class PendingNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $order_id;
+    // protected $order_id;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($order_id)
+    public function __construct()
     {
-        $this->order_id = $order_id;
+        // $this->order_id = $order_id;
     }
 
     /**
@@ -31,14 +31,14 @@ class PendingNotification implements ShouldQueue
      */
     public function handle()
     {
-        $notification = [
-            'notifyType' => 'new_order',
-            'message' => ' Jobs Scheduler Test '.$this->order_id,
-            'model' => 'order',
-            'url' => '$order->id'
-        ];
+        // $notification = [
+        //     'notifyType' => 'new_order',
+        //     'message' => ' Jobs Scheduler Test '.$this->order_id,
+        //     'model' => 'order',
+        //     'url' => '$order->id'
+        // ];
 
-        User::find(1)->pushNotification($notification);
+        // User::find(1)->pushNotification($notification);
 
     }
 }
