@@ -36,6 +36,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::post('/updateAddress','CustomerController@updateAddress');
 		Route::get('/generateInvoice/{order_id}','OrderController@customerOrderInvoice');
 		Route::get('/confirmInvoice/{order_id}','OrderController@customerConfirmInvoice');
+		
+		Route::delete('/cancelOrderForCustomer/{order_id}','OrderController@cancelOrderForCustomer');
 
 		Route::apiResource('/cards','CardController');
 	});
@@ -60,5 +62,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/mainAreas','CoreController@mainAreas');
 	Route::get('/offers','CoreController@offers');
 	Route::get('/servicesPlusItems','CoreController@servicesPlusItems');
-	
+
+	Route::get('/notifications','AuthController@notifications');
+	Route::get('/markAllAsRead','AuthController@markAllAsRead');
+
 });

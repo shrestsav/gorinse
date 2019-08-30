@@ -248,4 +248,23 @@ class AuthController extends Controller
         // return $accessToken;
     }
 
+
+    public function notifications()
+    {
+        return response()->json(User::find(Auth::id())->unreadNotifications);
+    }
+
+    public function markAllAsRead()
+    {
+        $user = User::find(Auth::id());
+
+        foreach ($user->unreadNotifications as $notification) {
+            $notification->markAsRead();
+        }
+        return response()->json([
+            'status' => '200',
+            'message'=>'All Notifications Marked as read'
+        ],200);
+    }
+
 }

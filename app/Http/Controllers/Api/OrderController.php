@@ -498,6 +498,25 @@ class OrderController extends Controller
                 ], 400);
     }
 
+    public function cancelOrderForCustomer($order_id)
+    {
+        $order = Order::findOrFail($order_id);
+
+        if(Auth::id()!=$order->customer_id){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You donot have access to this order',
+                ], 403);
+        }
+        
+        $order->delete();
+        
+        return response()->json([
+                    'status' => '200',
+                    'message' => 'Something is wrong with the request',
+                ], 400);
+    }
+
     public function generateInvoice($order_id)
     {
         $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item','customer')->first();

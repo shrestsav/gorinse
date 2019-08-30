@@ -74,7 +74,7 @@ class Handler extends ExceptionHandler
             if($exception instanceof HttpException){
                 return response()->json([
                     'status' => '403',
-                    'errors' => 'You do not have priviledge to access this route'
+                    'errors' => 'Forbidden'
                 ], 403);
             }
         }
