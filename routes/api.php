@@ -59,4 +59,6 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/configs/{configType}','CoreController@getSettings');
 	Route::get('/mainAreas','CoreController@mainAreas');
 	Route::get('/offers','CoreController@offers');
+	Route::get('/servicesPlusItems','CoreController@servicesPlusItems');
+	
 });

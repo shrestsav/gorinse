@@ -22,7 +22,51 @@ class CoreController extends Controller
     {
         $items = Category::select('id','name')->with('items:id,category_id,name,icon')->get();
         return response()->json($items);
+    }    
+
+    public function servicesPlusItems()
+    {
+        $services = Service::all();
+        $categoryWithItems = Category::select('id','name')->with('items')->get();
+        
+        $newCollection = [];
+        foreach ($services as $service) {
+            $serviceCharge = $service->price;
+            $data = [
+                'id'    =>  $service->id,
+                'name'  =>  $service->name,
+                'categories'  =>  [],
+            ];
+            foreach($categoryWithItems as $category){
+                $newCategory = [];
+                $newCategory = [
+                    'id'    =>  $category->id,
+                    'name'  =>  $category->name,
+                    'items' =>  [],
+                ];
+                foreach ($category->items as $item) {
+                    $newItem = [];
+                    $newItem = [
+                        'id'    =>  $item->id,
+                        'name'  =>  $item->name,
+                        'price'  =>  $item->price+$serviceCharge,
+                        'icon'  =>  $item->icon,
+                    ];
+                    array_push($newCategory['items'],$newItem);
+                }
+                array_push($data['categories'],$newCategory);
+            }
+            array_push($newCollection,$data);
+        }
+
+        // $collection = collect([
+        //     'services' => $services,
+        //     'items' => $categoryWithItems
+        // ]);
+
+        return response()->json($newCollection);
     }
+
     public function getSettings($settingType)
     {
         if($settingType!=''){
