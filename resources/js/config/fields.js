@@ -123,7 +123,12 @@ export const fields = {
     'Information' : {
       'name' : {
         'display_name' : 'Category Name',
-        'col' : '12',
+        'col' : '6',
+        'type' :  'text',
+      },
+      'icon' : {
+        'display_name' : 'Icon Code',
+        'col' : '6',
         'type' :  'text',
       },
       'description' : {
@@ -138,23 +143,18 @@ export const fields = {
     'Information' : {
       'category_id' : {
         'display_name' : 'Choose Category',
-        'col' : '3',
+        'col' : '4',
         'type' :  'select',
       },
       'name' : {
         'display_name' : 'Item Name',
-        'col' : '3',
+        'col' : '4',
         'type' :  'text',
       },
       'price' : {
         'display_name' : 'Price',
-        'col' : '3',
+        'col' : '4',
         'type' :  'number',
-      },
-      'icon' : {
-        'display_name' : 'Icon Code',
-        'col' : '3',
-        'type' :  'text',
       },
       'description' : {
         'display_name' : 'Description',

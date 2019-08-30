@@ -12,16 +12,18 @@ use Illuminate\Http\Request;
 
 class CoreController extends Controller
 {
-    public function services()
+    public function serviceWithItems()
     {
         $services = Service::all();
-        return response()->json($services);
-    }
 
-    public function items()
-    {
-        $items = Category::select('id','name')->with('items:id,category_id,name,icon')->get();
-        return response()->json($items);
+        $categoryWithItems = Category::select('id','name','icon')->with('items:id,category_id,name')->get();
+
+        $collection = collect([
+            'services' => $services,
+            'categories' => $categoryWithItems,
+            'icon_CDN' => asset('files/something.something')
+        ]);
+        return response()->json($collection);
     }    
 
     public function servicesPlusItems()

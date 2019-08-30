@@ -19,7 +19,6 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('price')->unsigned()->nullable();
-            $table->string('icon');
             $table->smallInteger('status')->default(1)->comment('0: Inactive, 1: Active');
             $table->timestamps();
         });

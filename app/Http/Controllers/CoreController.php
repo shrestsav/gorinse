@@ -61,6 +61,7 @@ class CoreController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|unique:categories',
+            'icon' => 'required|string',
         ]);
 
         $category = Category::create($request->all());
@@ -79,7 +80,6 @@ class CoreController extends Controller
             'category_id' => 'required|numeric',
             'name' => 'required|unique:items',
             'price' => 'required|numeric',
-            'icon' => 'required|string',
         ]);
 
         $item = Item::create($request->all());

@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 255);
             $table->text('description')->nullable();
+            $table->string('icon');
             $table->smallInteger('status')->default(1)->comment('0: Inactive, 1: Active');
             $table->timestamps();
         });
