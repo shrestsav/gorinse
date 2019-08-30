@@ -18,9 +18,9 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
 Route::get('/test',function(){
-	// PendingNotification::dispatch();
-	 PendingNotification::dispatch(2)
-                ->delay(now()->addSeconds(5));
+	return 'Current PHP version: ' . phpversion();
+	 PendingNotification::dispatch(31)
+                ->delay(now()->addSeconds(20));
 	return 'yes';
 });
 Route::middleware(['auth'])->group(function () {

@@ -10,7 +10,7 @@
       </div>
       <!-- List group -->
       <div class="list-group list-group-flush notifications-window">
-        <a href="#!" class="list-group-item list-group-item-action" v-for="item in newNotifications">
+        <a href="javascript:;" class="list-group-item list-group-item-action" v-for="item in newNotifications.slice().reverse()">
           <div class="row align-items-center">
             <div class="col-auto">
               <!-- Avatar -->
@@ -29,7 +29,7 @@
             </div>
           </div>
         </a>
-        <a href="#!" class="list-group-item list-group-item-action" v-for="item in notifications">
+        <a href="javascript:;" class="list-group-item list-group-item-action" v-for="item in notifications">
           <div class="row align-items-center">
             <div class="col-auto">
               <!-- Avatar -->
@@ -75,9 +75,20 @@
       this.$store.dispatch('getNotifications')
       Echo.private('App.User.' + 1)
       .notification((notification) => {
-          console.log(notification);
+          // console.log(notification);
           this.$swal(notification.message);
           this.newNotifications.push(notification)
+          // if(notification.notifyType=='pending_time_exceeded')
+          // {
+          //   const active = {
+          //     order:'',
+          //     page:1,
+          //     order_id:'',
+          //     status:'Pending',
+          //   }
+          //   this.$store.dispatch('getOrders',active)
+          // }
+
       });
     },
     methods:{
@@ -108,7 +119,7 @@
 <style type="text/css" scoped>
   .notifications-window
   {
-    height: 500px;
+    max-height: 500px;
     overflow: auto;
   }
 </style>

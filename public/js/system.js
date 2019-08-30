@@ -6709,11 +6709,20 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$store.dispatch('getNotifications');
     Echo["private"]('App.User.' + 1).notification(function (notification) {
-      console.log(notification);
-
+      // console.log(notification);
       _this.$swal(notification.message);
 
-      _this.newNotifications.push(notification);
+      _this.newNotifications.push(notification); // if(notification.notifyType=='pending_time_exceeded')
+      // {
+      //   const active = {
+      //     order:'',
+      //     page:1,
+      //     order_id:'',
+      //     status:'Pending',
+      //   }
+      //   this.$store.dispatch('getOrders',active)
+      // }
+
     });
   },
   methods: {
@@ -12205,7 +12214,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.notifications-window[data-v-05d56994]\n{\n  height: 500px;\n  overflow: auto;\n}\n", ""]);
+exports.push([module.i, "\n.notifications-window[data-v-05d56994]\n{\n  max-height: 500px;\n  overflow: auto;\n}\n", ""]);
 
 // exports
 
@@ -70353,12 +70362,12 @@ var render = function() {
           "div",
           { staticClass: "list-group list-group-flush notifications-window" },
           [
-            _vm._l(_vm.newNotifications, function(item) {
+            _vm._l(_vm.newNotifications.slice().reverse(), function(item) {
               return _c(
                 "a",
                 {
                   staticClass: "list-group-item list-group-item-action",
-                  attrs: { href: "#!" }
+                  attrs: { href: "javascript:;" }
                 },
                 [
                   _c("div", { staticClass: "row align-items-center" }, [
@@ -70406,7 +70415,7 @@ var render = function() {
                 "a",
                 {
                   staticClass: "list-group-item list-group-item-action",
-                  attrs: { href: "#!" }
+                  attrs: { href: "javascript:;" }
                 },
                 [
                   _c("div", { staticClass: "row align-items-center" }, [

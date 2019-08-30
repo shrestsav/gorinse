@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Order;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,15 +14,15 @@ class PendingNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    // protected $order_id;
+    public $order_id;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($order_id)
     {
-        // $this->order_id = $order_id;
+        $this->order_id = $order_id;
     }
 
     /**
@@ -31,14 +32,16 @@ class PendingNotification implements ShouldQueue
      */
     public function handle()
     {
-        // $notification = [
-        //     'notifyType' => 'new_order',
-        //     'message' => ' Jobs Scheduler Test '.$this->order_id,
-        //     'model' => 'order',
-        //     'url' => '$order->id'
-        // ];
+        $checkStatus = Order::find($this->order_id)->status;
+        
+        $notification = [
+            'notifyType' => 'pending_time_exceeded',
+            'message' => $checkStatus.' Pending status exceeded for order '.$this->order_id,
+            'model' => 'order',
+            'url' => $this->order_id
+        ];
 
-        // User::find(1)->pushNotification($notification);
-
+        if($checkStatus==0)
+            User::find(1)->pushNotification($notification);
     }
 }
