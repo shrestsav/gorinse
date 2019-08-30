@@ -65,8 +65,8 @@ class OrderController extends Controller
             User::notifyNewOrder($order->id);
 
             //Notify Admin if order has not been accepted in 10 Minutes
-            PendingNotification::dispatch($order->id)
-                ->delay(now()->addSeconds(10));
+            // PendingNotification::dispatch($order->id)
+            //     ->delay(now()->addSeconds(10));
                 // ->addMinutes(10)
 
             return response()->json([
