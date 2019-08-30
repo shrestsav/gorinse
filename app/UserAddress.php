@@ -15,7 +15,7 @@ class UserAddress extends Model
         'type',
         'appartment_no',
         'remarks',
-        'is_default'
+        'is_default',
     ];
 
     public function user()

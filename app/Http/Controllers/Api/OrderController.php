@@ -509,12 +509,20 @@ class OrderController extends Controller
                 ], 403);
         }
         
+        if($order->status>2){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'Please contact Gorinse to cancel this order',
+                ], 403);
+        }
         $order->delete();
-        
+
+        $orderDetails = OrderItem::where('order_id','=',$order_id)->delete();
+
         return response()->json([
                     'status' => '200',
-                    'message' => 'Something is wrong with the request',
-                ], 400);
+                    'message' => 'Order has been cancelled and deleted',
+                ], 200);
     }
 
     public function generateInvoice($order_id)

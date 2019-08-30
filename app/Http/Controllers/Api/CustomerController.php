@@ -308,4 +308,39 @@ class CustomerController extends Controller
         }
         
     }
+
+    public function setDefaultAddress(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'address_id' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $lastDefault = UserAddress::where('user_id',Auth::id())
+                                  ->where('is_default',1)
+                                  ->update([
+                                    'is_default' => 0
+                                  ]);
+
+        $address = UserAddress::where('id',$request->address_id)
+                              ->where('user_id',Auth::id())
+                              ->firstOrFail()
+                              ->update([
+                                    'is_default' => 1
+                              ]);
+
+        return response()->json([
+            'status' => '200',
+            'message'=> 'Default Set Successfully' 
+        ],200);
+
+        
+    }
 }

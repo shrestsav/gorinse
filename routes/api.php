@@ -34,6 +34,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::get('/getAddress','CustomerController@getAddress');
 		Route::post('/addAddress','CustomerController@addAddress');
 		Route::post('/updateAddress','CustomerController@updateAddress');
+		Route::post('/address/setDefault','CustomerController@setDefaultAddress');
+
 		Route::get('/generateInvoice/{order_id}','OrderController@customerOrderInvoice');
 		Route::get('/confirmInvoice/{order_id}','OrderController@customerConfirmInvoice');
 		
