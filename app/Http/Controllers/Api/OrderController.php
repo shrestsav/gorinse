@@ -151,6 +151,52 @@ class OrderController extends Controller
     }
 
     /**
+     * Cancel Accepted Order.
+    **/
+    public function cancelPickup(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $order = Order::findOrFail($request->order_id);
+
+        if($order->status==1 && $order->driver_id==Auth::id() && $order->pick_assigned_by==Auth::id()){
+
+            $order->update([
+                // 'driver_id' => null, 
+                // 'pick_assigned_by' => null,
+                // 'PAT' => null,
+                'status' => 0
+            ]);
+            User::notifyCancelForPickup($request->order_id);
+            return response()->json([
+                'status'=>'200',
+                'message'=>'Pickup Cancelled'
+            ],200);
+        }
+        elseif($order->status==1 && $order->driver_id==Auth::id() && $order->pick_assigned_by!=Auth::id()){
+            return response()->json([
+                'status'=>'403',
+                'message'=>'Please contact your manager to cancel this pickup'
+            ],403);
+        }
+
+        return response()->json([
+                'status'=>'403',
+                'message'=>'Something wrong with the request'
+            ],403);
+    }
+
+    /**
      * List of pending orders for drivers of that specific area.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -503,6 +549,43 @@ class OrderController extends Controller
                     'status' => '400',
                     'message' => 'Something is wrong with the request',
                 ], 400);
+    }
+
+    //Driver Picked Clothes from office which were assigned to him for delivery to customers
+    public function driverPickedFromOffice($order_id)
+    {
+        $order = Order::findOrFail($order_id);
+
+        if($order->drop_driver_id!=Auth::id()){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You are not assigned to delivery this order',
+                ], 403);
+        }
+        elseif($order->status==5){
+            $order->status = 6;
+            $order->PFO = date(config('settings.dateTime'));
+            $order->save();
+            // $pickDelivery = $order->update([
+            //                     'status' => 6,
+            //                     'PFO'    => date(config('settings.dateTime'))
+            //                 ]);
+            if(!$order){
+                return response()->json([
+                        'status' => '400',
+                        'message' => 'Sorry the Order status could not be updated',
+                    ], 400);
+            }
+            User::notifyPickedFromOffice($order_id);
+            return response()->json([
+                    'status' => '200',
+                    'message' => 'Order Picked From Office',
+                ], 200);
+        }
+        return response()->json([
+            'status' => '400',
+            'message' => 'Something is wrong with the request',
+        ], 400);
     }
 
     public function cancelOrderForCustomer($order_id)

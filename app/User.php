@@ -144,10 +144,11 @@ class User extends Authenticatable
         $this->notify(new SystemNotification($notification));
     }
     
+    /**
+    * Notify Admins and Drivers of that specific area
+    */
     public static function notifyNewOrder($order_id)
     {  
-        //All Admins and Customer who ordered will get notified
-
         $order = Order::find($order_id);
         $area_id = $order->pick_location_details->area_id;
         $driver_ids = User::whereHas('roles', function ($query) {
@@ -183,10 +184,11 @@ class User extends Authenticatable
         return true;
     }
 
+    /**
+    * Notify Admins and Customer of that specific order
+    */
     public static function notifyAcceptOrder($order_id)
     {  
-        //All Admins and Customer who ordered will get notified
-        // return $order->driver_id;
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
                           $query->where('name', '=', 'superAdmin');
@@ -211,6 +213,82 @@ class User extends Authenticatable
         return true;
     }
 
+    /**
+    * Notify Admins
+    */
+    public static function notifyCancelForPickup($order_id)
+    {  
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'superAdmin');
+                       })->pluck('id')->toArray();
+
+        $notification = [
+            'notifyType' => 'order_accepted',
+            'message' => $order->pickDriver->fname. ' has cancelled pickup for order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notification);
+        }
+        
+        return true;
+    }
+
+    /**
+    * Notify Admins and Driver of that specific order
+    */
+    public static function notifyAssignedForPickup($order_id)
+    {  
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'superAdmin');
+                       })->pluck('id')->toArray();
+
+        $customer_id = $order->customer_id;
+        $driver_id = $order->driver_id;
+
+        $notifyCustomer = [
+            'notifyType' => 'assigned_for_pickup',
+            'message' => $order->pickDriver->fname. ' just accepted order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        $notifyDriver = [
+            'notifyType' => 'assigned_for_pickup',
+            'message' => 'Order '.$order->id. ' has been assigned to you for pickup',
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        $notifyAdmin = [
+            'notifyType' => 'assigned_for_pickup',
+            'message' => 'Order '.$order->id. ' has been assigned to '.$order->pickDriver->fname.' for pickup',
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notifyAdmin);
+        }
+        // Send Order Accepted Notification to Customer
+        User::find($customer_id)->pushNotification($notifyCustomer);
+
+        // Send Order Assigned Notification to Driver
+        User::find($driver_id)->pushNotification($notifyDriver);
+        
+        return true;
+    }
+    // assign order left
+
+    /**
+    * Notify Admins and Customer of that specific order
+    */
     public static function notifyInvoiceGenerated($order_id)
     {  
         //All Admins and Customer who ordered will get notified
@@ -245,9 +323,11 @@ class User extends Authenticatable
         return true;
     }
 
+    /**
+    * Notify Admins and Driver of that specific order
+    */
     public static function notifyInvoiceConfirmed($order_id)
     {  
-        //All Admins and Customer who ordered will get notified
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
                                   $query->where('name', '=', 'superAdmin');
@@ -272,9 +352,11 @@ class User extends Authenticatable
         return true;
     }
 
+    /**
+    * Notify Admins and Customer of that specific order
+    */
     public static function notifyDroppedAtOffice($order_id)
     {  
-        //All Admins and Customer who ordered will get notified
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
                                   $query->where('name', '=', 'superAdmin');
@@ -292,6 +374,79 @@ class User extends Authenticatable
         $notificationCustomer = [
             'notifyType' => 'dropped_at_office',
             'message' => 'Your clothes for order has been sent for dry washing',
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notificationAdmin);
+        }
+        // Send Order Accepted Notification to Customer
+        User::find($customer_id)->pushNotification($notificationCustomer);
+        
+        return true;
+    }
+    
+    /**
+    * Notify Admins and Driver of that specific order
+    */
+    public static function notifyAssignedForDelivery($order_id)
+    {  
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                                  $query->where('name', '=', 'superAdmin');
+                               })->pluck('id')->toArray();
+
+        $driver_id = $order->drop_driver_id;
+
+        $notificationDriver = [
+            'notifyType' => 'assigned_for_delivery',
+            'message' => 'Order '.$order->id.' has been assigned to you for delivery on '.$order->drop_date,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        $notificationAdmin = [
+            'notifyType' => 'assigned_for_delivery',
+            'message' => 'Order '.$order->id.' has been assigned to '.$order->dropDriver->fname.' for delivery on '.$order->drop_date,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notificationAdmin);
+        }
+        // Send Order Accepted Notification to Customer
+        User::find($driver_id)->pushNotification($notificationDriver);
+        
+        return true;
+    }
+
+    /**
+    * Notify Admins and Customer of that specific order
+    */
+    public static function notifyPickedFromOffice($order_id)
+    {  
+        //All Admins and Customer who ordered will get notified
+        $order = Order::findOrFail($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                                  $query->where('name', '=', 'superAdmin');
+                               })->pluck('id')->toArray();
+
+        $customer_id = $order->customer_id;
+
+        $notificationAdmin = [
+            'notifyType' => 'picked_from_office',
+            'message' => $order->dropDriver->fname. ' has picked clothes from office for delivery for order '.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+        $notificationCustomer = [
+            'notifyType' => 'picked_from_office',
+            'message' => 'Your clothes for Order '.$order->id.' is on process of delivery',
             'model' => 'order',
             'url' => $order->id
         ];

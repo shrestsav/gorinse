@@ -151,6 +151,7 @@ class OrderController extends Controller
                                 'PAT' => Date('Y-m-d h:i:s'),
                                 'status' => 1
                             ]);
+            User::notifyAssignedForPickup($request->order_id);      
         }
         if($request->type=='dropAssign'){
             $validatedData = $request->validate([
@@ -166,6 +167,7 @@ class OrderController extends Controller
                                 'DAT' => Date('Y-m-d h:i:s'),
                                 'status' => 5
                             ]);
+            User::notifyAssignedForDelivery($request->order_id);
         }
 
         return response()->json('Successfully Assigned');

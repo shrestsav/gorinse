@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AppDefault;
 use App\Http\Controllers\Controller;
+use App\Offer;
 use App\User;
 use App\UserAddress;
 use App\UserDetail;
-use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Http\Request;
 use Validator;
 
 class CustomerController extends Controller
@@ -19,12 +21,38 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = User::select('id','fname','lname','phone','email','created_at','updated_at')->where('id',Auth::id())->with('details','addresses')->first();
+        $customer = User::select(
+                                'id',
+                                'fname',
+                                'lname',
+                                'phone',
+                                'email',
+                                'created_at')
+                        ->where('id',Auth::id())
+                        ->with(
+                            'details:user_id,description,photo,referral_id',
+                            'addresses:id,user_id,name,area_id,map_coordinates,building_community,type,appartment_no,remarks,is_default'
+                        )
+                        ->first();
         if($customer->details->photo)
             $customer->details->photo = asset('files/users/'.Auth::id().'/'.$customer->details->photo);
         else
             $customer->details->photo = null;
-        return response()->json($customer);
+
+        $appDefaults = AppDefault::first();
+        $orderTime = json_decode($appDefaults->order_time);
+
+        $offers = Offer::select('id','name','image','description')->where('status',1)->get();
+        $offerUrl = asset('files/offer_banners/');
+        
+        $collection = collect([
+            'customer'  => $customer,
+            'orderTime' => $orderTime,
+            'offers'    => $offers,
+            'offerUrl'  => $offerUrl,
+            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
+        ]);
+        return response()->json($collection);
     }
 
     /**

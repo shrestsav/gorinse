@@ -46,6 +46,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	
 	Route::group(['middleware' => ['role:driver']], function() {
 		Route::post('/acceptOrder','OrderController@acceptOrder');
+		Route::post('/cancelPickup','OrderController@cancelPickup');
 		Route::get('/pendingOrders','OrderController@pendingOrders');
 		Route::get('/services','CoreController@services');
 		Route::get('/items','CoreController@items');
@@ -53,6 +54,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::post('/orderItems','OrderController@orderItems');
 		Route::post('/sendOrderInvoiceForApproval','OrderController@sendOrderInvoiceForApproval');
 		Route::get('/dropAtOffice/{order_id}','OrderController@driverDropAtOffice');
+		Route::get('/pickedFromOffice/{order_id}','OrderController@driverPickedFromOffice');
 		Route::post('/changeMainArea','DriverController@changeMainArea');
 	});
 
