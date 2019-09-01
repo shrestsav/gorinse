@@ -184,58 +184,7 @@
             </table>
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col">
-                <h3 class="mb-0">Coupon</h3>
-              </div>
-              <div class="col-auto">
-                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('coupon')">{{modules.coupon.icon}}</button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body" v-if="modules.coupon.display">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="form-control-label">VAT (%)</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.VAT">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="form-control-label">Delivery Charge</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.delivery_charge">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="form-control-label">OTP Expiry Time</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.OTP_expiry">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="float-right">
-              <button class="btn btn-outline-primary" @click="save('generalSetting')">Save</button>
-            </div>
-          </div>
-        </div>
+        <coupons></coupons>
         <div class="card">
           <div class="card-header">
             <div class="row">
@@ -427,9 +376,13 @@
   </div>
 </template>
 
-
 <script>
+  import coupons from './coupons.vue'
+
   export default{
+    components: {
+     coupons
+    },
     data(){
       return{
         modules:{

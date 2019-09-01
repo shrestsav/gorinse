@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
 		items:{},
 		mainAreas:{},
 		offers:{},
+		coupons:{},
 		orderStatus:{},
 		orderTime:{},
 		notifications:{},
@@ -55,6 +56,9 @@ export const store = new Vuex.Store({
 		},
 		offers(state){
 			return state.offers;
+		},
+		coupons(state){
+			return state.coupons;
 		},
 		notifications(state){
 			return state.notifications;
@@ -105,6 +109,9 @@ export const store = new Vuex.Store({
 		},
 		setOffers(state, offers){
 			state.offers = offers
+		},
+		setCoupons(state, coupons){
+			state.coupons = coupons
 		},
 		setNotifications(state, notifications){
 			state.notifications = notifications
@@ -220,6 +227,12 @@ export const store = new Vuex.Store({
 			axios.get('/offers')
 		        .then(response => {
 		          context.commit('setOffers',response.data)
+		        });	
+		},
+		getCoupons(context){
+			axios.get('/coupons')
+		        .then(response => {
+		          context.commit('setCoupons',response.data)
 		        });	
 		},
 		getCustomers(context){

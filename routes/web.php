@@ -48,11 +48,14 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/mainAreas','CoreController@mainAreas');
 	Route::post('/mainArea','CoreController@addMainArea');
 	Route::delete('/mainArea/{id}','CoreController@deleteMainArea');
+	
 	Route::get('/offers','CoreController@offers');
 	Route::post('/offers','CoreController@addOffer');
 	Route::post('/offers/edit/{id}','CoreController@editOffer');
 	Route::post('/changeOfferStatus','CoreController@changeOfferStatus');
-	Route::delete('/offers/{id}','CoreController@deleteOffer');
+	Route::delete('/offers/{id}','CoreController@deleteOffer');	
+
+	Route::apiResource('/coupons','CouponController');
 
 	Route::resource('/drivers','DriverController');
 
