@@ -368,7 +368,5 @@ class CustomerController extends Controller
             'status' => '200',
             'message'=> 'Default Set Successfully' 
         ],200);
-
-        
     }
 }

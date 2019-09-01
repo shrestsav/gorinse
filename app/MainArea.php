@@ -10,4 +10,9 @@ class MainArea extends Model
 	use SoftDeletes;
 	
     protected $fillable = ['name'];
+
+    public static function nameWithId()
+    {
+    	return  MainArea::pluck('name','id')->toArray();
+    }
 }

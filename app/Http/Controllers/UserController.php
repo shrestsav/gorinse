@@ -137,6 +137,17 @@ class UserController extends Controller
         return response()->json(User::find(Auth::id())->unreadNotifications);
     }
 
+    public function markAsRead($notificationId)
+    {
+        $user = User::find(Auth::id());
+
+        $notification = $user->unreadNotifications->find($notificationId);
+        if($notification)
+            $notification->markAsRead();
+        }
+        return response()->json(['message'=>'Notifications Marked as read']);
+    }
+
     public function markAllAsRead()
     {
         $user = User::find(Auth::id());

@@ -6,6 +6,8 @@ use App\AppDefault;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Order\OrderCollection;
 use App\Item;
+use App\Jobs\PendingNotification;
+use App\MainArea;
 use App\Order;
 use App\OrderItem;
 use App\Service;
@@ -13,7 +15,6 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
-use App\Jobs\PendingNotification;
 
 class OrderController extends Controller
 {
@@ -269,11 +270,15 @@ class OrderController extends Controller
                         ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
                         ->get();
 
+        $mainAreas = MainArea::nameWithId();
         $collection = collect([
-            'active' => $activeOrder,
-            'pick' => $pickPending,
-            'drop' => $assignedForDrop,
-            'orderStatus' => config('settings.orderStatuses')
+            'active'        => $activeOrder,
+            'pick'          => $pickPending,
+            'drop'          => $assignedForDrop,
+            'orderStatus'   => config('settings.orderStatuses'),
+            'driverArea'    => $driver_area,
+            'mainAreas'     => $mainAreas,
+            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
         ]);
         return response()->json($collection);
     }

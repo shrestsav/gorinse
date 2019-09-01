@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/getCustomers','UserController@customers');
 
 	Route::get('/notifications','UserController@notifications');
+	Route::get('/markAsRead/{notificationId}','UserController@markAsRead');
 	Route::get('/markAllAsRead','UserController@markAllAsRead');
 	Route::get('/testNotification/{user_id}','OrderController@testNotification');
 

@@ -171,6 +171,16 @@ class AuthController extends Controller
 
         $userInput = $request->only('fname', 'lname', 'email');
         $userDetailsInput = $request->only('referred_by');
+
+        if($userDetailsInput['referred_by']){
+            $check = UserDetail::where('referral_id',$userDetailsInput['referred_by']);
+            if(!$check->exists())
+                return response()->json([
+                    'status' => '404',
+                    'message'=> 'Referral ID is Invalid' 
+                ],404);
+        }
+
         $address = User::where('id',Auth::id())->update($userInput);
         
         //Generate random Referral ID for registered user
@@ -252,6 +262,11 @@ class AuthController extends Controller
     public function notifications()
     {
         return response()->json(User::find(Auth::id())->unreadNotifications);
+    }
+
+    public function countUnreadNotifications()
+    {
+        return response()->json(User::find(Auth::id())->unreadNotifications->count());
     }
 
     public function markAllAsRead()
