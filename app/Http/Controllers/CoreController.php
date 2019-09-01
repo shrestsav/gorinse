@@ -201,6 +201,7 @@ class CoreController extends Controller
         
         return response()->json($appDefaults);
     }
+    
     public function updateAppDefaults(Request $request)
     {
         $input = [];

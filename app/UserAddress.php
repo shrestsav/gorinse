@@ -18,6 +18,10 @@ class UserAddress extends Model
         'is_default',
     ];
 
+    protected $casts = [
+        'map_coordinates' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -142,10 +142,11 @@ class UserController extends Controller
         $user = User::find(Auth::id());
 
         $notification = $user->unreadNotifications->find($notificationId);
-        if($notification)
+        if($notification){
             $notification->markAsRead();
+            return response()->json(['message'=>'Notifications Marked as read']);
         }
-        return response()->json(['message'=>'Notifications Marked as read']);
+        return response()->json(['message'=>'Notification Not Found'],404);
     }
 
     public function markAllAsRead()

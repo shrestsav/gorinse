@@ -70,6 +70,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 
 	Route::get('/notifications','AuthController@notifications');
 	Route::get('/countUnreadNotifications','AuthController@countUnreadNotifications');
+	Route::get('/markAsRead/{notificationID}','AuthController@markAsRead');
 	Route::get('/markAllAsRead','AuthController@markAllAsRead');
 
 });

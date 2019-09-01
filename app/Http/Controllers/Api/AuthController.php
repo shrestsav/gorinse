@@ -269,6 +269,25 @@ class AuthController extends Controller
         return response()->json(User::find(Auth::id())->unreadNotifications->count());
     }
 
+
+    public function markAsRead($notificationId)
+    {
+        $user = User::find(Auth::id());
+
+        $notification = $user->unreadNotifications->find($notificationId);
+        if($notification){
+            $notification->markAsRead();
+            return response()->json([
+                'status' => '200',
+                'message'=>'Notifications Marked as read'
+            ],200);
+        }
+        return response()->json([
+            'status' => '404',
+            'message'=>'Notification Not Found'
+        ],404);
+    }
+
     public function markAllAsRead()
     {
         $user = User::find(Auth::id());

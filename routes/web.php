@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/notifications','UserController@notifications');
 	Route::get('/markAsRead/{notificationId}','UserController@markAsRead');
 	Route::get('/markAllAsRead','UserController@markAllAsRead');
-	Route::get('/testNotification/{user_id}','OrderController@testNotification');
+	Route::get('/testNotification','OrderController@testNotification');
 
 	Route::get('event',function(){
 		event(new TaskEvent('Hey how are you'));

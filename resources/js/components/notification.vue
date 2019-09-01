@@ -10,7 +10,7 @@
       </div>
       <!-- List group -->
       <div class="list-group list-group-flush notifications-window">
-        <a href="javascript:;" class="list-group-item list-group-item-action" v-for="item in newNotifications.slice().reverse()">
+        <a href="javascript:;" class="list-group-item list-group-item-action" v-for="item in newNotifications.slice().reverse()"  @click="markAsRead(item.id)">
           <div class="row align-items-center">
             <div class="col-auto">
               <!-- Avatar -->
@@ -29,7 +29,7 @@
             </div>
           </div>
         </a>
-        <a href="javascript:;" class="list-group-item list-group-item-action" v-for="item in notifications">
+        <a href="javascript:;" class="list-group-item list-group-item-action" v-for="item in notifications" @click="markAsRead(item.id)">
           <div class="row align-items-center">
             <div class="col-auto">
               <!-- Avatar -->
@@ -95,6 +95,13 @@
       dateDiff(date){
         var date = new Date(date+' UTC')
         return this.$moment(date).fromNow() // a
+      },
+      markAsRead(notificationID){
+        axios.get('/markAsRead/'+notificationID)
+        .then(response => {
+          this.$store.dispatch('getNotifications')
+          showNotify('success','Marked as read')
+        });
       },
       markAllAsRead(){
         this.$store.dispatch('setAllNotificationsRead').then(()=>{
