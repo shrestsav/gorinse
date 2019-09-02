@@ -86,6 +86,14 @@
             </a>
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link :to="{ name: 'customers'}" >
+            <a class="nav-link" href="{{url('/v/customers')}}" :href="''" v-bind:class="{ active: currentMenu=='customersMenu' }">
+              <i class="ni ni-bus-front-12 text-info"></i>
+              <span class="nav-link-text">Customers</span>
+            </a>
+          </router-link>
+        </li>
 {{--         <li class="nav-item">
           <a class="nav-link" href="#navbar-drivers" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-drivers" v-bind:class="{ active: currentMenu=='driversMenu'}">
             <i class="ni ni-bus-front-12 text-info"></i>
@@ -145,7 +153,7 @@
               </li>
               <li class="nav-item">
                 <router-link :to="{ name: 'appDefaults'}" >
-                  <a href="{{url('/v/appDefaults')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='items' }">Application Defaults</a>
+                  <a href="{{url('/v/appDefaults')}}" :href="''" class="nav-link" v-bind:class="{ active: currentPage=='appDefaults' }">Application Defaults</a>
                 </router-link>
               </li>
             </ul>

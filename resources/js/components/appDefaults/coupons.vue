@@ -6,7 +6,7 @@
           <h5 class="h3 mb-0">Coupons</h5>
         </div>
         <div class="col-4 text-right">
-          <button type="button" class="btn btn-info btn-sm" @click="addCoupon()" v-if="modules.coupon.display">Add</button>
+          <button type="button" class="btn btn-info btn-sm" @click="addCoupon()" v-if="modules.coupon.display && addbtn">Add</button>
           <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('coupon')">{{modules.coupon.icon}}</button>
         </div>
       </div>
@@ -73,13 +73,13 @@
           <tr v-for="item,key in coupons">
             <td>{{key+1}}</td>
             <td>
-              <div class="form-group" v-if="editExistingCoupon(item.id)">
+              <!-- <div class="form-group" v-if="editExistingCoupon(item.id)">
                 <input v-model="coupon.code" :class="{'not-validated':errors.code}"  type="text" class="form-control" placeholder="COUPON TITLE">
                 <div class="invalid-feedback" style="display: block;" v-if="errors.code">
                   {{errors.code[0]}}
                 </div>
-              </div>
-              <b v-else>{{item.code}}</b>
+              </div> -->
+              <b>{{item.code}}</b>
             </td>
             <td>
               <div class="form-group" v-if="editExistingCoupon(item.id)">
@@ -91,22 +91,22 @@
               <div v-else>{{item.description}}</div>
             </td>
             <td>
-              <div class="form-group" v-if="editExistingCoupon(item.id)">
+              <!-- <div class="form-group" v-if="editExistingCoupon(item.id)">
                 <input v-model="coupon.discount" :class="{'not-validated':errors.discount}" type="number" class="form-control" placeholder="COUPON DISCOUNT">
                 <div class="invalid-feedback" style="display: block;" v-if="errors.discount">
                   {{errors.discount[0]}}
                 </div>
-              </div>
-              <div v-else>
+              </div> -->
+              <div>
                 {{item.discount}}
               </div>
             </td>
             <td>
-              <select class="form-control" v-model="coupon.type" v-if="editExistingCoupon(item.id)">
+              <!-- <select class="form-control" v-model="coupon.type" v-if="editExistingCoupon(item.id)">
                 <option value="1">Percentage</option>
                 <option value="2">Amount</option>
-              </select>
-              <div v-else>
+              </select> -->
+              <div>
                 {{couponDiscountType(item.type)}}
               </div>
             </td>
@@ -126,7 +126,7 @@
               </div>
               <div v-else>
                 <button type="button" class="btn btn-danger btn-sm" @click="deleteCoupon(item.id)"><i class="far fa-trash-alt"></i></button>
-                <button type="button" class="btn btn-info btn-sm" @click="editCoupon(key)"><i class="far fa-edit"></i></button>
+                <button type="button" class="btn btn-info btn-sm" @click="editCoupon(key)" v-if="editbtn"><i class="far fa-edit"></i></button>
               </div>
             </td>
           </tr>
@@ -153,6 +153,8 @@
           code:'',
           description:'',
         },
+        addbtn:true,
+        editbtn:true,
         newCoupon:false,
         modifyCoupon:{
           id:'',
@@ -178,6 +180,7 @@
           'status': 0,
         }
         this.newCoupon = true
+        this.editbtn = false
       },
       couponDiscountType(type){
         return settings.couponDiscountType[type]
@@ -219,6 +222,7 @@
       discardCoupon(){
         this.coupon = {}
         this.newCoupon = false
+        this.editbtn = true
       },
       deleteCoupon(id){
         this.$swal({
@@ -246,11 +250,13 @@
         this.coupon = this.coupons[key]
         this.modifyCoupon.id = this.coupons[key].id
         this.modifyCoupon.edit = true
+        this.addbtn = false
       },
       cancelEditCoupon(){
         this.coupon = {}
         this.modifyCoupon.id = ''
         this.modifyCoupon.edit = false
+        this.addbtn = true
       },
       editExistingCoupon(edit_id){
         if(this.modifyCoupon.id == edit_id && this.modifyCoupon.edit)

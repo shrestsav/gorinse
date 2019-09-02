@@ -186,19 +186,6 @@ export const store = new Vuex.Store({
 	        	context.commit('setDrivers',response.data)
 	        });
 		},
-		addDriver(context, driver){
-			axios.post('/drivers',driver)
-	          .then((response) => {
-	          	context.commit('setErrors',{})
-	            showNotify('success','Driver has been created')
-	          })
-	          .catch((error) => {
-	          	context.commit('setErrors',error.response.data.errors)
-	            for (var prop in error.response.data.errors) {
-	              showNotify('danger',error.response.data.errors[prop])
-	            }       
-	          })
-		},
 		getServices(context){
 			axios.get('/services')
 		        .then(response => {

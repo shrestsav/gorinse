@@ -45,7 +45,7 @@
                   v-model="driver[key]"
                 ></textarea>
                 <select class="form-control" v-if="item['type']==='select' && key==='area_id'" v-model="driver[key]" :class="{'not-validated':errors[key]}" >
-                  <option v-for="location,key in mainArea" :value="key">{{location}}</option>
+                  <option v-for="location in mainArea" :value="location.id">{{location.name}}</option>
                 </select>
                 <div class="invalid-feedback" style="display: block;" v-if="errors[key]">
                   {{errors[key][0]}}
@@ -75,7 +75,7 @@
       return{
         fields:{},
         driver:{},
-        mainArea:{},
+        errors:{}
       }
     },
     created(){
@@ -88,17 +88,25 @@
     methods:{
       defSettings(){
         axios.get('/getFields/createUser').then(response => this.fields = response.data)
-        axios.get('/getSettings/mainArea').then(response => this.mainArea = response.data)
+        this.$store.dispatch('getMainAreas')
       },
       save(){
-        this.$store.dispatch('addDriver', this.driver)
-        if(!this.errors)
-          this.driver = {}
+        axios.post('/drivers',this.driver)
+        .then((response) => {
+          this.errors = {}
+          showNotify('success','Driver has been created')
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }       
+        })
       },
     },
     computed: {
-      errors(){
-        return this.$store.getters.errors
+      mainArea(){
+        return this.$store.getters.mainAreas
       }
     },
 

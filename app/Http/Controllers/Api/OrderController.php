@@ -52,7 +52,7 @@ class OrderController extends Controller
                        ->simplePaginate(5);
 
         $collection = collect([
-            'driver_id' => Auth::id(),
+            'user_id' => Auth::id(),
             'orders' => $orders,
             'orderStatus' => config('settings.orderStatuses')
         ]);

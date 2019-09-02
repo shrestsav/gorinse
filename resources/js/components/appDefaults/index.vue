@@ -424,8 +424,8 @@
       }
     },
     created(){
-      this.$store.commit('changeCurrentPage', 'dashboard')
-      this.$store.commit('changeCurrentMenu', 'dashboardMenu')
+      this.$store.commit('changeCurrentPage', 'appDefaults')
+      this.$store.commit('changeCurrentMenu', 'appDefaultsMenu')
       this.$store.dispatch('getAppDefaults')
       this.$store.dispatch('getMainAreas')
       this.$store.dispatch('getOffers')

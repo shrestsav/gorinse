@@ -7,6 +7,7 @@ import dashboard from '../components/dashboard.vue'
 import appDefaults from '../components/appDefaults/index.vue'
 import orders from '../components/orders/index.vue'
 import createOrder from '../components/orders/create.vue'
+import customers from '../components/customers/index.vue'
 import drivers from '../components/drivers/index.vue'
 import createDriver from '../components/drivers/create.vue'
 import services from '../components/services/index.vue'
@@ -24,6 +25,8 @@ const routes = [
   {name:'orders',  path: '/v/orders', component: orders },
   {name:'createOrder',  path: '/v/orders/create', component: createOrder },
 
+  {name:'customers',  path: '/v/customers', component: customers },
+  
   {name:'drivers',  path: '/v/drivers', component: drivers },
   {name:'createDriver',  path: '/v/drivers/create', component: createDriver },
 
