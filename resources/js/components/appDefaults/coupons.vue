@@ -229,9 +229,9 @@
           confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
           if (result.value) {
-            axios.delete('/offers/'+id)
+            axios.delete('/coupons/'+id)
             .then((response) => {
-              this.$store.dispatch('getOffers')
+              this.$store.dispatch('getCoupons')
               showNotify('success',response.data)
             })
             .catch((error) => {  

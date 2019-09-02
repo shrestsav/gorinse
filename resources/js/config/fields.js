@@ -65,37 +65,32 @@ export const fields = {
       'pick_location' : {
         'display_name' : 'Pickup Location',
         'col' : '4',
-        'type' :  'number',
+        'type' :  'select',
       },
-      'pick_datetime' : {
-        'display_name' : 'Pickup Date & Time',
+      'pick_date' : {
+        'display_name' : 'Pickup Date',
         'col' : '4',
-        'type' :  'datetime',
+        'type' :  'date',
+      },
+      'pick_timerange' : {
+        'display_name' : 'Pickup Timerange',
+        'col' : '4',
+        'type' :  'select',
       },
       'drop_location' : {
         'display_name' : 'Drop Location',
         'col' : '4',
-        'type' :  'number',
+        'type' :  'select',
       },
-      'drop_datetime' : {
-        'display_name' : 'Drop Date & Time',
+      'drop_date' : {
+        'display_name' : 'Drop Date',
         'col' : '4',
-        'type' :  'datetime',
+        'type' :  'date',
       },
-      'price' : {
-        'display_name' : 'Price',
+      'drop_timerange' : {
+        'display_name' : 'Drop Timerange',
         'col' : '4',
-        'type' :  'number',
-      },
-      'vat_amount' : {
-        'display_name' : 'VAT',
-        'col' : '4',
-        'type' :  'number',
-      },
-      'delivery_charge' : {
-        'display_name' : 'Delivery Charge',
-        'col' : '4',
-        'type' :  'number',
+        'type' :  'select',
       },
     },
   },

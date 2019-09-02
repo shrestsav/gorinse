@@ -37,6 +37,15 @@
                   label="fname" 
                   placeholder="Customers"
                 />
+                <v-select
+                  class="form-control"  
+                  v-if="item['type']==='select' && (key==='pick_timerange' || key==='drop_timerange')" 
+                  v-model="order[key]" 
+                  :options="activeTime"
+                  :reduce="fname => fname.id"
+                  label="fname" 
+                  placeholder="Customers"
+                />
                 <select class="form-control" v-if="item['type']==='select' && key==='type'" v-model="order[key]" :class="{'not-validated':errors[key]}" >
                   <option value="1">Normal</option>
                   <option value="2">Urgent</option>
@@ -64,7 +73,6 @@
             </div>
           </div>
         </div>
-        <hr class="my-4"/>
       </div>
     </div>
     <div class="card-footer text-center">
@@ -92,8 +100,7 @@
     created(){
       this.$store.commit('changeCurrentPage', 'createOrder')
       this.$store.commit('changeCurrentMenu', 'ordersMenu')
-      this.$store.dispatch('getCustomers')
-      this.$store.dispatch('getOrderStatus')
+      this.load()
     },
     mounted(){
       
@@ -104,6 +111,11 @@
       },
       validate(){
         return true;
+      },
+      load(){
+        this.$store.dispatch('getCustomers')
+        this.$store.dispatch('getOrderStatus')
+        this.$store.dispatch('getAppDefaults')
       }
     },
     computed: {
@@ -118,6 +130,9 @@
       },
       fields(){
         return fields.createOrder
+      },
+      activeTime(){
+        return this.$store.getters.appDefaults.order_time
       }
     },
 

@@ -5500,8 +5500,8 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          axios["delete"]('/offers/' + id).then(function (response) {
-            _this3.$store.dispatch('getOffers');
+          axios["delete"]('/coupons/' + id).then(function (response) {
+            _this3.$store.dispatch('getCoupons');
 
             showNotify('success', response.data);
           })["catch"](function (error) {
@@ -7480,6 +7480,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7497,8 +7505,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.$store.commit('changeCurrentPage', 'createOrder');
     this.$store.commit('changeCurrentMenu', 'ordersMenu');
-    this.$store.dispatch('getCustomers');
-    this.$store.dispatch('getOrderStatus');
+    this.load();
   },
   mounted: function mounted() {},
   methods: {
@@ -7507,6 +7514,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     validate: function validate() {
       return true;
+    },
+    load: function load() {
+      this.$store.dispatch('getCustomers');
+      this.$store.dispatch('getOrderStatus');
+      this.$store.dispatch('getAppDefaults');
     }
   },
   computed: {
@@ -7521,6 +7533,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     fields: function fields() {
       return _config_fields__WEBPACK_IMPORTED_MODULE_3__["fields"].createOrder;
+    },
+    activeTime: function activeTime() {
+      return this.$store.getters.appDefaults.order_time;
     }
   }
 });
@@ -72252,6 +72267,28 @@ var render = function() {
                           })
                         : _vm._e(),
                       _vm._v(" "),
+                      item["type"] === "select" &&
+                      (key === "pick_timerange" || key === "drop_timerange")
+                        ? _c("v-select", {
+                            staticClass: "form-control",
+                            attrs: {
+                              options: _vm.activeTime,
+                              reduce: function(fname) {
+                                return fname.id
+                              },
+                              label: "fname",
+                              placeholder: "Customers"
+                            },
+                            model: {
+                              value: _vm.order[key],
+                              callback: function($$v) {
+                                _vm.$set(_vm.order, key, $$v)
+                              },
+                              expression: "order[key]"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
                       item["type"] === "select" && key === "type"
                         ? _c(
                             "select",
@@ -72363,9 +72400,7 @@ var render = function() {
               }),
               0
             )
-          ]),
-          _vm._v(" "),
-          _c("hr", { staticClass: "my-4" })
+          ])
         ])
       }),
       0
@@ -95937,37 +95972,32 @@ var fields = {
       'pick_location': {
         'display_name': 'Pickup Location',
         'col': '4',
-        'type': 'number'
+        'type': 'select'
       },
-      'pick_datetime': {
-        'display_name': 'Pickup Date & Time',
+      'pick_date': {
+        'display_name': 'Pickup Date',
         'col': '4',
-        'type': 'datetime'
+        'type': 'date'
+      },
+      'pick_timerange': {
+        'display_name': 'Pickup Timerange',
+        'col': '4',
+        'type': 'select'
       },
       'drop_location': {
         'display_name': 'Drop Location',
         'col': '4',
-        'type': 'number'
+        'type': 'select'
       },
-      'drop_datetime': {
-        'display_name': 'Drop Date & Time',
+      'drop_date': {
+        'display_name': 'Drop Date',
         'col': '4',
-        'type': 'datetime'
+        'type': 'date'
       },
-      'price': {
-        'display_name': 'Price',
+      'drop_timerange': {
+        'display_name': 'Drop Timerange',
         'col': '4',
-        'type': 'number'
-      },
-      'vat_amount': {
-        'display_name': 'VAT',
-        'col': '4',
-        'type': 'number'
-      },
-      'delivery_charge': {
-        'display_name': 'Delivery Charge',
-        'col': '4',
-        'type': 'number'
+        'type': 'select'
       }
     }
   },
