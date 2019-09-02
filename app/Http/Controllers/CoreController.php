@@ -206,7 +206,7 @@ class CoreController extends Controller
     {
         $input = [];
         if($request->saveType=='generalSetting'){
-            $input = $request->only('VAT', 'delivery_charge','OTP_expiry');
+            $input = $request->only('VAT', 'delivery_charge','OTP_expiry','app_rows','sys_rows');
         }
         if($request->saveType=='supportSetting'){
             $input = $request->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');

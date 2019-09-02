@@ -6,12 +6,12 @@
           <h5 class="h3 mb-0">Coupons</h5>
         </div>
         <div class="col-4 text-right">
-          <button type="button" class="btn btn-info btn-sm" @click="addCoupon()" v-if="modules.coupon.display && addbtn">Add</button>
-          <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('coupon')">{{modules.coupon.icon}}</button>
+          <button type="button" class="btn btn-info btn-sm" @click="addCoupon()" v-if="module.display && addbtn">Add</button>
+          <button type="button" class="btn btn-primary btn-sm" @click="toggleModule">{{module.icon}}</button>
         </div>
       </div>
     </div>
-    <div class="table-responsive" v-if="modules.coupon.display">
+    <div class="table-responsive" v-if="module.display">
       <table class="table align-items-center table-flush">
         <thead class="thead-light">
           <tr>
@@ -143,12 +143,6 @@
   export default{
     data(){
       return{
-        modules:{
-          coupon : {
-            display : true,
-            icon : "+",
-          },
-        },
         coupon:{
           code:'',
           description:'',
@@ -167,7 +161,7 @@
       this.$store.dispatch('getCoupons')
     },
     mounted(){
-      
+      console.log(this.$parent.modules)
     },
     methods:{
       //Coupon Methods
@@ -264,27 +258,17 @@
         else 
           return false
       },
-      toggleModule(module){
-        if(this.modules[module].display){
-          this.modules[module].display = false
-          this.modules[module].icon = "+"
-        }
-        else{
-          this.modules[module].display = true
-          this.modules[module].icon = "-"
-        }
-        for (var mod in this.modules) {
-          if(mod!=module){
-            this.modules[mod].display = false
-            this.modules[mod].icon = "+"
-          }
-        }
+      toggleModule(){
+        this.$parent.toggleModule('coupon')
       }
     },
     computed: {
       coupons(){
         return this.$store.getters.coupons
-      }
+      },
+      module(){
+        return this.$parent.modules.coupon
+      },
     },
   }
 

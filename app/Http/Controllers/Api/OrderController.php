@@ -25,9 +25,10 @@ class OrderController extends Controller
      */
     public function index()
     {
+        $rows = AppDefault::firstOrFail()->app_rows;
         $orders = Order::where('customer_id',Auth::id())
                        ->with('customer','pickDriver','dropDriver')
-                       ->simplePaginate(5);
+                       ->simplePaginate($rows);
 
         $collection = collect([
             'orders' => $orders,
@@ -43,13 +44,14 @@ class OrderController extends Controller
      */
     public function orderListForDriver()
     {
+        $rows = AppDefault::firstOrFail()->app_rows;
         $orders = Order::where('driver_id',Auth::id())
                        ->orWhere('drop_driver_id',Auth::id())
                        ->with('customer:id,fname,lname,phone',
                               'pickDriver:id,fname,lname,phone',
                               'dropDriver:id,fname,lname,phone')
                        ->orderBy('created_at','DESC')
-                       ->simplePaginate(5);
+                       ->simplePaginate($rows);
 
         $collection = collect([
             'user_id' => Auth::id(),

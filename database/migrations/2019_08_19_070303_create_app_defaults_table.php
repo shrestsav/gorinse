@@ -25,6 +25,8 @@ class CreateAppDefaultsTable extends Migration
             $table->string('hotline_contact');
             $table->string('company_email');
             $table->string('company_logo');
+            $table->integer('app_rows');
+            $table->integer('system_rows');
             $table->timestamps();
         });
     }

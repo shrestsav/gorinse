@@ -17,8 +17,11 @@ use App\Jobs\PendingNotification;
 Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
-Route::get('/test',function(){
+Route::get('/test',function(Request $request){
+	return Session::get('rows');
+	return $request->session()->all();
 	return 'Current PHP version: ' . phpversion();
+	return 
 	 PendingNotification::dispatch(31)
                 ->delay(now()->addSeconds(20));
 	return 'yes';

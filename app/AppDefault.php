@@ -16,6 +16,8 @@ class AppDefault extends Model
 		'online_chat',
 		'hotline_contact',
 		'company_email',
-		'company_logo'
+		'company_logo',
+		'app_rows',
+		'sys_rows'
     ];
 }

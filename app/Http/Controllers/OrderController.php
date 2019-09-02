@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Order\OrderCollection;
 use App\Http\Resources\Order\OrderResource;
-use App\User;
 use App\Order;
+use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -26,6 +27,8 @@ class OrderController extends Controller
 
     public function getOrders($status)
     {
+        $rows = Session::get('rows');
+
         $statusArr = [];
 
         if($status==='Pending')
@@ -42,7 +45,7 @@ class OrderController extends Controller
         $orders = Order::whereIn('status',$statusArr)
                         ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver')
                         ->orderBy('status','ASC')
-                        ->paginate(config('settings.rows'));
+                        ->paginate($rows);
                         
         return response()->json($orders);
     }
@@ -68,6 +71,7 @@ class OrderController extends Controller
             'customer_id' => 'required|numeric',
             'type' => 'required|numeric',
         ]);
+        
         $order = Order::create($request->all());
 
         if($order)
