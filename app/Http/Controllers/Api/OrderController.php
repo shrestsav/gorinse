@@ -48,9 +48,11 @@ class OrderController extends Controller
                        ->with('customer:id,fname,lname,phone',
                               'pickDriver:id,fname,lname,phone',
                               'dropDriver:id,fname,lname,phone')
+                       ->orderBy('created_at','DESC')
                        ->simplePaginate(5);
 
         $collection = collect([
+            'driver_id' => Auth::id(),
             'orders' => $orders,
             'orderStatus' => config('settings.orderStatuses')
         ]);
