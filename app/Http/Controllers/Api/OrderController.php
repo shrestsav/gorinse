@@ -25,7 +25,30 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::where('customer_id',Auth::id())->with('customer','pickDriver','dropDriver')->get();
+        $orders = Order::where('customer_id',Auth::id())
+                       ->with('customer','pickDriver','dropDriver')
+                       ->simplePaginate(5);
+
+        $collection = collect([
+            'orders' => $orders,
+            'orderStatus' => config('settings.orderStatuses')
+        ]);
+        return $collection;
+    }    
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function orderListForDriver()
+    {
+        $orders = Order::where('driver_id',Auth::id())
+                       ->orWhere('drop_driver_id',Auth::id())
+                       ->with('customer:id,fname,lname,phone',
+                              'pickDriver:id,fname,lname,phone',
+                              'dropDriver:id,fname,lname,phone')
+                       ->simplePaginate(5);
 
         $collection = collect([
             'orders' => $orders,
@@ -515,13 +538,6 @@ class OrderController extends Controller
             ],403);
         }
     }
-
-    public function test()
-    {
-        config(['settings.VAT' => 'America/Chicago']);
-        // \Config::set('settings.VAT','fsdf');
-        return config('settings.VAT');
-    }    
 
     public function customerOrderInvoice($order_id)
     {
