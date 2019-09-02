@@ -18,6 +18,7 @@
             <th>S.No</th>
             <th>Code</th>
             <th>Description</th>
+            <th>Discount</th>
             <th>Type</th>
             <th>Status</th>
             <th>Action</th>
@@ -40,6 +41,14 @@
                 <textarea v-model="coupon.description" :class="{'not-validated':errors.description}" class="form-control" rows="3" placeholder="BRIEF DESCRIPTION OF COUPON"></textarea>
                 <div class="invalid-feedback" style="display: block;" v-if="errors.description">
                   {{errors.description[0]}}
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input v-model="coupon.discount" :class="{'not-validated':errors.discount}" type="number" class="form-control" placeholder="COUPON DISCOUNT">
+                <div class="invalid-feedback" style="display: block;" v-if="errors.discount">
+                  {{errors.discount[0]}}
                 </div>
               </div>
             </td>
@@ -82,12 +91,23 @@
               <div v-else>{{item.description}}</div>
             </td>
             <td>
+              <div class="form-group" v-if="editExistingCoupon(item.id)">
+                <input v-model="coupon.discount" :class="{'not-validated':errors.discount}" type="number" class="form-control" placeholder="COUPON DISCOUNT">
+                <div class="invalid-feedback" style="display: block;" v-if="errors.discount">
+                  {{errors.discount[0]}}
+                </div>
+              </div>
+              <div v-else>
+                {{item.discount}}
+              </div>
+            </td>
+            <td>
               <select class="form-control" v-model="coupon.type" v-if="editExistingCoupon(item.id)">
                 <option value="1">Percentage</option>
                 <option value="2">Amount</option>
               </select>
               <div v-else>
-                {{item.type}}
+                {{couponDiscountType(item.type)}}
               </div>
             </td>
             <td>
@@ -96,7 +116,7 @@
                 <option value="0">Inactive</option>
               </select>
               <div v-else>
-                {{item.status}}
+                {{status(item.status)}}
               </div>
             </td>
             <td>
@@ -118,6 +138,8 @@
 
 
 <script>
+  import {settings} from '../../config/settings'
+
   export default{
     data(){
       return{
@@ -146,17 +168,22 @@
       
     },
     methods:{
-
       //Coupon Methods
-
       addCoupon(){
         this.coupon = {
           'code' : '',
           'description': '',
+          'discount': 0,
           'type': '',
           'status': 0,
         }
         this.newCoupon = true
+      },
+      couponDiscountType(type){
+        return settings.couponDiscountType[type]
+      },
+      status(status){
+        return settings.status[status]
       },
       saveCoupon(){
         axios.post('/coupons',this.coupon)
@@ -174,8 +201,6 @@
         })
       },
       saveEditedCoupon(){
-
-        
         axios.patch('/coupons/'+this.coupon.id,this.coupon)
         .then((response) => {
           this.$store.dispatch('getCoupons')

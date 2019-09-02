@@ -1,17 +1,25 @@
 export const settings = {
 	'orderStatuses' : [
-        	'Pending',
-                'Assigned',
-                'Invoice Generated',
-                'Confirmed by Customer',
-                'On Work',
-                'Assigned for Delivery',
-                'Delivered',
-                'Paid'
-	],
-        'orderType' : {
-                1 : 'Normal',
-                2 : 'Urgent'
-        },
+    'Pending',
+    'Assigned',
+    'Invoice Generated',
+    'Confirmed by Customer',
+    'On Work',
+    'Assigned for Delivery',
+    'Delivered',
+    'Paid'
+ ],
+  'orderType' : {
+    1 : 'Normal',
+    2 : 'Urgent'
+  },
+  'couponDiscountType' : {
+    1 : 'Percentage',
+    2 : 'Amount'
+  },
+  'status' : {
+    0 : 'Inactive',
+    1 : 'Active'
+  },
 
 }

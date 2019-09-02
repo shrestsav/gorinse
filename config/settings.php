@@ -12,6 +12,7 @@ return [
     'orderStatuses' => [
         0 => 'Pending',
         1 => 'Assigned',
+        // Drived added items to invoice
         2 => 'Invoice Generated',
         3 => 'Confirmed by Customer',
         4 => 'On Work',

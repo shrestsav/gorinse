@@ -27,16 +27,18 @@ class CouponController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'code' => 'required|string',
+            'code' => 'required|unique:coupons|string|min:7|max:7',
             'status' => 'required|numeric',
             'description' => 'required',
+            'discount' => 'required|numeric',
             'type' => 'required|numeric',
         ]);
 
         $coupon = new Coupon();
-        $coupon->code = $request->code;
+        $coupon->code = strtoupper($request->code);
         $coupon->status = $request->status;
         $coupon->type = $request->type;
+        $coupon->discount = $request->discount;
         $coupon->description = $request->description;
         $coupon->save();
         
@@ -64,16 +66,18 @@ class CouponController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'code' => 'required|string',
+            'code' => 'required|unique:coupons|string|min:7|max:7',
             'type' => 'required|numeric',
             'description' => 'required',
+            'discount' => 'required|numeric',
             'status' => 'required|numeric',
         ]);
 
         $coupon = Coupon::findOrFail($id);
         $coupon->update([
-            'code' => $request->code,
+            'code' => strtoupper($request->code),
             'type' => $request->type,
+            'discount' => $request->discount,
             'description' => $request->description,
             'status' => $request->status
         ]);

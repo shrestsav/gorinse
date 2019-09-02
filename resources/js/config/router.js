@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import dashboard from '../components/dashboard.vue'
-import appDefaults from '../components/appDefaults.vue'
+import appDefaults from '../components/appDefaults/index.vue'
 import orders from '../components/orders/index.vue'
 import createOrder from '../components/orders/create.vue'
 import drivers from '../components/drivers/index.vue'
