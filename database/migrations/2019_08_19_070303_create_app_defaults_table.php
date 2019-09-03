@@ -26,7 +26,7 @@ class CreateAppDefaultsTable extends Migration
             $table->string('company_email');
             $table->string('company_logo');
             $table->integer('app_rows');
-            $table->integer('system_rows');
+            $table->integer('sys_rows');
             $table->timestamps();
         });
     }

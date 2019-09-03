@@ -64,9 +64,9 @@ class AuthController extends Controller
             $customer->attachRole($role_id);
 
             return response()->json([
-                        'message'=>'OTP has been send to your phone',
+                        'message'     =>'OTP has been send to your phone',
                         'user_status' => 'new',
-                        'code'=>$request['OTP']
+                        'code'        =>$request['OTP']
                     ]);
         }
         
