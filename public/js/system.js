@@ -5265,6 +5265,11 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../config/settings */ "./resources/js/config/settings.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5404,6 +5409,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5529,14 +5535,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$parent.toggleModule('coupon');
     }
   },
-  computed: {
-    coupons: function coupons() {
-      return this.$store.getters.coupons;
-    },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['coupons']), {
     module: function module() {
       return this.$parent.modules.coupon;
     }
-  }
+  })
 });
 
 /***/ }),
@@ -5552,6 +5555,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _offers_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./offers.vue */ "./resources/js/components/appDefaults/offers.vue");
 /* harmony import */ var _coupons_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./coupons.vue */ "./resources/js/components/appDefaults/coupons.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5823,6 +5831,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5965,14 +5974,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  computed: {
-    appDefaults: function appDefaults() {
-      return this.$store.getters.appDefaults;
-    },
-    mainAreas: function mainAreas() {
-      return this.$store.getters.mainAreas;
-    }
-  }
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(['appDefaults', 'mainAreas']))
 });
 
 /***/ }),
@@ -5987,6 +5989,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../config/settings */ "./resources/js/config/settings.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -6121,6 +6128,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -6285,17 +6293,14 @@ __webpack_require__.r(__webpack_exports__);
       this.$parent.toggleModule('offers');
     }
   },
-  computed: {
-    offers: function offers() {
-      return this.$store.getters.offers;
-    },
+  computed: _objectSpread({
     module: function module() {
       return this.$parent.modules.offers;
     },
     base_url: function base_url() {
       return window.location.origin;
     }
-  }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['offers']))
 });
 
 /***/ }),
@@ -6540,7 +6545,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {},
   methods: {},
   computed: {
-    drivers: function drivers() {
+    customers: function customers() {
       return this.$store.getters.customers;
     }
   }
@@ -7404,7 +7409,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/lib/index.js");
 /* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _config_fields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../config/fields */ "./resources/js/config/fields.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7499,7 +7564,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      order: {}
+      order: {},
+      showCustomers: [],
+      showAddress: [],
+      customerSelected: false,
+      errors: {}
     };
   },
   created: function created() {
@@ -7510,32 +7579,45 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {},
   methods: {
     save: function save() {
-      this.$store.dispatch('addOrder', this.order);
-    },
-    validate: function validate() {
-      return true;
+      var _this = this;
+
+      axios.post('/orders', this.order).then(function (response) {
+        _this.errors = {};
+        _this.order = {};
+        showNotify('success', 'Order has been created');
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+
+        for (var prop in error.response.data.errors) {
+          showNotify('danger', error.response.data.errors[prop]);
+        }
+      });
     },
     load: function load() {
       this.$store.dispatch('getCustomers');
-      this.$store.dispatch('getOrderStatus');
       this.$store.dispatch('getAppDefaults');
     }
   },
-  computed: {
-    customers: function customers() {
-      return this.$store.getters.customers;
-    },
-    orderStatus: function orderStatus() {
-      return this.$store.getters.orderStatus;
-    },
-    errors: function errors() {
-      return this.$store.getters.errors;
-    },
-    fields: function fields() {
-      return _config_fields__WEBPACK_IMPORTED_MODULE_3__["fields"].createOrder;
-    },
+  computed: _objectSpread({
     activeTime: function activeTime() {
-      return this.$store.getters.appDefaults.order_time;
+      return this.appDefaults.order_time;
+    },
+    selectedCustomer: function selectedCustomer() {
+      return this.order.customer_id;
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['customers', 'address', 'appDefaults'])),
+  watch: {
+    selectedCustomer: function selectedCustomer(customer_id) {
+      this.customerSelected = true;
+      this.order.pick_location = '';
+      this.order.drop_location = '';
+      this.$store.dispatch('getAddress', customer_id);
+    },
+    customers: function customers(val) {
+      this.showCustomers = val;
+    },
+    address: function address(val) {
+      this.showAddress = val;
     }
   }
 });
@@ -7554,6 +7636,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assign_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assign.vue */ "./resources/js/components/orders/assign.vue");
 /* harmony import */ var _show_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./show.vue */ "./resources/js/components/orders/show.vue");
 /* harmony import */ var _config_settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../config/settings */ "./resources/js/config/settings.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -7631,6 +7718,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -7647,10 +7735,18 @@ __webpack_require__.r(__webpack_exports__);
         order_id: '',
         status: 'Pending'
       },
+      count: {
+        pendingOrders: 0,
+        receivedOrders: 0,
+        readyForDeliveryOrders: 0,
+        onHoldOrders: 0,
+        completedOrders: 0
+      },
       showAssign: true,
       showDetails: false,
       errors: {},
-      message: ''
+      message: '',
+      showOrders: {}
     };
   },
   created: function created() {
@@ -7662,9 +7758,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {},
   methods: {
+    getOrdersCount: function getOrdersCount() {
+      var _this = this;
+
+      axios.get('/getOrdersCount').then(function (response) {
+        _this.count = response.data;
+      });
+    },
     getOrders: function getOrders(status) {
       this.active.status = status;
       this.getResults();
+      this.getOrdersCount();
     },
     getResults: function getResults() {
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
@@ -7698,13 +7802,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.orders.data[index].status == 0 && passed_minute >= 10) return true;else return false;
     }
   },
-  computed: {
-    orders: function orders() {
-      return this.$store.getters.orders;
-    },
-    orderStatus: function orderStatus() {
-      return this.$store.getters.orderStatus;
-    },
+  computed: _objectSpread({
     pending: function pending() {
       return this.orderStatus['Pending'];
     },
@@ -7719,6 +7817,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     completed: function completed() {
       return this.orderStatus['Completed'];
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['orders', 'orderStatus'])),
+  watch: {
+    orders: function orders(value) {
+      this.showOrders = value;
     }
   }
 });
@@ -70367,7 +70470,7 @@ var render = function() {
             _c(
               "tbody",
               { staticClass: "list" },
-              _vm._l(_vm.drivers, function(item, key) {
+              _vm._l(_vm.customers, function(item, key) {
                 return _c("tr", [
                   _c("td", [_vm._v(_vm._s(++key))]),
                   _vm._v(" "),
@@ -72110,301 +72213,484 @@ var render = function() {
   return _c("div", { staticClass: "card" }, [
     _vm._m(0),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-body" },
-      _vm._l(_vm.fields, function(section, sec_name, index) {
-        return _c("div", [
-          _c("h6", { staticClass: "heading-small text-muted mb-4" }, [
-            _vm._v(_vm._s(sec_name))
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "pl-lg-4" }, [
-            _c(
-              "div",
-              { staticClass: "row" },
-              _vm._l(section, function(item, key) {
-                return _c("div", { class: "col-lg-" + item["col"] }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-control-label",
-                          attrs: { for: "input-" + key }
+    _c("div", { staticClass: "card-body" }, [
+      _c("form", { attrs: { autocomplete: "off" } }, [
+        _c("h6", { staticClass: "heading-small text-muted mb-4" }, [
+          _vm._v("Order Information")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "pl-lg-4" }, [
+          _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _c("div", { staticClass: "col-lg-4" }, [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { staticClass: "form-control-label" }, [
+                      _vm._v("Select Customer")
+                    ]),
+                    _vm._v(" "),
+                    _c("v-select", {
+                      staticClass: "form-control",
+                      attrs: {
+                        options: _vm.showCustomers,
+                        reduce: function(fname) {
+                          return fname.id
                         },
-                        [_vm._v(_vm._s(item["display_name"]))]
-                      ),
-                      _vm._v(" "),
-                      item["type"] === "checkbox" &&
-                      (item["type"] === "text" || item["type"] === "number")
-                        ? _c("input", {
+                        label: "fname",
+                        placeholder: "Customers"
+                      },
+                      model: {
+                        value: _vm.order.customer_id,
+                        callback: function($$v) {
+                          _vm.$set(_vm.order, "customer_id", $$v)
+                        },
+                        expression: "order.customer_id"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.customer_id
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "invalid-feedback",
+                            staticStyle: { display: "block" }
+                          },
+                          [
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(_vm.errors.customer_id[0]) +
+                                "\n            "
+                            )
+                          ]
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _vm.customerSelected
+                ? [
+                    _c("div", { staticClass: "col-lg-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "form-control-label" }, [
+                          _vm._v("Type")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
                             directives: [
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.order[key],
-                                expression: "order[key]"
+                                value: _vm.order.type,
+                                expression: "order.type"
                               }
                             ],
                             staticClass: "form-control",
-                            class: { "not-validated": _vm.errors[key] },
-                            attrs: {
-                              id: "input-" + key,
-                              placeholder: item["display_name"],
-                              type: "checkbox"
-                            },
-                            domProps: {
-                              checked: Array.isArray(_vm.order[key])
-                                ? _vm._i(_vm.order[key], null) > -1
-                                : _vm.order[key]
+                            class: { "not-validated": _vm.errors.type },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.order,
+                                  "type",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "1" } }, [
+                              _vm._v("Normal")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2" } }, [
+                              _vm._v("Urgent")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.errors.type
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "invalid-feedback",
+                                staticStyle: { display: "block" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.errors.type[0]) +
+                                    "\n              "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "form-control-label" }, [
+                          _vm._v("Pickup Location")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.order.pick_location,
+                                expression: "order.pick_location"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "not-validated": _vm.errors.pick_location
                             },
                             on: {
                               change: function($event) {
-                                var $$a = _vm.order[key],
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 &&
-                                      _vm.$set(
-                                        _vm.order,
-                                        key,
-                                        $$a.concat([$$v])
-                                      )
-                                  } else {
-                                    $$i > -1 &&
-                                      _vm.$set(
-                                        _vm.order,
-                                        key,
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
-                                  }
-                                } else {
-                                  _vm.$set(_vm.order, key, $$c)
-                                }
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.order,
+                                  "pick_location",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
                               }
                             }
-                          })
-                        : item["type"] === "radio" &&
-                          (item["type"] === "text" || item["type"] === "number")
-                        ? _c("input", {
-                            directives: [
+                          },
+                          [
+                            _c(
+                              "option",
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.order[key],
-                                expression: "order[key]"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: { "not-validated": _vm.errors[key] },
-                            attrs: {
-                              id: "input-" + key,
-                              placeholder: item["display_name"],
-                              type: "radio"
-                            },
-                            domProps: { checked: _vm._q(_vm.order[key], null) },
-                            on: {
-                              change: function($event) {
-                                return _vm.$set(_vm.order, key, null)
-                              }
-                            }
-                          })
-                        : item["type"] === "text" || item["type"] === "number"
-                        ? _c("input", {
-                            directives: [
+                                attrs: { selected: "", value: "", disabled: "" }
+                              },
+                              [_vm._v("Choose Customer Location")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.showAddress, function(address) {
+                              return _c(
+                                "option",
+                                { domProps: { value: address.id } },
+                                [_vm._v(_vm._s(address.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _vm.errors.pick_location
+                          ? _c(
+                              "div",
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.order[key],
-                                expression: "order[key]"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: { "not-validated": _vm.errors[key] },
-                            attrs: {
-                              id: "input-" + key,
-                              placeholder: item["display_name"],
-                              type: item["type"]
-                            },
-                            domProps: { value: _vm.order[key] },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(_vm.order, key, $event.target.value)
-                              }
-                            }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      item["type"] === "select" && key === "customer_id"
-                        ? _c("v-select", {
-                            staticClass: "form-control",
-                            attrs: {
-                              options: _vm.customers,
-                              reduce: function(fname) {
-                                return fname.id
+                                staticClass: "invalid-feedback",
+                                staticStyle: { display: "block" }
                               },
-                              label: "fname",
-                              placeholder: "Customers"
-                            },
-                            model: {
-                              value: _vm.order[key],
-                              callback: function($$v) {
-                                _vm.$set(_vm.order, key, $$v)
-                              },
-                              expression: "order[key]"
-                            }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      item["type"] === "select" &&
-                      (key === "pick_timerange" || key === "drop_timerange")
-                        ? _c("v-select", {
-                            staticClass: "form-control",
-                            attrs: {
-                              options: _vm.activeTime,
-                              reduce: function(fname) {
-                                return fname.id
-                              },
-                              label: "fname",
-                              placeholder: "Customers"
-                            },
-                            model: {
-                              value: _vm.order[key],
-                              callback: function($$v) {
-                                _vm.$set(_vm.order, key, $$v)
-                              },
-                              expression: "order[key]"
-                            }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      item["type"] === "select" && key === "type"
-                        ? _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.order[key],
-                                  expression: "order[key]"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              class: { "not-validated": _vm.errors[key] },
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.order,
-                                    key,
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { value: "1" } }, [
-                                _vm._v("Normal")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "2" } }, [
-                                _vm._v("Urgent")
-                              ])
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      item["type"] === "date"
-                        ? _c("date-picker", {
+                              [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.errors.pick_location[0]) +
+                                    "\n              "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-2" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", { staticClass: "form-control-label" }, [
+                            _vm._v("Pickup Date")
+                          ]),
+                          _vm._v(" "),
+                          _c("date-picker", {
                             attrs: {
                               lang: "en",
                               "input-class": "form-control",
                               valueType: "format"
                             },
                             model: {
-                              value: _vm.order[key],
+                              value: _vm.order.pick_date,
                               callback: function($$v) {
-                                _vm.$set(_vm.order, key, $$v)
+                                _vm.$set(_vm.order, "pick_date", $$v)
                               },
-                              expression: "order[key]"
+                              expression: "order.pick_date"
                             }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      item["type"] === "datetime"
-                        ? _c("date-picker", {
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.pick_date
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "invalid-feedback",
+                                  staticStyle: { display: "block" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(_vm.errors.pick_date[0]) +
+                                      "\n              "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-2" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", { staticClass: "form-control-label" }, [
+                            _vm._v("Pickup Time")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-select", {
+                            staticClass: "form-control",
                             attrs: {
-                              lang: "en",
-                              type: "datetime",
-                              "input-class": "form-control",
-                              valueType: "format",
-                              format: "YYYY-MM-DD hh:mm:ss",
-                              "time-picker-options": {
-                                start: "00:00",
-                                step: "00:30",
-                                end: "23:30"
-                              }
+                              options: _vm.activeTime,
+                              placeholder: "Select Time"
                             },
                             model: {
-                              value: _vm.order[key],
+                              value: _vm.order.pick_timerange,
                               callback: function($$v) {
-                                _vm.$set(_vm.order, key, $$v)
+                                _vm.$set(_vm.order, "pick_timerange", $$v)
                               },
-                              expression: "order[key]"
+                              expression: "order.pick_timerange"
                             }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.errors[key]
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "invalid-feedback",
-                              staticStyle: { display: "block" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(_vm.errors[key][0]) +
-                                  "\n              "
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.pick_timerange
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "invalid-feedback",
+                                  staticStyle: { display: "block" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(_vm.errors.pick_timerange[0]) +
+                                      "\n              "
+                                  )
+                                ]
                               )
-                            ]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ])
-              }),
-              0
-            )
-          ])
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "form-control-label" }, [
+                          _vm._v("Drop Location")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.order.drop_location,
+                                expression: "order.drop_location"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "not-validated": _vm.errors.drop_location
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.order,
+                                  "drop_location",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              {
+                                attrs: { selected: "", value: "", disabled: "" }
+                              },
+                              [_vm._v("Choose Customer Location")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.showAddress, function(address) {
+                              return _c(
+                                "option",
+                                { domProps: { value: address.id } },
+                                [_vm._v(_vm._s(address.name))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _vm.errors.drop_location
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "invalid-feedback",
+                                staticStyle: { display: "block" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.errors.drop_location[0]) +
+                                    "\n              "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-2" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", { staticClass: "form-control-label" }, [
+                            _vm._v("Drop Date")
+                          ]),
+                          _vm._v(" "),
+                          _c("date-picker", {
+                            attrs: {
+                              lang: "en",
+                              "input-class": "form-control",
+                              valueType: "format"
+                            },
+                            model: {
+                              value: _vm.order.drop_date,
+                              callback: function($$v) {
+                                _vm.$set(_vm.order, "drop_date", $$v)
+                              },
+                              expression: "order.drop_date"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.drop_date
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "invalid-feedback",
+                                  staticStyle: { display: "block" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(_vm.errors.drop_date[0]) +
+                                      "\n              "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-2" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", { staticClass: "form-control-label" }, [
+                            _vm._v("Drop Time")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-select", {
+                            staticClass: "form-control",
+                            attrs: {
+                              options: _vm.activeTime,
+                              placeholder: "Select Time"
+                            },
+                            model: {
+                              value: _vm.order.drop_timerange,
+                              callback: function($$v) {
+                                _vm.$set(_vm.order, "drop_timerange", $$v)
+                              },
+                              expression: "order.drop_timerange"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.drop_timerange
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "invalid-feedback",
+                                  staticStyle: { display: "block" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(_vm.errors.drop_timerange[0]) +
+                                      "\n              "
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ])
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
         ])
-      }),
-      0
-    ),
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-footer text-center" }, [
       _c(
@@ -72512,7 +72798,7 @@ var render = function() {
                       [
                         _vm._v(_vm._s(key)),
                         _c("span", { staticClass: "status_count" }, [
-                          _vm._v("2")
+                          _vm._v(_vm._s(_vm.count[key]))
                         ])
                       ]
                     )
@@ -72533,7 +72819,7 @@ var render = function() {
                 _c(
                   "tbody",
                   { staticClass: "list" },
-                  _vm._l(_vm.orders.data, function(item, index) {
+                  _vm._l(_vm.showOrders.data, function(item, index) {
                     return _c(
                       "tr",
                       { class: { urgent: _vm.checkPending(index) } },
@@ -72693,7 +72979,7 @@ var render = function() {
             { staticClass: "card-footer py-4" },
             [
               _c("pagination", {
-                attrs: { data: _vm.orders },
+                attrs: { data: _vm.showOrders },
                 on: { "pagination-change-page": _vm.getResults }
               })
             ],
@@ -95976,12 +96262,12 @@ var fields = {
       },
       'pick_date': {
         'display_name': 'Pickup Date',
-        'col': '4',
+        'col': '2',
         'type': 'date'
       },
       'pick_timerange': {
         'display_name': 'Pickup Timerange',
-        'col': '4',
+        'col': '2',
         'type': 'select'
       },
       'drop_location': {
@@ -95991,12 +96277,12 @@ var fields = {
       },
       'drop_date': {
         'display_name': 'Drop Date',
-        'col': '4',
+        'col': '2',
         'type': 'date'
       },
       'drop_timerange': {
         'display_name': 'Drop Timerange',
-        'col': '4',
+        'col': '2',
         'type': 'select'
       }
     }
@@ -96233,6 +96519,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     coupons: {},
     orderStatus: {},
     orderTime: {},
+    address: {},
     notifications: {},
     appDefaults: {},
     errors: {}
@@ -96255,6 +96542,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     orderTime: function orderTime(state) {
       return state.orderTime;
+    },
+    address: function address(state) {
+      return state.address;
     },
     services: function services(state) {
       return state.services;
@@ -96308,6 +96598,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setOrderTime: function setOrderTime(state, orderTime) {
       state.orderTime = orderTime;
+    },
+    setAddress: function setAddress(state, address) {
+      state.address = address;
     },
     setServices: function setServices(state, services) {
       state.services = services;
@@ -96364,6 +96657,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         context.commit('setOrderTime', response.data);
       });
     },
+    getAddress: function getAddress(context, customer_id) {
+      axios.get('/address/' + customer_id).then(function (response) {
+        context.commit('setAddress', response.data);
+      });
+    },
     getOrders: function getOrders(context, orderObj) {
       axios.get('/getOrders/' + orderObj.status + '?page=' + orderObj.page).then(function (response) {
         context.commit('setOrders', response.data);
@@ -96372,18 +96670,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     getOrderDetails: function getOrderDetails(context, order_id) {
       axios.get('/orders/' + order_id).then(function (response) {
         context.commit('setOrderDetails', response.data);
-      });
-    },
-    addOrder: function addOrder(context, order) {
-      axios.post('/orders', order).then(function (response) {
-        context.commit('setErrors', {});
-        showNotify('success', 'Order has been created');
-      })["catch"](function (error) {
-        context.commit('setErrors', error.response.data.errors);
-
-        for (var prop in error.response.data.errors) {
-          showNotify('danger', error.response.data.errors[prop]);
-        }
       });
     },
     getDrivers: function getDrivers(context) {

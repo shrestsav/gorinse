@@ -19,6 +19,7 @@ export const store = new Vuex.Store({
 		coupons:{},
 		orderStatus:{},
 		orderTime:{},
+		address:{},
 		notifications:{},
 		appDefaults:{},
 		errors:{},
@@ -41,6 +42,9 @@ export const store = new Vuex.Store({
 		},
 		orderTime(state){
 			return state.orderTime;
+		},
+		address(state){
+			return state.address;
 		},
 		services(state){
 			return state.services;
@@ -94,6 +98,9 @@ export const store = new Vuex.Store({
 		},
 		setOrderTime(state, orderTime){
 			state.orderTime = orderTime
+		},
+		setAddress(state, address){
+			state.address = address
 		},
 		setServices(state, services){
 			state.services = services
@@ -155,6 +162,12 @@ export const store = new Vuex.Store({
 	        	context.commit('setOrderTime',response.data)
 	        });
 		},
+		getAddress(context,customer_id){
+			axios.get('/address/'+customer_id)
+	        .then(response => {
+	        	context.commit('setAddress',response.data)
+	        });
+		},
 		getOrders(context,orderObj){
 			axios.get('/getOrders/'+orderObj.status+'?page=' + orderObj.page)
 	        .then(response => {
@@ -166,19 +179,6 @@ export const store = new Vuex.Store({
 	        .then(response => {
 	        	context.commit('setOrderDetails',response.data)
 	        });
-		},
-		addOrder(context, order){
-			axios.post('/orders',order)
-	          .then((response) => {
-	          	context.commit('setErrors',{})
-	            showNotify('success','Order has been created')
-	          })
-	          .catch((error) => {
-      			context.commit('setErrors',error.response.data.errors)
-	            for (var prop in error.response.data.errors) {
-	              showNotify('danger',error.response.data.errors[prop])
-	            }  
-	          })
 		},
 		getDrivers(context){
 			axios.get('/drivers')

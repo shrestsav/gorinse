@@ -27,7 +27,7 @@
               </tr>
             </thead>
             <tbody class="list">
-              <tr v-for="item,key in drivers">
+              <tr v-for="item,key in customers">
                 <td>{{++key}}</td>
                 <td>{{item.id}}</td>
                 <td>{{item.fname}} {{item.lname}}</td>
@@ -61,7 +61,7 @@
     methods:{
     },
     computed: {
-      drivers(){
+      customers(){
         return this.$store.getters.customers
       }
     },

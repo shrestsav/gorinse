@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::resource('/orders','OrderController');
 	Route::get('/getOrders/{status}','OrderController@getOrders');
+	Route::get('/getOrdersCount','OrderController@getOrdersCount');
 	Route::post('/assignOrder','OrderController@assignOrder');
 	
 	Route::get('/services','CoreController@services');
@@ -63,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::resource('/drivers','DriverController');
 
 	Route::resource('/customers','CustomerController');
+	Route::get('/address/{customer_id}','CustomerController@address');
 
 	Route::get('/getCustomers','UserController@customers');
 

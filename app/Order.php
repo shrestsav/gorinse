@@ -19,8 +19,6 @@ class Order extends Model
         'drop_timerange',
         'payment',
 		'status',
-
-        'PAT'
     ];
 
     public function customer()

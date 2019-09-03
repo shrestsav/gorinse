@@ -69,12 +69,12 @@ export const fields = {
       },
       'pick_date' : {
         'display_name' : 'Pickup Date',
-        'col' : '4',
+        'col' : '2',
         'type' :  'date',
       },
       'pick_timerange' : {
         'display_name' : 'Pickup Timerange',
-        'col' : '4',
+        'col' : '2',
         'type' :  'select',
       },
       'drop_location' : {
@@ -84,12 +84,12 @@ export const fields = {
       },
       'drop_date' : {
         'display_name' : 'Drop Date',
-        'col' : '4',
+        'col' : '2',
         'type' :  'date',
       },
       'drop_timerange' : {
         'display_name' : 'Drop Timerange',
-        'col' : '4',
+        'col' : '2',
         'type' :  'select',
       },
     },

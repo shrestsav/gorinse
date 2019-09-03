@@ -94,4 +94,10 @@ class CustomerController extends Controller
         //
     }
 
+    public function address($customer_id)
+    {
+        $address = UserAddress::where('user_id',$customer_id)->get();
+        return response()->json($address);
+    }
+
 }

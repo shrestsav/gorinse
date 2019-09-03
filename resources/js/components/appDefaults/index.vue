@@ -272,6 +272,7 @@
 <script>
   import offers from './offers.vue'
   import coupons from './coupons.vue'
+  import { mapState } from 'vuex'
 
   export default{
     components: {
@@ -420,12 +421,7 @@
       }
     },
     computed: {
-      appDefaults(){
-        return this.$store.getters.appDefaults
-      },
-      mainAreas(){
-        return this.$store.getters.mainAreas
-      },
+      ...mapState(['appDefaults', 'mainAreas'])
     },
   }
 

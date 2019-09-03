@@ -9,6 +9,7 @@ use App\Item;
 use App\Jobs\PendingNotification;
 use App\MainArea;
 use App\Order;
+use App\OrderDetail;
 use App\OrderItem;
 use App\Service;
 use App\User;
@@ -51,14 +52,13 @@ class OrderController extends Controller
                                 'drop_driver_id',
                                 'type',
                                 'pick_location',
-                                
-                                )
+                                'drop_location',
+                                'created_at')
                        ->where('driver_id',Auth::id())
                        ->orWhere('drop_driver_id',Auth::id())
                        ->with('customer:id,fname,lname,phone',
-                              'pickDriver:id,fname,lname,phone',
-                              'dropDriver:id,fname,lname,phone',
-                              'pick_location_details')
+                              'pick_location_details:id,name',
+                              'drop_location_details:id,name')
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);
 
@@ -168,14 +168,17 @@ class OrderController extends Controller
             ], 422);
         }
 
-        $order = Order::find($request->order_id);
+        $order = Order::findOrFail($request->order_id);
 
         if($order->status==0){
             $order->update([
                 'driver_id' => Auth::id(), 
                 'pick_assigned_by' => Auth::id(),
-                'PAT' => Date('Y-m-d h:i:s'),
                 'status' => 1]);
+            $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order->id],
+                ['PAT' => Date('Y-m-d h:i:s')]
+            );
             User::notifyAcceptOrder($request->order_id);
         }
         else{
@@ -469,41 +472,38 @@ class OrderController extends Controller
         $order_id = $request->order_id;
         $service_id = $request->service_id;
         $serviceCharge = Service::findOrFail($service_id)->price;
-        $order = Order::where('id',$order_id);
-        if($order->exists()){
-            if(Auth::id()==$order->first()->driver_id){
-                foreach($request->items as $item){
-                    $itemCharge = Item::findOrFail($item['item_id'])->price;
-                    $orderItem = new OrderItem;
-                    $orderItem->order_id = $order_id;
-                    $orderItem->service_id = $service_id;
-                    $orderItem->item_id = $item['item_id'];
-                    $orderItem->quantity = $item['quantity'];
-                    $orderItem->service_charge = $serviceCharge;
-                    $orderItem->item_charge = $itemCharge;
-                    $orderItem->remarks = $item['remarks'];
-                    $orderItem->save();
-                }
-                $order->update([
-                    'VAT' => $VAT,
-                    'delivery_charge' => $deliveryCharge
-                ]);
-                // User::notifyInvoiceGenerated($order_id);
-                return response()->json($this->genInvoice($order_id));
-            }
-            else{
-                return response()->json([
-                    'status' => '403',
-                    'message' => 'You donot have access to this order' 
-                ],403);
-            }
-        }
-        else{
+        $order = Order::findOrFail($order_id);
+        
+        if($order->driver_id != Auth::id() || $order->status != 1){
             return response()->json([
-                'status' => '404',
-                'message' => 'Order doesnot exist' 
-            ],404);
+                'status' => '403',
+                'message' => 'You donot have access to add items for this order' 
+            ],403);
         }
+
+        //Delete previous items for that order if exists
+        $items = OrderItem::where('order_id',$order_id)->delete();
+        foreach($request->items as $item){
+            $itemCharge = Item::findOrFail($item['item_id'])->price;
+            $orderItem = new OrderItem;
+            $orderItem->order_id = $order_id;
+            $orderItem->service_id = $service_id;
+            $orderItem->item_id = $item['item_id'];
+            $orderItem->quantity = $item['quantity'];
+            $orderItem->service_charge = $serviceCharge;
+            $orderItem->item_charge = $itemCharge;
+            $orderItem->remarks = $item['remarks'];
+            $orderItem->save();
+        }
+
+        $order->update([
+            'VAT' => $VAT,
+            'delivery_charge' => $deliveryCharge
+        ]);
+        // User::notifyInvoiceGenerated($order_id);
+        return response()->json($this->genInvoice($order_id));
+        
+
     }
 
     public function sendOrderInvoiceForApproval(Request $request)
@@ -521,23 +521,23 @@ class OrderController extends Controller
         }
 
         $order_id = $request->order_id;
-        $order = Order::where('id',$order_id);
-        
-        if(!$order->exists()){
-            return response()->json([
-                'status' => '404',
-                'message' => 'Order not found',
-            ], 404);
-        }
-        elseif($order->first()->driver_id!=Auth::id()){
+        $order = Order::findOrFail($order_id);
+
+        if($order->driver_id!=Auth::id()){
             return response()->json([
                 'status' => '403',
                 'message' => 'You donot have permission to view invoice for this order',
             ], 403);
         }
 
-        if($order->first()->status==1){
+        if($order->status==1){
             $order->update([ 'status' => 2 ]);
+            if($request->remarks){
+                $orderDetails = OrderDetail::updateOrCreate(
+                    ['order_id' => $order_id],
+                    ['PDR'      => $request->remarks]
+                );
+            }
             User::notifyInvoiceGenerated($order_id);
             return response()->json([
                     'status' => '200',
@@ -554,21 +554,43 @@ class OrderController extends Controller
 
     public function customerOrderInvoice($order_id)
     {
-        $order = Order::where('id',$order_id);
-        if(!$order->exists()){
-            return response()->json([
-                    'status' => '404',
-                    'message' => 'Order not found',
-                ], 404);
-        }
-        elseif($order->first()->customer_id!=Auth::id()){
+        $order = Order::findOrFail($order_id);
+
+        if($order->customer_id!=Auth::id()){
             return response()->json([
                     'status' => '403',
                     'message' => 'You donot have permission to view invoice for this order',
                 ], 403);
         }
+        elseif($order->status < 2){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'Invoice not generated for this order yet',
+                ], 403);
+        }
         else{
-            return response()->json($this->generateInvoice($order_id));
+            return response()->json($this->genInvoice($order_id));
+        }
+    }
+
+    public function driverOrderInvoice($order_id)
+    {
+        $order = Order::findOrFail($order_id);
+
+        if($order->driver_id!=Auth::id() || $order->drop_driver_id!=Auth::id()){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You donot have permission to view invoice for this order',
+                ], 403);
+        }
+        elseif($order->status < 2){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'Invoice not generated for this order yet',
+                ], 403);
+        }
+        else{
+            return response()->json($this->genInvoice($order_id));
         }
     }
 
@@ -589,9 +611,12 @@ class OrderController extends Controller
         }
         elseif($order->first()->status==2){
             $confirmInvoice = $order->update([
-                                'status' => 3,
-                                'PFC'    => date(config('settings.dateTime'))
+                                'status' => 3
                             ]);
+            $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order_id],
+                ['PFC'      => date(config('settings.dateTime'))]
+            );
             User::notifyInvoiceConfirmed($order_id);
             if(!$confirmInvoice){
                 return response()->json([
@@ -627,9 +652,12 @@ class OrderController extends Controller
         }
         elseif($order->first()->status==3){
             $confirmInvoice = $order->update([
-                                'status' => 4,
-                                'DAO'    => date(config('settings.dateTime'))
+                                'status' => 4
                             ]);
+            $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order_id],
+                ['DAO'      => date(config('settings.dateTime'))]
+            );
             User::notifyDroppedAtOffice($order_id);
             if(!$confirmInvoice){
                 return response()->json([
@@ -661,8 +689,12 @@ class OrderController extends Controller
         }
         elseif($order->status==5){
             $order->status = 6;
-            $order->PFO = date(config('settings.dateTime'));
             $order->save();
+
+            $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order_id],
+                ['PFO'      => date(config('settings.dateTime'))]
+            );
             // $pickDelivery = $order->update([
             //                     'status' => 6,
             //                     'PFO'    => date(config('settings.dateTime'))

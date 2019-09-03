@@ -29,18 +29,11 @@ class CreateOrdersTable extends Migration
             $table->smallInteger('drop_location')->comment('From User Address Table');
             $table->date('drop_date')->nullable();
             $table->string('drop_timerange')->nullable();
-            $table->smallInteger('payment');
+            $table->smallInteger('payment')->default(0);
             $table->smallInteger('status')->default(0)->comment('See Config');
             $table->integer('VAT')->nullable();
             $table->integer('delivery_charge')->nullable();
-
-            $table->dateTime('PAT')->nullable()->comment('Pick Assigned Time / Accepted Time');
-            $table->dateTime('DAT')->nullable()->comment('Drop Assigned Time');
-            $table->dateTime('PFC')->nullable()->comment('Picked From Customer');
-            $table->dateTime('DAO')->nullable()->comment('Dropped At Office');
-            $table->dateTime('PFO')->nullable()->comment('Picked From Office');
-            $table->dateTime('DTC')->nullable()->comment('Delivered To Customer');
-            $table->dateTime('PT')->nullable()->comment('Payment Time');
+            
             $table->timestamps();
         });
     }

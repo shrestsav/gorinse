@@ -134,6 +134,7 @@
 
 <script>
   import {settings} from '../../config/settings'
+  import { mapState } from 'vuex'
 
   export default{
     data(){
@@ -296,15 +297,13 @@
       }
     },
     computed: {
-      offers(){
-        return this.$store.getters.offers
-      },
       module(){
         return this.$parent.modules.offers
       },
       base_url(){
         return window.location.origin
-      }
+      },
+      ...mapState(['offers'])
     },
   }
 

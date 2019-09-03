@@ -139,6 +139,7 @@
 
 <script>
   import {settings} from '../../config/settings'
+  import { mapState } from 'vuex'
 
   export default{
     data(){
@@ -263,9 +264,7 @@
       }
     },
     computed: {
-      coupons(){
-        return this.$store.getters.coupons
-      },
+      ...mapState(['coupons']),
       module(){
         return this.$parent.modules.coupon
       },

@@ -158,7 +158,8 @@ class AuthController extends Controller
     public function createProfile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'fname' => 'required'
+            'fname' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
 
         if ($validator->fails()) {

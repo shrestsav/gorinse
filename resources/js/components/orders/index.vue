@@ -6,7 +6,7 @@
           <div class="nav-wrapper">
             <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
               <li class="nav-item" v-for="status,key in orderStatus">
-                <a class="nav-link mb-sm-3 mb-md-0" :class="key=='Pending' ? 'active' : ''" :id="key" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false" @click="getOrders(key)">{{key}}<span class="status_count">2</span></a>
+                <a class="nav-link mb-sm-3 mb-md-0" :class="key=='Pending' ? 'active' : ''" :id="key" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false" @click="getOrders(key)">{{key}}<span class="status_count">{{count[key]}}</span></a>
               </li>
             </ul>
           </div>
@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody class="list">
-              <tr v-for="(item,index) in orders.data" v-bind:class="{ urgent: checkPending(index) }">
+              <tr v-for="(item,index) in showOrders.data" v-bind:class="{ urgent: checkPending(index) }">
                 <td>{{index+1}}</td>
                 <td><span v-if="item.customer">{{item.customer.fname}}</span></td>
                 <td>{{getOrderType(item.type)}}</td>
@@ -66,7 +66,7 @@
           </table>
         </div>
         <div class="card-footer py-4">
-          <pagination :data="orders" @pagination-change-page="getResults"></pagination>
+          <pagination :data="showOrders" @pagination-change-page="getResults"></pagination>
         </div>
       </div>
     </div>
@@ -79,6 +79,7 @@
   import assign from './assign.vue'
   import show from './show.vue'
   import {settings} from '../../config/settings'
+  import { mapState } from 'vuex'
  
   export default{
     components: {
@@ -92,10 +93,18 @@
           order_id:'',
           status:'Pending',
         },
+        count:{
+          pendingOrders:0,
+          receivedOrders:0,
+          readyForDeliveryOrders:0,
+          onHoldOrders:0,
+          completedOrders:0
+        },
         showAssign: true,
         showDetails: false,
         errors:{},
         message:'',
+        showOrders:{},
       }
     },
     created(){
@@ -106,11 +115,19 @@
       this.$store.dispatch('getOrderStatus')
     },
     mounted(){
+      
     },
     methods:{
+      getOrdersCount(){
+        axios.get('/getOrdersCount')
+        .then(response => {
+          this.count = response.data
+        });
+      },
       getOrders(status){
         this.active.status = status
         this.getResults()
+        this.getOrdersCount()
       },
       getResults(page = 1) {
         this.active.page = page,
@@ -148,12 +165,6 @@
       },
     },
     computed: {
-      orders(){
-        return this.$store.getters.orders
-      },
-      orderStatus(){
-        return this.$store.getters.orderStatus
-      },
       pending(){
         return this.orderStatus['Pending'];
       },
@@ -168,8 +179,14 @@
       },
       completed(){
         return this.orderStatus['Completed'];
-      }
+      },
+      ...mapState(['orders', 'orderStatus'])
     },
+    watch: {
+      orders(value) {
+        this.showOrders = value
+      }
+    }
   }
 
 </script>

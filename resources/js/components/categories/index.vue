@@ -56,7 +56,6 @@
     },
     computed: {
       categories(){
-        
         return this.$store.getters.categories
       }
     },
