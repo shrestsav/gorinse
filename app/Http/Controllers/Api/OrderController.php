@@ -55,7 +55,10 @@ class OrderController extends Controller
                                 'pick_location',
                                 'drop_location',
                                 'created_at')
-                       ->where('driver_id',Auth::id())
+                        ->where(function ($query){
+                            $query->where('driver_id','=',Auth::id())
+                                  ->where('status','>=',4);
+                        })
                        ->orWhere('drop_driver_id',Auth::id())
                        ->with('customer:id,fname,lname,phone',
                               'pick_location_details:id,name',
