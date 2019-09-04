@@ -17,7 +17,15 @@ class AppDefault extends Model
 		'hotline_contact',
 		'company_email',
 		'company_logo',
+		'TACS',
 		'app_rows',
 		'sys_rows'
+    ];
+    
+    protected $casts = [
+        'order_time' => 'array',
+        'driver_notes' => 'array',
+        'online_chat' => 'array',
+        'TACS' => 'array',
     ];
 }

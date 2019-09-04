@@ -25,6 +25,7 @@ class CreateAppDefaultsTable extends Migration
             $table->string('hotline_contact');
             $table->string('company_email');
             $table->string('company_logo');
+            $table->longText('TACS')->comment('TERMS AND CONDITIONS');
             $table->integer('app_rows');
             $table->integer('sys_rows');
             $table->timestamps();

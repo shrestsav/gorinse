@@ -51,6 +51,7 @@ class OrderController extends Controller
                                 'driver_id',
                                 'drop_driver_id',
                                 'type',
+                                'status',
                                 'pick_location',
                                 'drop_location',
                                 'created_at')
@@ -280,7 +281,7 @@ class OrderController extends Controller
                                      'created_at')
                         ->where(function ($query){
                             $query->where('status','>=',1)
-                                  ->where('status','<=',4)
+                                  ->where('status','<=',3)
                                   ->where('driver_id','=',Auth::id());
                         })
                         ->orWhere(function ($query) use ($today){

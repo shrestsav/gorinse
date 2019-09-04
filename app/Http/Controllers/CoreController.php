@@ -194,11 +194,7 @@ class CoreController extends Controller
     public function appDefaults()
     {
         $appDefaults = AppDefault::first();
-        $appDefaults['company_logo_url'] = asset('files/'.$appDefaults->company_logo);
-        $appDefaults['order_time'] = json_decode($appDefaults->order_time);
-        $appDefaults['driver_notes'] = json_decode($appDefaults->driver_notes);
-        $appDefaults['online_chat'] = json_decode($appDefaults->online_chat);
-        
+        $appDefaults['company_logo_url'] = asset('files/'.$appDefaults->company_logo);        
         return response()->json($appDefaults);
     }
     
@@ -210,6 +206,7 @@ class CoreController extends Controller
         }
         if($request->saveType=='supportSetting'){
             $input = $request->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
+            $input['online_chat'] = json_decode($request->online_chat,true);
 
             if ($request->hasFile('logoFile')) {
                 $validator = Validator::make($request->all(), [
@@ -234,8 +231,11 @@ class CoreController extends Controller
         if($request->saveType=='orderSetting'){
             $input = $request->only('order_time', 'driver_notes');
         }
+        if($request->saveType=='TACS'){
+            $input = $request->only('TACS');
+        }
         
-        $update = AppDefault::where('id',$request->id)->update($input);
+        $update = AppDefault::firstOrFail()->update($input);
 
         return response()->json('Successfully Updated');
     }
@@ -243,7 +243,7 @@ class CoreController extends Controller
     public function orderTime()
     {
         $appDefaults = AppDefault::first();
-        $orderTime = json_decode($appDefaults->order_time);
+        $orderTime = $appDefaults->order_time;
 
         return response()->json($orderTime);
     }

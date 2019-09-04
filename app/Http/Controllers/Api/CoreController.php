@@ -87,7 +87,6 @@ class CoreController extends Controller
     {
         $appDefaults = AppDefault::first();
         $appDefaults['company_logo'] = asset('files/'.$appDefaults->company_logo);
-        $appDefaults['online_chat'] = json_decode($appDefaults->online_chat);
 
         $input = $appDefaults->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
 
@@ -97,8 +96,6 @@ class CoreController extends Controller
     public function orderDefaults()
     {
         $appDefaults = AppDefault::first();
-        $appDefaults['order_time'] = json_decode($appDefaults->order_time);
-        $appDefaults['driver_notes'] = json_decode($appDefaults->driver_notes);
 
         $input = $appDefaults->only('order_time', 'driver_notes');
 

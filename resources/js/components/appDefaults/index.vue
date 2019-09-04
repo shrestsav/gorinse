@@ -2,82 +2,10 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="card-wrapper">
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col">
-                <h3 class="mb-0">General</h3>
-              </div>
-              <div class="col-auto">
-                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('general')">{{modules.general.icon}}</button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body" v-if="modules.general.display">
-            <div class="row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-control-label">VAT (%)</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.VAT">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-control-label">Delivery Charge</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.delivery_charge">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="form-control-label">OTP Expiry Time</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.OTP_expiry">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="form-control-label">App Data Rows</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.app_rows">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="form-control-label">System Data Rows</label>
-                  <div class="input-group input-group-merge">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input class="form-control" type="number" v-model="appDefaults.sys_rows">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="float-right">
-              <button class="btn btn-outline-primary" @click="save('generalSetting')">Save</button>
-            </div>
-          </div>
-        </div>
+        <general></general>
         <offers></offers>
         <coupons></coupons>
+        <order></order>
         <div class="card">
           <div class="card-header">
             <div class="row">
@@ -170,62 +98,6 @@
           <div class="card-header">
             <div class="row">
               <div class="col">
-                <h3 class="mb-0">Order</h3>
-              </div>
-              <div class="col-auto">
-                <button type="button" class="btn btn-primary btn-sm" @click="toggleModule('order')">{{modules.order.icon}}</button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body" v-if="modules.order.display">
-            <div class="row">
-              <div class="col-md-12">
-                <label class="form-control-label">Order Active Hours</label>
-                <div class="row">
-                  <div class="col-md-2" v-for="timerange,key in appDefaults.order_time">
-                    <div class="form-group">
-                      <div class="input-group input-group-merge" >
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="fas fa-clock"></i></span>
-                        </div>
-                        <input class="form-control" type="text"  v-model="appDefaults.order_time[key]">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary btn-sm" @click="addTime()">Add Time</button>
-                </div>
-              </div>
-              <br><br><br>
-              <div class="col-md-12">
-                <label class="form-control-label">Driver Predefined Notes</label>
-                <div class="row">
-                  <div class="col-md-4" v-for="note,key in appDefaults.driver_notes">
-                    <div class="form-group">
-                      <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
-                        </div>
-                        <input class="form-control" type="text" v-model="appDefaults.driver_notes[key]">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <button type="button" class="btn btn-primary btn-sm" @click="addDriverNotes()">Add Notes</button>
-                </div>
-              </div>
-            </div>
-            <div class="float-right">
-              <button class="btn btn-outline-primary" @click="save('orderSetting')">Save</button>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col">
                 <h3 class="mb-0">Main Areas</h3>
               </div>
               <div class="col-auto">
@@ -264,20 +136,27 @@
             </div>
           </div>
         </div>
+        <TACS></TACS>
       </div>
     </div>        
   </div>
 </template>
 
 <script>
+  import general from './general.vue'
+  import order from './order.vue'
   import offers from './offers.vue'
   import coupons from './coupons.vue'
+  import TACS from './TACS.vue'
   import { mapState } from 'vuex'
 
   export default{
     components: {
+      general,
+      order,
       offers,
-      coupons
+      coupons,
+      TACS
     },
     data(){
       return{
@@ -304,6 +183,10 @@
           },
           offers : {
             display : false,
+            icon : "+",
+          },
+          TACS : {
+            display : true,
             icon : "+",
           },
         },
@@ -333,15 +216,15 @@
         formData.append('driver_notes',JSON.stringify(this.appDefaults.driver_notes))
         
         axios.post('/appDefaults',formData)
-          .then((response) => {
-            console.log(response)
-            showNotify('success','App Default has been created')
-          })
-          .catch((error) => {
-            for (var prop in error.response.data.errors) {
-              showNotify('danger',error.response.data.errors[prop])
-            }  
-          })
+        .then((response) => {
+          console.log(response)
+          showNotify('success','App Default has been created')
+        })
+        .catch((error) => {
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
+        })
       },
       saveMainArea(){
         axios.post('/mainArea',this.mainArea)
@@ -384,24 +267,6 @@
       logoFileUpload(){
         this.appDefaults.logoFile = this.$refs.file.files[0];
         this.appDefaults.company_logo_url = URL.createObjectURL(this.appDefaults.logoFile);
-      },
-      addTime(){
-        if(this.appDefaults.order_time[this.appDefaults.order_time.length-1]!="")
-          this.appDefaults.order_time.push("")
-        else
-          this.$swal({
-            type: 'error',
-            title: 'First Fill Empty Rows',
-          });
-      },
-      addDriverNotes(){
-        if(this.appDefaults.driver_notes[this.appDefaults.driver_notes.length-1]!="")
-          this.appDefaults.driver_notes.push("")
-        else
-          this.$swal({
-            type: 'error',
-            title: 'First Fill Empty Rows',
-          });
       },
       toggleModule(module){
         if(this.modules[module].display){
