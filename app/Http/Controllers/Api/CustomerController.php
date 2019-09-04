@@ -40,7 +40,7 @@ class CustomerController extends Controller
             $customer->details->photo = null;
 
         $appDefaults = AppDefault::first();
-        $orderTime = json_decode($appDefaults->order_time);
+        $orderTime = $appDefaults->order_time;
 
         $offers = Offer::select('id','name','image','description')->where('status',1)->get();
         $offerUrl = asset('files/offer_banners/');
