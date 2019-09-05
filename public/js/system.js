@@ -5314,9 +5314,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -68163,17 +68160,6 @@ var render = function() {
                   [_vm._v("Cancel")]
                 )
               : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-center" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-outline-primary",
-                on: { click: _vm.save }
-              },
-              [_vm._v("Create")]
-            )
           ])
         ])
       : _vm._e()

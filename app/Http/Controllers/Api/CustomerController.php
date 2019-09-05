@@ -280,18 +280,24 @@ class CustomerController extends Controller
                 'lattitude' => $request->lattitude,
                 'longitude' => $request->longitude
             ];
-            $map_coordinates = json_encode($coordinates);
-            $request['map_coordinates'] = $map_coordinates;
+            $request['map_coordinates'] = $coordinates;
         }
 
+        //Remove other defaults if exists
+        if($request->is_default){
+            $lastDefault = UserAddress::where('user_id',Auth::id())
+                                      ->where('is_default',1)
+                                      ->update([
+                                        'is_default' => 0
+                                      ]);
+
+        }
         $address = UserAddress::create($request->all());
         return response()->json($address);
     }    
 
     public function updateAddress(Request $request)
     {
-        unset($request['map_coordinates']);
-
         $validator = Validator::make($request->all(), [
             'address_id' => 'required|numeric',
         ]);
@@ -304,25 +310,24 @@ class CustomerController extends Controller
             ], 422);
         }
 
-        $map_coordinates = null; 
+        $coordinates = null; 
         if($request->lattitude && $request->longitude){
             $coordinates = [
                 'lattitude' => $request->lattitude,
                 'longitude' => $request->longitude
             ];
-            $map_coordinates = json_encode($coordinates);
         }
         $address = UserAddress::where('id',$request->address_id)->where('user_id',Auth::id());
         if($address->exists()){
             $address->update([
-                        'name' => $request->name,
-                        'area_id' => $request->area_id,
-                        'map_coordinates' => $map_coordinates,
-                        'building_community' => $request->building_community,
-                        'type' => $request->type,
-                        'appartment_no' => $request->appartment_no,
-                        'remarks' => $request->remarks,
-                    ]);
+                'name' => $request->name,
+                'area_id' => $request->area_id,
+                'map_coordinates' => $coordinates,
+                'building_community' => $request->building_community,
+                'type' => $request->type,
+                'appartment_no' => $request->appartment_no,
+                'remarks' => $request->remarks,
+            ]);
             return response()->json([
                 'status' => '200',
                 'message'=> 'Address Updated Successfully' 

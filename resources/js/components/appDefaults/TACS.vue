@@ -43,9 +43,6 @@
         <button type="button" class="btn btn-info btn-sm" @click="save" v-if="addTACS">Save</button>
         <button type="button" class="btn btn-danger btn-sm" @click="cancelAdd" v-if="addTACS">Cancel</button>
       </div>
-      <div class="text-center">
-        <button class="btn btn-outline-primary" @click="save">Create</button>
-      </div>
     </div>
   </div>
 </template>

@@ -71,6 +71,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/configs/{configType}','CoreController@getSettings');
 	Route::get('/mainAreas','CoreController@mainAreas');
 	Route::get('/offers','CoreController@offers');
+	Route::get('/termsAndConditions','CoreController@termsAndConditions');
 	Route::get('/servicesPlusItems','CoreController@servicesPlusItems');
 
 	Route::get('/notifications','AuthController@notifications');

@@ -85,7 +85,7 @@ class CoreController extends Controller
 
     public function supportInfo()
     {
-        $appDefaults = AppDefault::first();
+        $appDefaults = AppDefault::firstOrFail();
         $appDefaults['company_logo'] = asset('files/'.$appDefaults->company_logo);
 
         $input = $appDefaults->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
@@ -95,7 +95,7 @@ class CoreController extends Controller
 
     public function orderDefaults()
     {
-        $appDefaults = AppDefault::first();
+        $appDefaults = AppDefault::firstOrFail();
 
         $input = $appDefaults->only('order_time', 'driver_notes');
 
@@ -118,5 +118,12 @@ class CoreController extends Controller
             'imageUrl' =>$url
         ];
         return response()->json($data);
+    }
+
+    public function termsAndConditions()
+    {
+        $TACS = AppDefault::firstOrFail()->TACS;
+        
+        return response()->json($TACS);
     }
 }

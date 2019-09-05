@@ -171,10 +171,9 @@ class AuthController extends Controller
         }
 
         $userInput = $request->only('fname', 'lname', 'email');
-        $userDetailsInput = $request->only('referred_by');
 
-        if($userDetailsInput['referred_by']){
-            $check = UserDetail::where('referral_id',$userDetailsInput['referred_by']);
+        if($request->referred_by){
+            $check = UserDetail::where('referral_id',$request->referred_by);
             if(!$check->exists())
                 return response()->json([
                     'status' => '404',
@@ -192,7 +191,7 @@ class AuthController extends Controller
         $userDetail = UserDetail::updateOrCreate(
                 ['user_id' => Auth::id()],
                 [
-                    'referred_by' => $userDetailsInput['referred_by'],
+                    'referred_by' => $request->referred_by,
                     'referral_id' => $referral_id
                 ]);
 
