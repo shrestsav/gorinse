@@ -13,6 +13,7 @@ use App\Jobs\PendingNotification;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/testNotification/{id}','OrderController@testNotification');
 
 Route::get('/', 'HomeController@index')->name('dashboard');
 
@@ -71,7 +72,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/notifications','UserController@notifications');
 	Route::get('/markAsRead/{notificationId}','UserController@markAsRead');
 	Route::get('/markAllAsRead','UserController@markAllAsRead');
-	Route::get('/testNotification','OrderController@testNotification');
 
 	Route::get('event',function(){
 		event(new TaskEvent('Hey how are you'));

@@ -212,10 +212,13 @@ class OrderController extends Controller
 
     public function testNotification($user_id)
     {
-        // $user = User::find($user_id)->pushNotification();
-      $order = Order::find(1);
-      $test =  User::notifyAcceptOrder($order);
-      return 'done';
-
+      $notification = [
+          'notifyType' => 'test_notitification',
+          'message' => 'Yo euta test notification matra ho',
+          'model' => 'order',
+          'url' => 1
+      ];
+      $user = User::find($user_id)->pushNotification($notification);
+      return 'Notification Gayo';
     }
   }
