@@ -125,4 +125,63 @@ class Order extends Model
 
         return $invoiceCollection;
     }
+
+
+    //Works for single Service Id
+    public function generateInvoiceForUser()
+    {
+        $orderDetails = Order::where('id',$this->id)->with('orderItems.service','orderItems.item','customer','details')->firstOrFail();
+        $totalAmount = 0;
+        $totalQuantity = 0;
+        $invoiceArr = [];
+        $serviceName = '';
+        foreach ($orderDetails->orderItems as $item) {
+            $itemQuantity = $item['quantity'];
+            // $serviceCharge = $item['service']['price'];
+            // $itemCharge = $item['item']['price'];
+            $rate = $item['service_charge']+$item['item_charge'];
+            $amount = $rate*$itemQuantity;
+            $totalQuantity += $itemQuantity;
+            $totalAmount += $amount;
+
+            $invoice = [
+                'item' => $item['item']['name'],
+                'quantity' => $itemQuantity,
+                'total' => $amount,
+            ];
+
+            //Risky Business,,,, order should have only one service id for this to work properly
+            $serviceName = $item['service']['name'];
+
+            array_push($invoiceArr,$invoice);
+        };
+        $collection = collect($invoiceArr);
+        $grouped_collection = $collection->groupBy(['service'])->toArray();       
+        $vatPercent = $orderDetails->VAT;
+        $VAT = ($vatPercent/100)*$totalAmount;
+        $deliveryCharge = $orderDetails->delivery_charge;
+        $grandTotal = $totalAmount+$VAT+$deliveryCharge;
+        
+        $invoice = [
+            "name"            => $orderDetails->customer->fname.' '.$orderDetails->customer->lname,
+            "service"         => $serviceName,
+            'order_type'      => config('settings.orderType')[$orderDetails->type],
+            'order_status'    => $orderDetails->status,
+            "total_quantity"  => $totalQuantity,
+            "total_amount"    => $totalAmount,
+            "VAT_percent"     => $vatPercent,
+            "VAT"             => $VAT,
+            "delivery_charge" => $deliveryCharge,
+            "grand_total"     => $grandTotal,
+            "PDR"             => $orderDetails->details->PDR
+        ];
+
+        $collection = collect([
+            "items_details" => $collection,
+            "invoice_details" => $invoice,
+            // 'order_status' => config('settings.orderStatuses')
+        ]);
+
+        return $collection;
+    }
 }

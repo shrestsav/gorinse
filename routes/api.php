@@ -51,7 +51,6 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::get('/services','CoreController@services');
 		Route::get('/items','CoreController@items');
 		Route::get('/serviceWithItems','CoreController@serviceWithItems');
-		Route::post('/orderItems','OrderController@orderItems');
 
 		Route::post('/driver/generateInvoice','OrderController@addItemsGenerateInvoice');
 		Route::get('/driver/generateInvoice/{order_id}','OrderController@driverOrderInvoice');
