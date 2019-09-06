@@ -19,6 +19,8 @@ class CreateCouponsTable extends Migration
             $table->string('description');
             $table->integer('discount');
             $table->smallInteger('type')->comment('1: Percentage, 2: Amount');
+            $table->dateTime('valid_from');
+            $table->dateTime('valid_to');
             $table->smallInteger('status')->default(0)->comment('0: Inactive, 1: Active');
             $table->timestamps();
             $table->softDeletes();

@@ -5458,6 +5458,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../config/settings */ "./resources/js/config/settings.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/lib/index.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker__WEBPACK_IMPORTED_MODULE_2__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5601,14 +5603,64 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_2___default.a
+  },
   data: function data() {
     return {
       coupon: {
         code: '',
-        description: ''
+        description: '',
+        type: '',
+        discount: '',
+        status: '',
+        valid_from_to: ''
       },
       addbtn: true,
       editbtn: true,
@@ -5629,13 +5681,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     //Coupon Methods
     addCoupon: function addCoupon() {
-      this.coupon = {
-        'code': '',
-        'description': '',
-        'discount': 0,
-        'type': '',
-        'status': 0
-      };
       this.newCoupon = true;
       this.editbtn = false;
     },
@@ -5681,7 +5726,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     discardCoupon: function discardCoupon() {
-      this.coupon = {};
+      this.coupon = {
+        code: '',
+        description: '',
+        discount: 0,
+        type: '',
+        status: 0
+      };
       this.newCoupon = false;
       this.editbtn = true;
     },
@@ -5725,6 +5776,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     toggleModule: function toggleModule() {
       this.$parent.toggleModule('coupon');
+    },
+    datetime: function datetime(_datetime) {
+      var date = new Date(_datetime);
+      return this.$moment(String(_datetime)).format('YYYY/MM/DD hh:mm a');
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['coupons']), {
@@ -6065,7 +6120,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           icon: "+"
         },
         TACS: {
-          display: true,
+          display: false,
           icon: "+"
         }
       },
@@ -68443,68 +68498,415 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _vm.newCoupon && _vm.module.display
+      ? _c("div", { staticClass: "card-body" }, [
+          _c("h6", { staticClass: "heading-small text-muted mb-4" }, [
+            _vm._v("ADD NEW COUPON")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("COUPON CODE")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group input-group-merge" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.coupon.code,
+                        expression: "coupon.code"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    class: { "not-validated": _vm.errors.code },
+                    attrs: { type: "text", placeholder: "COUPON CODE" },
+                    domProps: { value: _vm.coupon.code },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.coupon, "code", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors.code
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "invalid-feedback",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.errors.code[0]) +
+                            "\n          "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("Discount")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group input-group-merge" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.coupon.discount,
+                        expression: "coupon.discount"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    class: { "not-validated": _vm.errors.discount },
+                    attrs: { type: "number", placeholder: "COUPON DISCOUNT" },
+                    domProps: { value: _vm.coupon.discount },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.coupon, "discount", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm.errors.discount
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "invalid-feedback",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.errors.discount[0]) +
+                            "\n          "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("Discount Type")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group input-group-merge" }, [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.coupon.type,
+                          expression: "coupon.type"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "not-validated": _vm.errors.type },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.coupon,
+                            "type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "1" } }, [
+                        _vm._v("Percentage")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "2" } }, [
+                        _vm._v("Amount")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm.errors.type
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "invalid-feedback",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.errors.type[0]) +
+                            "\n          "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", { staticClass: "form-control-label" }, [
+                    _vm._v("Valid From To")
+                  ]),
+                  _vm._v(" "),
+                  _c("date-picker", {
+                    attrs: {
+                      range: "",
+                      lang: "en",
+                      "input-class": "form-control",
+                      valueType: "format",
+                      format: "YYYY-MM-DD HH:mm:ss",
+                      "time-picker-options": {
+                        start: "00:00",
+                        step: "00:30",
+                        end: "23:30"
+                      },
+                      type: "datetime"
+                    },
+                    model: {
+                      value: _vm.coupon.valid_from_to,
+                      callback: function($$v) {
+                        _vm.$set(_vm.coupon, "valid_from_to", $$v)
+                      },
+                      expression: "coupon.valid_from_to"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.valid_from
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "invalid-feedback",
+                          staticStyle: { display: "block" }
+                        },
+                        [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(_vm.errors.valid_from[0]) +
+                              "\n          "
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("Status")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group input-group-merge" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.coupon.status,
+                          expression: "coupon.status"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.coupon,
+                            "status",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "1" } }, [
+                        _vm._v("Active")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Inactive")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm.errors.status
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "invalid-feedback",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.errors.status[0]) +
+                            "\n          "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "form-control-label" }, [
+                  _vm._v("Description")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.coupon.description,
+                      expression: "coupon.description"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  class: { "not-validated": _vm.errors.description },
+                  attrs: {
+                    rows: "3",
+                    placeholder: "BRIEF DESCRIPTION OF COUPON"
+                  },
+                  domProps: { value: _vm.coupon.description },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.coupon, "description", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.errors.description
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "invalid-feedback",
+                        staticStyle: { display: "block" }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.errors.description[0]) +
+                            "\n          "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "float-right" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success btn-sm",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.saveCoupon()
+                  }
+                }
+              },
+              [_vm._v("Save")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger btn-sm",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.discardCoupon()
+                  }
+                }
+              },
+              [_vm._v("Cancel")]
+            )
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _vm.module.display
       ? _c("div", { staticClass: "table-responsive" }, [
           _c("table", { staticClass: "table align-items-center table-flush" }, [
-            _vm._m(1),
+            _vm._m(5),
             _vm._v(" "),
             _c(
               "tbody",
-              [
-                _vm.newCoupon
-                  ? _c("tr", [
-                      _c("td"),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.coupon.code,
-                                expression: "coupon.code"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: { "not-validated": _vm.errors.code },
-                            attrs: { type: "text", placeholder: "COUPON CODE" },
-                            domProps: { value: _vm.coupon.code },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.coupon,
-                                  "code",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.errors.code
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass: "invalid-feedback",
-                                  staticStyle: { display: "block" }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                " +
-                                      _vm._s(_vm.errors.code[0]) +
-                                      "\n              "
-                                  )
-                                ]
-                              )
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "form-group" }, [
+              _vm._l(_vm.coupons, function(item, key) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(key + 1))]),
+                  _vm._v(" "),
+                  _c("td", [_c("b", [_vm._v(_vm._s(item.code))])]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm.editExistingCoupon(item.id)
+                      ? _c("div", { staticClass: "form-group" }, [
                           _c("textarea", {
                             directives: [
                               {
@@ -68552,106 +68954,42 @@ var render = function() {
                               )
                             : _vm._e()
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.coupon.discount,
-                                expression: "coupon.discount"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: { "not-validated": _vm.errors.discount },
-                            attrs: {
-                              type: "number",
-                              placeholder: "COUPON DISCOUNT"
-                            },
-                            domProps: { value: _vm.coupon.discount },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.coupon,
-                                  "discount",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.errors.discount
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass: "invalid-feedback",
-                                  staticStyle: { display: "block" }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                " +
-                                      _vm._s(_vm.errors.discount[0]) +
-                                      "\n              "
-                                  )
-                                ]
-                              )
-                            : _vm._e()
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.coupon.type,
-                                expression: "coupon.type"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.coupon,
-                                  "type",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { value: "1" } }, [
-                              _vm._v("Percentage")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "2" } }, [
-                              _vm._v("Amount")
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
+                      : _c("div", [_vm._v(_vm._s(item.description))])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(item.discount) +
+                          "\n            "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(_vm.couponDiscountType(item.type)) +
+                          "\n            "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.datetime(item.valid_from)) +
+                        " - \n            " +
+                        _vm._s(_vm.datetime(item.valid_to)) +
+                        "\n          "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm.editExistingCoupon(item.id)
+                      ? _c(
                           "select",
                           {
                             directives: [
@@ -68693,238 +69031,77 @@ var render = function() {
                             ])
                           ]
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.saveCoupon()
-                              }
-                            }
-                          },
-                          [_vm._v("+")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.discardCoupon()
-                              }
-                            }
-                          },
-                          [_vm._v("-")]
-                        )
-                      ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.coupons, function(item, key) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(key + 1))]),
-                    _vm._v(" "),
-                    _c("td", [_c("b", [_vm._v(_vm._s(item.code))])]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm.editExistingCoupon(item.id)
-                        ? _c("div", { staticClass: "form-group" }, [
-                            _c("textarea", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.coupon.description,
-                                  expression: "coupon.description"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              class: {
-                                "not-validated": _vm.errors.description
-                              },
-                              attrs: {
-                                rows: "3",
-                                placeholder: "BRIEF DESCRIPTION OF COUPON"
-                              },
-                              domProps: { value: _vm.coupon.description },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.coupon,
-                                    "description",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.description
-                              ? _c(
-                                  "div",
-                                  {
-                                    staticClass: "invalid-feedback",
-                                    staticStyle: { display: "block" }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                " +
-                                        _vm._s(_vm.errors.description[0]) +
-                                        "\n              "
-                                    )
-                                  ]
-                                )
-                              : _vm._e()
-                          ])
-                        : _c("div", [_vm._v(_vm._s(item.description))])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("div", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(item.discount) +
-                            "\n            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("div", [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(_vm.couponDiscountType(item.type)) +
-                            "\n            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm.editExistingCoupon(item.id)
-                        ? _c(
-                            "select",
+                      : _c("div", [
+                          _vm._v(
+                            "\n              " +
+                              _vm._s(_vm.status(item.status)) +
+                              "\n            "
+                          )
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm.editExistingCoupon(item.id)
+                      ? _c("div", [
+                          _c(
+                            "button",
                             {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.coupon.status,
-                                  expression: "coupon.status"
-                                }
-                              ],
-                              staticClass: "form-control",
+                              staticClass: "btn btn-success btn-sm",
+                              attrs: { type: "button" },
+                              on: { click: _vm.saveEditedCoupon }
+                            },
+                            [_vm._v("Edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-info btn-sm",
+                              attrs: { type: "button" },
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.coupon,
-                                    "status",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
+                                click: function($event) {
+                                  return _vm.cancelEditCoupon()
                                 }
                               }
                             },
-                            [
-                              _c("option", { attrs: { value: "1" } }, [
-                                _vm._v("Active")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "0" } }, [
-                                _vm._v("Inactive")
-                              ])
-                            ]
+                            [_vm._v("Cancel")]
                           )
-                        : _c("div", [
-                            _vm._v(
-                              "\n              " +
-                                _vm._s(_vm.status(item.status)) +
-                                "\n            "
-                            )
-                          ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm.editExistingCoupon(item.id)
-                        ? _c("div", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success btn-sm",
-                                attrs: { type: "button" },
-                                on: { click: _vm.saveEditedCoupon }
-                              },
-                              [_vm._v("Edit")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-info btn-sm",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.cancelEditCoupon()
-                                  }
+                        ])
+                      : _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteCoupon(item.id)
                                 }
-                              },
-                              [_vm._v("Cancel")]
-                            )
-                          ])
-                        : _c("div", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-danger btn-sm",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteCoupon(item.id)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "far fa-trash-alt" })]
-                            ),
-                            _vm._v(" "),
-                            _vm.editbtn
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-info btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.editCoupon(key)
-                                      }
+                              }
+                            },
+                            [_c("i", { staticClass: "far fa-trash-alt" })]
+                          ),
+                          _vm._v(" "),
+                          _vm.editbtn
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-sm",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.editCoupon(key)
                                     }
-                                  },
-                                  [_c("i", { staticClass: "far fa-edit" })]
-                                )
-                              : _vm._e()
-                          ])
-                    ])
+                                  }
+                                },
+                                [_c("i", { staticClass: "far fa-edit" })]
+                              )
+                            : _vm._e()
+                        ])
                   ])
-                })
-              ],
-              2
+                ])
+              }),
+              0
             )
           ])
         ])
@@ -68944,6 +69121,46 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fas fa-user" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fas fa-envelope" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fas fa-envelope" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fas fa-envelope" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
         _c("th", [_vm._v("S.No")]),
@@ -68955,6 +69172,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Discount")]),
         _vm._v(" "),
         _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Active Interval")]),
         _vm._v(" "),
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),

@@ -32,6 +32,7 @@ class CouponController extends Controller
             'description' => 'required',
             'discount' => 'required|numeric',
             'type' => 'required|numeric',
+            'valid_from_to' => 'required',
         ]);
 
         $coupon = new Coupon();
@@ -40,6 +41,8 @@ class CouponController extends Controller
         $coupon->type = $request->type;
         $coupon->discount = $request->discount;
         $coupon->description = $request->description;
+        $coupon->valid_from = $request->valid_from_to[0];
+        $coupon->valid_to = $request->valid_from_to[1];
         $coupon->save();
         
         return response()->json('Successfully Added Coupon');
