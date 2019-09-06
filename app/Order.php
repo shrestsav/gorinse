@@ -57,6 +57,12 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+
+    public function details()
+    {
+        return $this->hasOne(OrderDetail::class);
+    }
+
     public static function generateInvoice($order_id)
     {
         $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();

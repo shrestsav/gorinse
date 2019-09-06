@@ -805,7 +805,7 @@ class OrderController extends Controller
     //Works for single Service Id
     public function genInvoice($order_id)
     {
-        $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item','customer')->first();
+        $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item','customer','details')->first();
         $totalAmount = 0;
         $totalQuantity = 0;
         $invoiceArr = [];
@@ -846,7 +846,8 @@ class OrderController extends Controller
             "VAT_percent"     => $vatPercent,
             "VAT"             => $VAT,
             "delivery_charge" => $deliveryCharge,
-            "grand_total"     => $grandTotal
+            "grand_total"     => $grandTotal,
+            "PDR"             => $orderDetails->details->PDR
         ];
         $invoiceCollection = [
             "items_details" => $collection,

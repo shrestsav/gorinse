@@ -5314,20 +5314,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      // TACS:[
-      //   {
-      //     title:"Links To Other Web Sites",
-      //     content:"A Links To Other Web Sites clause will inform users that you are not responsible for any third party websites that you link to. This kind of clause will generally inform users that they are responsible for reading and agreeing (or disagreeing) with the Terms and Conditions or Privacy Policies of these third parties."
-      //   },
-      //   {
-      //     title:"Content ",
-      //     content:"If your website or mobile app allows users to create content and make that content public to other users, a Content section will inform users that they own the rights to the content they have created. The “Content” clause usually mentions that users must give you (the website or mobile app developer) a license so that you can share this content on your website/mobile app and to make it available to other users."
-      //   },
-      // ],
       addTACS: false,
+      editTACS: {
+        index: null,
+        status: false
+      },
+      editBtn: true,
       newTACS: {
         title: '',
         content: ''
@@ -5335,11 +5353,44 @@ __webpack_require__.r(__webpack_exports__);
       errors: {}
     };
   },
-  created: function created() {},
-  mounted: function mounted() {
-    this.$store.dispatch('getOffers');
-  },
   methods: {
+    edit: function edit(index) {
+      this.editTACS = {
+        index: index,
+        status: true
+      };
+      this.editBtn = false;
+    },
+    cancelUpdate: function cancelUpdate(index) {
+      this.editTACS = {
+        index: null,
+        status: false
+      };
+      this.editBtn = true;
+      this.$store.dispatch('getAppDefaults');
+    },
+    update: function update() {
+      this.save();
+    },
+    deleteTAC: function deleteTAC(index) {
+      var _this = this;
+
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You may not undo this",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          _this.TACS.splice(index, 1);
+
+          _this.save();
+        }
+      });
+    },
     addTAC: function addTAC() {
       this.addTACS = true;
     },
@@ -5349,16 +5400,31 @@ __webpack_require__.r(__webpack_exports__);
         content: ''
       };
     },
-    save: function save() {
-      this.TACS.saveType = 'TACS';
+    saveTAC: function saveTAC() {
       this.TACS.push(this.newTACS);
+      this.newTACS = {
+        title: '',
+        content: ''
+      };
+      this.addTACS = false, this.save();
+    },
+    save: function save() {
+      var _this2 = this;
+
       var data = {
         saveType: 'TACS',
         TACS: this.TACS
       };
       axios.post('/appDefaults', data).then(function (response) {
-        console.log(response);
-        showNotify('success', 'App Default has been created');
+        _this2.editTACS = {
+          index: null,
+          status: false
+        };
+        _this2.editBtn = true;
+
+        _this2.$store.dispatch('getAppDefaults');
+
+        showNotify('success', 'Saved Successfully');
       })["catch"](function (error) {
         for (var prop in error.response.data.errors) {
           showNotify('danger', error.response.data.errors[prop]);
@@ -68017,43 +68083,169 @@ var render = function() {
             "div",
             { staticClass: "accordion", attrs: { id: "termsAndConditions" } },
             _vm._l(_vm.TACS, function(TAC, index) {
-              return _c("div", { staticClass: "card" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "card-header",
-                    attrs: {
-                      id: "heading-" + index,
-                      "data-toggle": "collapse",
-                      "data-target": "#collapse-" + index,
-                      "aria-expanded": "false",
-                      "aria-controls": "collapseOne"
-                    }
-                  },
-                  [
-                    _c("h5", { staticClass: "mb-0" }, [
-                      _vm._v(_vm._s(index + 1) + ". " + _vm._s(TAC.title))
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "collapse",
-                    attrs: {
-                      id: "collapse-" + index,
-                      "aria-labelledby": "heading-" + index,
-                      "data-parent": "#termsAndConditions"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "card-body" }, [
-                      _c("p", [_vm._v(_vm._s(TAC.content))])
-                    ])
-                  ]
-                )
-              ])
+              return _c(
+                "div",
+                { staticClass: "card" },
+                [
+                  _vm.editTACS.status && _vm.editTACS.index == index
+                    ? _c("div", { staticClass: "col-md-12" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group input-group-merge" },
+                            [
+                              _vm._m(1, true),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: TAC.title,
+                                    expression: "TAC.title"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text" },
+                                domProps: { value: TAC.title },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(TAC, "title", $event.target.value)
+                                  }
+                                }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: TAC.content,
+                                expression: "TAC.content"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              rows: "8",
+                              placeholder: "CONTENT GOES HERE"
+                            },
+                            domProps: { value: TAC.content },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(TAC, "content", $event.target.value)
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "text-right" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-sm",
+                              attrs: { type: "button" },
+                              on: { click: _vm.update }
+                            },
+                            [_vm._v("Update")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger btn-sm",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.cancelUpdate(index)
+                                }
+                              }
+                            },
+                            [_vm._v("Cancel")]
+                          )
+                        ])
+                      ])
+                    : [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "card-header",
+                            attrs: {
+                              id: "heading-" + index,
+                              "data-toggle": "collapse",
+                              "data-target": "#collapse-" + index,
+                              "aria-expanded": "false",
+                              "aria-controls": "collapseOne"
+                            }
+                          },
+                          [
+                            _c("h5", { staticClass: "mb-0" }, [
+                              _vm._v(
+                                _vm._s(index + 1) + ". " + _vm._s(TAC.title)
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "collapse",
+                            attrs: {
+                              id: "collapse-" + index,
+                              "aria-labelledby": "heading-" + index,
+                              "data-parent": "#termsAndConditions"
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "card-body" }, [
+                              _c("p", [_vm._v(_vm._s(TAC.content))]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "text-right" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-info btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.edit(index)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Edit")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteTAC(index)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Delete")]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                ],
+                2
+              )
             }),
             0
           ),
@@ -68066,7 +68258,7 @@ var render = function() {
                       "div",
                       { staticClass: "input-group input-group-merge" },
                       [
-                        _vm._m(1),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -68143,7 +68335,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-info btn-sm",
                     attrs: { type: "button" },
-                    on: { click: _vm.save }
+                    on: { click: _vm.saveTAC }
                   },
                   [_vm._v("Save")]
                 )
@@ -68172,6 +68364,16 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col" }, [
       _c("h3", { staticClass: "mb-0" }, [_vm._v("Terms and Conditions")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fas fa-envelope" })
+      ])
     ])
   },
   function() {
