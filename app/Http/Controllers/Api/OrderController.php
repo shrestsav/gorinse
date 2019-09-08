@@ -55,20 +55,24 @@ class OrderController extends Controller
                                 'pick_location',
                                 'drop_location',
                                 'created_at')
+                        //Driver assigned for both pick and drop
                         ->where(function ($query){
                             $query->where('driver_id','=',Auth::id())
                                   ->where('drop_driver_id','=',Auth::id())
-                                  ->whereNotIn('status',[1,2,3,5,6]);
+                                  ->whereNotIn('status',[0,1,2,3,5,6]);
                         })
+                        //Driver assigned for pick only
                         ->orWhere(function ($query){
                             $query->where('driver_id','=',Auth::id())
+                                  ->where('drop_driver_id','!=',Auth::id())
                                   ->where('status','>=',4);
                         })
+                        //Driver assigned for both drop only
                         ->orWhere(function ($query){
-                            $query->where('drop_driver_id','=',Auth::id())
+                            $query->where('driver_id','!=',Auth::id())
+                                  ->where('drop_driver_id','=',Auth::id())
                                   ->whereNotIn('status',[5,6]);
                         })
-                       // ->orWhere('drop_driver_id',Auth::id())
                        ->with('customer:id,fname,lname,phone',
                               'pick_location_details:id,name',
                               'drop_location_details:id,name')
