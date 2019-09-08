@@ -29,7 +29,7 @@ class CoreController extends Controller
     public function servicesPlusItems()
     {
         $services = Service::all();
-        $categoryWithItems = Category::select('id','name')->with('items')->get();
+        $categoryWithItems = Category::select('id','name','icon')->with('items')->get();
         
         $newCollection = [];
         foreach ($services as $service) {
@@ -44,6 +44,7 @@ class CoreController extends Controller
                 $newCategory = [
                     'id'    =>  $category->id,
                     'name'  =>  $category->name,
+                    'icon'  =>  asset('files/categories').'/'.$category->icon,
                     'items' =>  [],
                 ];
                 foreach ($category->items as $item) {
@@ -51,8 +52,7 @@ class CoreController extends Controller
                     $newItem = [
                         'id'    =>  $item->id,
                         'name'  =>  $item->name,
-                        'price'  =>  $item->price+$serviceCharge,
-                        'icon'  =>  $item->icon,
+                        'price' =>  $item->price+$serviceCharge,
                     ];
                     array_push($newCategory['items'],$newItem);
                 }
@@ -62,8 +62,8 @@ class CoreController extends Controller
         }
 
         // $collection = collect([
-        //     'services' => $services,
-        //     'items' => $categoryWithItems
+        //     'services' => $newCollection,
+        //     'items'    => $categoryWithItems
         // ]);
 
         return response()->json($newCollection);
