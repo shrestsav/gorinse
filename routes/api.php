@@ -45,6 +45,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	});
 	
 	Route::group(['middleware' => ['role:driver']], function() {
+		Route::get('/driver/details','DriverController@index');
+
 		Route::post('/acceptOrder','OrderController@acceptOrder');
 		Route::post('/cancelPickup','OrderController@cancelPickup');
 		Route::get('/pendingOrders','OrderController@pendingOrders');
@@ -63,7 +65,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	});
 
 	Route::get('/test','OrderController@test');
-	//Driver API
+	Route::get('/tokens','AuthController@tokens');
 	
 	Route::get('/supportInfo','CoreController@supportInfo');
 	Route::get('/orderDefaults','CoreController@orderDefaults');

@@ -2,14 +2,44 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AppDefault;
 use App\Http\Controllers\Controller;
+use App\User;
 use App\UserDetail;
+use Auth;
 use Illuminate\Http\Request;
 use Validator;
-use Auth;
 
 class DriverController extends Controller
 {
+    public function index()
+    {
+        $driver = User::select('id',
+                               'fname',
+                               'lname',
+                               'phone',
+                               'email',
+                               'created_at')
+                        ->where('id',Auth::id())
+                        ->with('details:user_id,description,photo,area_id',
+                               'details.driverMainArea:id,name')
+                        ->first();
+        if($driver->details->photo)
+            $driver->details->photo = asset('files/users/'.Auth::id().'/'.$driver->details->photo);
+        else
+            $driver->details->photo = null;
+
+        $appDefaults = AppDefault::first();
+        $driverNotes = $appDefaults->driver_notes;
+        
+        $collection = collect([
+            'driver'  => $driver,
+            'driverNotes' => $driverNotes,
+            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
+        ]);
+        return response()->json($collection);
+    }
+
     public function changeMainArea(Request $request)
     {
     	$validator = Validator::make($request->all(), [

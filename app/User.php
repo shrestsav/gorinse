@@ -5,6 +5,7 @@ namespace App;
 use App\Notifications\OTPNotification;
 use App\Notifications\SystemNotification;
 use App\Order;
+use Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -459,6 +460,20 @@ class User extends Authenticatable
         User::find($customer_id)->pushNotification($notificationCustomer);
         
         return true;
+    }
+    public function tok()
+    {
+        // foreach($userTokens as $token) {
+        //     $token->revoke();   
+        // }
+        // return $userTokens;
+
+        $collection = collect([
+            'tokens' => $this->tokens,
+            'active' => Auth::user()->token()
+        ]);
+
+        return $collection;
     }
 
 

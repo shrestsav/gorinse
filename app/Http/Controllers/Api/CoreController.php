@@ -21,7 +21,7 @@ class CoreController extends Controller
         $collection = collect([
             'services' => $services,
             'categories' => $categoryWithItems,
-            'icon_CDN' => asset('files/something.something')
+            'iconURL' => asset('files/categories/')
         ]);
         return response()->json($collection);
     }    

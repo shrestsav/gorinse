@@ -24,4 +24,9 @@ class UserDetail extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function driverMainArea()
+    {
+        return $this->belongsTo(MainArea::class,'area_id');
+    }
 }

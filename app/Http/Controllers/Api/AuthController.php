@@ -214,6 +214,10 @@ class AuthController extends Controller
        return User::find(14)->sendOTP();
     }
 
+    public function tokens()
+    {
+        return User::find(Auth::id())->tok();
+    }
     public function test()
     {
         $address = [
