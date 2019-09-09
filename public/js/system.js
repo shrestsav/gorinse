@@ -7557,9 +7557,15 @@ __webpack_require__.r(__webpack_exports__);
       var date = new Date(date + ' UTC');
       return this.$moment(date).fromNow(); // a
     },
-    markAsRead: function markAsRead(notificationID) {
+    markAsRead: function markAsRead(notificationID, url) {
       var _this2 = this;
 
+      this.$router.push({
+        name: 'orderDetails',
+        query: {
+          orderID: url
+        }
+      });
       axios.get('/markAsRead/' + notificationID).then(function (response) {
         _this2.$store.dispatch('getNotifications');
 
@@ -72736,7 +72742,7 @@ var render = function() {
                   attrs: { href: "javascript:;" },
                   on: {
                     click: function($event) {
-                      return _vm.markAsRead(item.id)
+                      return _vm.markAsRead(item.id, item.url)
                     }
                   }
                 },
@@ -72789,7 +72795,7 @@ var render = function() {
                   attrs: { href: "javascript:;" },
                   on: {
                     click: function($event) {
-                      return _vm.markAsRead(item.id)
+                      return _vm.markAsRead(item.id, item.data.url)
                     }
                   }
                 },
@@ -73695,8 +73701,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _vm._m(0),
-    _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c("h6", { staticClass: "heading-small text-muted mb-4" }, [
         _vm._v("Order Information")
@@ -73739,7 +73743,7 @@ var render = function() {
                             _vm._s(_vm.details.driver.lname)
                         )
                       ])
-                    : _vm._e()
+                    : _c("span", [_vm._v("Not Assigned")])
                 ])
               ]),
               _vm._v(" "),
@@ -73878,16 +73882,16 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(1, true),
+                    _vm._m(0, true),
                     _vm._v(" "),
-                    _vm._m(2, true)
+                    _vm._m(1, true)
                   ]),
                   _vm._v(" "),
                   _c(
                     "table",
                     { staticClass: "table align-items-center table-flush" },
                     [
-                      _vm._m(3, true),
+                      _vm._m(2, true),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -73914,67 +73918,61 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("table", [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", [_vm._v("Total Quantity")]),
-                        _vm._v(" "),
-                        _c("th", [
-                          _vm._v(
-                            _vm._s(_vm.invoice.invoice_details.total_quantity)
-                          )
-                        ])
+                  _c("table", {}, [
+                    _c("tr", [
+                      _c("td", [_vm._v("Total Quantity")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.invoice.invoice_details.total_quantity)
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Total Amount")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "AED " +
+                            _vm._s(_vm.invoice.invoice_details.total_amount)
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [
+                        _vm._v(
+                          "VAT (" +
+                            _vm._s(_vm.invoice.invoice_details.VAT_percent) +
+                            "%)"
+                        )
                       ]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", [_vm._v("Total Amount")]),
-                        _vm._v(" "),
-                        _c("th", [
-                          _vm._v(
-                            "AED " +
-                              _vm._s(_vm.invoice.invoice_details.total_amount)
-                          )
-                        ])
-                      ]),
+                      _c("td", [
+                        _vm._v("AED " + _vm._s(_vm.invoice.invoice_details.VAT))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Delivery Charge")]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", [
-                          _vm._v(
-                            "VAT (" +
-                              _vm._s(_vm.invoice.invoice_details.VAT_percent) +
-                              "%)"
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("th", [
-                          _vm._v(
-                            "AED " + _vm._s(_vm.invoice.invoice_details.VAT)
-                          )
-                        ])
-                      ]),
+                      _c("td", [
+                        _vm._v(
+                          "AED " +
+                            _vm._s(_vm.invoice.invoice_details.delivery_charge)
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Grand Total")]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", [_vm._v("Delivery Charge")]),
-                        _vm._v(" "),
-                        _c("th", [
-                          _vm._v(
-                            "AED " +
-                              _vm._s(
-                                _vm.invoice.invoice_details.delivery_charge
-                              )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("th", [_vm._v("Grand Total")]),
-                        _vm._v(" "),
-                        _c("th", [
-                          _vm._v(
-                            "AED " +
-                              _vm._s(_vm.invoice.invoice_details.grand_total)
-                          )
-                        ])
+                      _c("td", [
+                        _vm._v(
+                          "AED " +
+                            _vm._s(_vm.invoice.invoice_details.grand_total)
+                        )
                       ])
                     ])
                   ])
@@ -73988,42 +73986,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("div", { staticClass: "col-md-2" }, [
-        _c("div", { staticClass: "nav-wrapper" }, [
-          _c(
-            "ul",
-            {
-              staticClass: "nav nav-pills nav-fill flex-column flex-md-row",
-              attrs: { id: "tabs-icons-text", role: "tablist" }
-            },
-            [
-              _c("li", { staticClass: "nav-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "nav-link mb-sm-3 mb-md-0 active",
-                    attrs: {
-                      "data-toggle": "tab",
-                      href: "",
-                      role: "tab",
-                      "aria-controls": "tabs-icons-text-1",
-                      "aria-selected": "false"
-                    }
-                  },
-                  [_vm._v("Create Order")]
-                )
-              ])
-            ]
-          )
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -74054,19 +74016,19 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("S.No.")]),
+        _c("th", [_vm._v("S.No.")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Items")]),
+        _c("th", [_vm._v("Items")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Quantity")]),
+        _c("th", [_vm._v("Quantity")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Service Charge (AED)")]),
+        _c("th", [_vm._v("Service Charge (AED)")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Item Charge (AED)")]),
+        _c("th", [_vm._v("Item Charge (AED)")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount (AED)")]),
+        _c("th", [_vm._v("Amount (AED)")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Remarks")])
+        _c("th", [_vm._v("Remarks")])
       ])
     ])
   }

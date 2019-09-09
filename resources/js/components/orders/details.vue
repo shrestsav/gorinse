@@ -1,16 +1,16 @@
 <template>
   <div class="card">
-    <div class="card-header">
+<!--     <div class="card-header">
       <div class="col-md-2">
         <div class="nav-wrapper">
           <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
             <li class="nav-item">
-              <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">Create Order</a>
+              <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">ORDER DETAILS</a>
             </li>
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="card-body">
       <h6 class="heading-small text-muted mb-4">Order Information</h6>
       <div class="pl-lg-4">
@@ -27,6 +27,7 @@
               <label class="form-control-label">Assigned Driver</label>
               <br>
               <span v-if="details.driver">{{details.driver.fname}} {{details.driver.lname}}</span>
+              <span v-else>Not Assigned</span>
             </div>
           </div>
           <div class="col-lg-3">
@@ -115,13 +116,13 @@
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col">S.No.</th>
-                  <th scope="col">Items</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Service Charge (AED)</th>
-                  <th scope="col">Item Charge (AED)</th>
-                  <th scope="col">Amount (AED)</th>
-                  <th scope="col">Remarks</th>
+                  <th>S.No.</th>
+                  <th>Items</th>
+                  <th>Quantity</th>
+                  <th>Service Charge (AED)</th>
+                  <th>Item Charge (AED)</th>
+                  <th>Amount (AED)</th>
+                  <th>Remarks</th>
                 </tr>
               </thead>
               <tbody class="list">
@@ -136,29 +137,28 @@
                 </tr>
               </tbody>
             </table>
-            <table>
-              <thead>
-                <tr>
-                  <th>Total Quantity</th>
-                  <th>{{invoice.invoice_details.total_quantity}}</th>     
-                </tr>
-                <tr>
-                  <th>Total Amount</th>
-                  <th>AED {{invoice.invoice_details.total_amount}}</th>
-                </tr>
-                <tr>
-                  <th>VAT ({{invoice.invoice_details.VAT_percent}}%)</th>
-                  <th>AED {{invoice.invoice_details.VAT}}</th>                    
-                </tr>
-                <tr>
-                  <th>Delivery Charge</th>
-                  <th>AED {{invoice.invoice_details.delivery_charge}}</th>        
-                </tr>
-                <tr>
-                  <th>Grand Total</th>
-                  <th>AED {{invoice.invoice_details.grand_total}}</th>
-                </tr>
-              </thead>
+            <table class="">
+              <tr>
+                <td>Total Quantity</td>
+                <td>{{invoice.invoice_details.total_quantity}}</td>     
+              </tr>
+              <tr>
+                <td>Total Amount</td>
+                <td>AED {{invoice.invoice_details.total_amount}}</td>
+              </tr>
+              <tr>
+                <td>VAT ({{invoice.invoice_details.VAT_percent}}%)</td>
+                <td>AED {{invoice.invoice_details.VAT}}</td>                    
+              </tr>
+              <tr>
+                <td>Delivery Charge</td>
+                <td>AED {{invoice.invoice_details.delivery_charge}}</td>        
+              </tr>
+              <tr>
+                <td>Grand Total</td>
+                <td>AED {{invoice.invoice_details.grand_total}}</td>
+              </tr>
+
             </table>
           </div>
         </div>

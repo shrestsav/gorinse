@@ -13,6 +13,8 @@ class Order extends Model
         'customer_id',
         'driver_id',
         'pick_assigned_by',
+        'drop_driver_id',
+        'drop_assigned_by',
 		'type',
 		'pick_location',
 		'pick_date',
@@ -22,6 +24,8 @@ class Order extends Model
         'drop_timerange',
         'payment',
         'status',
+        'VAT',
+        'delivery_charge',
 		'coupon',
     ];
 

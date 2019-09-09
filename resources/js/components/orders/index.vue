@@ -138,7 +138,7 @@
         return settings.orderType[type]
       },
       details(id){
-        this.$router.push({ name: 'orderDetails', query:{ orderID:id } });
+        this.$router.push({ name: 'orderDetails', query:{ orderID:id } })
       },
       assign(index,type){
         this.active.order = index;
