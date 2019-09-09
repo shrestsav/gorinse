@@ -131,9 +131,12 @@ class OrderController extends Controller
       elseif($coupon->type==2)
         $discount = config('settings.currency').' '.$coupon->discount;
       return response()->json([
-            'status'    =>  '200',
-            'message'   =>  'Coupon Verified',
-            'discount'  =>  $discount,
+            'status'      =>  '200',
+            'message'     =>  'Coupon Verified',
+            'code'        =>  $coupon->code,
+            'discount'    =>  $discount,
+            'valid_from'  =>  $coupon->valid_from,
+            'valid_to'    =>  $coupon->valid_to
         ], 200);
     }
     /**
