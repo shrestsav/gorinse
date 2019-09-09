@@ -55,9 +55,9 @@
                       
                       <a class="dropdown-item" href="javascript:;" @click="details(item.id)"  data-toggle="modal" data-target="#orderDetails" title="Show Order Details">Details</a>
                       
-                      <a class="dropdown-item" href="javascript:;" @click="assign(index,'pickAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status === 0">Assign for Pickup</a>
+                      <a class="dropdown-item" href="javascript:;" @click="assign(index,'pickAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status == 0">Assign for Pickup</a>
 
-                      <a class="dropdown-item" href="javascript:;" @click="assign(index,'dropAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Drop Order" v-if="item.status === 4">Assign for Delivery</a>
+                      <a class="dropdown-item" href="javascript:;" @click="assign(index,'dropAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Drop Order" v-if="item.status == 4">Assign for Delivery</a>
                     </div>
                   </div>
                 </td>
@@ -71,19 +71,17 @@
       </div>
     </div>
     <assign :active="active" v-if="showAssign" ref="assign"></assign>
-    <show :active="active" v-if="showDetails"></show>
   </div>
 </template>
 
 <script>
   import assign from './assign.vue'
-  import show from './show.vue'
   import {settings} from '../../config/settings'
   import { mapState } from 'vuex'
  
   export default{
     components: {
-      assign,show
+      assign
     },
     data(){
       return{
@@ -101,7 +99,7 @@
           completedOrders:0
         },
         showAssign: true,
-        showDetails: false,
+        showDetails: true,
         errors:{},
         message:'',
         showOrders:{},
@@ -140,8 +138,7 @@
         return settings.orderType[type]
       },
       details(id){
-        this.active.order_id = id;
-        this.showDetails = true;
+        this.$router.push({ name: 'orderDetails', query:{ orderID:id } });
       },
       assign(index,type){
         this.active.order = index;

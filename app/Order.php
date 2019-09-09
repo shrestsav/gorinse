@@ -96,10 +96,7 @@ class Order extends Model
     {
         $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
         if(!$orderDetails->status>=2){
-            return response()->json([
-                'status' => 403,
-                'message'=>'Invoice has not been generated for this order'
-            ]);
+            return null;
         }
         $totalAmount = 0;
         $totalQuantity = 0;

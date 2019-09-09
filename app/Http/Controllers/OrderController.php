@@ -113,7 +113,6 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-      $id = 2;
       $order = Order::where('id',$id)
       ->with('customer','pickDriver','pick_location_details','drop_location_details')
       ->first();

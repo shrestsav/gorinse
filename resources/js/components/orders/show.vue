@@ -8,7 +8,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" v-if="loaded">
           <h6 class="heading-small text-muted mb-4">Order Information</h6>
           <div class="pl-lg-4">
             <div class="row">
@@ -61,7 +61,7 @@
                   <span>{{order.details.pick_timerange}}</span>
                 </div>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" v-if="order.details.drop_location_details">
                 <div class="form-group">
                   <label class="form-control-label">Drop Location</label>
                   <br>
@@ -86,7 +86,7 @@
           </div>
           <hr class="my-4"/>
           <h6 class="heading-small text-muted mb-4">Invoice</h6>
-          <div class="pl-lg-4">
+          <div class="pl-lg-4" v-if="order.invoice">
             <div class="row">
               <div class="table-responsive" v-for="service,name in order.invoice.items_details">
                 <div class="row">
@@ -99,13 +99,13 @@
                   <div class="col-lg-3">
                     <div class="form-group">
                       <label class="form-control-label">Payment Type : </label>
-                      <span>{{order.invoice.customer}} {{order.details.customer.lname}}</span>
+                      <!-- <span>{{order.invoice.customer}} {{order.details.customer.lname}}</span> -->
                     </div>
                   </div>
                   <div class="col-lg-3">
                     <div class="form-group">
                       <label class="form-control-label">Delivery Type : </label>
-                      <span>{{order.invoice.customer_details.order_type}}</span>
+                      <!-- <span>{{order.invoice.customer_details.order_type}}</span> -->
                     </div>
                   </div>
                 </div>
@@ -163,7 +163,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-          <button class="btn btn-outline-success" @click="setAssign()">Create</button>
+<!--           <button class="btn btn-outline-success" @click="setAssign()">Create</button> -->
         </div>
       </div>
     </div>
@@ -180,18 +180,18 @@
     props: ['active'],
     data(){
       return{
-        assign:{},
+        loaded:false,
       }
     },
     mounted(){
-      this.$store.dispatch('getOrderDetails',this.active.order_id)
-    },
-    computed: {
-      order(){
-        return this.$store.getters.orderDetails
-      },
+      
     },
     methods:{
+      mount(){
+        this.$store.dispatch('getOrderDetails',this.active.order_id).then(()=>{
+          this.loaded = true
+        })
+      },
       orderType(type){
         if(type==1)
           return 'Normal'
@@ -200,6 +200,11 @@
       },
       orderStatus(status){
         return settings.orderStatuses[status]
+      },
+    },
+    computed: {
+      order(){
+        return this.$store.getters.orderDetails
       },
     },
   }
