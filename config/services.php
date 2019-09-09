@@ -43,6 +43,11 @@ return [
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
     ],
+
+    'paypal' => [
+        'id' => env('PAYPAL_ID'),
+        'secret' => env('PAYPAL_SECRET'),
+    ],
     
     //Expensive for testing
     'nexmo' => [

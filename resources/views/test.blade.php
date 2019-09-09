@@ -1,13 +1,13 @@
-@extends('layouts.app')
-
-@section('content')
-
-<!-- contents from vue js -->
-<router-view></router-view>
-
-@endsection
-
-@push('vueScripts')
-<!-- Vue js -->
-<script type="text/javascript" src="{{asset('js/system.js')}}"></script>
-@endpush
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<form action="{{route('createPayment')}}" method="post">
+		@csrf
+		<input type="hidden" name="order_id" value="18">
+		<input type="submit" value="PAYPAL PAYMENT">
+	</form>
+</body>
+</html>

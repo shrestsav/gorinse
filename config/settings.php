@@ -2,6 +2,7 @@
 
 return [
     'timezone'    => 'Asia/Dubai',
+    'currency'    => 'AED',
     'date_format' => 'Y-m-d',
     'time_format' => 'g:i A',
     'dateTime'    => 'Y-m-d h:i:s',

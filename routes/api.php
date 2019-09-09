@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/checkRole','AuthController@checkRole');
     Route::apiResource('/orders','OrderController');
+    Route::post('/orders/checkCoupon','OrderController@checkCoupon');
 
 	Route::group(['middleware' => ['role:customer']], function() {
 		Route::post('/createProfile','AuthController@createProfile');

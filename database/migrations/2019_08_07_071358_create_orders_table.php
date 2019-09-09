@@ -33,7 +33,7 @@ class CreateOrdersTable extends Migration
             $table->smallInteger('status')->default(0)->comment('See Config');
             $table->integer('VAT')->nullable();
             $table->integer('delivery_charge')->nullable();
-            
+            $table->string('coupon')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@
         "laravel/nexmo-notification-channel": "^2.1",
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",
+        "paypal/rest-api-sdk-php": "*",
         "pusher/pusher-php-server": "~4.0",
         "zizaco/entrust": "5.2.x-dev"
     },

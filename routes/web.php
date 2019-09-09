@@ -19,6 +19,8 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
 Route::get('/test',function(Request $request){
+	$today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
+	return $today;
 	return Session::get('rows');
 	return $request->session()->all();
 	return 'Current PHP version: ' . phpversion();
@@ -79,4 +81,11 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('getFields/{fieldType}','CoreController@getFields');
 	Route::get('getSettings/{settingType}','CoreController@getSettings');
 	Route::get('orderTime','CoreController@orderTime');
+
+	//PAYPAL INTEGRATION
+	Route::get('/payment',function(){
+		return view('test');
+	});
+	Route::post('/paypal/initiate','PaypalController@createPayment')->name('createPayment');
+	Route::get('/paypal/execute/{order_id}','PaypalController@executePayment')->name('executePayment');
 });

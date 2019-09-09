@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Order extends Model
 {
+    protected $hidden = ['assigned_status'];
+    protected $appends = ['assigned_status'];
     protected $fillable = [
         'customer_id',
         'driver_id',
@@ -18,8 +21,34 @@ class Order extends Model
         'drop_date',
         'drop_timerange',
         'payment',
-		'status',
+        'status',
+		'coupon',
     ];
+
+    /**
+     * Get the administrator flag for the user.
+     *
+     * @return bool
+     */
+    public function getAssignedStatusAttribute()
+    {
+        $status = null;
+        if($this->attributes['driver_id']==Auth::id() && $this->attributes['drop_driver_id']!=Auth::id())
+        {
+            $status = 1;
+        }
+        elseif($this->attributes['driver_id']!=Auth::id() && $this->attributes['drop_driver_id']==Auth::id())
+        {
+            $status = 2;
+        }
+        elseif($this->attributes['driver_id']==Auth::id() && $this->attributes['drop_driver_id']==Auth::id())
+        {
+            $status = 3;
+        }
+        // if($this->attributes['driver_id'])
+        // return $this->attributes['driver_id'] === 'yes';
+        return $status;
+    }
 
     public function customer()
     {
@@ -147,6 +176,7 @@ class Order extends Model
             $invoice = [
                 'item' => $item['item']['name'],
                 'quantity' => $itemQuantity,
+                'price' => $rate,
                 'total' => $amount,
             ];
 
