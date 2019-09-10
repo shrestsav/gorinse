@@ -25,7 +25,7 @@ class CreateOrderDetailsTable extends Migration
             $table->dateTime('PFO')->nullable()->comment('Picked From Office');
             $table->dateTime('DTC')->nullable()->comment('Delivered To Customer');
             $table->smallInteger('payment_type')->nullable()->comment('1:Cash On Delivery, 2:Card, 3: Paypal');
-            $table->string('invoice_id')->nullable()->comment('Invoice ID from Paypal or Payfort');
+            $table->string('payment_id')->nullable()->comment('Payment ID from Paypal or Payfort');
             $table->dateTime('PT')->nullable()->comment('Payment Time');
             $table->text('PDR')->nullable()->comment('Pickup Driver Remark');
 

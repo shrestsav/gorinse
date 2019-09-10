@@ -89,4 +89,5 @@ Route::middleware(['auth'])->group(function () {
 	});
 	Route::post('/paypal/initiate','PaypalController@createPayment')->name('createPayment');
 	Route::get('/paypal/execute/{order_id}','PaypalController@executePayment')->name('executePayment');
+	Route::get('/paypal/retrieve/{paymentID}','PaypalController@retrievePayment');
 });

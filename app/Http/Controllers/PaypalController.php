@@ -48,22 +48,7 @@ class PaypalController extends Controller
 			$total_amount+=$itemDetail['quantity']*$this->convertCurrency($itemDetail['price']);
 		}
 
-		// $item1 = new Item();
-		// $item1->setName('Ground Coffee 40 oz')
-		// 	  ->setCurrency('USD')
-		// 	  ->setQuantity(1)
-		// 	  ->setSku("123123") // Similar to `item_number` in Classic API
-		// 	  ->setPrice(7.5);
-		
-		// $item2 = new Item();
-		// $item2->setName('Granola bars')
-		//       ->setCurrency('USD')
-		//       ->setQuantity(5)
-		//       ->setSku("321321") // Similar to `item_number` in Classic API
-		//       ->setPrice(2);
-
 		$itemList = new ItemList();
-		// $itemList->setItems(array($item1, $item2));
 		$itemList->setItems($itemsArr);
 
 		$details = new Details();
@@ -160,7 +145,7 @@ class PaypalController extends Controller
 	    $orderDetails = OrderDetail::updateOrCreate(
                 ['order_id' => $order_id],
                 [
-                	'invoice_id' => $transactions[0]->invoice_number,
+                	'payment_id' => $result->getId(),
                 	'PT' => Date('Y-m-d h:i:s')
                 ]
             );
@@ -168,7 +153,8 @@ class PaypalController extends Controller
 	    return response()->json([
                 'status' => '200',
                 'message' => 'Payment Successful',
-                'paypalResponse' => json_decode($result),
+                'invoice_id' => $transactions[0]->invoice_number,
+                'payment_id' => $result->getId(),
             ], 200);
     }
 
@@ -176,5 +162,15 @@ class PaypalController extends Controller
     {
     	$AED_TO_USD = number_format(1/config('settings.USD_TO_AED'),100);
     	return number_format($AED*$AED_TO_USD,2);
+    }
+
+    public function retrievePayment($paymentID)
+    {
+    	try {
+		    $payment = Payment::get($paymentID, $this->apiContext);
+		} catch (Exception $ex) {
+			return 'error';
+		}
+    	return response()->json(json_decode($payment));
     }
 }

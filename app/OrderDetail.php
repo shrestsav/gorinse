@@ -17,7 +17,7 @@ class OrderDetail extends Model
 		'PFO',
 		'DTC',
 		'payment_type',
-		'invoice_id',
+		'payment_id',
 		'PT',
 		'PDR'
     ];
