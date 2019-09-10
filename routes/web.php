@@ -19,6 +19,7 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
 Route::get('/test',function(Request $request){
+	return number_format(1/3.6725,100)*1522.5;
 	$today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
 	return $today;
 	return Session::get('rows');

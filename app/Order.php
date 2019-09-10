@@ -12,9 +12,7 @@ class Order extends Model
     protected $fillable = [
         'customer_id',
         'driver_id',
-        'pick_assigned_by',
         'drop_driver_id',
-        'drop_assigned_by',
 		'type',
 		'pick_location',
 		'pick_date',
@@ -30,9 +28,9 @@ class Order extends Model
     ];
 
     /**
-     * Get the administrator flag for the user.
+     * Get the assigned_status flag for users.
      *
-     * @return bool
+     * @return status
      */
     public function getAssignedStatusAttribute()
     {
@@ -49,8 +47,6 @@ class Order extends Model
         {
             $status = 3;
         }
-        // if($this->attributes['driver_id'])
-        // return $this->attributes['driver_id'] === 'yes';
         return $status;
     }
 
@@ -59,7 +55,7 @@ class Order extends Model
         return $this->belongsTo(User::class,'customer_id');
     }
 
-    //Pahila yo use garthyo ailey gardaina, hataihalna bhayena
+    //Pahila yo use garthyo ailey pickDriver, hataihalna bhayena
     public function driver()
     {
         return $this->belongsTo(User::class,'driver_id');
@@ -175,6 +171,7 @@ class Order extends Model
             $totalAmount += $amount;
 
             $invoice = [
+                'item_id' => $item['item']['id'],
                 'item' => $item['item']['name'],
                 'quantity' => $itemQuantity,
                 'price' => $rate,

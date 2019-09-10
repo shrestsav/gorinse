@@ -175,14 +175,16 @@ class OrderController extends Controller
         $assign = Order::where('id','=',$request->order_id)
         ->update([
           'driver_id' => $request->driver_id, 
-          'pick_assigned_by' => Auth::id(),
                                 // 'pick_date' => $request->pick_date,
                                 // 'pick_timerange' => $request->pick_timerange,
           'status' => 1
         ]);
         $orderDetails = OrderDetail::updateOrCreate(
           ['order_id' => $request->order_id],
-          ['PAT' => Date('Y-m-d h:i:s')]
+          [
+            'PAB' => Auth::id(),
+            'PAT' => Date('Y-m-d h:i:s')
+          ]
         );
         User::notifyAssignedForPickup($request->order_id);      
       }
@@ -194,14 +196,16 @@ class OrderController extends Controller
         $assign = Order::where('id','=',$request->order_id)
         ->update([
           'drop_driver_id' => $request->driver_id, 
-          'drop_assigned_by' => Auth::id(),
           'drop_date' => $request->drop_date,
           'drop_timerange' => $request->drop_timerange,
           'status' => 5
         ]);
         $orderDetails = OrderDetail::updateOrCreate(
           ['order_id' => $request->order_id],
-          ['DAT' => Date('Y-m-d h:i:s')]
+          [
+            'DAB' => Auth::id(),
+            'DAT' => Date('Y-m-d h:i:s')
+          ]
         );
         User::notifyAssignedForDelivery($request->order_id);
       }

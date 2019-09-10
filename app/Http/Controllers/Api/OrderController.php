@@ -161,7 +161,7 @@ class OrderController extends Controller
             'pick_date' => 'required',
             'pick_timerange' => 'required',
             'drop_location' => 'required|numeric',
-            'payment' => 'required|numeric',
+            'payment_type' => 'required|numeric',
             'coupon'  => 'string|min:7|max:7'
         ]);
 
@@ -208,11 +208,15 @@ class OrderController extends Controller
           'drop_location'   =>  $request->drop_location,
           'drop_date'       =>  $request->drop_date,
           'drop_timerange'  =>  $request->drop_timerange,
-          'payment'         =>  $request->payment,
           'coupon'          =>  $request->coupon,
         ]);
         
         if($order){
+            $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order->id],
+                ['payment_type' => $request->payment_type]
+            );
+
             User::notifyNewOrder($order->id);
 
             //Notify Admin if order has not been accepted in 10 Minutes
@@ -287,11 +291,13 @@ class OrderController extends Controller
         if($order->status==0){
             $order->update([
                 'driver_id' => Auth::id(), 
-                'pick_assigned_by' => Auth::id(),
                 'status' => 1]);
             $orderDetails = OrderDetail::updateOrCreate(
                 ['order_id' => $order->id],
-                ['PAT' => Date('Y-m-d h:i:s')]
+                [
+                    'PAB' => Auth::id(),
+                    'PAT' => Date('Y-m-d h:i:s'),
+                ]
             );
             User::notifyAcceptOrder($request->order_id);
         }
@@ -323,7 +329,7 @@ class OrderController extends Controller
 
         $order = Order::findOrFail($request->order_id);
 
-        if($order->status==1 && $order->driver_id==Auth::id() && $order->pick_assigned_by==Auth::id()){
+        if($order->status==1 && $order->driver_id==Auth::id() && $order->details->PAB==Auth::id()){
 
             $order->update([
                 // 'driver_id' => null, 
@@ -337,7 +343,7 @@ class OrderController extends Controller
                 'message'=>'Pickup Cancelled'
             ],200);
         }
-        elseif($order->status==1 && $order->driver_id==Auth::id() && $order->pick_assigned_by!=Auth::id()){
+        elseif($order->status==1 && $order->driver_id==Auth::id() && $order->details->PAB!=Auth::id()){
             return response()->json([
                 'status'=>'403',
                 'message'=>'Please contact your manager to cancel this pickup'

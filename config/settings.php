@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'USD_TO_AED'  => 3.6725,  
     'timezone'    => 'Asia/Dubai',
     'currency'    => 'AED',
     'date_format' => 'Y-m-d',

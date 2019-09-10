@@ -31,20 +31,22 @@ class PaypalController extends Controller
 	public function createPayment(Request $request)
 	{
 		$orderDetails = Order::findOrFail($request->order_id)->generateInvoiceForUser();
-		// return $orderDetails;
 		$payer = new Payer();
 		$payer->setPaymentMethod("paypal");
 
 		$itemsArr = [];
+		$total_amount = 0;
 		foreach($orderDetails['items_details'] as $itemDetail){
 			$item = new Item();
 			$item->setName($itemDetail['item'])
 				 ->setCurrency('USD')
 				 ->setQuantity($itemDetail['quantity'])
-				 ->setSku(rand(1000,9999)) // Similar to `item_number` in Classic API
-				 ->setPrice($itemDetail['price']);
+				 ->setSku('ITM#'.$itemDetail['item_id']) // Similar to `item_number` in Classic API
+				 ->setPrice($this->convertCurrency($itemDetail['price']));
 			array_push($itemsArr,$item);
+			$total_amount+=$itemDetail['quantity']*$this->convertCurrency($itemDetail['price']);
 		}
+
 		// $item1 = new Item();
 		// $item1->setName('Ground Coffee 40 oz')
 		// 	  ->setCurrency('USD')
@@ -62,23 +64,25 @@ class PaypalController extends Controller
 		$itemList = new ItemList();
 		// $itemList->setItems(array($item1, $item2));
 		$itemList->setItems($itemsArr);
-		// return $itemList;
+
 		$details = new Details();
-		$details->setShipping($orderDetails['invoice_details']['delivery_charge'])
-		    	->setTax($orderDetails['invoice_details']['VAT'])
-		    	->setSubtotal($orderDetails['invoice_details']['total_amount']);
-		// return $details;
+		$details->setShipping($this->convertCurrency($orderDetails['invoice_details']['delivery_charge']))
+		    	->setTax($this->convertCurrency($orderDetails['invoice_details']['VAT']))
+		    	->setSubtotal($total_amount);
+
+		$grand_total = $this->convertCurrency($orderDetails['invoice_details']['delivery_charge'])+$this->convertCurrency($orderDetails['invoice_details']['VAT'])+$total_amount;
+
 		$amount = new Amount();
 		$amount->setCurrency("USD")
-			   ->setTotal($orderDetails['invoice_details']['grand_total'])
+			   ->setTotal($grand_total)
 			   ->setDetails($details);
-		// return $amount;
+		return $itemList.'<br>'.$details.'<br>'.$amount.'<br>'.$orderDetails;
 
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
 		    		->setItemList($itemList)
 		    		->setDescription("Payment description")
-		    		->setInvoiceNumber(uniqid());
+		    		->setInvoiceNumber('GORINSE#'.$request->order_id.'-'.uniqid());
 
 		$baseUrl = url('');
 		$redirectUrls = new RedirectUrls();
@@ -91,9 +95,25 @@ class PaypalController extends Controller
 		    	->setRedirectUrls($redirectUrls)
 		    	->setTransactions(array($transaction));
 
-		$payment->create($this->apiContext);
+		$request = clone $payment;
 
+		try {
+		    $payment->create($this->apiContext);
+		} catch (Exception $ex) {
+			// return ("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
+			return response()->json([
+                'status' => '400',
+                'message' => $ex->getMessage(),
+                'exceptions' => $ex,
+            ], 400);
+		}
 		$approvalUrl = $payment->getApprovalLink();
+
+		return response()->json([
+                'status' => '201',
+                'message' => 'Paypal Approval Link Created, proceed with the approvalUrl to start the payment',
+                'approvalUrl' => $approvalUrl,
+            ], 201);
 
 		return redirect($approvalUrl);
 	}
@@ -111,19 +131,44 @@ class PaypalController extends Controller
 	    $amount = new Amount();
 	    $details = new Details();
 
-	    $details->setShipping($orderDetails['invoice_details']['delivery_charge'])
-		    	->setTax($orderDetails['invoice_details']['VAT'])
-		    	->setSubtotal($orderDetails['invoice_details']['total_amount']);
+	    $total_amount = 0;
+		foreach($orderDetails['items_details'] as $itemDetail){
+			$total_amount+=$itemDetail['quantity']*$this->convertCurrency($itemDetail['price']);
+		}
 
-		$amount->setCurrency('USD');
-	    $amount->setTotal($orderDetails['invoice_details']['grand_total']);
-	    $amount->setDetails($details);
+	    $details->setShipping($this->convertCurrency($orderDetails['invoice_details']['delivery_charge']))
+		    	->setTax($this->convertCurrency($orderDetails['invoice_details']['VAT']))
+		    	->setSubtotal($total_amount);
+
+		$grand_total = $this->convertCurrency($orderDetails['invoice_details']['delivery_charge'])+$this->convertCurrency($orderDetails['invoice_details']['VAT'])+$total_amount;
+
+		$amount->setCurrency("USD")
+			   ->setTotal($grand_total)
+			   ->setDetails($details);
+
 	    $transaction->setAmount($amount);
 
 	    $execution->addTransaction($transaction);
 
 	    $result = $payment->execute($execution, $this->apiContext);
 
+	    //Update payment status for order
+	    $order = Order::findOrFail($order_id)->update(['payment' => 1]);
+	    $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order_id],
+                ['PT' => Date('Y-m-d h:i:s')]
+            );
+	    return response()->json([
+                'status' => '201',
+                'message' => 'Paypal Approval Link Created, proceed with the approvalUrl to start the payment',
+                'paypalResponse' => json_decode($result),
+            ], 201);
     	return $result;
+    }
+
+    public function convertCurrency($AED)
+    {
+    	$AED_TO_USD = number_format(1/config('settings.USD_TO_AED'),100);
+    	return number_format($AED*$AED_TO_USD,2);
     }
 }
