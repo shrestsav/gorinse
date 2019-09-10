@@ -28,6 +28,9 @@ class CreateOrderDetailsTable extends Migration
             $table->string('invoice_id')->nullable()->comment('Invoice ID from Paypal or Payfort');
             $table->dateTime('PT')->nullable()->comment('Payment Time');
             $table->text('PDR')->nullable()->comment('Pickup Driver Remark');
+
+            $table->foreign('order_id')->references('id')->on('orders')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -161,8 +161,7 @@ class OrderController extends Controller
             'pick_date' => 'required',
             'pick_timerange' => 'required',
             'drop_location' => 'required|numeric',
-            'payment_type' => 'required|numeric',
-            'coupon'  => 'string|min:7|max:7'
+            'payment_type'  => 'required|numeric'
         ]);
 
         if ($validator->fails()) {
@@ -174,19 +173,30 @@ class OrderController extends Controller
         }
 
         if($request->coupon){
-          $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
+            $validator = Validator::make($request->all(), [
+                'coupon' => 'string|min:7|max:7'
+            ]);
 
-          $coupon = Coupon::where('code', $request->coupon)
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '422',
+                    'message' => 'Validation Failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+            $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
+
+            $coupon = Coupon::where('code', $request->coupon)
                           ->where('status', 1)
                           ->where('valid_from','<=',$today)
                           ->where('valid_to','>=',$today);
 
-          if(!$coupon->exists()){
-            return response()->json([
-                'status' => '403',
-                'message' => "Sorry this coupon is not valid or has already expired",
-            ], 403);
-          }
+            if(!$coupon->exists()){
+                return response()->json([
+                    'status' => '403',
+                    'message' => "Sorry this coupon is not valid or has already expired",
+                ], 403);
+            }
 
           // check if already used
           if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){

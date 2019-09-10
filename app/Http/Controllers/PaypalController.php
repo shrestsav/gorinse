@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
@@ -13,7 +15,6 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
-use Illuminate\Routing\UrlGenerator;
 
 class PaypalController extends Controller
 {
@@ -76,7 +77,7 @@ class PaypalController extends Controller
 		$amount->setCurrency("USD")
 			   ->setTotal($grand_total)
 			   ->setDetails($details);
-		return $itemList.'<br>'.$details.'<br>'.$amount.'<br>'.$orderDetails;
+		// return $itemList.'<br>'.$details.'<br>'.$amount.'<br>'.$orderDetails;
 
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
@@ -152,18 +153,23 @@ class PaypalController extends Controller
 
 	    $result = $payment->execute($execution, $this->apiContext);
 
+	    $transactions = $result->getTransactions();
+
 	    //Update payment status for order
 	    $order = Order::findOrFail($order_id)->update(['payment' => 1]);
 	    $orderDetails = OrderDetail::updateOrCreate(
                 ['order_id' => $order_id],
-                ['PT' => Date('Y-m-d h:i:s')]
+                [
+                	'invoice_id' => $transactions[0]->invoice_number,
+                	'PT' => Date('Y-m-d h:i:s')
+                ]
             );
+	    
 	    return response()->json([
-                'status' => '201',
-                'message' => 'Paypal Approval Link Created, proceed with the approvalUrl to start the payment',
+                'status' => '200',
+                'message' => 'Payment Successful',
                 'paypalResponse' => json_decode($result),
-            ], 201);
-    	return $result;
+            ], 200);
     }
 
     public function convertCurrency($AED)
