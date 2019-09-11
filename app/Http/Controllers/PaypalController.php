@@ -106,10 +106,13 @@ class PaypalController extends Controller
     public function executePayment($order_id)
     {
     	$orderDetails = Order::findOrFail($order_id)->generateInvoiceForUser();
-    	// After Step 1
+    	
+
+    	// yeta aayera create payment maa generate bhayeko paypal ko invoice ra payment id bata invoice inkalxa,,, payment bhaisakeko xaina
 		$paymentId = request('paymentId');
     	$payment = Payment::get($paymentId, $this->apiContext);
 
+    	//aba eta payment execute garxa, pheri euta invoice nikalxa hamro database bata ani create order bata niskeko invoice sanga tally garxa,,, if match proceed with payment
     	$execution = new PaymentExecution();
     	$execution->setPayerId(request('PayerID'));
 
