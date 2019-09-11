@@ -21,8 +21,7 @@ return [
         5 => 'Assigned for Delivery',
         //New
         6 => 'Picked for Delivery',
-
-        7 => 'Delivered',
+        7 => 'Delivered by Driver',
         //New
         8 => 'Delivery Received by Customer', 
         9 => 'Paid'

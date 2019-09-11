@@ -537,7 +537,7 @@ class OrderController extends Controller
             ], 403);
         }
 
-        if($order->status==1){
+        if($order->status==1 && $order->VAT && $order->delivery_charge){
             $order->update([ 'status' => 2 ]);
             if($request->remarks){
                 $orderDetails = OrderDetail::updateOrCreate(
@@ -716,6 +716,44 @@ class OrderController extends Controller
             return response()->json([
                     'status' => '200',
                     'message' => 'Order Picked From Office',
+                ], 200);
+        }
+        return response()->json([
+            'status' => '400',
+            'message' => 'Something is wrong with the request',
+        ], 400);
+    }
+
+    //Driver Picked Clothes from office which were assigned to him for delivery to customers
+    public function deliveredToCustomer($order_id)
+    {
+        $order = Order::findOrFail($order_id);
+
+        if($order->drop_driver_id!=Auth::id()){
+            return response()->json([
+                    'status' => '403',
+                    'message' => 'You are not assigned to delivery this order',
+                ], 403);
+        }
+        elseif($order->status==6){
+            $order->status = 7;
+            $order->save();
+
+            $orderDetails = OrderDetail::updateOrCreate(
+                ['order_id' => $order_id],
+                ['DTC'      => date(config('settings.dateTime'))]
+            );
+
+            if(!$order){
+                return response()->json([
+                        'status' => '400',
+                        'message' => 'Sorry the Order status could not be updated',
+                    ], 400);
+            }
+            User::notifyDroppedAtCustomer($order_id);
+            return response()->json([
+                    'status' => '200',
+                    'message' => 'Order Dropped at Customer',
                 ], 200);
         }
         return response()->json([
