@@ -491,7 +491,7 @@ class OrderController extends Controller
         $serviceCharge = Service::findOrFail($service_id)->price;
         $order = Order::findOrFail($order_id);
         
-        if($order->driver_id != Auth::id() || $order->status != 1){
+        if($order->driver_id != Auth::id() || $order->status != 1 || $order->status != 2){
             return response()->json([
                 'status' => '403',
                 'message' => 'You donot have access to add items for this order' 
