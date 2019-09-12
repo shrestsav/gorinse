@@ -127,6 +127,13 @@ class CustomerController extends Controller
         }
 
         if ($request->email) {
+            $user = User::findOrFail(Auth::id());
+            if($user->email==$request->email){
+                return response()->json([
+                    'status' => '200',
+                    'message'=> 'Same Email Detected' 
+                ],200);
+            }
             $validator = Validator::make($request->all(), [
                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             ]);
@@ -140,7 +147,7 @@ class CustomerController extends Controller
             }
 
             $input = $request->only('email');
-            $address = User::where('id',Auth::id())->update($input);
+            $address = $user->update($input);
 
             return response()->json([
                 'status' => '200',
