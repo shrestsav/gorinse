@@ -88,7 +88,7 @@ trait NotificationLogics
                        })->pluck('id')->toArray();
 
         $notification = [
-            'notifyType' => 'order_accepted',
+            'notifyType' => 'pickup_cancelled',
             'message' => $order->pickDriver->fname. ' has cancelled pickup for order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
@@ -116,7 +116,7 @@ trait NotificationLogics
         $driver_id = $order->driver_id;
 
         $notifyCustomer = [
-            'notifyType' => 'assigned_for_pickup',
+            'notifyType' => 'order_accepted',
             'message' => $order->pickDriver->fname. ' just accepted order #'.$order->id,
             'model' => 'order',
             'url' => $order->id

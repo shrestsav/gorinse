@@ -380,6 +380,8 @@ class OrderController extends Controller
         $pickPending = Order::select('orders.id',
                                      'orders.type',
                                      'orders.customer_id',
+                                     'orders.driver_id',
+                                     'orders.drop_driver_id',
                                      'orders.pick_location',
                                      'orders.pick_date',
                                      'orders.pick_timerange',
@@ -390,7 +392,8 @@ class OrderController extends Controller
                         ->where('orders.status','=',0)
                         ->where('pick.area_id','=',$driver_area)
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
-                        ->get();
+                        ->get()
+                        ->makeVisible('assigned_status');
 
         // $map = $orders->map(function($order){
         //    $data['user_firstName'] = $order->id;
@@ -401,6 +404,8 @@ class OrderController extends Controller
         $activeOrder = Order::select('id',
                                      'type',
                                      'customer_id',
+                                     'driver_id',
+                                     'drop_driver_id',
                                      'pick_location',
                                      'pick_date',
                                      'pick_timerange',
@@ -421,12 +426,15 @@ class OrderController extends Controller
                                   ->where('drop_driver_id','=',Auth::id());
                         })
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community','drop_location_details:id,name,map_coordinates,building_community')
-                        ->get();
+                        ->get()
+                        ->makeVisible('assigned_status');
 
 
         $assignedForDrop = Order::select('id',
                                          'type',
                                          'customer_id',
+                                         'driver_id',
+                                         'drop_driver_id',
                                          'pick_location',
                                          'drop_location',
                                          'drop_date',
@@ -438,7 +446,8 @@ class OrderController extends Controller
                         ->whereDate('drop_date','!=',$today)
                         ->where('drop_driver_id','=',Auth::id())
                         ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
-                        ->get();
+                        ->get()
+                        ->makeVisible('assigned_status');
 
         $mainAreas = MainArea::nameWithId();
         $collection = collect([
