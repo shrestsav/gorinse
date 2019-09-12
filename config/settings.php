@@ -16,7 +16,7 @@ return [
         1 => 'Assigned',
         // Drived added items to invoice
         2 => 'Invoice Generated',
-        3 => 'Confirmed by Customer',
+        3 => 'Invoice Confirmed',
         4 => 'On Work',
         5 => 'Assigned for Delivery',
         //New

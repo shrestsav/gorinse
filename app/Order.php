@@ -183,6 +183,20 @@ class Order extends Model
 
             array_push($invoiceArr,$invoice);
         };
+        $couponDiscount = 0;
+        if($orderDetails->coupon){
+            $couponDetails = Coupon::where('code',$orderDetails->coupon)->first();
+            if($couponDetails){
+                if($couponDetails->type==1){
+                    $couponDiscount = $couponDetails->discount.'%';
+                    $totalAmount = $totalAmount - ($couponDetails->discount/100)*$totalAmount;
+                }
+                elseif($couponDetails->type==2){
+                    $couponDiscount = $couponDetails->discount;
+                    $totalAmount = $totalAmount - $couponDiscount;
+                }
+            }
+        }
         $collection = collect($invoiceArr);
         $grouped_collection = $collection->groupBy(['service'])->toArray();       
         $vatPercent = $orderDetails->VAT;
@@ -196,6 +210,7 @@ class Order extends Model
             'order_type'      => config('settings.orderType')[$orderDetails->type],
             'order_status'    => $orderDetails->status,
             "total_quantity"  => $totalQuantity,
+            "coupon_discount" => $couponDiscount,
             "total_amount"    => $totalAmount,
             "VAT_percent"     => $vatPercent,
             "VAT"             => $VAT,
