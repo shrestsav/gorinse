@@ -49,6 +49,62 @@ class OrderController extends Controller
       return response()->json($orders);
     }
 
+    public function searchOrders(Request $request, $Collection)
+    {
+      $statusArr = [];
+
+      if($Collection=='Pending')
+        $statusArr = ['0','1','2','3'];
+      else if($Collection=='Received')
+        $statusArr = ['4'];
+      else if($Collection=='Ready for Delivery')
+        $statusArr = ['5'];
+      else if($Collection=='On Hold')
+        $statusArr = ['6','7'];
+      else if($Collection=='Completed')
+        $statusArr = ['8'];
+
+      
+      $orders = Order::whereIn('status',$statusArr)
+                      ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver');
+
+      if($request->customer){
+        $names = explode(" ", $request->customer);
+        $orders->join('users as customers','customers.id','orders.customer_id')
+               // ->where(function($query) use ($names) {
+               //    $query->whereIn('customers.fname', $names);
+               //    $query->orWhere(function($query) use ($names) {
+               //        $query->whereIn('customers.lname', $names);
+               //    });
+               //  });
+               ->where('customers.fname','like','%'.$names[0].'%');
+      }
+      if($request->pick_location){
+        $orders->join('user_addresses as PL','PL.id','orders.pick_location')
+               ->where('PL.name','like','%'.$request->pick_location.'%');
+      }
+      if($request->drop_location){
+        $orders->join('user_addresses as DL','DL.id','orders.drop_location')
+               ->where('DL.name','like','%'.$request->drop_location.'%');
+      }
+      if($request->type)
+        $orders->where('type',$request->type);
+      if($request->orderStatus || $request->orderStatus=='0')
+        $orders->where('status',$request->orderStatus);
+      if($request->pick_date)
+        $orders->whereDate('pick_date',$request->pick_date);
+
+
+      $orders = $orders->orderBy('status','ASC')
+                       ->get();
+
+      $collection = collect([
+        'data' => $orders
+      ]);
+
+      return response()->json($collection);
+    }
+
     public function getOrdersCount()
     {
       $pending = ['0','1','2','3'];

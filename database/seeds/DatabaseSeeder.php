@@ -154,12 +154,8 @@ class DatabaseSeeder extends Seeder
 
         //Add Main Areas
         $areas = [
-            ['name' => 'Kingdom of Bahrain'],
-            ['name' => 'Kingdom of Saudi Arabia'],
-            ['name' => 'Kuwait'],
-            ['name' => 'Qatar'],
-            ['name' => 'Sultanate of Oman'],
-            ['name' => 'United Arab Emirates'],
+            ['name' => 'Dubai'],
+            ['name' => 'Something'],
         ];
 
         foreach ($areas as $area) {

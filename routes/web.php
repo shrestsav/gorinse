@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/getOrders/{status}','OrderController@getOrders');
 	Route::get('/getOrdersCount','OrderController@getOrdersCount');
 	Route::post('/assignOrder','OrderController@assignOrder');
+	Route::post('/orders/search/{status}','OrderController@searchOrders');
 	
 	Route::get('/services','CoreController@services');
 	Route::post('/services','CoreController@addService');	

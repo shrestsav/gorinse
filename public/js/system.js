@@ -8227,6 +8227,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assign_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assign.vue */ "./resources/js/components/orders/assign.vue");
 /* harmony import */ var _config_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../config/settings */ "./resources/js/config/settings.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/lib/index.js");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue2_datepicker__WEBPACK_IMPORTED_MODULE_3__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -8307,15 +8309,59 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    assign: _assign_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    assign: _assign_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_3___default.a
   },
   data: function data() {
     return {
+      search: {},
       active: {
         order: '',
         page: 1,
@@ -8391,6 +8437,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var currentTime = this.$moment(Date.now());
       var passed_minute = Math.abs(createdAt.diff(currentTime, 'minutes'));
       if (this.orders.data[index].status == 0 && passed_minute >= 10) return true;else return false;
+    },
+    searchOrder: function searchOrder() {
+      var _this2 = this;
+
+      axios.post('/orders/search/' + this.active.status, this.search).then(function (response) {
+        console.log(response.data);
+
+        _this2.$store.commit('setOrders', response.data);
+      });
     }
   },
   computed: _objectSpread({
@@ -74108,7 +74163,314 @@ var render = function() {
               "table",
               { staticClass: "table align-items-center table-flush" },
               [
-                _vm._m(0),
+                _c("thead", { staticClass: "thead-light" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search.customer,
+                            expression: "search.customer"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Customer Name" },
+                        domProps: { value: _vm.search.customer },
+                        on: {
+                          change: _vm.searchOrder,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.search,
+                              "customer",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.search.type,
+                              expression: "search.type"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.search,
+                                  "type",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              },
+                              _vm.searchOrder
+                            ]
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Normal")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Urgent")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search.pick_location,
+                            expression: "search.pick_location"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Address" },
+                        domProps: { value: _vm.search.pick_location },
+                        on: {
+                          change: _vm.searchOrder,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.search,
+                              "pick_location",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search.pick_date,
+                            expression: "search.pick_date"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "date", placeholder: "Address" },
+                        domProps: { value: _vm.search.pick_date },
+                        on: {
+                          change: _vm.searchOrder,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.search,
+                              "pick_date",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search.pick_driver,
+                            expression: "search.pick_driver"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Driver Name" },
+                        domProps: { value: _vm.search.pick_driver },
+                        on: {
+                          change: _vm.searchOrder,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.search,
+                              "pick_driver",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search.drop_driver,
+                            expression: "search.drop_driver"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Driver Name" },
+                        domProps: { value: _vm.search.drop_driver },
+                        on: {
+                          change: _vm.searchOrder,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.search,
+                              "drop_driver",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _vm.active.status == "Pending"
+                        ? _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.search.orderStatus,
+                                  expression: "search.orderStatus"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.search,
+                                      "orderStatus",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.searchOrder
+                                ]
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("Pending")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "1" } }, [
+                                _vm._v("Assigned")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "2" } }, [
+                                _vm._v("Invoice Generated")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "3" } }, [
+                                _vm._v("Invoice Confirmed")
+                              ])
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.active.status == "Received"
+                        ? _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.search.orderStatus,
+                                  expression: "search.orderStatus"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.search,
+                                      "orderStatus",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.searchOrder
+                                ]
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "4" } }, [
+                                _vm._v("Received")
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th")
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -74122,7 +74484,9 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           item.customer
-                            ? _c("span", [_vm._v(_vm._s(item.customer.fname))])
+                            ? _c("span", [
+                                _vm._v(_vm._s(item.customer.full_name))
+                              ])
                             : _vm._e()
                         ]),
                         _vm._v(" "),
@@ -74143,11 +74507,7 @@ var render = function() {
                           _vm._v(" "),
                           item.status !== 0 && item.pick_driver
                             ? _c("span", [
-                                _vm._v(
-                                  _vm._s(item.pick_driver.fname) +
-                                    " " +
-                                    _vm._s(item.pick_driver.lname)
-                                )
+                                _vm._v(_vm._s(item.pick_driver.full_name))
                               ])
                             : _vm._e()
                         ]),
@@ -74159,11 +74519,7 @@ var render = function() {
                           _vm._v(" "),
                           item.status >= 5 && item.drop_driver
                             ? _c("span", [
-                                _vm._v(
-                                  _vm._s(item.drop_driver.fname) +
-                                    " " +
-                                    _vm._s(item.drop_driver.lname)
-                                )
+                                _vm._v(_vm._s(item.drop_driver.full_name))
                               ])
                             : _vm._e()
                         ]),
@@ -74180,7 +74536,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _c("div", { staticClass: "dropdown" }, [
-                            _vm._m(1, true),
+                            _vm._m(2, true),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -74294,48 +74650,41 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "thead-light" }, [
-      _c("tr", [
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("S.No.")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Customer")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Order Type")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Pickup From")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Pickup Time")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Picked By")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Dropped By")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Status")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Ordered")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "sort", attrs: { scope: "col" } }, [
-          _vm._v("Action")
-        ])
-      ])
+    return _c("tr", [
+      _c("th", [_vm._v("S.No.")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Customer")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Order Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Pickup From")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Pickup Time")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Picked By")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Dropped By")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Ordered")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c(
+        "div",
+        {
+          staticClass:
+            "icon icon-shape bg-gradient-red text-white rounded-circle shadow"
+        },
+        [_c("i", { staticClass: "fas fa-search" })]
+      )
     ])
   },
   function() {

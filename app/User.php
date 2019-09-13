@@ -28,6 +28,8 @@ class User extends Authenticatable
         'fname','lname', 'email', 'password','phone','OTP','OTP_timestamp'
     ];
 
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -121,6 +123,10 @@ class User extends Authenticatable
         return $customers->get();
     }
 
+    public function getFullNameAttribute()
+    {
+        return "{$this->fname} {$this->lname}";
+    }
     public function sendOTP()
     {
         $OTP = $this->OTP;

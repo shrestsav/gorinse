@@ -7,19 +7,19 @@
 </div>
 @endif
 <div class="row justify-content-xl-center">
-  <div class="col-xl-8">
+  <div class="col-xl-12">
     <div class="card">
       <div class="card-header border-0">
         <div class="row">
           <div class="col-6">
             <h3 class="mb-0">User Management</h3>
           </div>
-{{--           <div class="col-6 text-right">
+          {{--<div class="col-6 text-right">
             <a href="{{ route('users.create') }}" class="btn btn-outline-primary" data-toggle="tooltip" data-original-title="Edit product">
               <span class="btn-inner--icon"><i class="fas fa-user-edit"></i></span>
               <span class="btn-inner--text">New User</span>
             </a>
-          </div> --}}
+          </div>--}}
         </div>
       </div>
       <div class="table-responsive">
@@ -27,8 +27,10 @@
           <thead class="thead-light">
             <tr>
               <th>S.No</th>
+              <th>User ID</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Roles</th>
               <th></th>
             </tr>
@@ -37,8 +39,10 @@
             @foreach ($users as $key => $user)
             <tr>
               <td>{{ ++$i }}</td>
+              <td>{{ $user->id }}</td>
               <td>{{ $user->fname }} {{ $user->lname }}</td>
               <td>{{ $user->email }}</td>
+              <td>{{ $user->phone }}</td>
               <td>
                 @if(!empty($user->roles))
                 @foreach($user->roles as $role)

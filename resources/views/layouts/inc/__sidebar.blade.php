@@ -117,7 +117,7 @@
         <li class="nav-item">
           <a class="nav-link" href="#navbar-config" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-config" v-bind:class="{active: currentMenu=='settingsMenu'}">
             <i class="ni ni-settings text-info"></i>
-            <span class="nav-link-text">Manage</span>
+            <span class="nav-link-text">App Settings</span>
           </a>
           <div class="collapse" id="navbar-config">
             <ul class="nav nav-sm flex-column">
@@ -138,7 +138,7 @@
               </li>
               <li class="nav-item">
                 <router-link :to="{ name: 'appDefaults'}" >
-                  <a href="{{url('/v/appDefaults')}}" :href="''" class="nav-link" v-bind:class="{active: currentPage=='appDefaults'}">Application Defaults</a>
+                  <a href="{{url('/v/appDefaults')}}" :href="''" class="nav-link" v-bind:class="{active: currentPage=='appDefaults'}">Other</a>
                 </router-link>
               </li>
             </ul>

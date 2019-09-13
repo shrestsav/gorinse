@@ -56,9 +56,7 @@ return [
     ],
     'mainArea' => [
         1 => 'Dubai',
-        2 => 'AbuDabi',
-        3 => 'UAE',
-        4 => 'Kathmandu'
+        2 => 'Something'
     ],
     'orderType' => [
     	1 => 'Normal',

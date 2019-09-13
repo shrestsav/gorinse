@@ -15,32 +15,73 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="sort">S.No.</th>
-                <th scope="col" class="sort">Customer</th>
-                <th scope="col" class="sort">Order Type</th>
-                <th scope="col" class="sort">Pickup From</th>
-                <th scope="col" class="sort">Pickup Time</th>
-                <th scope="col" class="sort">Picked By</th>
-                <th scope="col" class="sort">Dropped By</th>
-                <th scope="col" class="sort">Status</th>
-                <th scope="col" class="sort">Ordered</th>
-                <th scope="col" class="sort">Action</th>
+                <th>S.No.</th>
+                <th>Customer</th>
+                <th>Order Type</th>
+                <th>Pickup From</th>
+                <th>Pickup Time</th>
+                <th>Picked By</th>
+                <th>Dropped By</th>
+                <th>Status</th>
+                <th>Ordered</th>
+                <th>Action</th>
+              </tr>
+              <tr>
+                <th>
+                  <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                    <i class="fas fa-search"></i>
+                  </div>
+                </th>
+                <th>
+                  <input v-model="search.customer" @change="searchOrder" type="text" placeholder="Customer Name" class="form-control">
+                </th>
+                <th>
+                  <select v-model="search.type" @change="searchOrder" class="form-control">
+                    <option value="1">Normal</option>
+                    <option value="2">Urgent</option>
+                  </select>
+                </th>
+                <th>
+                  <input v-model="search.pick_location" @change="searchOrder" type="text" placeholder="Address" class="form-control">
+                </th>
+                <th>
+                  <input v-model="search.pick_date" @change="searchOrder" type="date" placeholder="Address" class="form-control">
+                </th>
+                <th>
+                  <input v-model="search.pick_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control">
+                </th>
+                <th>
+                  <input v-model="search.drop_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control">
+                </th>
+                <th>
+                  <select v-if="active.status=='Pending'" v-model="search.orderStatus" @change="searchOrder" class="form-control">
+                    <option value="0">Pending</option>
+                    <option value="1">Assigned</option>
+                    <option value="2">Invoice Generated</option>
+                    <option value="3">Invoice Confirmed</option>
+                  </select>
+                  <select v-if="active.status=='Received'" v-model="search.orderStatus" @change="searchOrder" class="form-control">
+                    <option value="4">Received</option>
+                  </select>
+                </th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody class="list">
               <tr v-for="(item,index) in showOrders.data" v-bind:class="{ urgent: checkPending(index) }">
                 <td>{{index+1}}</td>
-                <td><span v-if="item.customer">{{item.customer.fname}}</span></td>
+                <td><span v-if="item.customer">{{item.customer.full_name}}</span></td>
                 <td>{{getOrderType(item.type)}}</td>
                 <td v-if="item.pick_location_details">{{item.pick_location_details.name}}</td>
                 <td>{{item.pick_date}}</td>
                 <td>
                   <span v-if="item.status === 0">Not Assigned</span>
-                  <span v-if="item.status !== 0 && item.pick_driver">{{item.pick_driver.fname}} {{item.pick_driver.lname}}</span>
+                  <span v-if="item.status !== 0 && item.pick_driver">{{item.pick_driver.full_name}}</span>
                 </td>
                 <td>
                   <span v-if="item.status < 5">Not Assigned</span>
-                  <span v-if="item.status >= 5 && item.drop_driver">{{item.drop_driver.fname}} {{item.drop_driver.lname}}</span>
+                  <span v-if="item.status >= 5 && item.drop_driver">{{item.drop_driver.full_name}}</span>
                 </td>
                 <td>
                   <span>{{ getStatus(item.status) }}</span>
@@ -78,13 +119,17 @@
   import assign from './assign.vue'
   import {settings} from '../../config/settings'
   import { mapState } from 'vuex'
+  import DatePicker from 'vue2-datepicker'
  
   export default{
     components: {
-      assign
+      assign, DatePicker
     },
     data(){
       return{
+        search:{
+
+        },
         active:{
           order:'',
           page:1,
@@ -160,6 +205,13 @@
         else
           return false
       },
+      searchOrder(){
+        axios.post('/orders/search/'+this.active.status,this.search)
+        .then((response) => {
+          console.log(response.data)
+          this.$store.commit('setOrders',response.data)
+        })
+      }
     },
     computed: {
       pending(){
