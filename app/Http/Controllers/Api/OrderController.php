@@ -547,7 +547,7 @@ class OrderController extends Controller
             ], 403);
         }
 
-        if($order->status==1 && $order->VAT && $order->delivery_charge){
+        if(($order->status==1 || $order->status==2) && $order->VAT && $order->delivery_charge){
             $order->update([ 'status' => 2 ]);
             if($request->remarks){
                 $orderDetails = OrderDetail::updateOrCreate(
