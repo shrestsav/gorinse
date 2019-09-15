@@ -211,7 +211,7 @@ class Order extends Model
             'order_status'    => $orderDetails->status,
             "total_quantity"  => $totalQuantity,
             "coupon_discount" => $couponDiscount,
-            "total_amount"    => $totalAmount,
+            "total_amount"    => $totalAmount+$couponDiscount,
             "VAT_percent"     => $vatPercent,
             "VAT"             => $VAT,
             "delivery_charge" => $deliveryCharge,

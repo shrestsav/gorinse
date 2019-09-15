@@ -88,6 +88,7 @@ class OrderController extends Controller
                       ->leftJoin('users as customers','customers.id','orders.customer_id')
                       ->leftJoin('users as PD','PD.id','orders.driver_id')
                       ->leftJoin('users as DD','DD.id','orders.drop_driver_id')
+                      ->leftJoin('user_addresses as UA','UA.id','orders.pick_location')
                       ->whereIn('status',$statusArr)
                       ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver');
 
@@ -105,6 +106,8 @@ class OrderController extends Controller
         $orders->where('status',$request->orderStatus);
       if($request->pick_date)
         $orders->whereDate('pick_date',$request->pick_date);
+      if($request->pick_location)
+        $orders->where('UA.name','like','%'.$request->pick_date.'%');
 
       $orders = $orders->orderBy('status','ASC')
                        ->get();
@@ -118,6 +121,7 @@ class OrderController extends Controller
             // replace stristr with your choice of matching function
             return false !== stristr($item->customer->full_name, $customer);
         });
+        // $names = explode(" ", $request->customer);
         // $orders = $orders->where('customers.fullname','like','%'.$request->customer.'%');
                // ->where(function($query) use ($names) {
                //    $query->whereIn('customers.fname', $names);
@@ -144,21 +148,7 @@ class OrderController extends Controller
       $collection = collect([
         'data' => $orders
       ]);
-       return $collection;
-
-
-
-
-
-
-
       
-      
-
-      
-
-
-
       return response()->json($collection);
     }
 
