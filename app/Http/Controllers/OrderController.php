@@ -65,20 +65,32 @@ class OrderController extends Controller
         $statusArr = ['8'];
 
       
-      $orders = Order::whereIn('status',$statusArr)
+      $orders = Order::select(
+                        'orders.id',
+                        'orders.customer_id',
+                        'orders.type',
+                        'orders.driver_id',
+                        'orders.drop_driver_id',
+                        'orders.pick_location',
+                        'orders.pick_date',
+                        'orders.pick_timerange',
+                        'orders.drop_location',
+                        'orders.drop_date',
+                        'orders.drop_timerange',
+                        'orders.status',
+                        'orders.VAT',
+                        'orders.delivery_charge',
+                        'orders.coupon',
+                        'orders.payment',
+                        'orders.created_at',
+                        'orders.updated_at'
+                      )
+                      ->leftJoin('users as customers','customers.id','orders.customer_id')
+                      ->leftJoin('users as PD','PD.id','orders.driver_id')
+                      ->leftJoin('users as DD','DD.id','orders.drop_driver_id')
+                      ->whereIn('status',$statusArr)
                       ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver');
 
-      if($request->customer){
-        $names = explode(" ", $request->customer);
-        $orders->join('users as customers','customers.id','orders.customer_id')
-               // ->where(function($query) use ($names) {
-               //    $query->whereIn('customers.fname', $names);
-               //    $query->orWhere(function($query) use ($names) {
-               //        $query->whereIn('customers.lname', $names);
-               //    });
-               //  });
-               ->where('customers.fname','like','%'.$names[0].'%');
-      }
       if($request->pick_location){
         $orders->join('user_addresses as PL','PL.id','orders.pick_location')
                ->where('PL.name','like','%'.$request->pick_location.'%');
@@ -94,13 +106,58 @@ class OrderController extends Controller
       if($request->pick_date)
         $orders->whereDate('pick_date',$request->pick_date);
 
-
       $orders = $orders->orderBy('status','ASC')
                        ->get();
+
+      // To search customer or driver, collects all data and then filters the fullname, will be major complication if large collection
+      //Best Option: make a new field in table named slug where concatenate with '-' for fname and lname, and simply search there
+
+      if($request->customer){
+        $customer = $request->customer;
+        $orders = $orders->filter(function ($item) use ($customer) {
+            // replace stristr with your choice of matching function
+            return false !== stristr($item->customer->full_name, $customer);
+        });
+        // $orders = $orders->where('customers.fullname','like','%'.$request->customer.'%');
+               // ->where(function($query) use ($names) {
+               //    $query->whereIn('customers.fname', $names);
+               //    $query->orWhere(function($query) use ($names) {
+               //        $query->whereIn('customers.lname', $names);
+               //    });
+               //  });
+      }
+      if($request->pick_driver){
+        $pick_driver = $request->pick_driver;
+        $orders = $orders->filter(function ($item) use ($pick_driver) {
+          if($item->pickDriver)
+            return false !== stristr($item->pickDriver->full_name, $pick_driver);
+        });
+      }
+      if($request->drop_driver){
+        $drop_driver = $request->drop_driver;
+        $orders = $orders->filter(function ($item) use ($drop_driver) {
+          if($item->dropDriver)
+            return false !== stristr($item->dropDriver->full_name, $drop_driver);
+        });
+      }
 
       $collection = collect([
         'data' => $orders
       ]);
+       return $collection;
+
+
+
+
+
+
+
+      
+      
+
+      
+
+
 
       return response()->json($collection);
     }

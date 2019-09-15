@@ -21,7 +21,7 @@
                 <th>Pickup From</th>
                 <th>Pickup Time</th>
                 <th>Picked By</th>
-                <th>Dropped By</th>
+                <th v-if="active.status!='Pending' && active.status!='Received'">Dropped By</th>
                 <th>Status</th>
                 <th>Ordered</th>
                 <th>Action</th>
@@ -50,7 +50,7 @@
                 <th>
                   <input v-model="search.pick_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control">
                 </th>
-                <th>
+                <th v-if="active.status!='Pending' && active.status!='Received'">
                   <input v-model="search.drop_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control">
                 </th>
                 <th>
@@ -79,7 +79,7 @@
                   <span v-if="item.status === 0">Not Assigned</span>
                   <span v-if="item.status !== 0 && item.pick_driver">{{item.pick_driver.full_name}}</span>
                 </td>
-                <td>
+                <td v-if="active.status!='Pending' && active.status!='Received'">
                   <span v-if="item.status < 5">Not Assigned</span>
                   <span v-if="item.status >= 5 && item.drop_driver">{{item.drop_driver.full_name}}</span>
                 </td>

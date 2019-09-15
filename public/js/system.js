@@ -74164,10 +74164,33 @@ var render = function() {
               { staticClass: "table align-items-center table-flush" },
               [
                 _c("thead", { staticClass: "thead-light" }, [
-                  _vm._m(0),
+                  _c("tr", [
+                    _c("th", [_vm._v("S.No.")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Customer")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Order Type")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Pickup From")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Pickup Time")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Picked By")]),
+                    _vm._v(" "),
+                    _vm.active.status != "Pending" &&
+                    _vm.active.status != "Received"
+                      ? _c("th", [_vm._v("Dropped By")])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Status")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Ordered")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Action")])
+                  ]),
                   _vm._v(" "),
                   _c("tr", [
-                    _vm._m(1),
+                    _vm._m(0),
                     _vm._v(" "),
                     _c("th", [
                       _c("input", {
@@ -74333,34 +74356,37 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c("th", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.search.drop_driver,
-                            expression: "search.drop_driver"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", placeholder: "Driver Name" },
-                        domProps: { value: _vm.search.drop_driver },
-                        on: {
-                          change: _vm.searchOrder,
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    _vm.active.status != "Pending" &&
+                    _vm.active.status != "Received"
+                      ? _c("th", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.search.drop_driver,
+                                expression: "search.drop_driver"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text", placeholder: "Driver Name" },
+                            domProps: { value: _vm.search.drop_driver },
+                            on: {
+                              change: _vm.searchOrder,
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.search,
+                                  "drop_driver",
+                                  $event.target.value
+                                )
+                              }
                             }
-                            _vm.$set(
-                              _vm.search,
-                              "drop_driver",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
+                          })
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("th", [
                       _vm.active.status == "Pending"
@@ -74512,17 +74538,20 @@ var render = function() {
                             : _vm._e()
                         ]),
                         _vm._v(" "),
-                        _c("td", [
-                          item.status < 5
-                            ? _c("span", [_vm._v("Not Assigned")])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          item.status >= 5 && item.drop_driver
-                            ? _c("span", [
-                                _vm._v(_vm._s(item.drop_driver.full_name))
-                              ])
-                            : _vm._e()
-                        ]),
+                        _vm.active.status != "Pending" &&
+                        _vm.active.status != "Received"
+                          ? _c("td", [
+                              item.status < 5
+                                ? _c("span", [_vm._v("Not Assigned")])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.status >= 5 && item.drop_driver
+                                ? _c("span", [
+                                    _vm._v(_vm._s(item.drop_driver.full_name))
+                                  ])
+                                : _vm._e()
+                            ])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("td", [
                           _c("span", [
@@ -74536,7 +74565,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _c("div", { staticClass: "dropdown" }, [
-                            _vm._m(2, true),
+                            _vm._m(1, true),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -74646,32 +74675,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("S.No.")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Customer")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Order Type")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Pickup From")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Pickup Time")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Picked By")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Dropped By")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Status")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Ordered")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Action")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
