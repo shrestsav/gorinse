@@ -1,10 +1,28 @@
 <template>
- <div class="row">
+  <div class="row">
     <div class="col-xl-12">
-      <div class="card bg-primary">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="surtitle">Orders</h6>
+          <!-- <h5 class="surtitle">Status</h5> -->
+        </div>
         <div class="card-body">
-          <div class="text-center">
-            <h5 class="h3 text-white mb-0">WELCOME TO THE DASHBOARD OF GO-RINSE</h5>
+          <div class="row">
+            <div class="col-xl-3">
+              <DoughnutChart chartFor="pendingOrders"></DoughnutChart>
+            </div>
+            <div class="col-xl-3">
+              <DoughnutChart chartFor="receivedOrders"></DoughnutChart>
+            </div>
+            <div class="col-xl-3">
+              <DoughnutChart chartFor="readyForDeliveryOrders"></DoughnutChart>
+            </div>
+            <div class="col-xl-3">
+              <DoughnutChart chartFor="onHoldOrders"></DoughnutChart>
+            </div>
+          <!--   <div class="col-xl-4">
+              <DoughnutChart chartFor="completedOrders"></DoughnutChart>
+            </div> -->
           </div>
         </div>
       </div>
@@ -14,7 +32,9 @@
 
 
 <script>
+  import DoughnutChart from './charts/doughnut.vue'
   export default{
+    components:{DoughnutChart},
     data(){
       return{
         errors:{},
@@ -25,6 +45,7 @@
       this.$store.commit('changeCurrentMenu', 'dashboardMenu')
     },
     mounted(){
+
     },
     methods:{
     },

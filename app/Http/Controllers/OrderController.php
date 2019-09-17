@@ -316,6 +316,22 @@ class OrderController extends Controller
       return response()->json('Successfully Assigned');
     }
 
+
+    public function getIndividualOrdersCount()
+    {
+      $collection = collect([
+        'pending' => Order::where('status',0)->count(),
+        'assigned' => Order::where('status',1)->count(),
+        'invoice_generated' => Order::where('status',2)->count(),
+        'invoice_confirmed' => Order::where('status',3)->count(),
+        'on_work' => Order::where('status',4)->count(),
+        'assigned_for_delivery' => Order::where('status',5)->count(),
+        'picked_for_delivery' => Order::where('status',6)->count(),
+        'delivered_by_driver' => Order::where('status',7)->count(),
+      ]);
+      return response()->json($collection);
+    }
+
     public function testNotification($user_id)
     {
       $notification = [

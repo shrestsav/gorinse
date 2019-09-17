@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::resource('/orders','OrderController');
 	Route::get('/getOrders/{status}','OrderController@getOrders');
 	Route::get('/getOrdersCount','OrderController@getOrdersCount');
+	Route::get('/orders/count/indStatus','OrderController@getIndividualOrdersCount');
 	Route::post('/assignOrder','OrderController@assignOrder');
 	Route::post('/orders/search/{status}','OrderController@searchOrders');
 	

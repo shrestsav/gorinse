@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "@kugatsu/vuenotification": "^1.1.2",
+        "chart.js": "^2.8.0",
+        "chartjs-plugin-labels": "^1.1.0",
         "firebase": "^6.3.3",
         "firebase-admin": "^8.3.0",
         "firebase-functions": "^3.2.0",
@@ -32,6 +34,7 @@
         "laravel-echo": "^1.5.4",
         "laravel-vue-pagination": "^2.3.0",
         "pusher-js": "^5.0.0",
+        "vue-chartjs": "^3.4.2",
         "vue-moment": "^4.0.0",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.6",

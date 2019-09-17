@@ -22,6 +22,7 @@ export const store = new Vuex.Store({
 		address:{},
 		notifications:{},
 		appDefaults:{},
+		orderStatusCount:{},
 		errors:{},
 	},
 	getters:{
@@ -126,6 +127,9 @@ export const store = new Vuex.Store({
 		setAppDefaults(state, appDefaults){
 			state.appDefaults = appDefaults
 		},
+		setOrderStatusCount(state, orderStatusCount){
+			state.orderStatusCount = orderStatusCount
+		},
 		setErrors(state, errors){
 			state.errors = errors
 		}
@@ -220,6 +224,12 @@ export const store = new Vuex.Store({
 			axios.get('/coupons')
 		        .then(response => {
 		          context.commit('setCoupons',response.data)
+		        });	
+		},
+		getOrderStatusCount(context){
+			axios.get('/orders/count/indStatus')
+		        .then(response => {
+		          context.commit('setOrderStatusCount',response.data)
 		        });	
 		},
 		getCustomers(context){

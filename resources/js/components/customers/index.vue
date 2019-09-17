@@ -22,8 +22,8 @@
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Date of Birth</th>
-                <th>Address</th>
+                <!-- <th>Date of Birth</th>
+                <th>Address</th> -->
               </tr>
             </thead>
             <tbody class="list">
@@ -33,8 +33,8 @@
                 <td>{{item.fname}} {{item.lname}}</td>
                 <td>{{item.phone}}</td>
                 <td>{{item.email}}</td>
-                <td><span v-if="item.details">{{item.details.dob}}</span></td>
-                <td><span v-if="item.details">{{item.details.address}}</span></td>
+                <!-- <td><span v-if="item.details">{{item.details.dob}}</span></td>
+                <td><span v-if="item.details">{{item.details.address}}</span></td> -->
               </tr>
             </tbody>
           </table>
