@@ -30,7 +30,7 @@ trait NotificationLogics
 
         $notification = [
             'notifyType' => 'new_order',
-            'message' => $order->customer->fname. ' just created a new order #'.$order->id,
+            'message' => $order->customer->fname. ' placed a new order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -62,7 +62,7 @@ trait NotificationLogics
 
         $notification = [
             'notifyType' => 'order_accepted',
-            'message' => $order->pickDriver->fname. ' just accepted order #'.$order->id,
+            'message' => $order->pickDriver->fname. ' accepted Order #'.$order->id.' for pickup',
             'model' => 'order',
             'url' => $order->id
         ];
@@ -89,7 +89,7 @@ trait NotificationLogics
 
         $notification = [
             'notifyType' => 'pickup_cancelled',
-            'message' => $order->pickDriver->fname. ' has cancelled pickup for order #'.$order->id,
+            'message' => $order->pickDriver->fname. ' has cancelled pickup for Order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -117,7 +117,7 @@ trait NotificationLogics
 
         $notifyCustomer = [
             'notifyType' => 'order_accepted',
-            'message' => $order->pickDriver->fname. ' just accepted order #'.$order->id,
+            'message' => $order->pickDriver->fname. ' accepted Order #'.$order->id.' for pickup',
             'model' => 'order',
             'url' => $order->id
         ];
@@ -165,7 +165,7 @@ trait NotificationLogics
 
         $notificationAdmin = [
             'notifyType' => 'invoice_generated',
-            'message' => $order->pickDriver->fname. ' has generated an invoice for order #'.$order->id,
+            'message' => $order->pickDriver->fname. ' has generated an invoice for Order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -201,7 +201,7 @@ trait NotificationLogics
 
         $notification = [
             'notifyType' => 'invoice_confirmed',
-            'message' => $order->customer->fname. ' has confirmed invoice for order #'.$order->id,
+            'message' => $order->customer->fname. ' has confirmed invoice for Order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -230,7 +230,7 @@ trait NotificationLogics
 
         $notificationAdmin = [
             'notifyType' => 'dropped_at_office',
-            'message' => $order->pickDriver->fname. ' has dropped clothes at office for order #'.$order->id,
+            'message' => $order->pickDriver->fname. ' has dropped clothes at office for Order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -303,7 +303,7 @@ trait NotificationLogics
 
         $notificationAdmin = [
             'notifyType' => 'picked_from_office',
-            'message' => $order->dropDriver->fname. ' has picked clothes from office for delivery for order #'.$order->id,
+            'message' => $order->dropDriver->fname. ' has picked clothes from office for delivery for Order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
@@ -340,7 +340,7 @@ trait NotificationLogics
 
         $notificationAdmin = [
             'notifyType' => 'delivered_to_customer',
-            'message' => $order->dropDriver->fname.' has delivered clothes to customer '.$order->customer->fname.' for order #'.$order->id,
+            'message' => $order->dropDriver->fname.' has delivered clothes to customer '.$order->customer->fname.' for Order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];

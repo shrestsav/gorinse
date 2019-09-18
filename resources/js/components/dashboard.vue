@@ -24,6 +24,9 @@
               <DoughnutChart chartFor="completedOrders"></DoughnutChart>
             </div> -->
           </div>
+          <div>
+            <LineChart></LineChart>
+          </div>
         </div>
       </div>
     </div>
@@ -33,8 +36,11 @@
 
 <script>
   import DoughnutChart from './charts/doughnut.vue'
+  import LineChart from './charts/LineChart.vue'
   export default{
-    components:{DoughnutChart},
+    components:{
+      DoughnutChart, LineChart
+    },
     data(){
       return{
         errors:{},

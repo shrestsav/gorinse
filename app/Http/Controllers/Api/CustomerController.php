@@ -158,7 +158,7 @@ class CustomerController extends Controller
         //Save User Photo 
         if ($request->hasFile('photo')) {
             $validator = Validator::make($request->all(), [
-                "photo" => 'mimes:jpeg,bmp,png|max:3072',
+                "photo" => 'mimes:jpeg,bmp,png|max:15072',
             ]);
 
             if ($validator->fails()) {

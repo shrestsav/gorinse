@@ -202,9 +202,27 @@ class CoreController extends Controller
     {
         $input = [];
         if($request->saveType=='generalSetting'){
-            $input = $request->only('VAT', 'delivery_charge','OTP_expiry','app_rows','sys_rows');
+            $validatedData = $request->validate([
+                'VAT' => 'required|numeric',
+                'delivery_charge' => 'required|numeric',
+                'EDT' => 'required|numeric',
+                'OTP_expiry' => 'required|numeric',
+                'app_rows' => 'required|numeric',
+                'sys_rows' => 'required|numeric',
+            ]);
+
+            $input = $request->only('VAT', 'delivery_charge','EDT','OTP_expiry','app_rows','sys_rows');
         }
         if($request->saveType=='supportSetting'){
+            $validatedData = $request->validate([
+                'logoFile' => 'mimes:jpeg,png,jpg|max:6144',
+                'company_logo' => 'required|string|max:255',
+                'company_email' => 'required|string|email|max:255',
+                'hotline_contact' => 'required|string|max:255',
+                'FAQ_link' => 'required|string|max:255',
+                'online_chat' => 'required',
+            ]);
+
             $input = $request->only('company_logo', 'company_email', 'hotline_contact', 'FAQ_link', 'online_chat');
             $input['online_chat'] = json_decode($request->online_chat,true);
 
