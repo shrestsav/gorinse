@@ -189,10 +189,12 @@ class Order extends Model
             if($couponDetails){
                 if($couponDetails->type==1){
                     $couponDiscount = $couponDetails->discount.'%';
-                    $totalAmount = $totalAmount - ($couponDetails->discount/100)*$totalAmount;
+                    $couponDiscountAmount = ($couponDetails->discount/100)*$totalAmount;
+                    $totalAmount = $totalAmount - $couponDiscountAmount;
                 }
                 elseif($couponDetails->type==2){
                     $couponDiscount = $couponDetails->discount;
+                    $couponDiscountAmount = $couponDetails->discount;
                     $totalAmount = $totalAmount - $couponDiscount;
                 }
             }
@@ -204,6 +206,19 @@ class Order extends Model
         $deliveryCharge = $orderDetails->delivery_charge;
         $grandTotal = $totalAmount+$VAT+$deliveryCharge;
         
+        //Calculate Estimated Delivery Time
+        $est_delivery = null;
+        if(($orderDetails->type==2 && $orderDetails->drop_date) || ($orderDetails->type==1 && $orderDetails->drop_date)){
+            $dropDate = \Carbon\Carbon::parse($orderDetails->drop_date);
+            $est_delivery = $dropDate->diffForHumans();
+        }
+        else if($orderDetails->type==1 && $orderDetails->drop_date==null){
+            $EDT = AppDefault::firstOrFail()->EDT;
+            $orderedDate = $orderDetails->created_at;
+            $estimatedTimeFromOrderedDate = $orderedDate->addDays($EDT);
+            $est_delivery = $estimatedTimeFromOrderedDate->diffForHumans();
+        }
+
         $invoice = [
             "name"            => $orderDetails->customer->fname.' '.$orderDetails->customer->lname,
             "service"         => $serviceName,
@@ -211,12 +226,13 @@ class Order extends Model
             'order_status'    => $orderDetails->status,
             "total_quantity"  => $totalQuantity,
             "coupon_discount" => $couponDiscount,
-            "total_amount"    => $totalAmount+$couponDiscount,
+            "total_amount"    => $totalAmount+$couponDiscountAmount,
             "VAT_percent"     => $vatPercent,
             "VAT"             => $VAT,
             "delivery_charge" => $deliveryCharge,
             "grand_total"     => $grandTotal,
-            "PDR"             => $orderDetails->details->PDR
+            "PDR"             => $orderDetails->details->PDR,
+            "est_delivery"    => $est_delivery
         ];
 
         $collection = collect([

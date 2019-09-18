@@ -17,6 +17,7 @@ class CreateAppDefaultsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('VAT')->unsigned();
             $table->integer('delivery_charge')->unsigned();
+            $table->integer('EDT')->unsigned()->comment('Estimated Delivery Time');
             $table->integer('OTP_expiry')->unsigned()->comment('Minute');
             $table->longText('order_time');
             $table->longText('driver_notes');

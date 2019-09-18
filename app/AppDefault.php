@@ -9,6 +9,7 @@ class AppDefault extends Model
     protected $fillable = [
 		'VAT',
 		'delivery_charge',
+		'EDT',
 		'OTP_expiry',
 		'order_time',
 		'driver_notes',
