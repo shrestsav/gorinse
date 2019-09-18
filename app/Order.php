@@ -184,6 +184,7 @@ class Order extends Model
             array_push($invoiceArr,$invoice);
         };
         $couponDiscount = 0;
+        $couponDiscountAmount = 0;
         if($orderDetails->coupon){
             $couponDetails = Coupon::where('code',$orderDetails->coupon)->first();
             if($couponDetails){
