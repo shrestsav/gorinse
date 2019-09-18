@@ -1,8 +1,5 @@
 <template>
-  <div class="small">
-    <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
-  </div>
+  <line-chart :chart-data="datacollection" ></line-chart>
 </template>
 
 <script>
@@ -14,7 +11,11 @@
     },
     data () {
       return {
-        datacollection: null
+        myStyles: {
+          height:   '5px',
+          position: 'relative'
+        },
+        datacollection: {}
       }
     },
     mounted () {
@@ -23,16 +24,12 @@
     methods: {
       fillData () {
         this.datacollection = {
-          labels: [this.getRandomInt(), this.getRandomInt()],
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
           datasets: [
             {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
-            }, {
-              label: 'Data One',
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt()]
+              fill: false,
+              borderColor: '#f87979',
+              data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
             }
           ]
         }
@@ -44,7 +41,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .small {
     max-width: 600px;
     margin:  150px auto;

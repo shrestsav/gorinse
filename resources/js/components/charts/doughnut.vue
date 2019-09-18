@@ -151,7 +151,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .small {
     max-width: 600px;
     margin:  20px auto;

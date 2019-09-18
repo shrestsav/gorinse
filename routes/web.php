@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/orders/count/indStatus','OrderController@getIndividualOrdersCount');
 	Route::post('/assignOrder','OrderController@assignOrder');
 	Route::post('/orders/search/{status}','OrderController@searchOrders');
+	Route::post('/deleteMultipleOrders','OrderController@destroyMultipleOrders');
 	
 	Route::get('/services','CoreController@services');
 	Route::post('/services','CoreController@addService');	

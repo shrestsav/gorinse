@@ -257,9 +257,24 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        return $request->all();
+    }    
+
+    public function destroyMultipleOrders(Request $request)
+    {
+        foreach($request->orderIds as $id){
+          $order = Order::find($id);
+          if($order && $order->status<4){
+            $order->delete();
+            OrderDetail::where('order_id',$id)->delete();
+          }
+          elseif($order->status>=4){
+            return response()->json(['message'=>'Orders cannot be deleted'],404);
+          }
+        }
+        return response()->json(['message'=>'Orders has been deleted']);
     }
 
     public function assignOrder(Request $request)
