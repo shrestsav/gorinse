@@ -11,6 +11,7 @@ use App\UserDetail;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
+use Intervention\Image\Facades\Image;
 
 class CustomerController extends Controller
 {
@@ -158,7 +159,7 @@ class CustomerController extends Controller
         //Save User Photo 
         if ($request->hasFile('photo')) {
             $validator = Validator::make($request->all(), [
-                "photo" => 'mimes:jpeg,bmp,png|max:15072',
+                "photo" => 'mimes:jpeg,jpg,bmp,png|max:15072',
             ]);
 
             if ($validator->fails()) {
@@ -168,10 +169,20 @@ class CustomerController extends Controller
                     'errors' => $validator->errors(),
                 ], 422);
             }
+
+
+            $image = Image::make($request->file('photo'))->orientate();;
+            // prevent possible upsizing
+            $image->resize(null, 600, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
             $photo = $request->file('photo');
-            $fileName = 'dp_user_'.Auth::id().'.'.$photo->getClientOriginalExtension();
+            // $fileName = 'dp_user_'.Auth::id().'.'.$photo->getClientOriginalExtension();
+            $fileName = 'dp_user_'.Auth::id().'.jpg';
             $uploadDirectory = public_path('files'.DS.'users'.DS.Auth::id());
-            $photo->move($uploadDirectory, $fileName);
+            $image->save($uploadDirectory.DS.$fileName,60);
+            // $photo->move($uploadDirectory, $fileName);
 
             $userDetail = UserDetail::updateOrCreate(
                 ['user_id' => Auth::id()],
