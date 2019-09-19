@@ -149,20 +149,19 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'type' => 'required|numeric',
-            'pick_location' => [
-              'required',
-              'numeric',
-              Rule::exists('user_addresses','id')
-                  ->where(function ($query) use ($request) {
+            'type'           => 'required|numeric',
+            'pick_location'  => ['required','numeric',
+                Rule::exists('user_addresses','id')
+                    ->where(function ($query) use ($request) {
                       return $query->where('id', $request->pick_location)
                                    ->where('user_id', Auth::id());
-                  })
-              ],
-            'pick_date' => 'required',
+                    })
+            ],
+            'pick_date'      => 'required|date',
             'pick_timerange' => 'required',
-            'drop_location' => 'required|numeric',
-            'payment_type'  => 'required|numeric'
+            'drop_location'  => 'required|numeric',
+            'drop_date'      => 'nullable|date',
+            'payment_type'   => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -208,19 +207,17 @@ class OrderController extends Controller
           }
         }
 
-        // $request['customer_id'] = Auth::id();
-        // $order = Order::create($request->all());
-        $order = Order::create([
-          'customer_id'     =>  Auth::id(),
-          'type'            =>  $request->type,
-          'pick_location'   =>  $request->pick_location,
-          'pick_date'       =>  $request->pick_date,
-          'pick_timerange'  =>  $request->pick_timerange,
-          'drop_location'   =>  $request->drop_location,
-          'drop_date'       =>  $request->drop_date,
-          'drop_timerange'  =>  $request->drop_timerange,
-          'coupon'          =>  $request->coupon,
-        ]);
+        $input = [];
+        if($request->type==1){
+            $input = $request->only('type','pick_location','pick_date','pick_timerange','drop_location','coupon');
+        }
+        elseif($request->type==2){
+            $input = $request->only('type','pick_location','pick_date','pick_timerange','drop_location','drop_date','drop_timerange','coupon');
+        }
+
+        $input['customer_id'] = Auth::id();
+        
+        $order = Order::create($input);
         
         if($order){
             $orderDetails = OrderDetail::updateOrCreate(
