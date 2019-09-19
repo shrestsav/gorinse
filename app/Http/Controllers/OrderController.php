@@ -35,11 +35,9 @@ class OrderController extends Controller
       else if($status==='Received')
         $statusArr = ['4'];
       else if($status==='Ready for Delivery')
-        $statusArr = ['5'];
-      else if($status==='On Hold')
-        $statusArr = ['6','7'];
-      else if($status==='Completed')
-        $statusArr = ['8'];
+        $statusArr = ['5','6'];
+      else if($status==='Delivered')
+        $statusArr = ['7'];
 
       $orders = Order::whereIn('status',$statusArr)
       ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver')
@@ -58,11 +56,9 @@ class OrderController extends Controller
       else if($Collection=='Received')
         $statusArr = ['4'];
       else if($Collection=='Ready for Delivery')
-        $statusArr = ['5'];
-      else if($Collection=='On Hold')
-        $statusArr = ['6','7'];
-      else if($Collection=='Completed')
-        $statusArr = ['8'];
+        $statusArr = ['5','6'];
+      else if($Collection=='Delivered')
+        $statusArr = ['7'];
 
       
       $orders = Order::select(
@@ -156,23 +152,21 @@ class OrderController extends Controller
     {
       $pending = ['0','1','2','3'];
       $received = ['4'];
-      $readyForDelivery = ['5'];
-      $onHold = ['6','7'];
-      $completed = ['8'];
+      $readyForDelivery = ['5','6'];
+      $delivered = ['7'];
 
       $pendingOrders = Order::whereIn('status',$pending)->count();
       $receivedOrders = Order::whereIn('status',$received)->count();
       $readyForDeliveryOrders = Order::whereIn('status',$readyForDelivery)->count();
-      $onHoldOrders = Order::whereIn('status',$onHold)->count();
-      $completedOrders = Order::whereIn('status',$completed)->count();
+      $delivered = Order::whereIn('status',$delivered)->count();
 
       $collection = collect([
         'Pending'   => $pendingOrders,
         'Received'  => $receivedOrders,
         'Ready for Delivery' => $readyForDeliveryOrders,
-        'On Hold' => $onHoldOrders,
-        'Completed' => $completedOrders
+        'Delivered' => $delivered,
       ]);
+
       return response()->json($collection);
     }
     /**

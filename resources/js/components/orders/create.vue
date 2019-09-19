@@ -9,7 +9,7 @@
                 <h3 class="mb-0">Create New Order</h3>
               </div>
               <div class="col-4 text-right">
-                <a href="#!" class="btn btn-sm btn-primary">Go Back</a>
+                <a href="javascript:;" class="btn btn-sm btn-primary">Go Back</a>
               </div>
             </div>
           </div>

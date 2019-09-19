@@ -252,6 +252,9 @@ class CoreController extends Controller
         if($request->saveType=='TACS'){
             $input = $request->only('TACS');
         }
+        if($request->saveType=='FAQS'){
+            $input = $request->only('FAQS');
+        }
         
         $update = AppDefault::firstOrFail()->update($input);
 

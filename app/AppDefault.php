@@ -19,6 +19,7 @@ class AppDefault extends Model
 		'company_email',
 		'company_logo',
 		'TACS',
+		'FAQS',
 		'app_rows',
 		'sys_rows'
     ];
@@ -28,5 +29,6 @@ class AppDefault extends Model
         'driver_notes' => 'array',
         'online_chat' => 'array',
         'TACS' => 'array',
+        'FAQS' => 'array',
     ];
 }

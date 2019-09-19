@@ -3,13 +3,9 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <div class="col-md-2">
-            <div class="nav-wrapper">
-              <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link mb-sm-3 mb-md-0 active" id="createDriver" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">Items</a>
-                </li>
-              </ul>
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Items</h3>
             </div>
           </div>
         </div>
@@ -18,8 +14,8 @@
             <thead class="thead-light">
               <tr>
                 <th>S.No.</th>
-                <th>Category</th>
                 <th>Item Name</th>
+                <th>Category</th>
                 <th>Price</th>
                 <th>Action</th>
               </tr>
@@ -27,8 +23,8 @@
             <tbody class="list">
               <tr v-for="(item,index) in items">
                 <td>{{index+1}}</td>
-                <td>{{item.category.name}}</td>
                 <td>{{item.name}}</td>
+                <td>{{item.category.name}}</td>
                 <td>{{item.price}}</td>
                 <td></td>
               </tr>

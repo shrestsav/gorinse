@@ -137,6 +137,7 @@
           </div>
         </div>
         <TACS></TACS>
+        <FAQS></FAQS>
       </div>
     </div>        
   </div>
@@ -148,6 +149,7 @@
   import offers from './offers.vue'
   import coupons from './coupons.vue'
   import TACS from './TACS.vue'
+  import FAQS from './FAQS.vue'
   import { mapState } from 'vuex'
 
   export default{
@@ -156,7 +158,8 @@
       order,
       offers,
       coupons,
-      TACS
+      TACS,
+      FAQS,
     },
     data(){
       return{
@@ -186,6 +189,10 @@
             icon : "+",
           },
           TACS : {
+            display : false,
+            icon : "+",
+          },
+          FAQS : {
             display : false,
             icon : "+",
           },

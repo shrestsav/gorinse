@@ -28,24 +28,20 @@ return [
     ],
     'orderStatus' => [
         'Pending' => [
-            'pending' => 'Pending',
-            'assigned' => 'Assigned',
-            'invoice_generated' => 'Invoice Generated',
-            'customer_confirmed' => 'Confirmed by Customer',
+            '0' => 'Pending',
+            '1' => 'Assigned',
+            '2' => 'Invoice Generated',
+            '3' => 'Confirmed by Customer',
         ],
         'Received' => [
-            'on_work' => 'On Work',
+            '4' => 'On Work',
         ],
         'Ready for Delivery' => [
-            'assigned_delivery' => 'Assigned for Delivery',
-            //Picked status pani halney
+            '5' => 'Assigned for Delivery',
+            '6' => 'Picked for Delivery',
         ],
-        'On Hold' => [
-            // 'payment_pending' => 'Payment Pending',
-            'delivered' => 'Delivered',
-        ],
-        'Completed' => [
-            'paid' => 'Paid',
+        'Delivered' => [
+            '7' => 'Delivered by Driver',
         ]
     ],
     'addressType' => [

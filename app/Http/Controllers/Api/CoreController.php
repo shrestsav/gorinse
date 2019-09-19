@@ -126,4 +126,11 @@ class CoreController extends Controller
         
         return response()->json($TACS);
     }
+
+    public function FAQS()
+    {
+        $FAQS = AppDefault::firstOrFail()->FAQS;
+        
+        return response()->json($FAQS);
+    }
 }

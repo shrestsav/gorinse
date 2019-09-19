@@ -8,6 +8,7 @@ export const store = new Vuex.Store({
 		currentPage:'',
 		currentMenu:'',
 		orders:[],
+		ordersCount:{},
 		orderDetails:{},
 		drivers:[],
 		customers:{},
@@ -84,6 +85,9 @@ export const store = new Vuex.Store({
 		},
 		setOrders(state, orders){
 			state.orders = orders
+		},
+		setOrdersCount(state, ordersCount){
+			state.ordersCount = ordersCount
 		},
 		setOrderDetails(state, orderDetails){
 			state.orderDetails = orderDetails
@@ -164,6 +168,12 @@ export const store = new Vuex.Store({
 			axios.get('/orderTime')
 	        .then(response => {
 	        	context.commit('setOrderTime',response.data)
+	        });
+		},
+		getOrdersCount(context){
+			axios.get('/getOrdersCount')
+	        .then(response => {
+	        	context.commit('setOrdersCount',response.data)
 	        });
 		},
 		getAddress(context,customer_id){

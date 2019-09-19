@@ -13,7 +13,7 @@
             <div class="nav-wrapper">
               <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
                 <li class="nav-item" v-for="status,key in orderStatus">
-                  <a class="nav-link mb-sm-3 mb-md-0" :class="key=='Pending' ? 'active' : ''" :id="key" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false" @click="getOrders(key)">{{key}}<span class="status_count" v-if="count[key]">{{count[key]}}</span></a>
+                  <a class="nav-link mb-sm-3 mb-md-0" :class="key=='Pending' ? 'active' : ''" :id="key" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false" @click="getOrders(key)">{{key}}<span class="status_count" v-if="ordersCount[key]">{{ordersCount[key]}}</span></a>
                 </li>
               </ul>
             </div>
@@ -148,13 +148,6 @@
           order_id:'',
           status:'Pending',
         },
-        count:{
-          pendingOrders:0,
-          receivedOrders:0,
-          readyForDeliveryOrders:0,
-          onHoldOrders:0,
-          completedOrders:0
-        },
         showAssign: true,
         showDetails: true,
         pick:{
@@ -177,16 +170,10 @@
       
     },
     methods:{
-      getOrdersCount(){
-        axios.get('/getOrdersCount')
-        .then(response => {
-          this.count = response.data
-        });
-      },
       getOrders(status){
         this.active.status = status
         this.getResults()
-        this.getOrdersCount()
+        this.$store.dispatch('getOrdersCount')
       },
       getResults(page = 1) {
         this.active.page = page
@@ -272,7 +259,7 @@
       completed(){
         return this.orderStatus['Completed'];
       },
-      ...mapState(['orders', 'orderStatus'])
+      ...mapState(['orders', 'orderStatus' ,'ordersCount'])
     },
     watch: {
       orders(value) {

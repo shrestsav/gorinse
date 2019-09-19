@@ -8,7 +8,7 @@
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">Total Pending</h5>
-                <span class="h2 font-weight-bold mb-0">350,897</span>
+                <span class="h2 font-weight-bold mb-0">{{ordersCount['Pending']}}</span>
               </div>
               <div class="col-auto">
                 <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">On Work</h5>
-                <span class="h2 font-weight-bold mb-0">2,356</span>
+                <span class="h2 font-weight-bold mb-0">{{ordersCount['Received']}}</span>
               </div>
               <div class="col-auto">
                 <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -52,7 +52,7 @@
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">Ready To Deliver</h5>
-                <span class="h2 font-weight-bold mb-0">924</span>
+                <span class="h2 font-weight-bold mb-0">{{ordersCount['Ready for Delivery']}}</span>
               </div>
               <div class="col-auto">
                 <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -74,7 +74,7 @@
             <div class="row">
               <div class="col">
                 <h5 class="card-title text-uppercase text-muted mb-0">Delivered</h5>
-                <span class="h2 font-weight-bold mb-0">49,65%</span>
+                <span class="h2 font-weight-bold mb-0">{{ordersCount['Delivered']}}</span>
               </div>
               <div class="col-auto">
                 <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -152,6 +152,7 @@
 
 
 <script>
+  import { mapState } from 'vuex'
   import DoughnutChart from './charts/doughnut.vue'
   import LineChart from './charts/LineChart.vue'
   export default{
@@ -168,11 +169,12 @@
       this.$store.commit('changeCurrentMenu', 'dashboardMenu')
     },
     mounted(){
-
+      this.$store.dispatch('getOrdersCount')
     },
     methods:{
     },
     computed: {
+      ...mapState(['ordersCount'])
     },
     watch: {
     },
