@@ -88,82 +88,87 @@
           </div>
         </div>
       </div>
-      <hr class="my-4"/>
-      <h6 class="heading-small text-muted mb-4">Invoice</h6>
-      <div class="pl-lg-4" v-if="invoice">
+      <template v-if="invoice && invoice.items_details.length">
+        <hr class="my-4"/>
+        <h6 class="heading-small text-muted mb-4">Invoice</h6>
         <div class="row">
-          <div class="table-responsive" v-for="service,name in invoice.items_details">
-            <div class="row">
-              <div class="col-lg-3">
-                <div class="form-group">
-                  <label class="form-control-label">Service : </label>
-                  <span>{{name}}</span>
-                </div>
-              </div>
-              <div class="col-lg-3">
-                <div class="form-group">
-                  <label class="form-control-label">Payment Type : </label>
-                  <!-- <span>{{invoice.customer}} {{details.customer.lname}}</span> -->
-                </div>
-              </div>
-              <div class="col-lg-3">
-                <div class="form-group">
-                  <label class="form-control-label">Delivery Type : </label>
-                  <!-- <span>{{invoice.customer_details.order_type}}</span> -->
-                </div>
-              </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Service : </label>
+              <span>{{invoice.invoice_details.service}}</span>
             </div>
-            <table class="table align-items-center table-flush">
-              <thead class="thead-light">
-                <tr>
-                  <th>S.No.</th>
-                  <th>Items</th>
-                  <th>Quantity</th>
-                  <th>Service Charge (AED)</th>
-                  <th>Item Charge (AED)</th>
-                  <th>Amount (AED)</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody class="list">
-                <tr v-for="(item,index) in service">
-                  <td>{{index+1}}</td>
-                  <td>{{item.item}}</td>
-                  <td>{{item.quantity}}</td>
-                  <td>{{item.service_charge}}</td>
-                  <td>{{item.item_charge}}</td>
-                  <td>{{item.total}}</td>
-                  <td>{{item.remarks}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table class="">
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Payment Type : </label>
+              <!-- <span>{{invoice.customer}} {{details.customer.lname}}</span> -->
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Delivery Type : </label>
+              <span>{{invoice.invoice_details.order_type}}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
               <tr>
-                <td>Total Quantity</td>
+                <th>S.No.</th>
+                <th>Items</th>
+                <th>Quantity</th>
+                <th>Service Charge (AED)</th>
+                <th>Item Charge (AED)</th>
+                <th>Amount (AED)</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr  v-for="item,index in invoice.items_details">
+                <td>{{index+1}}</td>
+                <td>{{item.item}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.service_charge}}</td>
+                <td>{{item.item_charge}}</td>
+                <td>{{item.total}}</td>
+                <td>{{item.remarks}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+        </div>
+        <div class="float-left">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th>Total Quantity</th>
                 <td>{{invoice.invoice_details.total_quantity}}</td>     
               </tr>
               <tr>
-                <td>Total Amount</td>
+                <th>Total Amount</th>
                 <td>AED {{invoice.invoice_details.total_amount}}</td>
               </tr>
+              <tr v-if="invoice.invoice_details.coupon_discount">
+                <th>Coupon Discount</th>
+                <td>AED {{invoice.invoice_details.coupon_discount}}</td>
+              </tr>
               <tr>
-                <td>VAT ({{invoice.invoice_details.VAT_percent}}%)</td>
+                <th>VAT ({{invoice.invoice_details.VAT_percent}}%)</th>
                 <td>AED {{invoice.invoice_details.VAT}}</td>                    
               </tr>
               <tr>
-                <td>Delivery Charge</td>
+                <th>Delivery Charge</th>
                 <td>AED {{invoice.invoice_details.delivery_charge}}</td>        
               </tr>
               <tr>
-                <td>Grand Total</td>
+                <th>Grand Total</th>
                 <td>AED {{invoice.invoice_details.grand_total}}</td>
               </tr>
-
-            </table>
-          </div>
+            </thead>
+          </table>
         </div>
-      </div>
-
+      </template>
     </div>
   </div>
 </template>
@@ -187,6 +192,7 @@
       }
       this.$store.commit('changeCurrentPage', 'orderDetails')
       this.$store.commit('changeCurrentMenu', 'ordersMenu')
+      this.$store.commit('setOrderDetails',{})
     },
     mounted(){
       this.$store.dispatch('getOrderDetails',this.orderID)
@@ -214,18 +220,3 @@
   }
 
 </script>
-<style>
-  .mx-datepicker{
-    width: unset;
-    display: unset;
-  }
-  .mx-datepicker-popup{
-    top: 0 !important;
-  }
-  .not-validated{
-    border-color: #fb6340;
-  }
-  .form-control .vs__dropdown-toggle {
-    border: 0px !important;
-  }
-</style>

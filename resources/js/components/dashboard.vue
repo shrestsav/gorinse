@@ -11,7 +11,7 @@
                 <span class="h2 font-weight-bold mb-0">{{ordersCount['Pending']}}</span>
               </div>
               <div class="col-auto">
-                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow" @click="goto()">
                   <i class="ni ni-active-40"></i>
                 </div>
               </div>
@@ -33,7 +33,7 @@
                 <span class="h2 font-weight-bold mb-0">{{ordersCount['Received']}}</span>
               </div>
               <div class="col-auto">
-                <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow" @click="goto()">
                   <i class="ni ni-chart-pie-35"></i>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                 <span class="h2 font-weight-bold mb-0">{{ordersCount['Ready for Delivery']}}</span>
               </div>
               <div class="col-auto">
-                <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow" @click="goto()">
                   <i class="ni ni-money-coins"></i>
                 </div>
               </div>
@@ -119,7 +119,7 @@
           </div>
         </div>
       </div>
-<!--       <div class="col-xl-12">
+      <!--<div class="col-xl-12">
         <div class="card">
           <div class="card-header">
             <h6 class="surtitle">Order Rate</h6>
@@ -130,21 +130,7 @@
         </div>
       </div> -->
       <div class="col-xl-8">
-        <div class="card bg-default">
-          <div class="card-header bg-transparent">
-            <div class="row align-items-center">
-              <div class="col">
-                <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                <h5 class="h3 text-white mb-0">Order Graph</h5>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart">
-              <LineChart chartFor="pendingOrders"></LineChart>
-            </div>
-          </div>
-        </div>
+        <LineChart chartFor="pendingOrders"></LineChart>
       </div>
     </div>
   </div>
@@ -172,6 +158,9 @@
       this.$store.dispatch('getOrdersCount')
     },
     methods:{
+      goto(){
+        this.$router.push({ name: 'orders'})
+      }
     },
     computed: {
       ...mapState(['ordersCount'])

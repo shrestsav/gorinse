@@ -86,6 +86,15 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('getSettings/{settingType}','CoreController@getSettings');
 	Route::get('orderTime','CoreController@orderTime');
 
+	//REPORT GENERATION
+	Route::group(['prefix' => 'reports'], function() {
+	    Route::post('/totalOrders','ReportController@totalOrders');
+	});
+	
+
+
+
+
 	//PAYPAL INTEGRATION
 	Route::get('/payment',function(){
 		return view('test');

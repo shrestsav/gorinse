@@ -94,6 +94,14 @@
             </a>
           </router-link>
         </li>
+        {{-- <li class="nav-item">
+          <router-link :to="{ name: 'customers'}" >
+            <a class="nav-link" href="{{url('/v/customers')}}" :href="''" v-bind:class="{active: currentMenu=='customersMenu'}">
+              <i class="ni ni-circle-08 text-info"></i>
+              <span class="nav-link-text">Reports</span>
+            </a>
+          </router-link>
+        </li> --}}
 {{--         <li class="nav-item">
           <a class="nav-link" href="#navbar-drivers" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-drivers" v-bind:class="{ active: currentMenu=='driversMenu'}">
             <i class="ni ni-bus-front-12 text-info"></i>

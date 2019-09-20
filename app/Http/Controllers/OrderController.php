@@ -97,15 +97,15 @@ class OrderController extends Controller
                ->where('DL.name','like','%'.$request->drop_location.'%');
       }
       if($request->type)
-        $orders->where('type',$request->type);
+        $orders->where('orders.type',$request->type);
       if($request->orderStatus || $request->orderStatus=='0')
-        $orders->where('status',$request->orderStatus);
+        $orders->where('orders.status',$request->orderStatus);
       if($request->pick_date)
-        $orders->whereDate('pick_date',$request->pick_date);
+        $orders->whereDate('orders.pick_date',$request->pick_date);
       if($request->pick_location)
         $orders->where('UA.name','like','%'.$request->pick_date.'%');
 
-      $orders = $orders->orderBy('status','ASC')
+      $orders = $orders->orderBy('orders.status','ASC')
                        ->get();
 
       // To search customer or driver, collects all data and then filters the fullname, will be major complication if large collection
@@ -211,9 +211,9 @@ class OrderController extends Controller
     public function show($id)
     {
       $order = Order::where('id',$id)
-      ->with('customer','pickDriver','pick_location_details','drop_location_details')
-      ->first();
-      $invoice = Order::generateInvoice($id);
+                    ->with('customer','pickDriver','pick_location_details','drop_location_details')
+                    ->first();
+      $invoice = $order->generateInvoice();
 
       $response = [
         'details' => $order,

@@ -2,8 +2,8 @@
   <div class="vue-component-body">
     <div class="row align-items-center py-4">
       <div class="col text-right">
-        <a href="#" class="btn btn-sm btn-neutral" @click="triggerPickOrders">Select</a>
-        <a href="#" class="btn btn-sm btn-danger" @click="deleteOrders">Delete</a>
+        <a href="#" class="btn btn-sm btn-danger" @click="deleteOrders" v-if="pick.orderIds.length">Delete</a>
+        <a href="#" class="btn btn-sm btn-neutral" @click="pick.orders = !pick.orders">Select</a>
       </div>
     </div>
     <div class="row">
@@ -78,7 +78,7 @@
               <tbody class="list">
                 <tr v-for="(item,index) in showOrders.data" v-bind:class="{ urgent: checkPending(index) }">
                   <td>
-                    <div class="custom-control custom-checkbox mb-3" v-if="pick.orders">
+                    <div class="custom-control custom-checkbox" v-if="pick.orders">
                       <input class="custom-control-input" :id="'check_'+index" type="checkbox" @change="pickMultipleOrders(item.id,$event)">
                       <label class="custom-control-label" :for="'check_'+index"></label>
                     </div>
@@ -215,10 +215,7 @@
         })
       },
       triggerPickOrders(){
-        if(this.pick.orders)
-          this.pick.orders = false
-        else
-          this.pick.orders = true
+        this.pick.orders = !this.pick.orders
       },
       pickMultipleOrders(id,event){
         if(event.target.checked){
@@ -233,13 +230,26 @@
         }
       },
       deleteOrders(){
-        axios.post('/deleteMultipleOrders',this.pick)
-        .then((response) => {
-          this.getOrders('Pending')
-          showNotify('success',response.data.message)
+        this.$swal({
+          title: 'Are you sure?',
+          text: "Orders will be permanently deleted",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
         })
-        .catch((error) => {
-          showNotify('danger',error.response.data.message)
+        .then((result) => {
+          if (result.value) {
+            axios.post('/deleteMultipleOrders',this.pick)
+            .then((response) => {
+              this.getOrders('Pending')
+              showNotify('success',response.data.message)
+            })
+            .catch((error) => {
+              showNotify('danger',error.response.data.message)
+            })
+          }
         })
       }
     },

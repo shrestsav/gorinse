@@ -92,37 +92,53 @@ class Order extends Model
         return $this->hasOne(OrderDetail::class);
     }
 
-    public static function generateInvoice($order_id)
+    public function generateInvoice()
     {
-        $orderDetails = Order::where('id',$order_id)->with('orderItems.service','orderItems.item')->first();
-        if(!$orderDetails->status>=2){
-            return null;
-        }
+        $orderDetails = Order::where('id',$this->id)->with('orderItems.service','orderItems.item','customer','details')->firstOrFail();
         $totalAmount = 0;
         $totalQuantity = 0;
         $invoiceArr = [];
+        $serviceName = '';
         foreach ($orderDetails->orderItems as $item) {
             $itemQuantity = $item['quantity'];
-            $serviceCharge = $item['service_charge'];
-            $itemCharge = $item['item_charge'];
-            $remarks = $item['remarks'];
-            $rate = $serviceCharge+$itemCharge;
+            $rate = $item['service_charge']+$item['item_charge'];
             $amount = $rate*$itemQuantity;
             $totalQuantity += $itemQuantity;
             $totalAmount += $amount;
 
             $invoice = [
-                'service' => $item['service']['name'],
-                'item' => $item['item']['name'],
-                'quantity' => $itemQuantity,
-                'service_charge' => $serviceCharge,
-                'item_charge' => $itemCharge,
-                'total' => $amount,
-                'remarks' => $remarks,
+                'item_id'        => $item['item']['id'],
+                'item'           => $item['item']['name'],
+                'quantity'       => $itemQuantity,
+                'service_charge' => $item['service_charge'],
+                'item_charge'    => $item['item_charge'],
+                'remarks'        => $item['remarks'],
+                'price'          => $rate,
+                'total'          => $amount,
             ];
+
+            //Risky Business,,,, order should have only one service id for this to work properly
+            $serviceName = $item['service']['name'];
 
             array_push($invoiceArr,$invoice);
         };
+        $couponDiscount = 0;
+        $couponDiscountAmount = 0;
+        if($orderDetails->coupon){
+            $couponDetails = Coupon::where('code',$orderDetails->coupon)->first();
+            if($couponDetails){
+                if($couponDetails->type==1){
+                    $couponDiscount = $couponDetails->discount.'%';
+                    $couponDiscountAmount = ($couponDetails->discount/100)*$totalAmount;
+                    $totalAmount = $totalAmount - $couponDiscountAmount;
+                }
+                elseif($couponDetails->type==2){
+                    $couponDiscount = $couponDetails->discount;
+                    $couponDiscountAmount = $couponDetails->discount;
+                    $totalAmount = $totalAmount - $couponDiscount;
+                }
+            }
+        }
         $collection = collect($invoiceArr);
         $grouped_collection = $collection->groupBy(['service'])->toArray();       
         $vatPercent = $orderDetails->VAT;
@@ -130,26 +146,42 @@ class Order extends Model
         $deliveryCharge = $orderDetails->delivery_charge;
         $grandTotal = $totalAmount+$VAT+$deliveryCharge;
         
+        //Calculate Estimated Delivery Time
+        $est_delivery = null;
+        if(($orderDetails->type==2 && $orderDetails->drop_date) || ($orderDetails->type==1 && $orderDetails->drop_date)){
+            $dropDate = \Carbon\Carbon::parse($orderDetails->drop_date);
+            $est_delivery = $dropDate->diffForHumans();
+        }
+        else if($orderDetails->type==1 && $orderDetails->drop_date==null){
+            $EDT = AppDefault::firstOrFail()->EDT;
+            $orderedDate = $orderDetails->created_at;
+            $estimatedTimeFromOrderedDate = $orderedDate->addDays($EDT);
+            $est_delivery = $estimatedTimeFromOrderedDate->diffForHumans();
+        }
+
         $invoice = [
-            "total_quantity" => $totalQuantity,
-            "total_amount" => $totalAmount,
-            "VAT_percent"  => $vatPercent,
-            "VAT" => $VAT,
+            "name"            => $orderDetails->customer->fname.' '.$orderDetails->customer->lname,
+            "service"         => $serviceName,
+            'order_type'      => config('settings.orderType')[$orderDetails->type],
+            'order_status'    => $orderDetails->status,
+            "total_quantity"  => $totalQuantity,
+            "coupon_discount" => $couponDiscount,
+            "total_amount"    => $totalAmount+$couponDiscountAmount,
+            "VAT_percent"     => $vatPercent,
+            "VAT"             => $VAT,
             "delivery_charge" => $deliveryCharge,
-            "grand_total" => $grandTotal
-        ];
-        $other = [
-            'name' => 'Utsav Shrestha',
-            'order_type' => config('settings.orderType')[$orderDetails->type],
-        ];
-        $invoiceCollection = [
-            "customer_details" => $other,
-            "items_details" => $grouped_collection,
-            "invoice_details" => $invoice,
-            
+            "grand_total"     => $grandTotal,
+            "PDR"             => $orderDetails->details->PDR,
+            "est_delivery"    => $est_delivery
         ];
 
-        return $invoiceCollection;
+        $collection = collect([
+            "items_details" => $collection,
+            "invoice_details" => $invoice,
+            // 'order_status' => config('settings.orderStatuses')
+        ]);
+
+        return $collection;
     }
 
 
@@ -163,19 +195,18 @@ class Order extends Model
         $serviceName = '';
         foreach ($orderDetails->orderItems as $item) {
             $itemQuantity = $item['quantity'];
-            // $serviceCharge = $item['service']['price'];
-            // $itemCharge = $item['item']['price'];
             $rate = $item['service_charge']+$item['item_charge'];
             $amount = $rate*$itemQuantity;
             $totalQuantity += $itemQuantity;
             $totalAmount += $amount;
 
             $invoice = [
-                'item_id' => $item['item']['id'],
-                'item' => $item['item']['name'],
-                'quantity' => $itemQuantity,
-                'price' => $rate,
-                'total' => $amount,
+                'item_id'   => $item['item']['id'],
+                'item'      => $item['item']['name'],
+                'quantity'  => $itemQuantity,
+                'remarks'   => $item['remarks'],
+                'price'     => $rate,
+                'total'     => $amount,
             ];
 
             //Risky Business,,,, order should have only one service id for this to work properly
