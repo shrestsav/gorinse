@@ -16,10 +16,10 @@
                 </div>
               </div>
             </div>
-            <p class="mt-3 mb-0 text-sm">
+            <!-- <p class="mt-3 mb-0 text-sm">
               <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
               <span class="text-nowrap">Since last month</span>
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
@@ -38,10 +38,10 @@
                 </div>
               </div>
             </div>
-            <p class="mt-3 mb-0 text-sm">
+            <!-- <p class="mt-3 mb-0 text-sm">
               <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
               <span class="text-nowrap">Since last month</span>
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
@@ -60,10 +60,10 @@
                 </div>
               </div>
             </div>
-            <p class="mt-3 mb-0 text-sm">
+            <!-- <p class="mt-3 mb-0 text-sm">
               <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
               <span class="text-nowrap">Since last month</span>
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
@@ -82,10 +82,10 @@
                 </div>
               </div>
             </div>
-            <p class="mt-3 mb-0 text-sm">
+            <!-- <p class="mt-3 mb-0 text-sm">
               <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
               <span class="text-nowrap">Since last month</span>
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
@@ -119,18 +119,8 @@
           </div>
         </div>
       </div>
-      <!--<div class="col-xl-12">
-        <div class="card">
-          <div class="card-header">
-            <h6 class="surtitle">Order Rate</h6>
-          </div>
-          <div class="card-body">
-            <LineChart chartFor="pendingOrders"></LineChart>
-          </div>
-        </div>
-      </div> -->
-      <div class="col-xl-8">
-        <LineChart chartFor="pendingOrders"></LineChart>
+      <div class="col-xl-12">
+        <LineChart></LineChart>
       </div>
     </div>
   </div>
@@ -216,9 +206,9 @@
     max-width: unset;
     width: 90%;
   }
-  body{
+ /* body{
     zoom:90%;
-  }
+  }*/
   .modal-backdrop {
       width: 100%;
       height: 100%;

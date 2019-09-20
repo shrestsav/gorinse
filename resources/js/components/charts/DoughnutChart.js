@@ -27,7 +27,7 @@ export default {
             fontSize: 12,
 
             // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
-            fontColor: '#fff',
+            fontColor: '#535353',
 
             // font style, default is defaultFontStyle
             fontStyle: 'normal',
@@ -82,13 +82,8 @@ export default {
             textMargin: 4
           }
         },
-
         legend: {
           display: false,
-          position: 'bottom',
-          labels: {
-              fontColor: 'green'
-          }
         }
       }
     }

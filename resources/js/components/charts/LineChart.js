@@ -8,11 +8,26 @@ export default {
   data () {
     return {
       options:{
-		responsive: true,
-		maintainAspectRatio: false,
-		legend: {
-          display: false,
-      	},
+    		scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+            display: false
+        },
+        responsive: true,
+        maintainAspectRatio: false
       }
     }
   },

@@ -92,51 +92,14 @@
                 ],
                 data: [
                   this.orderStatusCount.delivered_by_driver, 
-                  2, 
-                  3
-                ]
-              }, 
-            ]
-          }
-        }
-        else if(this.chartFor=="completedOrders"){
-          this.datacollection = {
-            labels: ['Pending', 'Assigned','Invoice Generated','Invoice Confirmed','On Work','Assigned for Delivery','Picked for Delivery','Delivered by Driver','Delivery Received by Customer','Paid'],
-            datasets: [
-              {
-                label: 'Data One',
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.5)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(50, 200, 192, 0.2)',
-                  'rgba(25, 192, 192, 0.2)',
-                  'rgba(65, 192, 192, 0.2)',
-                  'rgba(45, 192, 192, 0.2)',
-                  'rgba(85, 100, 192, 0.2)',
-                  'rgba(95, 192, 192, 0.2)',
-                ],
-                data: [
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt(), 
-                  this.getRandomInt()
+                  0, 
+                  0
                 ]
               }, 
             ]
           }
         }
       },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-      }
     },
     computed:{
       orderStatusCount(){

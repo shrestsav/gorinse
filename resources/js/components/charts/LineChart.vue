@@ -29,23 +29,43 @@
     </div>
     <div class="card-body">
       <div class="chart">
-        <line-chart :chart-data="datacollection" ></line-chart>
+        <canvas id="totalOrdersReport"></canvas>
       </div>
     </div>
   </div> 
 </template>
 
 <script>
-  import LineChart from './LineChart.js'
+
+  import Chart from 'chart.js'
   import DatePicker from 'vue2-datepicker'
 
   export default {
     components: {
-      LineChart, DatePicker
+      DatePicker
     },
     data () {
       return {
-        datacollection: {},
+        chartData: {
+          type: 'line',
+          data: {},
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            lineTension: 1,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  padding: 25,
+                }
+              }]
+            },
+            legend: {
+                display: false
+            },
+          }
+        },
         reports:{
           type:'',
           year:'',
@@ -63,9 +83,8 @@
         this.reports.year_month = today.getFullYear()+'-'+(Number(today.getMonth())+1)
         this.getReport()
       },
-      fillData(data) {
-       console.log(data) 
-        this.datacollection = {
+      createChart(data) {
+        this.chartData.data = {
           labels: data.labels,
           datasets: [
             {
@@ -75,11 +94,17 @@
             }
           ]
         }
+        const ctx = document.getElementById('totalOrdersReport');
+        const myChart = new Chart(ctx, {
+          type: this.chartData.type,
+          data: this.chartData.data,
+          options: this.chartData.options,
+        });
       },
       getReport() {
         axios.post('/reports/totalOrders',this.reports)
         .then((response) => {
-          this.fillData(response.data)
+          this.createChart(response.data)
         })
         .catch((error) => {
           showNotify('danger',error.response.data.message)
