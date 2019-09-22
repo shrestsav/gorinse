@@ -84,7 +84,8 @@ export default {
         },
         legend: {
           display: false,
-        }
+        },
+        onClick:this.handle
       }
     }
   },
@@ -92,5 +93,10 @@ export default {
     // this.chartData is created in the mixin.
     // If you want to pass options please create a local options object
     this.renderChart(this.chartData, this.options)
+  },
+  methods:{
+    handle (point, event) {
+      this.$router.push({ name: 'orders'})
+    }
   }
 }

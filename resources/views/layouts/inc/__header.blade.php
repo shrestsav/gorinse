@@ -89,15 +89,15 @@
               <img alt="Image placeholder" src="{{asset('system')}}/img/person.png">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span class="mb-0 text-sm  font-weight-bold">{{Auth::user()->name}}</span>
+              <span class="mb-0 text-sm  font-weight-bold">{{Auth::user()->fname}}</span>
             </div>
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <div class="dropdown-header noti-title">
-            <h6 class="text-overflow m-0">Welcome!</h6>
+            <h6 class="text-overflow m-0">Welcome {{Auth::user()->fname}}</h6>
           </div>
-          <a href="#/pageone" class="dropdown-item">
+          {{-- <a href="#/pageone" class="dropdown-item">
             <i class="ni ni-single-02"></i>
             <span>My profile</span>
           </a>
@@ -112,7 +112,7 @@
           <a href="#!" class="dropdown-item">
             <i class="ni ni-support-16"></i>
             <span>Support</span>
-          </a>
+          </a> --}}
           <div class="dropdown-divider"></div>
           <a href="#!" class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
