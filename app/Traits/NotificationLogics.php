@@ -62,7 +62,7 @@ trait NotificationLogics
 
         $notification = [
             'notifyType' => 'order_accepted',
-            'message' => $order->pickDriver->fname. ' accepted Order #'.$order->id.' for pickup',
+            'message' => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.',
             'model' => 'order',
             'url' => $order->id
         ];
@@ -117,7 +117,7 @@ trait NotificationLogics
 
         $notifyCustomer = [
             'notifyType' => 'order_accepted',
-            'message' => $order->pickDriver->fname. ' accepted Order #'.$order->id.' for pickup',
+            'message' => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.',
             'model' => 'order',
             'url' => $order->id
         ];
