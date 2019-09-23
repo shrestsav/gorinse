@@ -181,6 +181,9 @@ class CustomerController extends Controller
             // $fileName = 'dp_user_'.Auth::id().'.'.$photo->getClientOriginalExtension();
             $fileName = 'dp_user_'.Auth::id().'.jpg';
             $uploadDirectory = public_path('files'.DS.'users'.DS.Auth::id());
+            if (!file_exists($uploadDirectory)) {
+                \File::makeDirectory($uploadDirectory, 0755, true);
+            }
             $image->save($uploadDirectory.DS.$fileName,60);
             // $photo->move($uploadDirectory, $fileName);
 
