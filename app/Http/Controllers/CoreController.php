@@ -10,6 +10,7 @@ use App\Offer;
 use App\Service;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Str;
 
 class CoreController extends Controller
 {
@@ -132,7 +133,7 @@ class CoreController extends Controller
         $offer->save();
             
         $image = $request->file('offer_image');
-        $fileName = 'banner_offer_'.$offer->id.'.'.$image->getClientOriginalExtension();
+        $fileName = $offer->id.'_'.Str::random(10).'.'.$image->getClientOriginalExtension();
         $uploadDirectory = public_path('files'.DS.'offer_banners');
         $image->move($uploadDirectory, $fileName);
 
@@ -160,7 +161,7 @@ class CoreController extends Controller
                 'offer_image' => 'required|mimes:jpeg,png|max:3072',
             ]);
             $image = $request->file('offer_image');
-            $fileName = 'banner_offer_'.$offer->id.'.'.$image->getClientOriginalExtension();
+            $fileName = $offer->id.'_'.Str::random(10).'.'.$image->getClientOriginalExtension();
             $uploadDirectory = public_path('files'.DS.'offer_banners');
             $image->move($uploadDirectory, $fileName);
 
