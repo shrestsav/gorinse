@@ -133,7 +133,7 @@ class CoreController extends Controller
         $offer->save();
             
         $image = $request->file('offer_image');
-        $fileName = $offer->id.'_'.Str::random(10).'.'.$image->getClientOriginalExtension();
+        $fileName = $offer->id.'_'.Str::random(15).'.'.$image->getClientOriginalExtension();
         $uploadDirectory = public_path('files'.DS.'offer_banners');
         $image->move($uploadDirectory, $fileName);
 
@@ -161,7 +161,7 @@ class CoreController extends Controller
                 'offer_image' => 'required|mimes:jpeg,png|max:3072',
             ]);
             $image = $request->file('offer_image');
-            $fileName = $offer->id.'_'.Str::random(10).'.'.$image->getClientOriginalExtension();
+            $fileName = $offer->id.'_'.Str::random(15).'.'.$image->getClientOriginalExtension();
             $uploadDirectory = public_path('files'.DS.'offer_banners');
             $image->move($uploadDirectory, $fileName);
 

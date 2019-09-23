@@ -248,7 +248,19 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $orderDetails = Order::findOrFail($id);
+        if($orderDetails->customer_id!=Auth::id() && $orderDetails->driver_id!=Auth::id() && $orderDetails->drop_driver_id!=Auth::id()){
+            return response()->json([
+                'status'=>'403',
+                'message'=>'You donot have access for this order'
+            ],403);
+        }
+        $orderDetails = Order::where('id',$id)
+                             ->with('customer:id,fname,lname,phone',
+                              'pick_location_details:id,name',
+                              'drop_location_details:id,name')
+                             ->get();
+        return $orderDetails;
     }
 
     /**
