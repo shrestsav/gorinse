@@ -242,13 +242,15 @@ class Order extends Model
         $est_delivery = null;
         if(($orderDetails->type==2 && $orderDetails->drop_date) || ($orderDetails->type==1 && $orderDetails->drop_date)){
             $dropDate = \Carbon\Carbon::parse($orderDetails->drop_date);
-            $est_delivery = $dropDate->diffForHumans();
+            // $est_delivery = $dropDate->diffForHumans();
+            $est_delivery = $dropDate->format('Y-m-d');
         }
         else if($orderDetails->type==1 && $orderDetails->drop_date==null){
             $EDT = AppDefault::firstOrFail()->EDT;
             $orderedDate = $orderDetails->created_at;
             $estimatedTimeFromOrderedDate = $orderedDate->addDays($EDT);
-            $est_delivery = $estimatedTimeFromOrderedDate->diffForHumans();
+            // $est_delivery = $estimatedTimeFromOrderedDate->diffForHumans();
+            $est_delivery = $estimatedTimeFromOrderedDate->format('Y-m-d');
         }
 
         $invoice = [
