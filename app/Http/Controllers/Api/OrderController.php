@@ -78,7 +78,8 @@ class OrderController extends Controller
                         })
                        ->with('customer:id,fname,lname,phone',
                               'pick_location_details:id,name',
-                              'drop_location_details:id,name')
+                              'drop_location_details:id,name',
+                              'details:DAO,DTC')
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows)
                        ->makeVisible('assigned_status');
