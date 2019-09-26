@@ -280,6 +280,10 @@ class Order extends Model
             "PDR"             => $orderDetails->details->PDR,
             "payment_type"    => $payment_type,
             "payment"         => $payment_status,
+            "OT"              => $orderDetails->created_at,
+            "DAO"             => $orderDetails->details->DAO,
+            "DTC"             => $orderDetails->details->DTC,
+            "PT"              => $orderDetails->details->PT,
             "est_delivery"    => $est_delivery
         ];
 
