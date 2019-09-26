@@ -439,7 +439,7 @@ class OrderController extends Controller
                                   ->where('drop_driver_id','=',Auth::id());
                         })
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community','drop_location_details:id,name,map_coordinates,building_community')
-                        ->orderBy('updated_at','ASC')                        
+                        ->orderBy('updated_at','DESC')                        
                         ->get()
                         ->makeVisible('assigned_status');
 
