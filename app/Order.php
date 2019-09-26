@@ -253,6 +253,18 @@ class Order extends Model
             $est_delivery = $estimatedTimeFromOrderedDate->format('Y-m-d');
         }
 
+        //Payments
+        if($orderDetails->details->payment_type=='1')
+            $payment_type = 'Cash on Delivery';
+        elseif($orderDetails->details->payment_type=='3')
+            $payment_type = 'Paypal';
+        else
+            $payment_type = 'Card';
+        
+        $payment_status = false;
+        if($orderDetails->payment)
+            $payment_status = true;
+
         $invoice = [
             "name"            => $orderDetails->customer->fname.' '.$orderDetails->customer->lname,
             "service"         => $serviceName,
@@ -266,6 +278,8 @@ class Order extends Model
             "delivery_charge" => $deliveryCharge,
             "grand_total"     => $grandTotal,
             "PDR"             => $orderDetails->details->PDR,
+            "payment_type"    => $payment_type,
+            "payment_status"  => $payment_status,
             "est_delivery"    => $est_delivery
         ];
 
