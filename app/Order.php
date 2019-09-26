@@ -279,7 +279,7 @@ class Order extends Model
             "grand_total"     => $grandTotal,
             "PDR"             => $orderDetails->details->PDR,
             "payment_type"    => $payment_type,
-            "payment"         => $payment_status,
+            "payment_status"  => $payment_status,
             "OT"              => $orderDetails->created_at,
             "DAO"             => $orderDetails->details->DAO,
             "DTC"             => $orderDetails->details->DTC,

@@ -93,7 +93,7 @@
     },
     methods:{
       dateDiff(date){
-        var date = new Date(date+' UTC')
+        var date = new Date(date+' UTC') //lets js know the date is in UTC format so as to convert in respective timezones accordingly
         return this.$moment(date).fromNow() // a
       },
       markAsRead(notificationID,url){

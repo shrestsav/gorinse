@@ -79,7 +79,7 @@ class OrderController extends Controller
                        ->with('customer:id,fname,lname,phone',
                               'pick_location_details:id,name',
                               'drop_location_details:id,name',
-                              'details:id,order_id,DAO,DTC')
+                              'details:order_id,DAO,DTC')
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows)
                        ->makeVisible('assigned_status');
@@ -259,8 +259,9 @@ class OrderController extends Controller
         $orderDetails = Order::where('id',$id)
                              ->with('customer:id,fname,lname,phone',
                               'pick_location_details:id,name',
-                              'drop_location_details:id,name')
-                             ->get();
+                              'drop_location_details:id,name',
+                              'details:order_id,DAO,DTC')
+                             ->first();
         return $orderDetails;
     }
 
@@ -401,7 +402,9 @@ class OrderController extends Controller
                         ->join('user_addresses as pick','orders.pick_location','=','pick.id')
                         ->where('orders.status','=',0)
                         ->where('pick.area_id','=',$driver_area)
-                        ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community')
+                        ->with('customer:id,fname,lname',
+                            'pick_location_details:id,name,map_coordinates,building_community')
+                        ->orderBy('created_at','DESC')
                         ->get()
                         ->makeVisible('assigned_status');
 
@@ -436,6 +439,7 @@ class OrderController extends Controller
                                   ->where('drop_driver_id','=',Auth::id());
                         })
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community','drop_location_details:id,name,map_coordinates,building_community')
+                        ->orderBy('updated_at','ASC')                        
                         ->get()
                         ->makeVisible('assigned_status');
 
@@ -456,6 +460,7 @@ class OrderController extends Controller
                         ->whereDate('drop_date','!=',$today)
                         ->where('drop_driver_id','=',Auth::id())
                         ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
+                        ->orderBy('drop_date','ASC')
                         ->get()
                         ->makeVisible('assigned_status');
 
