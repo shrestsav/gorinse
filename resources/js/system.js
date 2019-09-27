@@ -61,8 +61,11 @@ const app = new Vue({
          // when success from server
           return response;
         },
-
         (error) => {
+          //When Page has already been expired
+          if(error.response.status===401){
+            location.reload()
+          }
          // when error from server
           return Promise.reject(error);
         }

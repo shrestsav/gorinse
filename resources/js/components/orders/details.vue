@@ -24,14 +24,6 @@
           </div>
           <div class="col-lg-3">
             <div class="form-group">
-              <label class="form-control-label">Assigned Driver</label>
-              <br>
-              <span v-if="details.driver">{{details.driver.fname}} {{details.driver.lname}}</span>
-              <span v-else>Not Assigned</span>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="form-group">
               <label class="form-control-label">Order Status</label>
               <br>
               <span>{{orderStatus(details.status)}}</span>
@@ -42,6 +34,14 @@
               <label class="form-control-label">Order Type</label>
               <br>
               <span>{{orderType(details.type)}}</span>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Pick Assigned Driver</label>
+              <br>
+              <span v-if="details.pick_driver">{{details.pick_driver.fname}} {{details.pick_driver.lname}}</span>
+              <span v-else>Not Assigned</span>
             </div>
           </div>
           <div class="col-lg-3">
@@ -63,6 +63,14 @@
               <label class="form-control-label">Pickup Timerange</label>
               <br>
               <span>{{details.pick_timerange}}</span>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Drop Assigned Driver</label>
+              <br>
+              <span v-if="details.drop_driver">{{details.drop_driver.fname}} {{details.drop_driver.lname}}</span>
+              <span v-else>Not Assigned</span>
             </div>
           </div>
           <div class="col-lg-3" v-if="details.drop_location_details">

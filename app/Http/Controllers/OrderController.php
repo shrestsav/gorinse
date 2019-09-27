@@ -40,10 +40,10 @@ class OrderController extends Controller
         $statusArr = ['7'];
 
       $orders = Order::whereIn('status',$statusArr)
-      ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver')
-      ->orderBy('created_at','DESC')
-      ->orderBy('status','ASC')
-      ->paginate(Session::get('rows'));
+                      ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver')
+                      ->orderBy('created_at','DESC')
+                      ->orderBy('status','ASC')
+                      ->paginate(Session::get('rows'));
 
       return response()->json($orders);
     }
@@ -109,9 +109,10 @@ class OrderController extends Controller
       if($request->pick_location)
         $orders->where('UA.name','like','%'.$request->pick_date.'%');
 
-      $orders = $orders->orderBy('orders.status','ASC')
+      $orders = $orders->orderBy('orders.created_at','DESC')
+                       ->orderBy('orders.status','ASC')
                        ->get();
-
+                       
       // To search customer or driver, collects all data and then filters the fullname, will be major complication if large collection
       //Best Option: make a new field in table named slug where concatenate with '-' for fname and lname, and simply search there
 
@@ -215,7 +216,7 @@ class OrderController extends Controller
     public function show($id)
     {
       $order = Order::where('id',$id)
-                    ->with('customer','pickDriver','pick_location_details','drop_location_details')
+                    ->with('customer','pickDriver','pick_location_details','dropDriver','drop_location_details')
                     ->first();
       $invoice = $order->generateInvoice();
 

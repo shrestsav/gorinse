@@ -22,6 +22,7 @@
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
+                  <th></th>
                   <th>S.No.</th>
                   <th>Order ID</th>
                   <th>Customer</th>
@@ -32,13 +33,13 @@
                   <th v-if="active.status!='Pending' && active.status!='Received'">Dropped By</th>
                   <th>Status</th>
                   <th>Ordered</th>
-                  <th>Action</th>
                 </tr>
                 <tr>
                   <th>
                     <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
                       <i class="fas fa-search"></i>
-                    </div>
+                    </div></th>
+                  <th>
                   </th>
                   <th>
                     <input v-model="search.orderID" @change="searchOrder" type="text" placeholder="ID" class="form-control searchRow">
@@ -76,11 +77,25 @@
                     </select>
                   </th>
                   <th></th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody class="list">
                 <tr v-for="(item,index) in showOrders.data" v-bind:class="{ urgent: checkPending(index) }">
+                  <td>
+                    <div class="dropdown">
+                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        
+                        <a class="dropdown-item" href="javascript:;" @click="details(item.id)"  data-toggle="modal" data-target="#orderDetails" title="Show Order Details">Details</a>
+                        
+                        <a class="dropdown-item" href="javascript:;" @click="assign(index,'pickAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status == 0">Assign for Pickup</a>
+
+                        <a class="dropdown-item" href="javascript:;" @click="assign(index,'dropAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Drop Order" v-if="item.status == 4">Assign for Delivery</a>
+                      </div>
+                    </div>
+                  </td>
                   <td>
                     <div class="custom-control custom-checkbox" v-if="pick.orders">
                       <input class="custom-control-input" :id="'check_'+index" type="checkbox" @change="pickMultipleOrders(item.id,$event)">
@@ -105,21 +120,6 @@
                     <span>{{ getStatus(item.status) }}</span>
                   </td>
                   <td>{{ dateDiff(item.created_at)}}</td>
-                  <td>
-                    <div class="dropdown">
-                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        
-                        <a class="dropdown-item" href="javascript:;" @click="details(item.id)"  data-toggle="modal" data-target="#orderDetails" title="Show Order Details">Details</a>
-                        
-                        <a class="dropdown-item" href="javascript:;" @click="assign(index,'pickAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Pending Order" v-if="item.status == 0">Assign for Pickup</a>
-
-                        <a class="dropdown-item" href="javascript:;" @click="assign(index,'dropAssign')"  data-toggle="modal" data-target="#assignOrder" title="Assign Drop Order" v-if="item.status == 4">Assign for Delivery</a>
-                      </div>
-                    </div>
-                  </td>
                 </tr>
               </tbody>
             </table>

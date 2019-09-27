@@ -60,19 +60,26 @@ trait NotificationLogics
 
         $customer_id = $order->customer_id;
 
-        $notification = [
+        $notifyCustomer = [
             'notifyType' => 'order_accepted',
             'message' => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.',
             'model' => 'order',
             'url' => $order->id
         ];
 
+        $notifyAdmin = [
+            'notifyType' => 'order_accepted',
+            'message' => 'Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup.',
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
         // Send Order Accepted Notification to All Superadmins
         foreach($superAdmin_ids as $id){
-            User::find($id)->pushNotification($notification);
+            User::find($id)->pushNotification($notifyAdmin);
         }
         // Send Order Accepted Notification to Customer
-            User::find($customer_id)->pushNotification($notification);
+            User::find($customer_id)->pushNotification($notifyCustomer);
         
         return true;
     }
