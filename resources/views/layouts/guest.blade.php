@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Web Application Designed by Shrestsav">
-  <meta name="author" content="{{env('DEVELOPED_BY','ShreStsaV')}}">
+  <meta name="description" content="{{env('WEB_DESC','GO-RINSE')}}">
+  <meta name="author" content="{{env('DEVELOPED_BY','GO-RINSE')}}">
   <title>{{env('APP_NAME','System')}}</title>
   <!-- Canonical SEO -->
   <link rel="canonical" href="{{env('APP_URL')}}" />
