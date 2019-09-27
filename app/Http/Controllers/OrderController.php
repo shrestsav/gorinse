@@ -41,6 +41,7 @@ class OrderController extends Controller
 
       $orders = Order::whereIn('status',$statusArr)
       ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver')
+      ->orderBy('created_at','DESC')
       ->orderBy('status','ASC')
       ->paginate(Session::get('rows'));
 
