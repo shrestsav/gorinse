@@ -115,7 +115,7 @@
           <div class="col-lg-3">
             <div class="form-group">
               <label class="form-control-label">Delivery Type : </label>
-              <span>{{invoice.invoice_details.order_type}}}</span>
+              <span>{{invoice.invoice_details.order_type}}</span>
             </div>
           </div>
         </div>
