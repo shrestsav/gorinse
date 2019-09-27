@@ -23,6 +23,7 @@
               <thead class="thead-light">
                 <tr>
                   <th>S.No.</th>
+                  <th>Order ID</th>
                   <th>Customer</th>
                   <th>Order Type</th>
                   <th>Pickup From</th>
@@ -40,34 +41,37 @@
                     </div>
                   </th>
                   <th>
-                    <input v-model="search.customer" @change="searchOrder" type="text" placeholder="Customer Name" class="form-control">
+                    <input v-model="search.orderID" @change="searchOrder" type="text" placeholder="ID" class="form-control searchRow">
                   </th>
                   <th>
-                    <select v-model="search.type" @change="searchOrder" class="form-control">
+                    <input v-model="search.customer" @change="searchOrder" type="text" placeholder="Customer Name" class="form-control searchRow">
+                  </th>
+                  <th>
+                    <select v-model="search.type" @change="searchOrder" class="form-control searchRow">
                       <option value="1">Normal</option>
                       <option value="2">Urgent</option>
                     </select>
                   </th>
                   <th>
-                    <input v-model="search.pick_location" @change="searchOrder" type="text" placeholder="Address" class="form-control">
+                    <input v-model="search.pick_location" @change="searchOrder" type="text" placeholder="Address" class="form-control searchRow">
                   </th>
                   <th>
-                    <input v-model="search.pick_date" @change="searchOrder" type="date" placeholder="Address" class="form-control">
+                    <input v-model="search.pick_date" @change="searchOrder" type="date" placeholder="Address" class="form-control searchRow">
                   </th>
                   <th>
-                    <input v-model="search.pick_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control">
+                    <input v-model="search.pick_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control searchRow">
                   </th>
                   <th v-if="active.status!='Pending' && active.status!='Received'">
-                    <input v-model="search.drop_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control">
+                    <input v-model="search.drop_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control searchRow">
                   </th>
                   <th>
-                    <select v-if="active.status=='Pending'" v-model="search.orderStatus" @change="searchOrder" class="form-control">
+                    <select v-if="active.status=='Pending'" v-model="search.orderStatus" @change="searchOrder" class="form-control searchRow">
                       <option value="0">Pending</option>
                       <option value="1">Assigned</option>
                       <option value="2">Invoice Generated</option>
                       <option value="3">Invoice Confirmed</option>
                     </select>
-                    <select v-if="active.status=='Received'" v-model="search.orderStatus" @change="searchOrder" class="form-control">
+                    <select v-if="active.status=='Received'" v-model="search.orderStatus" @change="searchOrder" class="form-control searchRow">
                       <option value="4">Received</option>
                     </select>
                   </th>
@@ -84,6 +88,7 @@
                     </div>
                     <span v-else>{{index+1}}</span>
                   </td>
+                  <td>{{item.id}}</td>
                   <td><span v-if="item.customer">{{item.customer.full_name}}</span></td>
                   <td>{{getOrderType(item.type)}}</td>
                   <td v-if="item.pick_location_details">{{item.pick_location_details.name}}</td>

@@ -265,7 +265,13 @@ class AuthController extends Controller
 
     public function notifications()
     {
-        return response()->json(User::find(Auth::id())->unreadNotifications);
+        $user = User::find(Auth::id());
+
+        //First Mark All Notifications as read
+        $user->unreadNotifications()->update(['read_at' => now()]);
+
+        // Return notifications 
+        return response()->json($user->notifications->take(50));
     }
 
     public function countUnreadNotifications()

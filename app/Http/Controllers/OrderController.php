@@ -88,6 +88,9 @@ class OrderController extends Controller
                       ->whereIn('status',$statusArr)
                       ->with('customer','pickDriver','pick_location_details','drop_location_details','orderItems','dropDriver');
 
+      if($request->orderID){
+        $orders->where('orders.id','like','%'.$request->orderID.'%');
+      }
       if($request->pick_location){
         $orders->join('user_addresses as PL','PL.id','orders.pick_location')
                ->where('PL.name','like','%'.$request->pick_location.'%');
