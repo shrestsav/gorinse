@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->smallInteger('status')->default(0)->comment('See Config');
             $table->integer('VAT')->nullable();
             $table->integer('delivery_charge')->nullable();
+            $table->integer('urgent_charge')->unsigned()->default(0);
             $table->string('coupon')->nullable();
             $table->smallInteger('payment')->default(0)->comment('0:Pending, 1:Paid');
             $table->timestamps();

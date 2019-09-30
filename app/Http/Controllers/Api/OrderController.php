@@ -214,6 +214,7 @@ class OrderController extends Controller
         }
         elseif($request->type==2){
             $input = $request->only('type','pick_location','pick_date','pick_timerange','drop_location','drop_date','drop_timerange','coupon');
+            $input['urgent_charge'] = AppDefault::firstOrFail()->urgent_charge;
         }
 
         $input['customer_id'] = Auth::id();

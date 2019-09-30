@@ -42,6 +42,20 @@
         </div>
         <div class="col-md-2">
           <div class="form-group">
+            <label class="form-control-label">Urgent Order Charge</label>
+            <div class="input-group input-group-merge">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <input class="form-control" type="number" v-model="appDefaults.urgent_charge" :class="{'not-validated':errors.urgent_charge}">
+              <div class="invalid-feedback" style="display: block;" v-if="errors.urgent_charge">
+                {{errors.urgent_charge[0]}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
             <label class="form-control-label">Estimated Delivery Time (in Days)</label>
             <div class="input-group input-group-merge">
               <div class="input-group-prepend">

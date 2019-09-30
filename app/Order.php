@@ -24,6 +24,7 @@ class Order extends Model
         'status',
         'VAT',
         'delivery_charge',
+        'urgent_charge',
 		'coupon',
     ];
 
@@ -214,6 +215,11 @@ class Order extends Model
 
             array_push($invoiceArr,$invoice);
         };
+
+        //Add Additional Urgent Charge for Urgent Order Types
+        $urgentCharge = $orderDetails->urgent_charge;
+        $totalAmount = $totalAmount + $urgentCharge;
+
         $couponDiscount = 0;
         $couponDiscountAmount = 0;
         if($orderDetails->coupon){
@@ -271,8 +277,9 @@ class Order extends Model
             'order_type'      => config('settings.orderType')[$orderDetails->type],
             'order_status'    => $orderDetails->status,
             "total_quantity"  => $totalQuantity,
+            "urgent_charge"   => $urgentCharge,
             "coupon_discount" => $couponDiscount,
-            "total_amount"    => $totalAmount+$couponDiscountAmount,
+            "total_amount"    => $totalAmount+$couponDiscountAmount-$urgentCharge,
             "VAT_percent"     => $vatPercent,
             "VAT"             => $VAT,
             "delivery_charge" => $deliveryCharge,
