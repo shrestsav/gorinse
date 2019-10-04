@@ -69,7 +69,7 @@ class OrderController extends Controller
                             $query->where('driver_id','=',Auth::id())
                                   ->where(function ($query){
                                       $query->where('drop_driver_id','!=',Auth::id())
-                                            ->whereNull('drop_driver_id');
+                                            ->orWhereNull('drop_driver_id');
                                   })
                                   ->where('status','>=',4);
                         })
