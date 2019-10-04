@@ -67,7 +67,10 @@ class OrderController extends Controller
                         //Driver assigned for pick only
                         ->orWhere(function ($query){
                             $query->where('driver_id','=',Auth::id())
-                                  ->where('drop_driver_id','!=',Auth::id())
+                                  ->where(function ($query){
+                                      $query->where('drop_driver_id','!=',Auth::id())
+                                            ->whereNull('drop_driver_id');
+                                  })
                                   ->where('status','>=',4);
                         })
                         //Driver assigned for drop only
