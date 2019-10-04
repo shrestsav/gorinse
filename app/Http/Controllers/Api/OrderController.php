@@ -19,8 +19,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
 
-class OrderController extends Controller
-{
+class OrderController extends Controlle
+r{
     /**
      * Display a listing of the resource.
      *
@@ -68,7 +68,7 @@ class OrderController extends Controller
                         ->orWhere(function ($query){
                             $query->where('driver_id','=',Auth::id())
                                   ->where('drop_driver_id','!=',Auth::id())
-                                  ->where('status','>=',4);
+                                  ->where('status','>',3);
                         })
                         //Driver assigned for drop only
                         ->orWhere(function ($query){
