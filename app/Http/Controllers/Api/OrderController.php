@@ -19,8 +19,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
 
-class OrderController extends Controlle
-r{
+class OrderController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
