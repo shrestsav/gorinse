@@ -2,11 +2,34 @@
 
 namespace App\Traits;
 
+use App\Mail\notifyMail;
 use App\Order;
 use App\User;
+use Mail;
 
 trait NotificationLogics
 {
+            
+    /**
+    * Send Welcome Email to Customer
+    */
+    public static function notifyNewRegistration($customer_id)
+    {  
+        $customer = User::find($customer_id);
+        
+        $customerMailData = [
+            'emailType' => 'new_registration',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'subject'   => "Gorinse: Welcome ".$customer->full_name,
+            'message'   => "Welcome to Gorinse..",
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
+        
+        return true;
+    }
         
     /**
     * Notify Admins and Drivers of that specific area
@@ -26,14 +49,25 @@ trait NotificationLogics
                           $query->where('name', '=', 'superAdmin');
                        })->pluck('id')->toArray();
 
-        // $customer_id = $order->customer_id;
-
         $notification = [
             'notifyType' => 'new_order',
             'message' => $order->customer->fname. ' placed a new order #'.$order->id,
             'model' => 'order',
             'url' => $order->id
         ];
+
+        $customer = User::find($order->customer_id);
+        $customerMailData = [
+            'emailType' => 'new_order',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'orderID'   => $order_id,
+            'subject'   => "Gorinse: Your Order: #".$order_id. " has been placed",
+            'message'   => "We've received your New Order: #".$order_id. ". We will contact you soon.",
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
 
         // Send Notification to All Superadmins
         foreach($superAdmin_ids as $id){
@@ -69,7 +103,7 @@ trait NotificationLogics
 
         $notifyAdmin = [
             'notifyType' => 'order_accepted',
-            'message' => 'Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup.',
+            'message' => 'Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.',
             'model' => 'order',
             'url' => $order->id
         ];
@@ -81,6 +115,20 @@ trait NotificationLogics
         // Send Order Accepted Notification to Customer
             User::find($customer_id)->pushNotification($notifyCustomer);
         
+        // Email Notification to Customer
+        $customer = User::find($order->customer_id);
+        $customerMailData = [
+            'emailType' => 'order_accepted',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'orderID'   => $order_id,
+            'subject'   => "Gorinse: Order: #".$order_id. " Accepted",
+            'message'   => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.'
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
+
         return true;
     }
 
@@ -153,6 +201,21 @@ trait NotificationLogics
         // Send Order Assigned Notification to Driver
         User::find($driver_id)->pushNotification($notifyDriver);
         
+
+        // Email Notification to Customer
+        $customer = User::find($order->customer_id);
+        $customerMailData = [
+            'emailType' => 'order_accepted',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'orderID'   => $order_id,
+            'subject'   => "Gorinse: Order: #".$order_id. " Accepted",
+            'message'   => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.'
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
+
         return true;
     }
     // assign order left
@@ -213,13 +276,28 @@ trait NotificationLogics
             'url' => $order->id
         ];
 
-        // Send Order Accepted Notification to All Superadmins
+        // Send Invoice Confirmed Notification to All Superadmins
         foreach($superAdmin_ids as $id){
             User::find($id)->pushNotification($notification);
         }
-        // Send Order Accepted Notification to Customer
+        // Send Invoice Confirmed Notification to Pick Driver
         User::find($driver_id)->pushNotification($notification);
         
+        // Email Notification to Customer
+        $customer = User::find($order->customer_id);
+        $customerMailData = [
+            'emailType'     => 'invoice_confirmed',
+            'name'          => $customer->full_name,
+            'email'         => $customer->email,
+            'orderID'       => $order_id,
+            'subject'       => "Gorinse: Order: #".$order_id. " shipped for laundry",
+            'message'       => "Your Order #".$order_id. " has been shipped for laundry. We will contact you soon",
+            'orderDetails'  => $order->generateInvoiceForUser()
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
+
         return true;
     }
 
@@ -366,6 +444,21 @@ trait NotificationLogics
         // Send Order Accepted Notification to Customer
         User::find($customer_id)->pushNotification($notificationCustomer);
         
+
+        // Email Notification to Customer
+        $customer = User::find($order->customer_id);
+        $customerMailData = [
+            'emailType' => 'delivered_to_customer',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'orderID'   => $order_id,
+            'subject'   => "Gorinse: Order: #".$order_id. " Delivered",
+            'message'   => "Your Order #".$order_id. " has been delivered to you. If you have any queries contact our support team."
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
+
         return true;
     }
 }

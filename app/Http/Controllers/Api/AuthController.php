@@ -183,6 +183,9 @@ class AuthController extends Controller
 
         $address = User::where('id',Auth::id())->update($userInput);
         
+        if($request->email){
+            User::notifyNewRegistration(Auth::id());
+        }
         //Generate random Referral ID for registered user
         $random_string = substr($request->fname, 0, 3).rand(100,999).Str::random(10);
         $referral_id = strtoupper(substr($random_string, 0, 8));
