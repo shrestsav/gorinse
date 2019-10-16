@@ -1,13 +1,13 @@
 import { Doughnut, mixins } from 'vue-chartjs'
-// import ChartJsPluginDataLabels from 'chartjs-plugin-labels'
+import ChartJsPluginDataLabels from 'chartjs-plugin-labels'
 const { reactiveProp } = mixins
 
 export default {
   extends: Doughnut,
   mixins: [reactiveProp],
-  // components: {
-  //   ChartJsPluginDataLabels,
-  // },
+  components: {
+    ChartJsPluginDataLabels,
+  },
   // props: ['options'],
   data () {
     return {

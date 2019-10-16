@@ -104,7 +104,6 @@
       getReport() {
         axios.post('/reports/totalOrders',this.reports)
         .then((response) => {
-          console.log(response.data)
           this.createChart(response.data)
         })
         .catch((error) => {
