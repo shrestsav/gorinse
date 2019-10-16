@@ -43,7 +43,14 @@ class AuthController extends Controller
                         'OTP' => $request['OTP'],
                         'OTP_timestamp' => $request['OTP_timestamp']
                     ]);
-            return response()->json(['message'=>'OTP has been send to your phone','user_status' => 'existing','code'=>$request['OTP']]);
+
+            $customer = $check->first()->sendOTP();
+
+            return response()->json([
+                        'message'     => 'OTP has been send to your phone',
+                        'user_status' => 'existing',
+                        // 'code'        => $request['OTP']
+                    ]);
         }
         else{
             $validator = Validator::make($request->all(), [
@@ -63,17 +70,17 @@ class AuthController extends Controller
             //Assign User as Customer
             $customer->attachRole($role_id);
 
+            $customer->sendOTP();
+
             return response()->json([
                         'message'     =>'OTP has been send to your phone',
                         'user_status' => 'new',
-                        'code'        =>$request['OTP']
+                        // 'code'        =>$request['OTP']
                     ]);
         }
-        
-        // $customer->sendOTP();
-
     }
     
+    //Not in use
     public function login(Request $request)
     {
         return Date('Y-m-d H:i:s');
@@ -212,15 +219,12 @@ class AuthController extends Controller
             'role' => $role
         ]);
     }
-    public function sendOTP()
-    {
-       return User::find(14)->sendOTP();
-    }
 
     public function tokens()
     {
         return User::find(Auth::id())->tok();
     }
+
     public function test()
     {
         $address = [

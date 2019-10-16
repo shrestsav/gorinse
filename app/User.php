@@ -58,7 +58,12 @@ class User extends Authenticatable
     {
         return $this->phone;
     }
-    
+
+    public function routeNotificationForTwilio()
+    {
+        return $this->phone;
+    }
+
     /**
      * Find the user instance for the given username.
      *

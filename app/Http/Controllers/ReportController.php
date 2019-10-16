@@ -30,7 +30,7 @@ class ReportController extends Controller
               					->whereMonth('created_at', '=', $year_month[1])
               					->whereDay('created_at', '=', $date)
               					->count();
-              	array_push($labels, $date);
+              	array_push($labels, $day);
               	array_push($data, $orders);
               	// $report[$date] = [
               	// 	'display'	=>	$date,
@@ -99,6 +99,7 @@ class ReportController extends Controller
         for ($i = 1; $i <= $num; $i++) {
             $mktime = mktime(0, 0, 0, $month, $i, $year);
             $date = date("D-M-d", $mktime);
+            $date = date("M-d", $mktime);
             $dates_month[$i] = $date;
         }
 

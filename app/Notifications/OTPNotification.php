@@ -5,7 +5,10 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\NexmoMessage;
+// use Illuminate\Notifications\Messages\NexmoMessage;
+
+use NotificationChannels\Twilio\TwilioChannel;
+use NotificationChannels\Twilio\TwilioSmsMessage;
 use Illuminate\Notifications\Notification;
 
 class OTPNotification extends Notification
@@ -31,7 +34,14 @@ class OTPNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['nexmo'];
+        // return ['nexmo'];
+        return [TwilioChannel::class];
+    }
+
+    public function toTwilio($notifiable)
+    {
+        return (new TwilioSmsMessage())
+            ->content('Your code is '. $this->OTP);
     }
 
     /**
@@ -40,11 +50,11 @@ class OTPNotification extends Notification
      * @param  mixed  $notifiable
      * @return NexmoMessage
      */
-    public function toNexmo($notifiable)
-    {
-        return (new NexmoMessage)
-                    ->content('Your code is '. $this->OTP);
-    }
+    // public function toNexmo($notifiable)
+    // {
+    //     return (new NexmoMessage)
+    //                 ->content('Your code is '. $this->OTP);
+    // }
 
     /**
      * Get the mail representation of the notification.

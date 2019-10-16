@@ -50,11 +50,11 @@ return [
     ],
     
     //Expensive for testing
-    'nexmo' => [
-        'key' => env('NEXMO_KEY'),
-        'secret' => env('NEXMO_SECRET'),
-        'sms_from' => 'Nexmo',
-    ],
+    // 'nexmo' => [
+    //     'key' => env('NEXMO_KEY'),
+    //     'secret' => env('NEXMO_SECRET'),
+    //     'sms_from' => 'Nexmo',
+    // ],
 
     'twilio' => [
         'username' => env('TWILIO_USERNAME'), // optional when using auth token
