@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\AppDefault;
 use App\Http\Controllers\Controller;
 use App\Offer;
+use App\Order;
 use App\User;
 use App\UserAddress;
 use App\UserDetail;
 use Auth;
 use Illuminate\Http\Request;
-use Validator;
 use Intervention\Image\Facades\Image;
+use Validator;
 
 class CustomerController extends Controller
 {
@@ -394,5 +395,35 @@ class CustomerController extends Controller
             'status' => '200',
             'message'=> 'Default Set Successfully' 
         ],200);
+    }
+
+    /**
+     * Remove the address.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAddress($id)
+    {
+        $check = UserAddress::findOrFail($id);
+        $check_if_used = Order::where('pick_location',$id)->orWhere('drop_location',$id);
+        if($check->user_id!=Auth::id()){
+            return response()->json([
+                "status" => "403",
+                "message" => "You donot have access to this address"
+            ], 403);
+        }
+        if($check_if_used->exists()){
+            return response()->json([
+                "status" => "403",
+                "message" => "Sorry, You've already used this address."
+            ], 403);
+        }
+        
+        $check->delete();
+        return response()->json([
+            "status" => "200",
+            "message" => "User Address has been deleted"
+        ], 200);
     }
 }
