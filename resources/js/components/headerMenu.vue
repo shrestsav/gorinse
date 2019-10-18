@@ -35,15 +35,15 @@
     </span>
 
     <!-- Settings Menus -->
-    <span v-if="currentMenu=='settingsMenu'">
+   <!--  <span v-if="currentMenu=='settingsMenu'">
       <router-link :to="{ name: 'services'}" class="btn btn-sm btn-neutral">
         <span class="btn-inner--icon"><i class="fas fa-list-ul"></i></span>
         <span class="btn-inner--text">Services</span>
       </router-link>
-      <!--<router-link :to="{ name: 'createService' }" class="btn btn-sm btn-neutral">
+      <router-link :to="{ name: 'createService' }" class="btn btn-sm btn-neutral">
         <span class="btn-inner--icon"><i class="fas fa-plus-circle"></i></span>
         <span class="btn-inner--text">Add Services</span>
-      </router-link> -->
+      </router-link> 
       <router-link :to="{ name: 'categories' }" class="btn btn-sm btn-neutral">
         <span class="btn-inner--icon"><i class="fas fa-calendar-alt"></i></span>
         <span class="btn-inner--text">Categories</span>
@@ -60,7 +60,7 @@
         <span class="btn-inner--icon"><i class="fas fa-calendar-alt"></i></span>
         <span class="btn-inner--text">Add Item</span>
       </router-link>
-    </span>
+    </span> -->
   </div>
 </template>
 

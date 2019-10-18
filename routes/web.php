@@ -48,12 +48,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/orders/search/{status}','OrderController@searchOrders');
 	Route::post('/deleteMultipleOrders','OrderController@destroyMultipleOrders');
 	
-	Route::get('/services','CoreController@services');
-	Route::post('/services','CoreController@addService');	
-	Route::get('/categories','CoreController@categories');
-	Route::post('/categories','CoreController@addCategory');
-	Route::get('/items','CoreController@items');
-	Route::post('/items','CoreController@addItem');
+	Route::apiResource('/services','ServiceController');
+	Route::apiResource('/categories','CategoryController');
+	Route::apiResource('/items','ItemController');
 	Route::get('/appDefaults','CoreController@appDefaults');
 	Route::post('/appDefaults','CoreController@updateAppDefaults');
 	Route::get('/mainAreas','CoreController@mainAreas');
@@ -89,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
 	//REPORT GENERATION
 	Route::group(['prefix' => 'reports'], function() {
 	    Route::post('/totalOrders','ReportController@totalOrders');
+	    Route::post('/totalCustomers','ReportController@totalCustomers');
 	});
 	
 

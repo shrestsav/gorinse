@@ -94,33 +94,36 @@
       <div class="col-xl-3">
         <div class="card">
           <div class="card-body">
-            <DoughnutChart chartFor="pendingOrders"></DoughnutChart>
+            <orderState chartFor="pendingOrders"></orderState>
           </div>
         </div>
       </div>
       <div class="col-xl-3">
         <div class="card">
           <div class="card-body">
-            <DoughnutChart chartFor="receivedOrders"></DoughnutChart>
+            <orderState chartFor="receivedOrders"></orderState>
           </div>
         </div>
       </div>
       <div class="col-xl-3">
         <div class="card">
           <div class="card-body">
-            <DoughnutChart chartFor="readyForDeliveryOrders"></DoughnutChart>
+            <orderState chartFor="readyForDeliveryOrders"></orderState>
           </div>
         </div>
       </div>
       <div class="col-xl-3">
         <div class="card">
           <div class="card-body">
-            <DoughnutChart chartFor="onHoldOrders"></DoughnutChart>
+            <orderState chartFor="onHoldOrders"></orderState>
           </div>
         </div>
       </div>
       <div class="col-xl-12">
-        <LineChart></LineChart>
+        <orderGraph></orderGraph>
+      </div>
+      <div class="col-xl-12">
+        <customerReport></customerReport>
       </div>
     </div>
   </div>
@@ -129,11 +132,12 @@
 
 <script>
   import { mapState } from 'vuex'
-  import DoughnutChart from './charts/doughnut.vue'
-  import LineChart from './charts/LineChart.vue'
+  import orderState from './charts/OrderState.vue'
+  import orderGraph from './charts/OrderGraph.vue'
+  import customerReport from './charts/CustomerReport.vue'
   export default{
     components:{
-      DoughnutChart, LineChart
+      orderState, orderGraph, customerReport
     },
     data(){
       return{

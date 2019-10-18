@@ -1,50 +1,38 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      <div class="row align-items-center">
-        <div class="col-8">
-          <h3 class="mb-0">Add New Category</h3>
-        </div>
-        <div class="col-4 text-right">
-          <a href="javascript:;" class="btn btn-sm btn-primary">Go Back</a>
-        </div>
-      </div>
-    </div>
-    <div class="card-body">
-      <div v-for="(section,sec_name,index) in fields">
-        <div class="pl-lg-4">
-          <div class="row">
-            <div :class="'col-lg-'+item['col']" v-for="item,key in section">
-              <div class="form-group">
-                <label class="form-control-label" :for="'input-'+key">{{item['display_name']}}</label>
-                <input 
-                  v-if="item['type']==='text' || item['type']==='number'" 
-                  :class="{'not-validated':errors[key]}" 
-                  :type="item['type']" 
-                  :id="'input-'+key" 
-                  :placeholder="item['display_name']" 
-                  v-model="category[key]"
-                  class="form-control" 
-                >
-                <textarea 
-                  v-if="item['type']==='textarea'" 
-                  rows="4" 
-                  :class="{'not-validated':errors[key]}" 
-                  class="form-control" 
-                  :placeholder="item['placeholder']" 
-                  v-model="category[key]"
-                ></textarea>
-                <div class="invalid-feedback" style="display: block;" v-if="errors[key]">
-                  {{errors[key][0]}}
-                </div>
+  <div class="card-body">
+    <div v-for="(section,sec_name,index) in fields">
+      <div class="pl-lg-4">
+        <div class="row">
+          <div :class="'col-lg-'+item['col']" v-for="item,key in section">
+            <div class="form-group">
+              <label class="form-control-label" :for="'input-'+key">{{item['display_name']}}</label>
+              <input 
+                v-if="item['type']==='text' || item['type']==='number'" 
+                :class="{'not-validated':errors[key]}" 
+                :type="item['type']" 
+                :id="'input-'+key" 
+                :placeholder="item['display_name']" 
+                v-model="category[key]"
+                class="form-control" 
+              >
+              <textarea 
+                v-if="item['type']==='textarea'" 
+                rows="4" 
+                :class="{'not-validated':errors[key]}" 
+                class="form-control" 
+                :placeholder="item['placeholder']" 
+                v-model="category[key]"
+              ></textarea>
+              <div class="invalid-feedback" style="display: block;" v-if="errors[key]">
+                {{errors[key][0]}}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="card-footer text-center">
-       <button class="btn btn-outline-primary" @click="save">Create</button>
+    <div class="text-center">
+      <button class="btn btn-outline-primary" @click="save">Create</button>
     </div>
   </div>
 </template>
@@ -72,6 +60,8 @@
         .then((response) => {
           this.errors = {}
           this.category = {}
+          this.$parent.addBtn = true
+          this.$store.dispatch('getCategories')
           showNotify('success',response.data)
         })
         .catch((error) => {

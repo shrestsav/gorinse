@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import chart from '../components/charts/test.vue'
 import dashboard from '../components/dashboard.vue'
 import appDefaults from '../components/appDefaults/index.vue'
 import orders from '../components/orders/index.vue'
@@ -21,7 +20,6 @@ import createItem from '../components/items/create.vue'
 
 const routes = [
   {name:'dashboard',  path: '/', component: dashboard },
-  {name:'chart',  path: '/v/chart', component: chart },
 
   {name:'appDefaults',  path: '/v/appDefaults', component: appDefaults },
 

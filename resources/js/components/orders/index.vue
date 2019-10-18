@@ -2,8 +2,9 @@
   <div class="vue-component-body">
     <div class="row align-items-center py-4">
       <div class="col text-right">
-        <a href="#" class="btn btn-sm btn-danger" @click="deleteOrders" v-if="pick.orderIds.length">Delete</a>
-        <a href="#" class="btn btn-sm btn-neutral" @click="pick.orders = !pick.orders">Select</a>
+        <a href="javascript:;" class="btn btn-sm btn-danger" @click="deleteOrders" v-if="pick.orderIds.length">Delete</a>
+        <a href="javascript:;" class="btn btn-sm btn-neutral" @click="pick.orders = !pick.orders" v-if="!pick.orders">Select</a>
+        <a href="javascript:;" class="btn btn-sm btn-info" @click="pick.orders = !pick.orders" v-if="pick.orders">Cancel</a>
       </div>
     </div>
     <div class="row">
@@ -83,7 +84,7 @@
                 <tr v-for="(item,index) in showOrders.data" v-bind:class="{ urgent: checkPending(index) }">
                   <td>
                     <div class="dropdown">
-                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="btn btn-sm btn-icon-only text-light" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
