@@ -133,4 +133,11 @@ class CoreController extends Controller
         
         return response()->json($FAQS);
     }
+
+    public function orderTypeDesc()
+    {
+        $OTD = AppDefault::firstOrFail()->OTD;
+        
+        return response()->json($OTD);
+    }
 }
