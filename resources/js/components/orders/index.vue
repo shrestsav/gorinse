@@ -32,6 +32,7 @@
                   <th>Pickup Time</th>
                   <th>Picked By</th>
                   <th v-if="active.status!='Pending' && active.status!='Received'">Dropped By</th>
+                  <th v-if="active.status!='Pending'">Grand Total</th>
                   <th>Status</th>
                   <th>Ordered</th>
                 </tr>
@@ -66,6 +67,7 @@
                   <th v-if="active.status!='Pending' && active.status!='Received'">
                     <input v-model="search.drop_driver" @change="searchOrder" type="text" placeholder="Driver Name" class="form-control searchRow">
                   </th>
+                  <th v-if="active.status!='Pending'"></th>
                   <th>
                     <select v-if="active.status=='Pending'" v-model="search.orderStatus" @change="searchOrder" class="form-control searchRow">
                       <option value="0">Pending</option>
@@ -116,6 +118,9 @@
                   <td v-if="active.status!='Pending' && active.status!='Received'">
                     <span v-if="item.status < 5">Not Assigned</span>
                     <span v-if="item.status >= 5 && item.drop_driver">{{item.drop_driver.full_name}}</span>
+                  </td>
+                  <td v-if="active.status!='Pending'">
+                    AED {{item.order_invoice.invoice_details.grand_total}}
                   </td>
                   <td>
                     <span>{{ getStatus(item.status) }}</span>

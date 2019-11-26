@@ -205,6 +205,13 @@ class CoreController extends Controller
         if($request->saveType=='FAQS'){
             $input = $request->only('FAQS');
         }
+        if($request->saveType=='OTD'){
+            $validatedData = $request->validate([
+                'OTD'   => 'required|array',
+                'OTD.*' => 'required|string',
+            ]);
+            $input = $request->only('OTD');
+        }
         
         $update = AppDefault::firstOrFail()->update($input);
 

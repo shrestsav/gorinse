@@ -38,6 +38,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::post('/address/setDefault','CustomerController@setDefaultAddress');
 		Route::delete('/deleteAddress/{id}','CustomerController@deleteAddress');
 
+		Route::get('/order/active','OrderController@activeOrderListCustomer');
+		Route::get('/order/history','OrderController@deliveredOrderListCustomer');
 		Route::get('/generateInvoice/{order_id}','OrderController@customerOrderInvoice');
 		Route::get('/confirmInvoice/{order_id}','OrderController@customerConfirmInvoice');
 		

@@ -44,6 +44,7 @@ class OrderController extends Controller
                       ->orderBy('created_at','DESC')
                       ->orderBy('status','ASC')
                       ->paginate(Session::get('rows'));
+      $orders->setCollection( $orders->getCollection()->makeVisible('order_invoice'));
 
       return response()->json($orders);
     }

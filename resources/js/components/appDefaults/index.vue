@@ -138,6 +138,7 @@
         </div>
         <TACS></TACS>
         <FAQS></FAQS>
+        <orderTypesDesc></orderTypesDesc>
       </div>
     </div>        
   </div>
@@ -150,6 +151,7 @@
   import coupons from './coupons.vue'
   import TACS from './TACS.vue'
   import FAQS from './FAQS.vue'
+  import orderTypesDesc from './orderTypesDesc.vue'
   import { mapState } from 'vuex'
 
   export default{
@@ -160,6 +162,7 @@
       coupons,
       TACS,
       FAQS,
+      orderTypesDesc,
     },
     data(){
       return{
@@ -193,6 +196,10 @@
             icon : "+",
           },
           FAQS : {
+            display : false,
+            icon : "+",
+          },
+          orderTypesDesc : {
             display : false,
             icon : "+",
           },

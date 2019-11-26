@@ -7,8 +7,8 @@ use Auth;
 
 class Order extends Model
 {
-    protected $hidden = ['assigned_status'];
-    protected $appends = ['assigned_status'];
+    protected $hidden = ['assigned_status','order_invoice'];
+    protected $appends = ['assigned_status','order_invoice'];
     protected $fillable = [
         'customer_id',
         'driver_id',
@@ -49,6 +49,20 @@ class Order extends Model
             $status = 3;
         }
         return $status;
+    }    
+
+    /**
+     * Get the order Invoice flag for users.
+     *
+     * @return status
+     */
+    public function getOrderInvoiceAttribute()
+    {
+        $orderInvoice = [];
+        if($this->status>2){
+            $orderInvoice = $this->generateInvoice();
+        }
+        return $orderInvoice;
     }
 
     public function customer()

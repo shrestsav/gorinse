@@ -39,6 +39,48 @@ class OrderController extends Controller
             'orderStatus' => config('settings.orderStatuses')
         ]);
         return $collection;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function activeOrderListCustomer()
+    {
+        $rows = AppDefault::firstOrFail()->app_rows;
+        $orders = Order::where('customer_id',Auth::id())
+                       ->with('customer','pickDriver','dropDriver')
+                       ->where('status','<',7)
+                       ->orderBy('created_at','DESC')
+                       ->simplePaginate($rows);
+
+        $collection = collect([
+            'orders' => $orders,
+            'orderStatus' => config('settings.orderStatuses')
+        ]);
+        return $collection;
+    } 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deliveredOrderListCustomer()
+    {
+        $rows = AppDefault::firstOrFail()->app_rows;
+        $orders = Order::where('customer_id',Auth::id())
+                       ->with('customer','pickDriver','dropDriver')
+                       ->where('status','>=',7)
+                       ->orderBy('created_at','DESC')
+                       ->simplePaginate($rows);
+
+        $collection = collect([
+            'orders' => $orders,
+            'orderStatus' => config('settings.orderStatuses')
+        ]);
+        return $collection;
     }    
 
     /**

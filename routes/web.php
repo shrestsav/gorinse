@@ -2,6 +2,7 @@
 
 use App\Events\TaskEvent;
 use App\Jobs\PendingNotification;
+use App\ReferralGrant;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +20,16 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
 Route::get('/test',function(Request $request){
-	return number_format(1/3.6725,100)*1522.5;
-	$today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
-	return $today;
-	return Session::get('rows');
-	return $request->session()->all();
-	return 'Current PHP version: ' . phpversion();
-	return 
-	 PendingNotification::dispatch(31)
-                ->delay(now()->addSeconds(20));
-	return 'yes';
+	// return number_format(1/3.6725,100)*1522.5;
+	// $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
+	// return $today;
+	// return Session::get('rows');
+	// return $request->session()->all();
+	// return 'Current PHP version: ' . phpversion();
+	// return  PendingNotification::dispatch(31)->delay(now()->addSeconds(20));
+	$test = new ReferralGrant();
+
+	return $test->grantReferrer(62);
 });
 Route::middleware(['auth'])->group(function () {
 	Route::get('/v/{any}', 'HomeController@index')->where('any', '.*');

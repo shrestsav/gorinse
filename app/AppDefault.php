@@ -22,14 +22,16 @@ class AppDefault extends Model
 		'TACS',
 		'FAQS',
 		'app_rows',
-		'sys_rows'
+		'sys_rows',
+		'OTD'
     ];
     
     protected $casts = [
-        'order_time' => 'array',
+        'order_time'   => 'array',
         'driver_notes' => 'array',
-        'online_chat' => 'array',
-        'TACS' => 'array',
-        'FAQS' => 'array',
+        'online_chat'  => 'array',
+        'TACS' 		   => 'array',
+        'FAQS' 		   => 'array',
+        'OTD' 		   => 'array'
     ];
 }
