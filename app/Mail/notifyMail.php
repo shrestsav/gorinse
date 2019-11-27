@@ -35,6 +35,6 @@ class notifyMail extends Mailable
                     ->with(['mailData' => $datas])
                     ->subject($datas['subject'])
                     ->to($datas['email'])
-                    ->from(config('mail.username'));
+                    ->from('GO-RINSE'.config('mail.username'));
     }
 }
