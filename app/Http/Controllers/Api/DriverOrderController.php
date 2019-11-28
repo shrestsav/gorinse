@@ -151,7 +151,7 @@ class DriverOrderController extends Controller
         return response()->json($collection);
     } 
 
-    public function pick()
+    public function pending()
     {
         $driver_area = User::find(Auth::id())->details->area_id;
 
@@ -178,7 +178,7 @@ class DriverOrderController extends Controller
         $mainAreas = MainArea::nameWithId();
 
         $collection = collect([
-            'pick'          => $pickPending,
+            'pending'       => $pickPending,
             'orderStatus'   => config('settings.orderStatuses'),
             'driverArea'    => $driver_area,
             'mainAreas'     => $mainAreas,

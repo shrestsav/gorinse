@@ -58,7 +58,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::get('/pendingOrders','DriverOrderController@pendingOrders');
 		
 		Route::get('/driver/order/active','DriverOrderController@active');
-		Route::get('/driver/order/pick','DriverOrderController@pick');
+		Route::get('/driver/order/pending','DriverOrderController@pending');
 		Route::get('/driver/order/drop','DriverOrderController@drop');
 
 
