@@ -18,4 +18,8 @@
 
 	@include('mail.__orderDelivered')
 
+@elseif($mailData['emailType']==='order_cancelled')
+
+	@include('mail.__cancelOrder')
+
 @endif
