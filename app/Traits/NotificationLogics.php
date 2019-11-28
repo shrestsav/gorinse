@@ -135,6 +135,44 @@ trait NotificationLogics
     /**
     * Notify Admins
     */
+    public static function notifyOrderCancelled($order_id)
+    {  
+        $order = Order::find($order_id);
+        $superAdmin_ids = User::whereHas('roles', function ($query) {
+                          $query->where('name', '=', 'superAdmin');
+                       })->pluck('id')->toArray();
+
+        $notification = [
+            'notifyType' => 'order_cancelled',
+            'message' => $order->customer->fname. ' has cancelled Order #'.$order->id,
+            'model' => 'order',
+            'url' => $order->id
+        ];
+
+
+        $customer = User::find(Auth::id());
+        // Send Cancel Order Mail to customer
+        $customerMailData = [
+            'emailType' => 'order_cancelled',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'subject'   => "Gorinse: Order Cancelled",
+            'message'   => "Your Order #".$order_id." has been cancelled",
+        ];
+
+        Mail::send(new notifyMail($customerMailData));
+
+        // Send Order Accepted Notification to All Superadmins
+        foreach($superAdmin_ids as $id){
+            User::find($id)->pushNotification($notification);
+        }
+        
+        return true;
+    }
+
+    /**
+    * Notify Admins
+    */
     public static function notifyCancelForPickup($order_id)
     {  
         $order = Order::find($order_id);

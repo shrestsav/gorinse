@@ -368,20 +368,9 @@ class OrderController extends Controller
         $order->delete();
 
         $orderDetails = OrderItem::where('order_id','=',$order_id)->delete();
-
-        $customer = User::find(Auth::id());
-        // Send Cancel Order Mail to customer
-        $customerMailData = [
-            'emailType' => 'cancel_order',
-            'name'      => $customer->full_name,
-            'email'     => $customer->email,
-            'subject'   => "Gorinse: Order Cancelled",
-            'message'   => "Your Order #".$order_id." has been cancelled",
-        ];
         
-        // return $customerMailData;
-        // Notify Customer in email
-        Mail::send(new notifyMail($customerMailData));
+        // Notify Customer
+        User::notifyOrderCancelled($order_id);
 
         return response()->json([
             'status' => '200',
