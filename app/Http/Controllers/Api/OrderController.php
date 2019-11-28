@@ -29,6 +29,7 @@ class OrderController extends Controller
     public function index()
     {
         $rows = AppDefault::firstOrFail()->app_rows;
+
         $orders = Order::where('customer_id',Auth::id())
                        ->with('customer','pickDriver','dropDriver')
                        ->orderBy('created_at','DESC')
@@ -38,6 +39,7 @@ class OrderController extends Controller
             'orders' => $orders,
             'orderStatus' => config('settings.orderStatuses')
         ]);
+
         return $collection;
     }
 
@@ -49,6 +51,7 @@ class OrderController extends Controller
     public function activeOrderListCustomer()
     {
         $rows = AppDefault::firstOrFail()->app_rows;
+
         $orders = Order::where('customer_id',Auth::id())
                        ->with('customer','pickDriver','dropDriver')
                        ->where('status','<',7)
@@ -56,9 +59,10 @@ class OrderController extends Controller
                        ->simplePaginate($rows);
 
         $collection = collect([
-            'orders' => $orders,
+            'orders'      => $orders,
             'orderStatus' => config('settings.orderStatuses')
         ]);
+
         return $collection;
     } 
 
@@ -71,7 +75,7 @@ class OrderController extends Controller
     {
         $rows = AppDefault::firstOrFail()->app_rows;
         $orders = Order::where('customer_id',Auth::id())
-                       ->with('customer','pickDriver','dropDriver')
+                       ->with('customer','pickDriver','dropDriver','details')
                        ->where('status','>=',7)
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);

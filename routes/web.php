@@ -88,6 +88,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::group(['prefix' => 'reports'], function() {
 	    Route::post('/totalOrders','ReportController@totalOrders');
 	    Route::post('/totalCustomers','ReportController@totalCustomers');
+	    Route::post('/totalSales','ReportController@totalSales');
+	    Route::get('/testReport','ReportController@test');
 	});
 	
 

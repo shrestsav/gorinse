@@ -222,4 +222,23 @@
     overflow: hidden;
   }
 
+  .totalOrders .mx-calendar-icon, 
+  .customerSigedup .mx-calendar-icon, 
+  .totalSales .mx-calendar-icon, 
+  .totalOrders .mx-input-wrapper input,
+  .customerSigedup .mx-input-wrapper input, 
+  .totalSales .mx-input-wrapper input,
+  .totalOrders select, 
+  .customerSigedup select, 
+  .totalSales select
+  {
+    color: #fff;
+  }
+  .totalOrders select option, 
+  .customerSigedup select option, 
+  .totalSales select option
+  {
+    color: #000;
+  }
+
 </style>

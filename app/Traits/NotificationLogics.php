@@ -322,7 +322,7 @@ trait NotificationLogics
 
         $notificationCustomer = [
             'notifyType' => 'dropped_at_office',
-            'message' => 'Your clothes for order has been sent for dry washing',
+            'message' => 'Your clothes for order has been sent for washing',
             'model' => 'order',
             'url' => $order->id
         ];

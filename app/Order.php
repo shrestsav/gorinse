@@ -7,8 +7,8 @@ use Auth;
 
 class Order extends Model
 {
-    protected $hidden = ['assigned_status','order_invoice'];
-    protected $appends = ['assigned_status','order_invoice'];
+    protected $hidden = ['assigned_status','order_invoice','total_amount'];
+    protected $appends = ['assigned_status','order_invoice','total_amount'];
     protected $fillable = [
         'customer_id',
         'driver_id',
@@ -63,6 +63,22 @@ class Order extends Model
             $orderInvoice = $this->generateInvoice();
         }
         return $orderInvoice;
+    }
+
+    /**
+     * Get the Total Sales Amount.
+     *
+     * @return status
+     */
+    public function getTotalAmountAttribute()
+    {
+        $totalAmount = null;
+
+        if($this->status>=7){
+            $totalAmount = $this->totalSales();
+        }
+
+        return $totalAmount;
     }
 
     public function customer()
@@ -197,6 +213,42 @@ class Order extends Model
         ]);
 
         return $collection;
+    }
+    
+    public function totalSales()
+    {
+        $orderDetails = Order::where('id',$this->id)->with('orderItems.service','orderItems.item','customer','details')->firstOrFail();
+        $totalAmount = 0;
+        $totalQuantity = 0;
+        foreach ($orderDetails->orderItems as $item) {
+            $itemQuantity = $item['quantity'];
+            $rate = $item['service_charge']+$item['item_charge'];
+            $amount = $rate*$itemQuantity;
+            $totalAmount += $amount;
+        };
+        $couponDiscount = 0;
+        $couponDiscountAmount = 0;
+        if($orderDetails->coupon){
+            $couponDetails = Coupon::where('code',$orderDetails->coupon)->first();
+            if($couponDetails){
+                if($couponDetails->type==1){
+                    $couponDiscount = $couponDetails->discount.'%';
+                    $couponDiscountAmount = ($couponDetails->discount/100)*$totalAmount;
+                    $totalAmount = $totalAmount - $couponDiscountAmount;
+                }
+                elseif($couponDetails->type==2){
+                    $couponDiscount = $couponDetails->discount;
+                    $couponDiscountAmount = $couponDetails->discount;
+                    $totalAmount = $totalAmount - $couponDiscount;
+                }
+            }
+        }
+        $vatPercent = $orderDetails->VAT;
+        $VAT = ($vatPercent/100)*$totalAmount;
+        $deliveryCharge = $orderDetails->delivery_charge;
+        $grandTotal = $totalAmount+$VAT+$deliveryCharge;
+        
+        return $grandTotal;
     }
 
 

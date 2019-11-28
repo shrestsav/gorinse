@@ -1,5 +1,5 @@
 <template>
-  <div class="card bg-primary">
+  <div class="card bg-primary customerSigedup">
     <div class="card-header bg-transparent">
       <div class="row align-items-center">
         <div class="col-4">
@@ -90,7 +90,8 @@
             {
               fill: true,
               borderColor: '#f87979',
-              data: data.data
+              data: data.data,
+              label: "Joined Customers"
             }
           ]
         }

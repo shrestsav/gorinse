@@ -1,5 +1,5 @@
 <template>
-  <div class="card bg-default">
+  <div class="card bg-default totalOrders">
     <div class="card-header bg-transparent">
       <div class="row align-items-center">
         <div class="col-4">
@@ -90,7 +90,8 @@
             {
               fill: false,
               borderColor: '#f87979',
-              data: data.data
+              data: data.data,
+              label: "Orders "
             }
           ]
         }
@@ -118,8 +119,5 @@
   .small {
     max-width: 600px;
     margin:  150px auto;
-  }
-  .mx-input-append .mx-calendar-icon {
-    color: #fff !important;
   }
 </style>

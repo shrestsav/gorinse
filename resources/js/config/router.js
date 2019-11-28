@@ -17,6 +17,7 @@ import categories from '../components/categories/index.vue'
 import createCategory from '../components/categories/create.vue'
 import items from '../components/items/index.vue'
 import createItem from '../components/items/create.vue'
+import reports from '../components/reports/index.vue'
 
 const routes = [
   {name:'dashboard',  path: '/', component: dashboard },
@@ -40,6 +41,8 @@ const routes = [
 
   {name:'items',  path: '/v/items', component: items },
   {name:'createItem',  path: '/v/items/create', component: createItem },
+
+  {name:'reports',  path: '/v/reports', component: reports }
 
 ]
 
