@@ -350,6 +350,8 @@ class OrderController extends Controller
 
     public function cancelOrderForCustomer($order_id)
     {
+        User::notifyOrderCancelled($order_id);
+        
         $order = Order::findOrFail($order_id);
 
         if(Auth::id()!=$order->customer_id){
@@ -370,7 +372,7 @@ class OrderController extends Controller
         $orderDetails = OrderItem::where('order_id','=',$order_id)->delete();
         
         // Notify Customer
-        User::notifyOrderCancelled($order_id);
+        
 
         return response()->json([
             'status' => '200',

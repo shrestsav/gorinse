@@ -150,17 +150,17 @@ trait NotificationLogics
         ];
 
 
-        // $customer = User::find(Auth::id());
-        // // Send Cancel Order Mail to customer
-        // $customerMailData = [
-        //     'emailType' => 'order_cancelled',
-        //     'name'      => $customer->full_name,
-        //     'email'     => $customer->email,
-        //     'subject'   => "Gorinse: Order Cancelled",
-        //     'message'   => "Your Order #".$order_id." has been cancelled",
-        // ];
+        $customer = User::find(Auth::id());
+        // Send Cancel Order Mail to customer
+        $customerMailData = [
+            'emailType' => 'order_cancelled',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'subject'   => "Gorinse: Order Cancelled",
+            'message'   => "Your Order #".$order_id." has been cancelled",
+        ];
 
-        // Mail::send(new notifyMail($customerMailData));
+        Mail::send(new notifyMail($customerMailData));
 
         // Send Order Accepted Notification to All Superadmins
         foreach($superAdmin_ids as $id){
