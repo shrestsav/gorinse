@@ -379,9 +379,9 @@ class OrderController extends Controller
             'message'   => "Your Order #".$order_id." has been cancelled",
         ];
         
-        return $customerMailData;
+        // return $customerMailData;
         // Notify Customer in email
-        // Mail::send(new notifyMail($customerMailData));
+        Mail::send(new notifyMail($customerMailData));
 
         return response()->json([
             'status' => '200',
