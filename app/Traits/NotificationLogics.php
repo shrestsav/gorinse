@@ -150,7 +150,7 @@ trait NotificationLogics
         ];
 
 
-        $customer = User::find(Auth::id());
+        $customer = User::find($order->customer_id);
         // Send Cancel Order Mail to customer
         $customerMailData = [
             'emailType' => 'order_cancelled',
