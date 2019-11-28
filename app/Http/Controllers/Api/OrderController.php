@@ -7,12 +7,14 @@ use App\Coupon;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Order\OrderCollection;
 use App\Jobs\PendingNotification;
+use App\Mail\notifyMail;
 use App\Order;
 use App\OrderDetail;
 use App\OrderItem;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Mail;
 use Illuminate\Validation\Rule;
 use Validator;
 
@@ -49,8 +51,9 @@ class OrderController extends Controller
     {
         $rows = AppDefault::firstOrFail()->app_rows;
 
-        $orders = Order::select('id','type','status','created_at')
+        $orders = Order::select('id','type','status','pick_location','drop_location','created_at')
                        ->where('customer_id',Auth::id())
+                       ->with('pick_location_details','drop_location_details')
                        ->where('status','<',7)
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);
@@ -365,6 +368,18 @@ class OrderController extends Controller
         $order->delete();
 
         $orderDetails = OrderItem::where('order_id','=',$order_id)->delete();
+
+        // Send Cancel Order Mail to customer
+        $customerMailData = [
+            'emailType' => 'cancel_order',
+            'name'      => $order->customer->full_name,
+            'email'     => $order->customer->email,
+            'subject'   => "Gorinse: Order Cancelled",
+            'message'   => "Your Order #".$order_id." has been cancelled",
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
 
         return response()->json([
             'status' => '200',
