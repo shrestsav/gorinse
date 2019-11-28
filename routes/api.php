@@ -51,8 +51,8 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::group(['middleware' => ['role:driver']], function() {
 		Route::get('/driver/details','DriverController@index');
 
-		Route::post('/acceptOrder','OrderController@acceptOrder');
-		Route::post('/cancelPickup','OrderController@cancelPickup');
+		Route::post('/acceptOrder','DriverOrderController@acceptOrder');
+		Route::post('/cancelPickup','DriverOrderController@cancelPickup');
 		
 		//This API has been divided into three seperate routes below
 		Route::get('/pendingOrders','DriverOrderController@pendingOrders');
@@ -61,20 +61,20 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		Route::get('/driver/order/pending','DriverOrderController@pending');
 		Route::get('/driver/order/drop','DriverOrderController@drop');
 
-
-
 		Route::get('/services','CoreController@services');
 		Route::get('/items','CoreController@items');
 		Route::get('/serviceWithItems','CoreController@serviceWithItems');
 
-		Route::post('/driver/generateInvoice','OrderController@addItemsGenerateInvoice');
-		Route::get('/driver/generateInvoice/{order_id}','OrderController@driverOrderInvoice');
-		Route::get('/driver/orders','OrderController@orderListForDriver');
+		Route::post('/driver/generateInvoice','DriverOrderController@addItemsGenerateInvoice');
+		
+		Route::get('/driver/generateInvoice/{order_id}','DriverOrderController@driverOrderInvoice');
+		Route::get('/driver/orders','DriverOrderController@orderListForDriver');
 
-		Route::post('/sendOrderInvoiceForApproval','OrderController@sendOrderInvoiceForApproval');
-		Route::get('/dropAtOffice/{order_id}','OrderController@driverDropAtOffice');
-		Route::get('/pickedFromOffice/{order_id}','OrderController@driverPickedFromOffice');
-		Route::get('/deliveredToCustomer/{order_id}','OrderController@deliveredToCustomer');
+		Route::post('/sendOrderInvoiceForApproval','DriverOrderController@sendOrderInvoiceForApproval');
+		Route::get('/dropAtOffice/{order_id}','DriverOrderController@driverDropAtOffice');
+		Route::get('/pickedFromOffice/{order_id}','DriverOrderController@driverPickedFromOffice');
+		Route::get('/deliveredToCustomer/{order_id}','DriverOrderController@deliveredToCustomer');
+		
 		Route::post('/changeMainArea','DriverController@changeMainArea');
 	});
 
