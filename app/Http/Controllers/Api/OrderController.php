@@ -75,7 +75,7 @@ class OrderController extends Controller
     {
         $rows = AppDefault::firstOrFail()->app_rows;
         $orders = Order::where('customer_id',Auth::id())
-                       ->with('customer','pickDriver','dropDriver','details')
+                       ->with('details:id,DTC')
                        ->where('status','>=',7)
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);
