@@ -17,7 +17,36 @@ use App\ReferralGrant;
 Route::get('/testNotification/{id}','OrderController@testNotification');
 
 Route::get('/', 'HomeController@index')->name('dashboard');
+Route::get('/beamTest', function(){
+	$beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
+	  "instanceId" => "36fe4e8b-da77-4025-9f02-3bc982e3e9b0",
+	  "secretKey" => "948E31F35E3DB6D9E30D59DB0E87777A15F39795F3C2E828015BF963D54BB675",
+	));
 
+	$publishResponse = $beamsClient->publishToUsers(
+	  array("utsav", "shrestha"),
+	  array(
+	    "fcm" => array(
+	      "notification" => array(
+	        "title" => "Hi!",
+	        "body" => "This is my first Push Notification!"
+	      )
+	    ),
+	    "apns" => array("aps" => array(
+	      "alert" => array(
+	        "title" => "Hi!",
+	        "body" => "This is my first Push Notification!"
+	      )
+	    ))
+	));
+
+	$userId = "user-001";
+	$token = $beamsClient->generateToken($userId);
+	// Return $token to device
+
+	return $token;
+	return 'sent';
+});
 Auth::routes();
 Route::get('/test',function(Request $request){
 	// return number_format(1/3.6725,100)*1522.5;
@@ -92,10 +121,6 @@ Route::middleware(['auth'])->group(function () {
 	    Route::get('/testReport','ReportController@test');
 	});
 	
-
-
-
-
 	//PAYPAL INTEGRATION
 	Route::get('/payment',function(){
 		return view('test');

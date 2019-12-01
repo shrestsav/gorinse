@@ -100,7 +100,7 @@
         <hr class="my-4"/>
         <h6 class="heading-small text-muted mb-4">Invoice</h6>
         <div class="row">
-          <div class="col-lg-2">
+          <div class="col-lg-3">
             <div class="form-group">
               <label class="form-control-label">Service : </label>
               <span>{{invoice.invoice_details.service}}</span>
@@ -109,7 +109,7 @@
           <div class="col-lg-3">
             <div class="form-group">
               <label class="form-control-label">Payment Type : </label>
-              <!-- <span>{{invoice.customer}} {{details.customer.lname}}</span> -->
+              <span>{{details.details.payment_type_name}}</span>
             </div>
           </div>
           <div class="col-lg-3">
@@ -118,12 +118,12 @@
               <span>{{invoice.invoice_details.order_type}}</span>
             </div>
           </div>
-          <div class="col-lg-4">
+          <!-- <div class="col-lg-4">
             <div class="form-group">
               <label class="form-control-label">Order Remarks : </label>
               <span>{{invoice.invoice_details.PDR}}</span>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -155,6 +155,10 @@
         <div class="float-left">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
+              <tr v-if="invoice.invoice_details.PDR != '' && invoice.invoice_details.PDR != null">
+                <th>Order Remark</th>
+                <td>{{invoice.invoice_details.PDR}}</td>     
+              </tr>
               <tr>
                 <th>Total Quantity</th>
                 <td>{{invoice.invoice_details.total_quantity}}</td>     

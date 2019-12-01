@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9626f839f3673eb31131c8a32d2478e3",
+    "content-hash": "fa5f906cafd258e2b8b1bc2aaa17844a",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -833,6 +833,74 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "laravel-notification-channels/pusher-push-notifications",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-notification-channels/pusher-push-notifications.git",
+                "reference": "af7c5e6960e7e2370925c1a0f55b39d30515f490"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-notification-channels/pusher-push-notifications/zipball/af7c5e6960e7e2370925c1a0f55b39d30515f490",
+                "reference": "af7c5e6960e7e2370925c1a0f55b39d30515f490",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/events": "~5.5 || ~6.0",
+                "illuminate/notifications": "~5.5 || ~6.0",
+                "illuminate/queue": "~5.5 || ~6.0",
+                "illuminate/support": "~5.5 || ~6.0",
+                "php": ">=7.0",
+                "pusher/pusher-php-server": "~3.0 || ~4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\PusherPushNotifications\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Said",
+                    "email": "themsaid@gmail.com",
+                    "homepage": "https://themsaid.com"
+                },
+                {
+                    "name": "Marcel Pociot",
+                    "email": "hello@marcelpociot.com",
+                    "homepage": "http://marcelpociot.com"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://sebastiandedeyne.com"
+                }
+            ],
+            "description": "Pusher native Push Notifications driver.",
+            "homepage": "https://github.com/LaravelNotificationChannels/pusher-push-notifications",
+            "keywords": [
+                "laravel",
+                "notifications",
+                "pusher",
+                "pusher-push-notifications"
+            ],
+            "time": "2019-09-13T04:52:24+00:00"
         },
         {
             "name": "laravel-notification-channels/twilio",
@@ -2656,6 +2724,42 @@
                 "trigger"
             ],
             "time": "2019-06-25T09:22:44+00:00"
+        },
+        {
+            "name": "pusher/pusher-push-notifications",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/push-notifications-php.git",
+                "reference": "ffaabe56a181bab0b41019626e571ae7156e9d0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/push-notifications-php/zipball/ffaabe56a181bab0b41019626e571ae7156e9d0a",
+                "reference": "ffaabe56a181bab0b41019626e571ae7156e9d0a",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^5.0",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "doctrine/instantiator": "1.0.5",
+                "phpunit/phpunit": "~5.7.0",
+                "symfony/yaml": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pusher\\PushNotifications\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "time": "2019-02-06T15:30:03+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

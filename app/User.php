@@ -123,7 +123,7 @@ class User extends Authenticatable
     {
         $customers = $this->whereHas('roles', function ($query) {
                           $query->where('name', '=', 'customer');
-                       });
+                       })->whereNotNull('fname')->whereNotNull('lname');
 
         return $customers->get();
     }

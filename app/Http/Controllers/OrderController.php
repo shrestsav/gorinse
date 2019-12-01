@@ -217,7 +217,7 @@ class OrderController extends Controller
     public function show($id)
     {
       $order = Order::where('id',$id)
-                    ->with('customer','pickDriver','pick_location_details','dropDriver','drop_location_details')
+                    ->with('details','customer','pickDriver','pick_location_details','dropDriver','drop_location_details')
                     ->first();
       $invoice = $order->generateInvoice();
 
