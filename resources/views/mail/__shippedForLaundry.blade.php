@@ -10,7 +10,7 @@ Order No: #{{$mailData['orderID']}}
 | SNO       | ITEMS         | QUANTITY  | AMOUNT  |
 | ------------- |:-------------:| --------:| --------:|
 @foreach($mailData['orderDetails']['items_details'] as $item)
-| {{++$i}}      | {{$item['item']}}{{$item['remarks']}}      | {{$item['quantity']}}      | AED {{$item['total']}}      |
+| {{++$i}}      | {{$item['item']}}<br>({{$item['remarks']}})      | {{$item['quantity']}}      | AED {{$item['total']}}      |
 @endforeach
 
 #### TOTAL AMOUNT 	: AED {{$mailData['orderDetails']['invoice_details']['total_amount']}}
