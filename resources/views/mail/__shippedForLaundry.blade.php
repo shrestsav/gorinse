@@ -13,6 +13,7 @@ Order No: #{{$mailData['orderID']}}
 | {{++$i}}      | {{$item['item']}}<br>({{$item['remarks']}})      | {{$item['quantity']}}      | AED {{$item['total']}}      |
 @endforeach
 
+#### ORDER REMARK 	: {{$mailData['orderDetails']['invoice_details']['PDR']}}
 #### TOTAL AMOUNT 	: AED {{$mailData['orderDetails']['invoice_details']['total_amount']}}
 #### VAT 		   	: AED {{$mailData['orderDetails']['invoice_details']['VAT']}}
 #### DELIVERY CHARGE : AED {{$mailData['orderDetails']['invoice_details']['delivery_charge']}}
