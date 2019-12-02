@@ -373,6 +373,8 @@ class DriverOrderController extends Controller
 
     public function counts()
     {
+        $driver_area = User::find(Auth::id())->details->area_id;
+        
         $newOrdersCount = Order::where('orders.status','=',0)
                                 ->where('pick.area_id','=',$driver_area)
                                 ->get()
