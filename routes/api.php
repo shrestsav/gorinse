@@ -57,9 +57,11 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 		//This API has been divided into three seperate routes below
 		Route::get('/pendingOrders','DriverOrderController@pendingOrders');
 		
-		Route::get('/driver/order/active','DriverOrderController@active');
-		Route::get('/driver/order/pending','DriverOrderController@pending');
-		Route::get('/driver/order/drop','DriverOrderController@drop');
+		Route::get('/driver/order/pick','DriverOrderController@pickOrders');
+		Route::get('/driver/order/new','DriverOrderController@newOrders');
+		Route::get('/driver/order/drop','DriverOrderController@dropOrders');
+
+		Route::get('/driver/NotifyCounts','DriverOrderController@counts');
 
 		Route::get('/services','CoreController@services');
 		Route::get('/items','CoreController@items');

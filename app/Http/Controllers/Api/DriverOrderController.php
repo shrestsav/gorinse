@@ -260,11 +260,12 @@ class DriverOrderController extends Controller
         return response()->json($collection);
     } 
 
-    public function active()
+    public function pickOrders()
     {
-        $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->format('Y-m-d');
+        $driver_area = User::find(Auth::id())->details->area_id;
+        $mainAreas = MainArea::nameWithId();
 
-        $activeOrder = Order::select('id',
+        $pickOrders = Order::select('id',
                                      'type',
                                      'customer_id',
                                      'driver_id',
@@ -282,30 +283,28 @@ class DriverOrderController extends Controller
                                   ->where('status','<=',3)
                                   ->where('driver_id','=',Auth::id());
                         })
-                        ->orWhere(function ($query) use ($today){
-                            $query->where('status','>=',5)
-                                  ->where('status','<=',6)
-                                  ->whereDate('drop_date','=',$today)
-                                  ->where('drop_driver_id','=',Auth::id());
-                        })
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community','drop_location_details:id,name,map_coordinates,building_community')
                         ->orderBy('updated_at','DESC')                        
                         ->get()
                         ->makeVisible('assigned_status');
 
         $collection = collect([
-            'active'        => $activeOrder,
-            'orderStatus'   => config('settings.orderStatuses'),
+            'pickOrders'        => $pickOrders,
+            'orderStatus'       => config('settings.orderStatuses'),
+            'driverArea'        => $driver_area,
+            'mainAreas'         => $mainAreas,
             'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
         ]);
+
         return response()->json($collection);
     } 
 
-    public function pending()
+    public function newOrders()
     {
         $driver_area = User::find(Auth::id())->details->area_id;
+        $mainAreas = MainArea::nameWithId();
 
-        $pickPending = Order::select('orders.id',
+        $newOrders = Order::select('orders.id',
                                      'orders.type',
                                      'orders.customer_id',
                                      'orders.driver_id',
@@ -325,47 +324,81 @@ class DriverOrderController extends Controller
                         ->get()
                         ->makeVisible('assigned_status');
 
-        $mainAreas = MainArea::nameWithId();
-
         $collection = collect([
-            'pending'       => $pickPending,
-            'orderStatus'   => config('settings.orderStatuses'),
-            'driverArea'    => $driver_area,
-            'mainAreas'     => $mainAreas,
+            'newOrders'         => $newOrders,
+            'orderStatus'       => config('settings.orderStatuses'),
+            'driverArea'        => $driver_area,
+            'mainAreas'         => $mainAreas,
             'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
         ]);
 
         return response()->json($collection);
     } 
 
-    public function drop()
+    public function dropOrders()
     {
-        $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->format('Y-m-d'); 
-        $assignedForDrop = Order::select('id',
-                                         'type',
-                                         'customer_id',
-                                         'driver_id',
-                                         'drop_driver_id',
-                                         'pick_location',
-                                         'drop_location',
-                                         'drop_date',
-                                         'drop_timerange',
-                                         'status',
-                                         'created_at')
+        $driver_area = User::find(Auth::id())->details->area_id;
+        $mainAreas = MainArea::nameWithId();
+        
+        $dropOrders = Order::select('id',
+                                    'type',
+                                    'customer_id',
+                                    'driver_id',
+                                    'drop_driver_id',
+                                    'pick_location',
+                                    'drop_location',
+                                    'drop_date',
+                                    'drop_timerange',
+                                    'status',
+                                    'created_at')
                         ->where('status','>=',5)
                         ->where('status','<=',6)
-                        ->whereDate('drop_date','!=',$today)
                         ->where('drop_driver_id','=',Auth::id())
                         ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
+                        ->orderBy('status','DESC')
                         ->orderBy('drop_date','ASC')
                         ->get()
                         ->makeVisible('assigned_status');
 
         $collection = collect([
-            'drop'          => $assignedForDrop,
-            'orderStatus'   => config('settings.orderStatuses'),
+            'dropOrders'        => $dropOrders,
+            'orderStatus'       => config('settings.orderStatuses'),
+            'driverArea'        => $driver_area,
+            'mainAreas'         => $mainAreas,
             'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
         ]);
+
+        return response()->json($collection);
+    } 
+
+    public function counts()
+    {
+        $newOrdersCount = Order::where('orders.status','=',0)
+                                ->where('pick.area_id','=',$driver_area)
+                                ->get()
+                                ->count();
+
+        $dropOrdersCount = Order::where('status','>=',5)
+                                ->where('status','<=',6)
+                                ->where('drop_driver_id','=',Auth::id())
+                                ->get()
+                                ->count();
+
+        $pickOrdersCount = Order::where(function ($query){
+                                    $query->where('status','>=',1)
+                                          ->where('status','<=',3)
+                                          ->where('driver_id','=',Auth::id());
+                                    })                       
+                                ->get()
+                                ->count();
+
+        $collection = collect([
+            'newOrdersCount'    => $newOrdersCount,
+            'pickOrdersCount'   => $pickOrdersCount,
+            'dropOrdersCount'   => $dropOrdersCount,
+            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
+        ]);
+
         return response()->json($collection);
     } 
 

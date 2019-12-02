@@ -122,8 +122,8 @@ class User extends Authenticatable
     public function customerList()
     {
         $customers = $this->whereHas('roles', function ($query) {
-                          $query->where('name', '=', 'customer');
-                       })->whereNotNull('fname')->whereNotNull('lname');
+                        $query->where('name', '=', 'customer');
+                     })->whereNotNull('fname')->whereNotNull('lname');
 
         return $customers->get();
     }
@@ -132,6 +132,7 @@ class User extends Authenticatable
     {
         return "{$this->fname} {$this->lname}";
     }
+
     public function sendOTP()
     {
         $OTP = $this->OTP;

@@ -24,7 +24,30 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = $this->user->customerList();
+        $customers = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'customer');
+                          })
+                         ->whereNotNull('fname')
+                         ->whereNotNull('lname')
+                         ->paginate(1);
+
+        return $customers;
+    }
+
+    /**
+     * Display a listing of the customers.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unverifiedCustomers()
+    {
+        $customers = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'customer');
+                          })
+                         ->whereNull('fname')
+                         ->whereNull('lname')
+                         ->paginate(5);
+
         return $customers;
     }
 
@@ -92,6 +115,21 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function deleteCustomers(Request $request)
+    {
+        $customers = User::whereIn('id',$request->customerIds)->with('orders')->get();
+        
+        foreach($customers as $customer){
+            if(count($customer->orders)){
+                return response()->json(['message'=>'One of the customer has existing orders, you cannot delete this customer'],404);
+            }
+        }
+
+        $customers = User::whereIn('id',$request->customerIds)->delete();
+
+        return response()->json(['message'=>'Customer account has been removed']);
     }
 
     public function address($customer_id)
