@@ -292,8 +292,7 @@ class DriverOrderController extends Controller
             'pickOrders'        => $pickOrders,
             'orderStatus'       => config('settings.orderStatuses'),
             'driverArea'        => $driver_area,
-            'mainAreas'         => $mainAreas,
-            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
+            'mainAreas'         => $mainAreas
         ]);
 
         return response()->json($collection);
@@ -328,8 +327,7 @@ class DriverOrderController extends Controller
             'newOrders'         => $newOrders,
             'orderStatus'       => config('settings.orderStatuses'),
             'driverArea'        => $driver_area,
-            'mainAreas'         => $mainAreas,
-            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
+            'mainAreas'         => $mainAreas
         ]);
 
         return response()->json($collection);
@@ -364,8 +362,7 @@ class DriverOrderController extends Controller
             'dropOrders'        => $dropOrders,
             'orderStatus'       => config('settings.orderStatuses'),
             'driverArea'        => $driver_area,
-            'mainAreas'         => $mainAreas,
-            'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
+            'mainAreas'         => $mainAreas
         ]);
 
         return response()->json($collection);
