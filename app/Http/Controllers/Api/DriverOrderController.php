@@ -319,7 +319,8 @@ class DriverOrderController extends Controller
                         ->where('orders.status','=',0)
                         ->where('pick.area_id','=',$driver_area)
                         ->with('customer:id,fname,lname,phone',
-                            'pick_location_details:id,name,map_coordinates,building_community')
+                               'pick_location_details:id,name,map_coordinates,building_community'
+                               'details:order_id,payment_type')
                         ->orderBy('created_at','DESC')
                         ->get()
                         ->makeVisible('assigned_status');
