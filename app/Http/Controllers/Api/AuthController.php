@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DeviceToken;
 use App\Http\Controllers\Controller;
 use App\Notifications\OTPNotification;
 use App\Role;
 use App\User;
 use App\UserDetail;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
-use Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -103,17 +104,19 @@ class AuthController extends Controller
         }
         else{
             return response()->json([
-                        'status' => '404',
-                        'message' => 'User doesnot exist, Please register first'
-                    ], Response::HTTP_NOT_FOUND);
+                'status' => '404',
+                'message' => 'User doesnot exist, Please register first'
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
     public function verifyOTP(Request $request)
     {   
         $validator = Validator::make($request->all(), [
-            'phone'=> 'required',
-            'OTP'=> 'required|numeric',
+            'phone'         => 'required',
+            'OTP'           => 'required|numeric',
+            'device_id'     => 'required',
+            'device_token'  => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -140,25 +143,48 @@ class AuthController extends Controller
         }
         $http = new \GuzzleHttp\Client();
         $response = $http->post(url('').'/oauth/token', [
-                    'form_params' => [
-                        'grant_type' => 'password',
-                        'client_id' => 2,
-                        'client_secret' => 'wNfEEpIS6VUHVZKVhgUWGNjcNTUvkd5gGtsnCgnb',
-                        'username' => $phone,
-                        'password' => $OTP,
-                        'scope' => '',
-                    ],
-                    'http_errors' => true // add this to return errors in json
-                ]);
+                        'form_params' => [
+                            'grant_type' => 'password',
+                            'client_id' => 2,
+                            'client_secret' => 'wNfEEpIS6VUHVZKVhgUWGNjcNTUvkd5gGtsnCgnb',
+                            'username' => $phone,
+                            'password' => $OTP,
+                            'scope' => '',
+                        ],
+                        'http_errors' => true // add this to return errors in json
+                    ]);
 
         $token_response = json_decode((string) $response->getBody(), true);
 
+        
+        $check = DeviceToken::where('device_id',$request->device_id)
+                                    ->where('device_token',$request->device_token);
+        //If both device_id and device_token exists                           
+        if($check->exists()){
+            $check->update([
+                'user_id'   =>  $user_id
+            ]);
+        }
+        // If device_id only exists
+        else{
+            $deviceToken = DeviceToken::updateOrCreate(
+                        [
+                            'device_id' => $request->device_id
+                        ],
+                        [
+                            'user_id'      => $user_id,
+                            'device_token' => $request->device_token
+                        ]
+                    );
+        }
+
         $result = [
-            'tokens' => $token_response,
-            'role' =>$role,
-            'user_id' =>$user_id,
-            'user_details' =>$user_details,
+            'tokens'        =>  $token_response,
+            'role'          =>  $role,
+            'user_id'       =>  $user_id,
+            'user_details'  =>  $user_details
         ];
+
         return response()->json($result);
     }
 
@@ -315,6 +341,28 @@ class AuthController extends Controller
         return response()->json([
             'status' => '200',
             'message'=>'All Notifications Marked as read'
+        ],200);
+    }
+
+    public function removeDeviceToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'device_token' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        DeviceToken::where('device_token',$request->device_token)->delete();
+
+        return response()->json([
+            'status' => '200',
+            'message'=>'Device Token Removed'
         ],200);
     }
 

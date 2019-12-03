@@ -98,4 +98,6 @@ Route::group(['namespace' => 'Api', 'middleware' => ['auth:api']], function() {
 	Route::get('/markAsRead/{notificationID}','AuthController@markAsRead');
 	Route::get('/markAllAsRead','AuthController@markAllAsRead');
 
+	Route::post('/deviceToken/remove','AuthController@removeDeviceToken');
+
 });

@@ -2,14 +2,45 @@
 
 namespace App\Traits;
 
+use App\DeviceToken;
 use App\Mail\notifyMail;
 use App\Order;
 use App\User;
+use FCM;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
 use Mail;
 
 trait NotificationLogics
 {
-            
+    public function sendFCMNotification($notification)
+    {  
+        $device_tokens = DeviceToken::where('user_id',$this->id)->pluck('device_token')->toArray();
+
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $title = implode(' ', array_map('ucfirst', explode('_', $notification['notifyType'])));
+        $notificationBuilder = new PayloadNotificationBuilder($title);
+        $notificationBuilder->setBody($notification['message'])
+                            ->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['a_data' => 'my_data']);
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
+
+        $expiredTokens = $downstreamResponse->tokensToDelete();
+
+        if(count($expiredTokens)){
+            DeviceToken::whereIn('device_token',$expiredTokens)->delete();
+        }
+    }
     /**
     * Send Welcome Email to Customer
     */
@@ -45,9 +76,12 @@ trait NotificationLogics
                             ->where('ud.area_id','=',$area_id)
                             ->pluck('users.id')
                             ->toArray();
+
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                          $query->where('name', '=', 'superAdmin');
-                       })->pluck('id')->toArray();
+                              $query->where('name', '=', 'superAdmin');
+                           })
+                              ->pluck('id')
+                              ->toArray();
 
         $notification = [
             'notifyType' => 'new_order',
@@ -77,6 +111,7 @@ trait NotificationLogics
         // Send Notification to All Drivers of that particular area
         foreach($driver_ids as $id){
             User::find($id)->pushNotification($notification);
+            User::find($id)->sendFCMNotification($notification);
         }
         
         return true;
@@ -96,9 +131,9 @@ trait NotificationLogics
 
         $notifyCustomer = [
             'notifyType' => 'order_accepted',
-            'message' => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.',
-            'model' => 'order',
-            'url' => $order->id
+            'message'    => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.',
+            'model'      => 'order',
+            'url'        => $order->id
         ];
 
         $notifyAdmin = [
@@ -112,8 +147,11 @@ trait NotificationLogics
         foreach($superAdmin_ids as $id){
             User::find($id)->pushNotification($notifyAdmin);
         }
+
         // Send Order Accepted Notification to Customer
-            User::find($customer_id)->pushNotification($notifyCustomer);
+        User::find($customer_id)->pushNotification($notifyCustomer);
+    
+        User::find($customer_id)->sendFCMNotification($notifyCustomer); 
         
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
@@ -235,10 +273,11 @@ trait NotificationLogics
         }
         // Send Order Accepted Notification to Customer
         User::find($customer_id)->pushNotification($notifyCustomer);
+        User::find($customer_id)->sendFCMNotification($notifyCustomer);
 
         // Send Order Assigned Notification to Driver
         User::find($driver_id)->pushNotification($notifyDriver);
-        
+        User::find($driver_id)->sendFCMNotification($notifyDriver); 
 
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
@@ -278,7 +317,7 @@ trait NotificationLogics
             'url' => $order->id
         ];
 
-        $notificationCustomer = [
+        $notifyCustomer = [
             'notifyType' => 'invoice_generated',
             'message' => 'An Invoice has been generated for your order, please check and confirm your order',
             'model' => 'order',
@@ -290,8 +329,8 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->pushNotification($notificationCustomer);
-        
+        User::find($customer_id)->pushNotification($notifyCustomer);
+        User::find($customer_id)->sendFCMNotification($notifyCustomer);
         return true;
     }
 
@@ -320,7 +359,7 @@ trait NotificationLogics
         }
         // Send Invoice Confirmed Notification to Pick Driver
         User::find($driver_id)->pushNotification($notification);
-        
+        User::find($driver_id)->sendFCMNotification($notification);
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
         $customerMailData = [
@@ -358,7 +397,7 @@ trait NotificationLogics
             'url' => $order->id
         ];
 
-        $notificationCustomer = [
+        $notifyCustomer = [
             'notifyType' => 'dropped_at_office',
             'message' => 'Your clothes for order has been sent for washing',
             'model' => 'order',
@@ -370,7 +409,8 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->pushNotification($notificationCustomer);
+        User::find($customer_id)->pushNotification($notifyCustomer);
+        User::find($customer_id)->sendFCMNotification($notifyCustomer);
         
         return true;
     }
@@ -387,7 +427,7 @@ trait NotificationLogics
 
         $driver_id = $order->drop_driver_id;
 
-        $notificationDriver = [
+        $notifyDriver = [
             'notifyType' => 'assigned_for_delivery',
             'message' => 'Order #'.$order->id.' has been assigned to you for delivery on '.$order->drop_date,
             'model' => 'order',
@@ -406,8 +446,8 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($driver_id)->pushNotification($notificationDriver);
-        
+        User::find($driver_id)->pushNotification($notifyDriver);
+        User::find($driver_id)->sendFCMNotification($notifyDriver);
         return true;
     }
 
@@ -431,7 +471,7 @@ trait NotificationLogics
             'url' => $order->id
         ];
 
-        $notificationCustomer = [
+        $notifyCustomer = [
             'notifyType' => 'picked_from_office',
             'message' => 'Your clothes for Order #'.$order->id.' is on process of delivery',
             'model' => 'order',
@@ -443,8 +483,8 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->pushNotification($notificationCustomer);
-        
+        User::find($customer_id)->pushNotification($notifyCustomer);
+        User::find($customer_id)->sendFCMNotification($notifyCustomer);
         return true;
     }
 
@@ -468,7 +508,7 @@ trait NotificationLogics
             'url' => $order->id
         ];
 
-        $notificationCustomer = [
+        $notifyCustomer = [
             'notifyType' => 'delivered_to_customer',
             'message' => 'Clothes delivered for Order #'.$order->id,
             'model' => 'order',
@@ -480,8 +520,8 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->pushNotification($notificationCustomer);
-        
+        User::find($customer_id)->pushNotification($notifyCustomer);
+        User::find($customer_id)->sendFCMNotification($notifyCustomer);
 
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
