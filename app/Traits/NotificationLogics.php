@@ -18,28 +18,29 @@ trait NotificationLogics
     public function sendFCMNotification($notification)
     {  
         $device_tokens = DeviceToken::where('user_id',$this->id)->pluck('device_token')->toArray();
+        if(count($device_tokens)){
+            $optionBuilder = new OptionsBuilder();
+            $optionBuilder->setTimeToLive(60*20);
 
-        $optionBuilder = new OptionsBuilder();
-        $optionBuilder->setTimeToLive(60*20);
+            $title = implode(' ', array_map('ucfirst', explode('_', $notification['notifyType'])));
+            $notificationBuilder = new PayloadNotificationBuilder($title);
+            $notificationBuilder->setBody($notification['message'])
+                                ->setSound('default');
 
-        $title = implode(' ', array_map('ucfirst', explode('_', $notification['notifyType'])));
-        $notificationBuilder = new PayloadNotificationBuilder($title);
-        $notificationBuilder->setBody($notification['message'])
-                            ->setSound('default');
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData(['a_data' => 'my_data']);
 
-        $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['a_data' => 'my_data']);
+            $option = $optionBuilder->build();
+            $notification = $notificationBuilder->build();
+            $data = $dataBuilder->build();
 
-        $option = $optionBuilder->build();
-        $notification = $notificationBuilder->build();
-        $data = $dataBuilder->build();
+            $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
 
-        $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
+            $expiredTokens = $downstreamResponse->tokensToDelete();
 
-        $expiredTokens = $downstreamResponse->tokensToDelete();
-
-        if(count($expiredTokens)){
-            DeviceToken::whereIn('device_token',$expiredTokens)->delete();
+            if(count($expiredTokens)){
+                DeviceToken::whereIn('device_token',$expiredTokens)->delete();
+            } 
         }
     }
     /**
