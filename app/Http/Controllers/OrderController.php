@@ -356,7 +356,12 @@ class OrderController extends Controller
           'url' => 1
       ];
       $user = User::find($user_id)->pushNotification($notification);
-      User::find($user_id)->sendFCMNotification($notification);
+      try{
+        User::find($user_id)->sendFCMNotification($notification);
+      }
+      catch(exception $e){
+        return 'This User May not have any device tokens'
+      }
       return 'Notification Sent';
     }
   }
