@@ -351,11 +351,12 @@ class OrderController extends Controller
     {
       $notification = [
           'notifyType' => 'test_notitification',
-          'message' => 'Yo euta test notification matra ho',
+          'message' => 'This is a Test Notification, Thank you',
           'model' => 'order',
           'url' => 1
       ];
       $user = User::find($user_id)->pushNotification($notification);
-      return 'Notification Gayo';
+      User::find($user_id)->sendFCMNotification($notification);
+      return 'Notification Sent';
     }
   }
