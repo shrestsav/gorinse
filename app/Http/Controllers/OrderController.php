@@ -356,7 +356,7 @@ class OrderController extends Controller
           'url' => 1
       ];
       $user = User::find($user_id)->pushNotification($notification);
-      // User::find($user_id)->sendFCMNotification($notification);
+      User::find($user_id)->sendFCMNotification($notification);
       return 'Notification Sent';
     }
   }
