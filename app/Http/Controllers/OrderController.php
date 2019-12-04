@@ -360,7 +360,7 @@ class OrderController extends Controller
         User::find($user_id)->sendFCMNotification($notification);
       }
       catch(exception $e){
-        return 'This User May not have any device tokens'
+        return 'This User May not have any device tokens';
       }
       return 'Notification Sent';
     }
