@@ -6,10 +6,11 @@ use App\DeviceToken;
 use App\Mail\notifyMail;
 use App\Order;
 use App\User;
-use FCM;
+
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 use Mail;
 
 trait NotificationLogics
