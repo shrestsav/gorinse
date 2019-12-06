@@ -267,8 +267,8 @@ class OrderController extends Controller
         // }
         $orderDetails = Order::where('id',$id)
                              ->with('customer:id,fname,lname,phone',
-                              'pick_location_details:id,name',
-                              'drop_location_details:id,name',
+                              'pick_location_details',
+                              'drop_location_details',
                               'details:order_id,DAO,DTC')
                              ->first();
         return $orderDetails;
