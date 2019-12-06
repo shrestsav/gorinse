@@ -255,7 +255,7 @@ class Order extends Model
     //Works for single Service Id
     public function generateInvoiceForUser()
     {
-        $orderDetails = Order::where('id',$this->id)->with('orderItems.service','orderItems.item','customer','details')->firstOrFail();
+        $orderDetails = Order::where('id',$this->id)->with('orderItems.service','orderItems.item','customer','details','pickDriver','dropDriver')->firstOrFail();
         $totalAmount = 0;
         $totalQuantity = 0;
         $invoiceArr = [];
@@ -357,7 +357,9 @@ class Order extends Model
             "DAO"             => $orderDetails->details->DAO,
             "DTC"             => $orderDetails->details->DTC,
             "PT"              => $orderDetails->details->PT,
-            "est_delivery"    => $est_delivery
+            "est_delivery"    => $est_delivery,
+            "pick_driver"     => $orderDetails->pickDriver,  
+            "drop_driver"     => $orderDetails->dropDriver
         ];
 
         $collection = collect([

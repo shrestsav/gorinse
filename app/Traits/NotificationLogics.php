@@ -43,6 +43,7 @@ trait NotificationLogics
             } 
         }
     }
+
     /**
     * Send Welcome Email to Customer
     */
@@ -111,9 +112,8 @@ trait NotificationLogics
         }
 
         // Send Notification to All Drivers of that particular area
-        foreach($driver_ids as $id){
-            User::find($id)->sendFCMNotification($notification);
-            // User::find($id)->pushNotification($notification);
+        foreach($driver_ids as $driver_id){
+            User::find($driver_id)->sendFCMNotification($notification);
         }
         
         return true;
@@ -150,9 +150,7 @@ trait NotificationLogics
             User::find($id)->pushNotification($notifyAdmin);
         }
 
-        // Send Order Accepted Notification to Customer
-        // User::find($customer_id)->pushNotification($notifyCustomer);
-    
+        // Send Order Accepted Notification to Customer    
         User::find($customer_id)->sendFCMNotification($notifyCustomer); 
         
         // Email Notification to Customer
@@ -274,11 +272,9 @@ trait NotificationLogics
             User::find($id)->pushNotification($notifyAdmin);
         }
         // Send Order Accepted Notification to Customer
-        // User::find($customer_id)->pushNotification($notifyCustomer);
         User::find($customer_id)->sendFCMNotification($notifyCustomer);
 
         // Send Order Assigned Notification to Driver
-        // User::find($driver_id)->pushNotification($notifyDriver);
         User::find($driver_id)->sendFCMNotification($notifyDriver); 
 
         // Email Notification to Customer
@@ -331,7 +327,6 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        // User::find($customer_id)->pushNotification($notifyCustomer);
         User::find($customer_id)->sendFCMNotification($notifyCustomer);
         return true;
     }
@@ -359,9 +354,10 @@ trait NotificationLogics
         foreach($superAdmin_ids as $id){
             User::find($id)->pushNotification($notification);
         }
+
         // Send Invoice Confirmed Notification to Pick Driver
-        // User::find($driver_id)->pushNotification($notification);
         User::find($driver_id)->sendFCMNotification($notification);
+
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
         $customerMailData = [
@@ -411,7 +407,6 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        // User::find($customer_id)->pushNotification($notifyCustomer);
         User::find($customer_id)->sendFCMNotification($notifyCustomer);
         
         return true;
@@ -448,7 +443,6 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        // User::find($driver_id)->pushNotification($notifyDriver);
         User::find($driver_id)->sendFCMNotification($notifyDriver);
         return true;
     }
@@ -485,8 +479,8 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        // User::find($customer_id)->pushNotification($notifyCustomer);
         User::find($customer_id)->sendFCMNotification($notifyCustomer);
+
         return true;
     }
 
@@ -522,7 +516,6 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        // User::find($customer_id)->pushNotification($notifyCustomer);
         User::find($customer_id)->sendFCMNotification($notifyCustomer);
 
         // Email Notification to Customer
