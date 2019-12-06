@@ -158,7 +158,7 @@ class AuthController extends Controller
 
         
         $check = DeviceToken::where('device_id',$request->device_id)
-                                    ->where('device_token',$request->device_token);
+                            ->where('device_token',$request->device_token);
         //If both device_id and device_token exists                           
         if($check->exists()){
             $check->update([
