@@ -53,7 +53,7 @@ class OrderController extends Controller
 
         $orders = Order::select('id','type','status','pick_location','drop_location','created_at')
                        ->where('customer_id',Auth::id())
-                       ->with('pick_location_details','drop_location_details')
+                       ->with('pick_location_details','drop_location_details','pickDriver','dropDriver')
                        ->where('status','<',7)
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);
