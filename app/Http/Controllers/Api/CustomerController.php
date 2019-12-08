@@ -136,6 +136,7 @@ class CustomerController extends Controller
                     'message'=> 'Same Email Detected' 
                 ],200);
             }
+            
             $validator = Validator::make($request->all(), [
                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             ]);

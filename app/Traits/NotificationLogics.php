@@ -28,7 +28,9 @@ trait NotificationLogics
                                 ->setSound('default');
 
             $dataBuilder = new PayloadDataBuilder();
-            $dataBuilder->addData(['a_data' => 'my_data']);
+            $dataBuilder->addData([
+                'a_data' => 'test data'
+            ]);
 
             $option = $optionBuilder->build();
             $notification = $notificationBuilder->build();

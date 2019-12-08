@@ -15,23 +15,17 @@ use App\ReferralGrant;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/testNotification/{id}','OrderController@testNotification');
+
+Route::group(['prefix' => 'test'], function() {
+	Route::get('/notification/{id}','TestController@notification');
+	Route::get('/mail','TestController@mail');
+	Route::get('/random','TestController@random');
+});
 
 Route::get('/', 'HomeController@index')->name('dashboard');
 
 Auth::routes();
-Route::get('/test',function(Request $request){
-	// return number_format(1/3.6725,100)*1522.5;
-	// $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
-	// return $today;
-	// return Session::get('rows');
-	// return $request->session()->all();
-	// return 'Current PHP version: ' . phpversion();
-	// return  PendingNotification::dispatch(31)->delay(now()->addSeconds(20));
-	$test = new ReferralGrant();
 
-	return $test->grantReferrer(62);
-});
 Route::middleware(['auth'])->group(function () {
 	Route::get('/v/{any}', 'HomeController@index')->where('any', '.*');
 	Route::group(['prefix' => 'admin', 'middleware' => ['role:superAdmin']], function() {
@@ -93,7 +87,6 @@ Route::middleware(['auth'])->group(function () {
 	    Route::post('/totalOrders','ReportController@totalOrders');
 	    Route::post('/totalCustomers','ReportController@totalCustomers');
 	    Route::post('/totalSales','ReportController@totalSales');
-	    Route::get('/testReport','ReportController@test');
 	});
 	
 	//PAYPAL INTEGRATION

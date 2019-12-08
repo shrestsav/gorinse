@@ -346,22 +346,4 @@ class OrderController extends Controller
       ]);
       return response()->json($collection);
     }
-
-    public function testNotification($user_id)
-    {
-      $notification = [
-          'notifyType' => 'test_notitification',
-          'message' => 'This is a Test Notification, Thank you',
-          'model' => 'order',
-          'url' => 1
-      ];
-      // $user = User::find($user_id)->pushNotification($notification);
-      try{
-        User::find($user_id)->sendFCMNotification($notification);
-      }
-      catch(exception $e){
-        return 'This User May not have any device tokens';
-      }
-      return 'Notification Sent';
-    }
   }
