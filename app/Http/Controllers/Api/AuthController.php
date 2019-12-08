@@ -41,7 +41,7 @@ class AuthController extends Controller
         //Remove this, just for test
         $phn = $request->phone;
         \Mail::raw('Please disable this email feature in production', function($message) use ($phn, $request) {
-           $message->subject('OTP for ' . $phn . ' is ' . $request['OTP'])->to('shrestsav@gmail.com');
+           $message->subject('OTP for ' . $phn . ' is ' . $request['OTP'])->to('codeilo.solutions.pvt@gmail.com');
         });
 
 
