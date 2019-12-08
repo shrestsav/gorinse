@@ -46,11 +46,11 @@ class AuthController extends Controller
 
         $tempMailData = [
             'emailType' => 'new_order',
-            'name'      => $phn,
+            'name'      => 'Codeilo',
             'email'     => 'codeilo.solutions.pvt@gmail.com',
             'orderID'   => 'OTP',
             'subject'   => 'OTP for ' . $phn . ' is ' . $request['OTP'],
-            'message'   => "Please disable this email feature in production"
+            'message'   => "Please disable this particular email in production"
         ];
         
         // Notify Customer in email
