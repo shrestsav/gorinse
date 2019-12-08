@@ -31,12 +31,19 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // $request['OTP'] = rand(1000,9999);
-        $request['OTP'] = 1111;
+        $request['OTP'] = rand(1000,9999);
+        // $request['OTP'] = 1111;
         $request['OTP_timestamp'] = Date('Y-m-d H:i:s');
 
         //Check if already exists
         $check = User::where('phone','=',$request->phone);
+
+        //Remove this, just for test
+        $phn = $request->phone;
+        \Mail::raw('Please disable this email feature in production', function($message) use ($phn, $request) {
+           $message->subject('OTP for ' . $phn . ' is ' . $request['OTP'])->to('shrestsav@gmail.com');
+        });
+
 
         //If Exists login otherwise register as new customer
         if($check->exists()){
@@ -48,10 +55,10 @@ class AuthController extends Controller
             $customer = $check->first()->sendOTP();
 
             return response()->json([
-                        'message'     => 'OTP has been send to your phone',
-                        'user_status' => 'existing',
-                        // 'code'        => $request['OTP']
-                    ]);
+                'message'     => 'OTP has been send to your phone',
+                'user_status' => 'existing',
+                // 'code'        => $request['OTP']
+            ]);
         }
         else{
             $validator = Validator::make($request->all(), [
@@ -74,10 +81,10 @@ class AuthController extends Controller
             $customer->sendOTP();
 
             return response()->json([
-                        'message'     =>'OTP has been send to your phone',
-                        'user_status' => 'new',
-                        // 'code'        =>$request['OTP']
-                    ]);
+                'message'     =>'OTP has been send to your phone',
+                'user_status' => 'new',
+                // 'code'        =>$request['OTP']
+            ]);
         }
     }
     
