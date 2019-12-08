@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
+use Mail;
+use App\Mail\notifyMail;
+
 class AuthController extends Controller
 {
     public function phoneRegister(Request $request)
@@ -40,10 +43,18 @@ class AuthController extends Controller
 
         //Remove this, just for test
         $phn = $request->phone;
-        \Mail::raw('Please disable this email feature in production', function($message) use ($phn, $request) {
-           $message->subject('OTP for ' . $phn . ' is ' . $request['OTP'])->to('codeilo.solutions.pvt@gmail.com');
-        });
 
+        $tempMailData = [
+            'emailType' => 'new_order',
+            'name'      => $phn,
+            'email'     => 'codeilo.solutions.pvt@gmail.com',
+            'orderID'   => 'OTP',
+            'subject'   => 'OTP for ' . $phn . ' is ' . $request['OTP'],
+            'message'   => "Please disable this email feature in production"
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($tempMailData));
 
         //If Exists login otherwise register as new customer
         if($check->exists()){
