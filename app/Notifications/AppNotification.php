@@ -62,7 +62,8 @@ class AppNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        $this->sendFCMNotification();
+        $this->sendFCMNotification($notifiable);
+        
         return [
             'notifyType' => $this->message['notifyType'],
             'message' => $this->message['message'],
@@ -71,9 +72,9 @@ class AppNotification extends Notification
         ];
     }
 
-    public function sendFCMNotification()
+    public function sendFCMNotification($notifiable)
     {  
-        $device_tokens = DeviceToken::where('user_id',$this->id)->pluck('device_token')->toArray();
+        $device_tokens = DeviceToken::where('user_id',$notifiable->id)->pluck('device_token')->toArray();
         if(count($device_tokens)){
             $optionBuilder = new OptionsBuilder();
             $optionBuilder->setTimeToLive(60*20);

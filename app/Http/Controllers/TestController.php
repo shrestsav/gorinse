@@ -29,6 +29,7 @@ class TestController extends Controller
     public function notification($user_id)
     {
       $notification = [
+          'notifyUser' => $user_id,
           'notifyType' => 'test_notitification',
           'message' => 'This is a Test Notification, Thank you',
           'model' => 'order',
@@ -36,12 +37,12 @@ class TestController extends Controller
       ];
       // $user = User::find($user_id)->pushNotification($notification);
       $user = User::find($user_id)->AppNotification($notification);
-      try{
-        User::find($user_id)->sendFCMNotification($notification);
-      }
-      catch(exception $e){
-        return 'This User May not have any device tokens';
-      }
+      // try{
+      //   User::find($user_id)->sendFCMNotification($notification);
+      // }
+      // catch(exception $e){
+      //   return 'This User May not have any device tokens';
+      // }
       return 'Notification Sent';
     }
 

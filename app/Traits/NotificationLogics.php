@@ -7,44 +7,44 @@ use App\Mail\notifyMail;
 use App\Order;
 use App\User;
 
-use LaravelFCM\Message\OptionsBuilder;
-use LaravelFCM\Message\PayloadDataBuilder;
-use LaravelFCM\Message\PayloadNotificationBuilder;
-use FCM;
-use Mail;
+// use LaravelFCM\Message\OptionsBuilder;
+// use LaravelFCM\Message\PayloadDataBuilder;
+// use LaravelFCM\Message\PayloadNotificationBuilder;
+// use FCM;
+// use Mail;
 
 trait NotificationLogics
 {
-    public function sendFCMNotification($notification)
-    {  
-        $device_tokens = DeviceToken::where('user_id',$this->id)->pluck('device_token')->toArray();
-        if(count($device_tokens)){
-            $optionBuilder = new OptionsBuilder();
-            $optionBuilder->setTimeToLive(60*20);
+    // public function sendFCMNotification($notification)
+    // {  
+    //     $device_tokens = DeviceToken::where('user_id',$this->id)->pluck('device_token')->toArray();
+    //     if(count($device_tokens)){
+    //         $optionBuilder = new OptionsBuilder();
+    //         $optionBuilder->setTimeToLive(60*20);
 
-            $title = implode(' ', array_map('ucfirst', explode('_', $notification['notifyType'])));
-            $notificationBuilder = new PayloadNotificationBuilder($title);
-            $notificationBuilder->setBody($notification['message'])
-                                ->setSound('default');
+    //         $title = implode(' ', array_map('ucfirst', explode('_', $notification['notifyType'])));
+    //         $notificationBuilder = new PayloadNotificationBuilder($title);
+    //         $notificationBuilder->setBody($notification['message'])
+    //                             ->setSound('default');
 
-            $dataBuilder = new PayloadDataBuilder();
-            $dataBuilder->addData([
-                'a_data' => 'test data'
-            ]);
+    //         $dataBuilder = new PayloadDataBuilder();
+    //         $dataBuilder->addData([
+    //             'a_data' => 'test data'
+    //         ]);
 
-            $option = $optionBuilder->build();
-            $notification = $notificationBuilder->build();
-            $data = $dataBuilder->build();
+    //         $option = $optionBuilder->build();
+    //         $notification = $notificationBuilder->build();
+    //         $data = $dataBuilder->build();
 
-            $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
+    //         $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
 
-            $expiredTokens = $downstreamResponse->tokensToDelete();
+    //         $expiredTokens = $downstreamResponse->tokensToDelete();
 
-            if(count($expiredTokens)){
-                DeviceToken::whereIn('device_token',$expiredTokens)->delete();
-            } 
-        }
-    }
+    //         if(count($expiredTokens)){
+    //             DeviceToken::whereIn('device_token',$expiredTokens)->delete();
+    //         } 
+    //     }
+    // }
 
     /**
     * Send Welcome Email to Customer
@@ -75,16 +75,16 @@ trait NotificationLogics
         $order = Order::find($order_id);
         $area_id = $order->pick_location_details->area_id;
         $driver_ids = User::whereHas('roles', function ($query) {
-                              $query->where('name', '=', 'driver');
-                           })
+                                $query->where('name', '=', 'driver');
+                            })
                             ->join('user_details as ud','users.id','=','ud.user_id')
                             ->where('ud.area_id','=',$area_id)
                             ->pluck('users.id')
                             ->toArray();
 
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                              $query->where('name', '=', 'superAdmin');
-                           })
+                                    $query->where('name', '=', 'superAdmin');
+                                })
                               ->pluck('id')
                               ->toArray();
 
@@ -96,6 +96,7 @@ trait NotificationLogics
         ];
 
         $customer = User::find($order->customer_id);
+
         $customerMailData = [
             'emailType' => 'new_order',
             'name'      => $customer->full_name,
@@ -115,7 +116,7 @@ trait NotificationLogics
 
         // Send Notification to All Drivers of that particular area
         foreach($driver_ids as $driver_id){
-            User::find($driver_id)->sendFCMNotification($notification);
+            User::find($driver_id)->AppNotification($notification);
         }
         
         return true;
@@ -128,8 +129,9 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                          $query->where('name', '=', 'superAdmin');
-                       })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')->toArray();
 
         $customer_id = $order->customer_id;
 
@@ -153,7 +155,7 @@ trait NotificationLogics
         }
 
         // Send Order Accepted Notification to Customer    
-        User::find($customer_id)->sendFCMNotification($notifyCustomer); 
+        User::find($customer_id)->AppNotification($notifyCustomer); 
         
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
@@ -179,8 +181,10 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                          $query->where('name', '=', 'superAdmin');
-                       })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $notification = [
             'notifyType' => 'order_cancelled',
@@ -217,8 +221,10 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                          $query->where('name', '=', 'superAdmin');
-                       })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $notification = [
             'notifyType' => 'pickup_cancelled',
@@ -242,8 +248,10 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                          $query->where('name', '=', 'superAdmin');
-                       })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $customer_id = $order->customer_id;
         $driver_id = $order->driver_id;
@@ -274,10 +282,10 @@ trait NotificationLogics
             User::find($id)->pushNotification($notifyAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->sendFCMNotification($notifyCustomer);
+        User::find($customer_id)->AppNotification($notifyCustomer);
 
         // Send Order Assigned Notification to Driver
-        User::find($driver_id)->sendFCMNotification($notifyDriver); 
+        User::find($driver_id)->AppNotification($notifyDriver); 
 
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
@@ -305,8 +313,10 @@ trait NotificationLogics
         //All Admins and Customer who ordered will get notified
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                                  $query->where('name', '=', 'superAdmin');
-                               })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $customer_id = $order->customer_id;
 
@@ -329,7 +339,7 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->sendFCMNotification($notifyCustomer);
+        User::find($customer_id)->AppNotification($notifyCustomer);
         return true;
     }
 
@@ -340,8 +350,10 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                                  $query->where('name', '=', 'superAdmin');
-                               })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $driver_id = $order->driver_id;
 
@@ -358,7 +370,7 @@ trait NotificationLogics
         }
 
         // Send Invoice Confirmed Notification to Pick Driver
-        User::find($driver_id)->sendFCMNotification($notification);
+        User::find($driver_id)->AppNotification($notification);
 
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
@@ -385,8 +397,10 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                                  $query->where('name', '=', 'superAdmin');
-                               })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $customer_id = $order->customer_id;
 
@@ -409,7 +423,7 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->sendFCMNotification($notifyCustomer);
+        User::find($customer_id)->AppNotification($notifyCustomer);
         
         return true;
     }
@@ -421,8 +435,10 @@ trait NotificationLogics
     {  
         $order = Order::find($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                                  $query->where('name', '=', 'superAdmin');
-                               })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $driver_id = $order->drop_driver_id;
 
@@ -445,7 +461,7 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($driver_id)->sendFCMNotification($notifyDriver);
+        User::find($driver_id)->AppNotification($notifyDriver);
         return true;
     }
 
@@ -457,8 +473,10 @@ trait NotificationLogics
         //All Admins and Customer who ordered will get notified
         $order = Order::findOrFail($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                                  $query->where('name', '=', 'superAdmin');
-                               })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $customer_id = $order->customer_id;
 
@@ -481,7 +499,7 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->sendFCMNotification($notifyCustomer);
+        User::find($customer_id)->AppNotification($notifyCustomer);
 
         return true;
     }
@@ -494,8 +512,10 @@ trait NotificationLogics
         //All Admins and Customer who ordered will get notified
         $order = Order::findOrFail($order_id);
         $superAdmin_ids = User::whereHas('roles', function ($query) {
-                                  $query->where('name', '=', 'superAdmin');
-                               })->pluck('id')->toArray();
+                                    $query->where('name', '=', 'superAdmin');
+                                })
+                                ->pluck('id')
+                                ->toArray();
 
         $customer_id = $order->customer_id;
 
@@ -518,7 +538,7 @@ trait NotificationLogics
             User::find($id)->pushNotification($notificationAdmin);
         }
         // Send Order Accepted Notification to Customer
-        User::find($customer_id)->sendFCMNotification($notifyCustomer);
+        User::find($customer_id)->AppNotification($notifyCustomer);
 
         // Email Notification to Customer
         $customer = User::find($order->customer_id);
