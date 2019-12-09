@@ -4,6 +4,7 @@ namespace App;
 
 use App\Notifications\OTPNotification;
 use App\Notifications\SystemNotification;
+use App\Notifications\AppNotification;
 use App\Traits\NotificationLogics;
 use App\Order;
 use Auth;
@@ -167,6 +168,17 @@ class User extends Authenticatable
     public function pushNotification($notification)
     {   
         $this->notify(new SystemNotification($notification));
+    }
+
+    /**
+     * Store App Notifications on Database
+     *
+     * @param  array  $notification
+     * @return boolean
+     */
+    public function AppNotification($notification)
+    {   
+        $this->notify(new AppNotification($notification));
     }
 
     public function tok()

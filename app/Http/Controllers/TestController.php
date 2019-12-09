@@ -35,6 +35,7 @@ class TestController extends Controller
           'url' => 1
       ];
       // $user = User::find($user_id)->pushNotification($notification);
+      $user = User::find($user_id)->AppNotification($notification);
       try{
         User::find($user_id)->sendFCMNotification($notification);
       }
