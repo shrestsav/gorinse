@@ -198,7 +198,7 @@ trait NotificationLogics
         $adminMailData = [
             'emailType' => 'order_cancelled',
             'name'      => 'GO-RINSE',
-            'email'     => 'shrestsav@gmail.com',
+            'email'     => env('ADMIN_EMAIL'),
             'subject'   => 'GO-RINSE: Order #'.$order->id.'Cancelled',
             'message'   => $order->customer->fname. ' has cancelled Order #'.$order->id,
         ];
