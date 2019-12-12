@@ -12,6 +12,10 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import VueMoment from 'vue-moment'
 import VueProgressBar from 'vue-progressbar'
 
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);

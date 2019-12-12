@@ -215,12 +215,6 @@ class DriverOrderController extends Controller
                                   ->where('status','<=',3)
                                   ->where('driver_id','=',Auth::id());
                         })
-                        ->orWhere(function ($query) use ($today){
-                            $query->where('status','>=',5)
-                                  ->where('status','<=',6)
-                                  ->whereDate('drop_date','=',$today)
-                                  ->where('drop_driver_id','=',Auth::id());
-                        })
                         ->with('customer:id,fname,lname','pick_location_details:id,name,map_coordinates,building_community','drop_location_details:id,name,map_coordinates,building_community')
                         ->orderBy('updated_at','DESC')                        
                         ->get()
@@ -240,7 +234,6 @@ class DriverOrderController extends Controller
                                          'created_at')
                         ->where('status','>=',5)
                         ->where('status','<=',6)
-                        ->whereDate('drop_date','!=',$today)
                         ->where('drop_driver_id','=',Auth::id())
                         ->with('customer:id,fname,lname','drop_location_details:id,name,map_coordinates,building_community')
                         ->orderBy('drop_date','ASC')

@@ -1,18 +1,16 @@
 <template>
   <div class="card">
-<!--     <div class="card-header">
-      <div class="col-md-2">
-        <div class="nav-wrapper">
-          <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" href="" role="tab" aria-controls="tabs-icons-text-1" aria-selected="false">ORDER DETAILS</a>
-            </li>
-          </ul>
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h6 class="heading-small text-muted">Order Information</h6>
+        </div>
+        <div class="col-4 text-right">
+          <button type="button" class="btn btn-primary btn-sm" v-b-modal.orderTimeline>Timeline</button>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="card-body">
-      <h6 class="heading-small text-muted mb-4">Order Information</h6>
       <div class="pl-lg-4">
         <div class="row" v-if="details">
           <div class="col-lg-3">
@@ -118,12 +116,6 @@
               <span>{{invoice.invoice_details.order_type}}</span>
             </div>
           </div>
-          <!-- <div class="col-lg-4">
-            <div class="form-group">
-              <label class="form-control-label">Order Remarks : </label>
-              <span>{{invoice.invoice_details.PDR}}</span>
-            </div>
-          </div> -->
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -188,14 +180,19 @@
         </div>
       </template>
     </div>
+    <timeline></timeline>
   </div>
 </template>
 
 <script>
 
+  import timeline from './timeline.vue'
   import {settings} from '../../config/settings'
 
   export default{
+    components:{
+      timeline
+    },
     data(){
       return{
         orderID:'',
@@ -238,3 +235,12 @@
   }
 
 </script>
+
+<style type="text/css">
+  #orderTimeline .modal-body {
+    padding: 0;
+  }
+  #orderTimeline .card {
+    margin-bottom: 0;
+  }
+</style>

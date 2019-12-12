@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\UserAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
@@ -29,7 +30,7 @@ class CustomerController extends Controller
                           })
                          ->whereNotNull('fname')
                          ->whereNotNull('lname')
-                         ->paginate(1);
+                         ->paginate(Session::get('rows'));
 
         return $customers;
     }
@@ -46,7 +47,7 @@ class CustomerController extends Controller
                           })
                          ->whereNull('fname')
                          ->whereNull('lname')
-                         ->paginate(5);
+                         ->paginate(Session::get('rows'));
 
         return $customers;
     }

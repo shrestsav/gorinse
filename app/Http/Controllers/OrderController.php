@@ -6,6 +6,7 @@ use App\Http\Resources\Order\OrderCollection;
 use App\Http\Resources\Order\OrderResource;
 use App\Order;
 use App\OrderDetail;
+use App\OrderItem;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -267,8 +268,9 @@ class OrderController extends Controller
         foreach($request->orderIds as $id){
           $order = Order::find($id);
           if($order && $order->status<4){
-            $order->delete();
             OrderDetail::where('order_id',$id)->delete();
+            OrderItem::where('order_id',$id)->delete();
+            $order->delete();
           }
           elseif($order->status>=4){
             return response()->json(['message'=>'Orders cannot be deleted'],404);

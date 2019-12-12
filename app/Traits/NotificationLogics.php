@@ -199,7 +199,7 @@ trait NotificationLogics
             'emailType' => 'order_cancelled',
             'name'      => 'GO-RINSE',
             'email'     => env('ADMIN_EMAIL'),
-            'subject'   => 'GO-RINSE: Order #'.$order->id.'Cancelled',
+            'subject'   => 'GO-RINSE: Order #'.$order->id.' Cancelled',
             'message'   => $order->customer->fname. ' has cancelled Order #'.$order->id,
         ];
 
