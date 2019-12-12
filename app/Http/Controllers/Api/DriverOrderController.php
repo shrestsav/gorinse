@@ -253,6 +253,43 @@ class DriverOrderController extends Controller
         return response()->json($collection);
     } 
 
+    public function newOrders()
+    {
+        $driver_area = User::find(Auth::id())->details->area_id;
+        $mainAreas = MainArea::nameWithId();
+
+        $newOrders = Order::select('orders.id',
+                                   'orders.type',
+                                   'orders.customer_id',
+                                   'orders.driver_id',
+                                   'orders.drop_driver_id',
+                                   'orders.pick_location',
+                                   'orders.pick_date',
+                                   'orders.drop_date',
+                                   'orders.pick_timerange',
+                                   'orders.status',
+                                   'orders.created_at',
+                                   'pick.name as pick_location_name')
+                        ->join('user_addresses as pick','orders.pick_location','=','pick.id')
+                        ->where('orders.status','=',0)
+                        ->where('pick.area_id','=',$driver_area)
+                        ->with('customer:id,fname,lname,phone',
+                               'pick_location_details:id,name,map_coordinates,building_community',
+                               'details:order_id,payment_type')
+                        ->orderBy('created_at','DESC')
+                        ->get()
+                        ->makeVisible('assigned_status');
+
+        $collection = collect([
+            'newOrders'         => $newOrders,
+            'orderStatus'       => config('settings.orderStatuses'),
+            'driverArea'        => $driver_area,
+            'mainAreas'         => $mainAreas
+        ]);
+
+        return response()->json($collection);
+    } 
+
     public function pickOrders()
     {
         $driver_area = User::find(Auth::id())->details->area_id;
@@ -283,43 +320,6 @@ class DriverOrderController extends Controller
 
         $collection = collect([
             'pickOrders'        => $pickOrders,
-            'orderStatus'       => config('settings.orderStatuses'),
-            'driverArea'        => $driver_area,
-            'mainAreas'         => $mainAreas
-        ]);
-
-        return response()->json($collection);
-    } 
-
-    public function newOrders()
-    {
-        $driver_area = User::find(Auth::id())->details->area_id;
-        $mainAreas = MainArea::nameWithId();
-
-        $newOrders = Order::select('orders.id',
-                                   'orders.type',
-                                   'orders.customer_id',
-                                   'orders.driver_id',
-                                   'orders.drop_driver_id',
-                                   'orders.pick_location',
-                                   'orders.pick_date',
-                                   'orders.drop_date',
-                                   'orders.pick_timerange',
-                                   'orders.status',
-                                   'orders.created_at',
-                                   'pick.name as pick_location_name')
-                        ->join('user_addresses as pick','orders.pick_location','=','pick.id')
-                        ->where('orders.status','=',0)
-                        ->where('pick.area_id','=',$driver_area)
-                        ->with('customer:id,fname,lname,phone',
-                               'pick_location_details:id,name,map_coordinates,building_community',
-                               'details:order_id,payment_type')
-                        ->orderBy('created_at','DESC')
-                        ->get()
-                        ->makeVisible('assigned_status');
-
-        $collection = collect([
-            'newOrders'         => $newOrders,
             'orderStatus'       => config('settings.orderStatuses'),
             'driverArea'        => $driver_area,
             'mainAreas'         => $mainAreas
