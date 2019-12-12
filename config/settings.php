@@ -17,7 +17,7 @@ return [
         // Drived added items to invoice
         2 => 'Invoice Generated',
         3 => 'Invoice Confirmed',
-        4 => 'On Work',
+        4 => 'Dropped at Laundry',
         5 => 'Assigned for Delivery',
         //New
         6 => 'Picked for Delivery',
