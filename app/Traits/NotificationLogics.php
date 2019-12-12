@@ -58,8 +58,8 @@ trait NotificationLogics
             'emailType' => 'new_registration',
             'name'      => $customer->full_name,
             'email'     => $customer->email,
-            'subject'   => "Gorinse: Welcome ".$customer->full_name,
-            'message'   => "Welcome to Gorinse..",
+            'subject'   => "GO-RINSE: Welcome ".$customer->full_name,
+            'message'   => "Welcome to GO-RINSE..",
         ];
         
         // Notify Customer in email
@@ -103,7 +103,7 @@ trait NotificationLogics
             'name'      => $customer->full_name,
             'email'     => $customer->email,
             'orderID'   => $order_id,
-            'subject'   => "Gorinse: Your Order: #".$order_id. " has been placed",
+            'subject'   => "GO-RINSE: Your Order: #".$order_id. " has been placed",
             'message'   => "We've received your New Order: #".$order_id. ". We will contact you soon.",
         ];
         
@@ -165,7 +165,7 @@ trait NotificationLogics
             'name'      => $customer->full_name,
             'email'     => $customer->email,
             'orderID'   => $order_id,
-            'subject'   => "Gorinse: Order: #".$order_id. " Accepted",
+            'subject'   => "GO-RINSE: Order: #".$order_id. " Accepted",
             'message'   => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.'
         ];
         
@@ -197,9 +197,9 @@ trait NotificationLogics
         // Send Cancel Order Mail to Admin
         $adminMailData = [
             'emailType' => 'order_cancelled',
-            'name'      => 'Gorinse',
+            'name'      => 'GO-RINSE',
             'email'     => 'shrestsav@gmail.com',
-            'subject'   => 'Gorinse: Order #'.$order->id.'Cancelled',
+            'subject'   => 'GO-RINSE: Order #'.$order->id.'Cancelled',
             'message'   => $order->customer->fname. ' has cancelled Order #'.$order->id,
         ];
 
@@ -212,7 +212,7 @@ trait NotificationLogics
             'emailType' => 'order_cancelled',
             'name'      => $customer->full_name,
             'email'     => $customer->email,
-            'subject'   => "Gorinse: Order Cancelled",
+            'subject'   => "GO-RINSE: Order Cancelled",
             'message'   => "Your Order #".$order_id." has been cancelled",
         ];
 
@@ -306,7 +306,7 @@ trait NotificationLogics
             'name'      => $customer->full_name,
             'email'     => $customer->email,
             'orderID'   => $order_id,
-            'subject'   => "Gorinse: Order: #".$order_id. " Accepted",
+            'subject'   => "GO-RINSE: Order: #".$order_id. " Accepted",
             'message'   => 'Your Order #'.$order->id.' has been accepted by '. $order->pickDriver->fname. ' for pickup, please keep your items ready.'
         ];
         
@@ -391,7 +391,7 @@ trait NotificationLogics
             'name'          => $customer->full_name,
             'email'         => $customer->email,
             'orderID'       => $order_id,
-            'subject'       => "Gorinse: Order: #".$order_id. " shipped for laundry",
+            'subject'       => "GO-RINSE: Order: #".$order_id. " shipped for laundry",
             'message'       => "Your Order #".$order_id. " has been shipped for laundry. We will contact you soon",
             'orderDetails'  => $order->generateInvoiceForUser()
         ];
@@ -559,7 +559,7 @@ trait NotificationLogics
             'name'      => $customer->full_name,
             'email'     => $customer->email,
             'orderID'   => $order_id,
-            'subject'   => "Gorinse: Order: #".$order_id. " Delivered",
+            'subject'   => "GO-RINSE: Order: #".$order_id. " Delivered",
             'message'   => "Your Order #".$order_id. " has been delivered to you. If you have any queries contact our support team."
         ];
         
