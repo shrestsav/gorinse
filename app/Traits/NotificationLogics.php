@@ -194,9 +194,20 @@ trait NotificationLogics
             'url' => $order->id
         ];
 
+        // Send Cancel Order Mail to Admin
+        $adminMailData = [
+            'emailType' => 'order_cancelled',
+            'name'      => 'Gorinse',
+            'email'     => 'shrestsav@gmail.com',
+            'subject'   => 'Gorinse: Order #'.$order->id.'Cancelled',
+            'message'   => $order->customer->fname. ' has cancelled Order #'.$order->id,
+        ];
 
-        $customer = User::find($order->customer_id);
+        Mail::send(new notifyMail($adminMailData));
+
         // Send Cancel Order Mail to customer
+        $customer = User::find($order->customer_id);
+        
         $customerMailData = [
             'emailType' => 'order_cancelled',
             'name'      => $customer->full_name,

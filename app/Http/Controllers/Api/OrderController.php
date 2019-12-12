@@ -269,7 +269,7 @@ class OrderController extends Controller
                              ->with('customer:id,fname,lname,phone',
                               'pick_location_details',
                               'drop_location_details',
-                              'details:order_id,DAO,DTC')
+                              'details:order_id,DAO,DTC,payment_type')
                              ->first();
         return $orderDetails;
     }
