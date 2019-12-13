@@ -87,6 +87,9 @@ Route::middleware(['auth'])->group(function () {
 	    Route::post('/totalOrders','ReportController@totalOrders');
 	    Route::post('/totalCustomers','ReportController@totalCustomers');
 	    Route::post('/totalSales','ReportController@totalSales');
+
+	    //Exports
+	    Route::get('/export','ReportController@export');
 	});
 	
 	//PAYPAL INTEGRATION

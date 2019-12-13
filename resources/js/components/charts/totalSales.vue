@@ -6,7 +6,7 @@
           <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
           <h5 class="h3 text-white mb-0">Total Sales Report</h5>
         </div>
-        <div class="col-6">
+        <div class="col-5">
           <div class="row">
             <div class="col-3">
               <h6 class="text-light text-uppercase ls-1 mb-1">View</h6>
@@ -25,9 +25,16 @@
             </div>
           </div>
         </div>
-        <div class="col-2 text-right">
-          <h6 class="text-light text-uppercase ls-1 mb-1">Total Amount</h6>
-          <h5 class="h3 text-white mb-0">AED {{grandTotal}}</h5>
+        <div class="col-3 text-right">
+          <div class="row">
+            <div class="col-9 text-right">
+              <h6 class="text-light text-uppercase ls-1 mb-1">Total Amount</h6>
+              <h5 class="h3 text-white mb-0">AED {{grandTotal}}</h5>
+            </div>
+            <div class="col-3 text-right">
+              <a href="http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month=2019-12" target="_blank"><button type="button" class="btn btn-success btn-sm">Export</button></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

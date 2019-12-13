@@ -84,7 +84,7 @@ class OrderController extends Controller
     public function deliveredOrderListCustomer()
     {
         $rows = AppDefault::firstOrFail()->app_rows;
-        $orders = Order::select('id','type','status','created_at')
+        $orders = Order::select('id','type','status','pick_location','drop_location','created_at')
                        ->where('customer_id',Auth::id())
                        ->with('details:id,order_id,DTC','pick_location_details','drop_location_details')
                        ->where('status','>=',7)
