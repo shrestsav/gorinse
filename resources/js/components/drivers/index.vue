@@ -106,7 +106,13 @@
 </template>
 
 <script>
+
+  import DatePicker from 'vue2-datepicker'
+
   export default{
+    components: {
+      DatePicker
+    },
     data(){
       return{
         fields:{},
@@ -162,6 +168,11 @@
             showNotify('danger',error.response.data.errors[prop])
           }  
         })
+      }
+    },
+    computed: {
+      mainArea(){
+        return this.$store.getters.mainAreas
       }
     },
   }
