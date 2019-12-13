@@ -29,6 +29,11 @@ class UserAddress extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function mainArea()
+    {
+        return $this->belongsTo(MainArea::class);
+    }
+
     /**
      * Get the can_delete flag for users.
      *

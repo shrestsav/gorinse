@@ -315,26 +315,104 @@ class ReportController extends Controller
 
           $year_month = explode('-',$request->year_month);
 
-          $data = Order::select('orders.id',
-                                'orders.customer_id',
-                                'orders.type',
-                                'orders.status',
-                                'orders.created_at',
-                                'users.fname',
-                                'users.lname',
-                                'PL.name as pick_location',
-                                'DL.name as drop_location'
-                              )
-                        ->join('users','users.id','=','orders.customer_id')
-                        ->join('user_addresses as PL','PL.id','=','orders.pick_location')
-                        ->join('user_addresses as DL','DL.id','=','orders.pick_location')
-                        ->where('orders.status','>=',7)
-                        ->whereYear('orders.created_at', '=', $year_month[0])
-                        ->whereMonth('orders.created_at','=', $year_month[1])
-                        ->get()
-                        ->makeVisible('total_amount')
+          // $data = Order::select('orders.id',
+          //                       'orders.created_at',
+          //                       'orders.type',
+          //                       'orders.customer_id',
+          //                       'customer.fname as CF',
+          //                       'customer.lname as CL',
+          //                       'customer.phone as CP',
+          //                       'OD.PFC',
+          //                       'PD.fname as PDF',
+          //                       'PD.lname as PDL',
+          //                       'OD.DTC',
+          //                       'DD.fname as DDF',
+          //                       'DD.lname as DDL',
+          //                       'OD.PT',
+
+          //                       // 'OI.service_id',
+
+                               
+          //                       'orders.status',
+                                
+          //                       'PL.name as pick_location',
+          //                       'orders.status',
+          //                       'DL.name as drop_location'
+          //                     )
+          //               ->join('users as customer','customer.id','=','orders.customer_id')
+          //               ->join('users as PD','PD.id','=','orders.driver_id')
+          //               ->join('users as DD','DD.id','=','orders.driver_id')
+          //               ->join('user_addresses as PL','PL.id','=','orders.pick_location')
+          //               ->join('user_addresses as DL','DL.id','=','orders.pick_location')
+          //               ->join('order_details as OD','OD.order_id','=','orders.id')
+          //               // ->join('order_items as OI','OI.order_id','=','orders.id')
+          //               ->where('orders.status','>=',7)
+          //               ->whereYear('orders.created_at', '=', $year_month[0])
+          //               ->whereMonth('orders.created_at','=', $year_month[1])
+          //               ->get()
+          //               ->makeVisible('total_amount')
+          //               // ->makeHidden(['id','type'])
+          //               ->toArray();
+
+          $orders = Order::select('id',
+                                'customer_id',
+                                'type',
+                                'driver_id',
+                                'drop_driver_id',
+                                'pick_location',
+                                'status',
+                                'created_at')
+                          ->where('orders.status','>=',7)
+                          ->whereYear('orders.created_at', '=', $year_month[0])
+                          ->whereMonth('orders.created_at','=', $year_month[1])
+                          ->with('customer:id,fname,lname,phone',
+                               'details:order_id,PFC,DTC,PT',
+                               'pickDriver:id,fname,lname,phone',
+                               'dropDriver:id,fname,lname,phone',
+                               'orderItems:order_id,service_id',
+                               'orderItems.service:id,name',
+                               'pick_location_details')
+                          ->get()
+                          ->makeVisible('total_amount')
                         // ->makeHidden(['id','type'])
-                        ->toArray();
+                          ->toArray();
+
+          return $orders;
+          $data = [];
+          foreach($orders as $order){
+            $dataArr = [];
+
+            $dataArr['id'] = $order['id'];
+
+            $orderType = 'Not Mentioned';
+            if($order['type']==1)
+              $orderType = 'Normal';
+            elseif($order['type']==2)
+              $orderType = 'Urgent';
+
+            $dataArr['type'] = $orderType;
+            $dataArr['ordered_date'] = $order['created_at'];
+            $dataArr['customer_name'] = $order['customer']['full_name'];
+            $dataArr['customer_phone'] = $order['customer']['phone'];
+            $dataArr['customer_phone'] = $order['customer']['phone'];
+            $dataArr['PFC'] = $order['details']['PFC'];
+            $dataArr['PDN'] = $order['pick_driver']['full_name'];
+            $dataArr['DTC'] = $order['details']['DTC'];
+            $dataArr['DDN'] = $order['drop_driver']['full_name'];
+
+            $paymentType = 'Not Mentioned';
+            if($order['details']['PT']==1)
+              $paymentType = 'Cash on Delivery';
+            elseif($order['details']['PT']==2)
+              $paymentType = 'Card';
+            elseif($order['details']['PT']==3)
+              $paymentType = 'Paypal';
+
+            $dataArr['PT'] = $paymentType;
+            $dataArr['ST'] = $order['order_items'][0]['service']['name'];
+
+            array_push($data, $dataArr);
+          }
           return $data;
           $head = ['NAME','ROLE','EMAIL'];
 
