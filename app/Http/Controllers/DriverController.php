@@ -6,6 +6,8 @@ use App\Role;
 use App\User;
 use App\UserDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Validator;
 
 class DriverController extends Controller
 {
@@ -25,18 +27,12 @@ class DriverController extends Controller
      */
     public function index()
     {
-        $drivers = $this->user->driverList();
-        return $drivers;
-    }
+        $drivers = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'driver');
+                          })
+                         ->paginate(Session::get('rows'));
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $drivers;
     }
 
     /**
@@ -76,17 +72,6 @@ class DriverController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -95,7 +80,31 @@ class DriverController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            "id" => 'required',
+            "fname" => 'required|max:255',
+            "lname" => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors();
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $error,
+            ], 422);
+        }
+
+        $customerUpdate = User::findOrFail($request->id)
+                              ->update([
+                                'fname' =>  $request->fname,
+                                'lname' =>  $request->lname
+                              ]);
+
+        return response()->json([
+            'status' => '200',
+            'message' => 'Updated Successfully'
+        ], 200);
     }
 
     /**

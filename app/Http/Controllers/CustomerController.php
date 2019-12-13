@@ -6,6 +6,7 @@ use App\User;
 use App\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Validator;
 
 class CustomerController extends Controller
 {
@@ -53,16 +54,6 @@ class CustomerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -93,7 +84,31 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            "id" => 'required',
+            "fname" => 'required|max:255',
+            "lname" => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors();
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $error,
+            ], 422);
+        }
+
+        $customerUpdate = User::findOrFail($request->id)
+                              ->update([
+                                'fname' =>  $request->fname,
+                                'lname' =>  $request->lname
+                              ]);
+
+        return response()->json([
+            'status' => '200',
+            'message' => 'Updated Successfully'
+        ], 200);
     }
 
     /**

@@ -194,14 +194,17 @@
         this.customer = {}
       },
       updateEditedData(){
-        axios.post('/deleteCustomers',data)
+        axios.patch('/customers/'+this.customer.id, this.customer)
         .then((response) => {
-          this.active.selectedIds = []
-          this.switchCustomer(this.active.type)
+          this.discardEdit()
+          console.log(response.data)
           showNotify('success',response.data.message)
         })
         .catch((error) => {
-          showNotify('danger',error.response.data.message)
+          this.errors = error.response.data.errors
+          for (var prop in error.response.data.errors) {
+            showNotify('danger',error.response.data.errors[prop])
+          }  
         })
       }
     },

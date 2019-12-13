@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::apiResource('/coupons','CouponController');
 
-	Route::resource('/drivers','DriverController');
+	Route::apiResource('/drivers','DriverController');
 
 	Route::apiResource('/customers','CustomerController');
 	Route::get('/unverifiedCustomers','CustomerController@unverifiedCustomers');
