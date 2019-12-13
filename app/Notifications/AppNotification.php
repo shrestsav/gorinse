@@ -66,8 +66,8 @@ class AppNotification extends Notification
         
         return [
             'notifyType' => $this->message['notifyType'],
-            'message' => $this->message['message'],
-            'url' => $this->message['url'],
+            'message'    => $this->message['message'],
+            'url'        => $this->message['url'],
             'created_at' => Date('Y-m-d h:i:s')
         ];
     }
@@ -86,7 +86,10 @@ class AppNotification extends Notification
 
             $dataBuilder = new PayloadDataBuilder();
             $dataBuilder->addData([
-                'a_data' => 'test data'
+                'notifyType' => $this->message['notifyType'],
+                'message'    => $this->message['message'],
+                'url'        => $this->message['url'],
+                'created_at' => Date('Y-m-d h:i:s')
             ]);
 
             $option = $optionBuilder->build();

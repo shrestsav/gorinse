@@ -77,7 +77,7 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:;" @click="edit(key)"  data-toggle="modal" data-target="#orderDetails" title="Edit Customer Information">Edit Info</a>
+                      <a class="dropdown-item" href="javascript:;" @click="edit(key-1)" title="Edit Customer Information">Edit Info</a>
                     </div>
                   </div>
                   <div class="custom-control custom-checkbox" v-if="active.select">
@@ -112,7 +112,7 @@
           type:'verified',
           select:false,
           selectedIds:[],
-          edit:true
+          edit:false
         },
         customers:[],
         customer:{},
@@ -183,6 +183,25 @@
               showNotify('danger',error.response.data.message)
             })
           }
+        })
+      },
+      edit(key){
+        this.active.edit = true
+        this.customer = this.customers.data[key]
+      },
+      discardEdit(){
+        this.active.edit = false
+        this.customer = {}
+      },
+      updateEditedData(){
+        axios.post('/deleteCustomers',data)
+        .then((response) => {
+          this.active.selectedIds = []
+          this.switchCustomer(this.active.type)
+          showNotify('success',response.data.message)
+        })
+        .catch((error) => {
+          showNotify('danger',error.response.data.message)
         })
       }
     },

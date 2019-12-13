@@ -31,7 +31,7 @@ class UserAddress extends Model
 
     public function mainArea()
     {
-        return $this->belongsTo(MainArea::class);
+        return $this->belongsTo(MainArea::class,'area_id');
     }
 
     /**

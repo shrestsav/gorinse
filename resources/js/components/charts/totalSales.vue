@@ -27,12 +27,12 @@
         </div>
         <div class="col-3 text-right">
           <div class="row">
-            <div class="col-9 text-right">
+            <div class="col-8 text-right">
               <h6 class="text-light text-uppercase ls-1 mb-1">Total Amount</h6>
               <h5 class="h3 text-white mb-0">AED {{grandTotal}}</h5>
             </div>
-            <div class="col-3 text-right">
-              <a href="http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month=2019-12" target="_blank"><button type="button" class="btn btn-success btn-sm">Export</button></a>
+            <div class="col-4 text-right">
+              <a :href="'http://go.rinse/reports/export?report=deliveredTimewise&type='+reports.type+'&year_month='+reports.year_month+'&year='+reports.year" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
             </div>
           </div>
         </div>
@@ -124,7 +124,17 @@
         .catch((error) => {
           showNotify('danger',error.response.data.message)
         })
-      }
+      },
+      // getExportUrl() {
+      //   var exportUrl = '';
+      //   if(this.reports.type=="monthly"){
+      //     var exportUrl = "http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month="+this.reports.year_month
+      //   }
+      //   elseif(this.reports.type=="yearly"){
+      //     var exportUrl = "http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month="+this.reports.year
+      //   }
+      //   return http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month=2019-12
+      // }
     }
   }
 </script>

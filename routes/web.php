@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::resource('/drivers','DriverController');
 
-	Route::resource('/customers','CustomerController');
+	Route::apiResource('/customers','CustomerController');
 	Route::get('/unverifiedCustomers','CustomerController@unverifiedCustomers');
 	Route::post('/deleteCustomers','CustomerController@deleteCustomers');
 	Route::get('/address/{customer_id}','CustomerController@address');
