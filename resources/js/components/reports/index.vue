@@ -1,6 +1,6 @@
 <template>
   <div class="vue-component-body">
-    <div class="card">
+<!--     <div class="card">
       <div class="card-body">
         <div class="col-3">
           <h6 class="text-light text-uppercase ls-1 mb-1">SELECT REPORT TYPE</h6>
@@ -10,11 +10,11 @@
           </select>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="row">
       <div class="col-xl-12">
-        <totalSales v-if="report.active=='total_sales_report'"></totalSales>
-        <driver v-if="report.active=='driver_report'"></driver>
+        <totalSales></totalSales>
+        <!-- <driver v-if="report.active=='driver_report'"></driver> -->
       </div>
     </div>
   </div>
