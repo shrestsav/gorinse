@@ -117,7 +117,17 @@
       <b-modal id="driverOrders" ref="driverOrders" title="Orders" hide-footer hide-header>
         <div class="card">
           <div class="card-header">
-            <h3 class="mb-0 text-black">Orders</h3>
+            <div class="row align-items-center">
+              <div class="col-4">
+                <h3 class="mb-0 text-black">Orders</h3>
+              </div>
+              <div class="col-5">
+                
+              </div>
+              <div class="col-3 text-right">
+                <a :href="origin_url+'/reports/export?report=driverOrders&driver_id='+active.driver_id" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
+              </div>
+            </div>
           </div>
           <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -190,6 +200,7 @@
         drivers:[],
         orders:[],
         orderStatus:[],
+        origin_url: window.location.origin
       }
     },
     created(){

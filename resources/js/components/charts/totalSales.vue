@@ -32,7 +32,7 @@
               <h5 class="h3 text-white mb-0">AED {{grandTotal}}</h5>
             </div>
             <div class="col-4 text-right">
-              <a :href="'http://go.rinse/reports/export?report=deliveredTimewise&type='+reports.type+'&year_month='+reports.year_month+'&year='+reports.year" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
+              <a :href="origin_url+'/reports/export?report=deliveredTimewise&type='+reports.type+'&year_month='+reports.year_month+'&year='+reports.year" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
             </div>
           </div>
         </div>
@@ -82,7 +82,8 @@
           year:'',
           year_month:'',
         },
-        grandTotal:0
+        grandTotal:0,
+        origin_url: window.location.origin
       }
     },
     mounted () {

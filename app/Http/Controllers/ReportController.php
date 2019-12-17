@@ -294,16 +294,15 @@ class ReportController extends Controller
 
     public function export(Request $request)
     {
-      // return $request->all();
       $this->validate($request, [
-        'report'  => 'required|string',
+        'report'  => 'required|string'
       ]);
       
       $report = $request->report;
 
       if($report=='deliveredTimewise'){
         $this->validate($request, [
-          'type' => 'required|string',
+          'type' => 'required|string'
         ]);
 
         $collection = [];
@@ -402,7 +401,83 @@ class ReportController extends Controller
           'SERVICE TYPE',
           'TOTAL AMOUNT'
         ];
+      }
 
+      if($report=='driverOrders'){
+        $this->validate($request, [
+          'driver_id'  => 'required|numeric'
+        ]);
+
+        $driver_id = $request->driver_id;
+
+        $orders = Order::where('driver_id',$driver_id)
+                        ->orWhere('drop_driver_id',$driver_id)
+                        ->with('customer:id,fname,lname,phone',
+                           'details:order_id,PFC,DTC,PT',
+                           'pickDriver:id,fname,lname,phone',
+                           'dropDriver:id,fname,lname,phone',
+                           'orderItems:order_id,service_id',
+                           'orderItems.service:id,name',
+                           'pick_location_details:id,area_id',
+                           'pick_location_details.mainArea:id,name')
+                        ->get()
+                        ->makeVisible('total_amount')
+                        ->toArray();;
+
+        $data = [];
+
+        foreach ($orders as $order) {
+          $dataArr = [];
+
+          $dataArr['id'] = $order['id'];
+
+          $orderType = 'Not Mentioned';
+          if($order['type']==1)
+            $orderType = 'Normal';
+          elseif($order['type']==2)
+            $orderType = 'Urgent';
+
+          $dataArr['type'] = $orderType;
+          $dataArr['ordered_date'] = \Carbon\Carbon::parse($order['created_at'])->format('M-d-Y');
+          $dataArr['customer_name'] = $order['customer']['full_name'];
+          $dataArr['customer_phone'] = ' '.$order['customer']['phone'];
+          $dataArr['PFC'] = \Carbon\Carbon::parse($order['details']['PFC'])->format('M-d-Y');
+          $dataArr['PDN'] = $order['pick_driver']['full_name'];
+          $dataArr['DTC'] = \Carbon\Carbon::parse($order['details']['DTC'])->format('M-d-Y');
+          $dataArr['DDN'] = $order['drop_driver']['full_name'];
+          $dataArr['MA'] = $order['pick_location_details']['main_area']['name'];
+
+          $paymentType = 'Not Mentioned';
+          if($order['details']['PT']==1)
+            $paymentType = 'Cash on Delivery';
+          elseif($order['details']['PT']==2)
+            $paymentType = 'Card';
+          elseif($order['details']['PT']==3)
+            $paymentType = 'Paypal';
+
+          $dataArr['PT'] = $paymentType;
+          $dataArr['ST'] = $order['order_items'][0]['service']['name'];            
+          $dataArr['amount'] = 'AED '.$order['total_amount'];
+
+          array_push($data, $dataArr);
+
+        }
+
+        $head = [
+          'ORDER ID',
+          'TYPE',
+          'ORDERED DATE',
+          'CUSTOMER NAME',
+          'CUSTOMER CONTACT',
+          'PICKED AT',
+          'PICK DRIVER',
+          'DELIVERED At',
+          'DROP DRIVER',
+          'MAIN AREA',
+          'PAYMENT TYPE',
+          'SERVICE TYPE',
+          'TOTAL AMOUNT'
+        ];
       }
 
       if(!count($data)){
