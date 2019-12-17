@@ -32,6 +32,7 @@ class CouponController extends Controller
             'description' => 'required',
             'discount' => 'required|numeric',
             'type' => 'required|numeric',
+            'coupon_type' => 'required|numeric',
             'valid_from_to' => 'required',
         ]);
 
@@ -39,6 +40,7 @@ class CouponController extends Controller
         $coupon->code = strtoupper($request->code);
         $coupon->status = $request->status;
         $coupon->type = $request->type;
+        $coupon->coupon_type = $request->coupon_type;
         $coupon->discount = $request->discount;
         $coupon->description = $request->description;
         $coupon->valid_from = $request->valid_from_to[0];

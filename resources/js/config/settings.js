@@ -17,6 +17,10 @@ export const settings = {
     1 : 'Percentage',
     2 : 'Amount'
   },
+  'couponType' : {
+    1 : 'Single Validity ',
+    2 : 'Multiple Validity'
+  },
   'status' : {
     0 : 'Inactive',
     1 : 'Active'

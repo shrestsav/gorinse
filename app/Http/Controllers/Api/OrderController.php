@@ -126,13 +126,17 @@ class OrderController extends Controller
         ], 403);
       }
 
-      // check if already used
-      if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
-         return response()->json([
-            'status' => '403',
-            'message' => "You've already used this coupon",
-        ], 403);
+      //If coupon is of type single use
+      if($coupon->coupon_type==1){
+        // check if already used
+        if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
+           return response()->json([
+              'status' => '403',
+              'message' => "You've already used this coupon",
+          ], 403);
+        }
       }
+      
       $coupon = $coupon->first();
       $discount = '';
       if($coupon->type==1)
@@ -181,37 +185,40 @@ class OrderController extends Controller
         }
 
         if($request->coupon){
-            $validator = Validator::make($request->all(), [
-                'coupon' => 'string|min:7|max:7'
-            ]);
+          $validator = Validator::make($request->all(), [
+              'coupon' => 'string|min:7|max:7'
+          ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => '422',
-                    'message' => 'Validation Failed',
-                    'errors' => $validator->errors(),
-                ], 422);
+          if ($validator->fails()) {
+            return response()->json([
+                'status' => '422',
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors(),
+            ], 422);
+          }
+          $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
+
+          $coupon = Coupon::where('code', $request->coupon)
+                        ->where('status', 1)
+                        ->where('valid_from','<=',$today)
+                        ->where('valid_to','>=',$today);
+
+          if(!$coupon->exists()){
+              return response()->json([
+                  'status' => '403',
+                  'message' => "Sorry this coupon is not valid or has already expired",
+              ], 403);
+          }
+
+          //If coupon is of type single use
+          if($coupon->coupon_type==1){
+            // check if already used
+            if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
+              return response()->json([
+                  'status' => '403',
+                  'message' => "You've already used this coupon",
+              ], 403);
             }
-            $today = \Carbon\Carbon::now()->timezone(config('settings.timezone'))->toDateTimeString();
-
-            $coupon = Coupon::where('code', $request->coupon)
-                          ->where('status', 1)
-                          ->where('valid_from','<=',$today)
-                          ->where('valid_to','>=',$today);
-
-            if(!$coupon->exists()){
-                return response()->json([
-                    'status' => '403',
-                    'message' => "Sorry this coupon is not valid or has already expired",
-                ], 403);
-            }
-
-          // check if already used
-          if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
-             return response()->json([
-                'status' => '403',
-                'message' => "You've already used this coupon",
-            ], 403);
           }
         }
 

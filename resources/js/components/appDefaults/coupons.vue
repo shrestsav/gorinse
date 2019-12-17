@@ -28,7 +28,24 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="form-control-label">Coupon Type</label>
+            <div class="input-group input-group-merge">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <select class="form-control" v-model="coupon.coupon_type" :class="{'not-validated':errors.type}">
+                <option value="1">SINGLE VALIDITY</option>
+                <option value="2">MULTIPLE VALIDITY</option>
+              </select>
+            </div>
+            <div class="invalid-feedback" style="display: block;" v-if="errors.type">
+              {{errors.type[0]}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label class="form-control-label">Discount</label>
             <div class="input-group input-group-merge">
@@ -42,7 +59,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
             <label class="form-control-label">Discount Type</label>
             <div class="input-group input-group-merge">
@@ -61,7 +78,7 @@
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <label class="form-control-label">Valid From To</label>
+            <label class="form-control-label">Valid FROM - TO</label>
             <date-picker 
               range 
               v-model="coupon.valid_from_to"
@@ -76,7 +93,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
             <label class="form-control-label">Status</label>
             <div class="input-group input-group-merge">
@@ -117,7 +134,8 @@
             <th>Code</th>
             <th>Description</th>
             <th>Discount</th>
-            <th>Type</th>
+            <th>Discount Type</th>
+            <th>Coupon Type</th>
             <th>Active Interval</th>
             <th>Status</th>
             <th>Action</th>
@@ -146,6 +164,11 @@
             <td>
               <div>
                 {{couponDiscountType(item.type)}}
+              </div>
+            </td>
+            <td>
+              <div>
+                {{couponType(item.coupon_type)}}
               </div>
             </td>
             <td>
@@ -191,6 +214,7 @@
         coupon:{
           code:'',
           description:'',
+          coupon_type:'',
           type:'',
           discount:'',
           status:'',
@@ -220,6 +244,9 @@
       },
       couponDiscountType(type){
         return settings.couponDiscountType[type]
+      },
+      couponType(type){
+        return settings.couponType[type]
       },
       status(status){
         return settings.status[status]
