@@ -151,8 +151,28 @@ class DriverOrderController extends Controller
                               'drop_location_details:id,name',
                               'details:order_id,DAO,DTC')
                        ->orderBy('created_at','DESC')
-                       ->simplePaginate($rows)
-                       ->makeVisible('assigned_status');
+                       ->simplePaginate($rows);
+
+        $userID = Auth::id();
+
+        $orders->setCollection( $orders->getCollection()->makeVisible('assigned_status'));
+        
+        // $orders = $orders->map(function ($order, $key) use($userID) {
+        $orders->setCollection( $orders->getCollection()->map(function ($order, $key) use($userID) {
+            if ($order->driver_id == $userID && $order->drop_driver_id == $userID) {
+                $order->location = $order->drop_location_details;
+            } 
+            elseif($order->driver_id == $userID && $order->drop_driver_id != $userID) {
+                $order->location = $order->pick_location_details;
+            } 
+            elseif($order->driver_id != $userID && $order->drop_driver_id == $userID) {
+                $order->location = $order->drop_location_details;
+            }
+            
+            return $order;
+        }) );
+
+        $orders->setCollection( $orders->getCollection()->makeHidden(['pick_location_details','drop_location_details']));
 
         $collection = collect([
             'orders' => $orders,
