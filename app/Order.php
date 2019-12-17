@@ -28,6 +28,9 @@ class Order extends Model
 		'coupon',
     ];
 
+    protected $casts = [
+        'status' => 'int'
+    ];
     /**
      * Get the assigned_status flag for users.
      *
