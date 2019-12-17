@@ -126,6 +126,8 @@ class OrderController extends Controller
         ], 403);
       }
 
+      $coupon = $coupon->first();
+
       //If coupon is of type single use
       if($coupon->coupon_type==1){
         // check if already used
@@ -137,7 +139,6 @@ class OrderController extends Controller
         }
       }
       
-      $coupon = $coupon->first();
       $discount = '';
       if($coupon->type==1)
         $discount = $coupon->discount.'%';
@@ -211,7 +212,7 @@ class OrderController extends Controller
           }
 
           //If coupon is of type single use
-          if($coupon->coupon_type==1){
+          if($coupon->first()->coupon_type==1){
             // check if already used
             if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
               return response()->json([
