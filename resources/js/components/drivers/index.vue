@@ -1,15 +1,18 @@
 <template>
   <div class="row">
     <div class="col">
-      <div class="card">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Drivers List</h3>
+      <div class="card" v-if="active.edit">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="#">
+                <img :src="imageUrl()" class="rounded-circle" @click="triggerDPInput">
+                <input type="file" class="custom-file-input" lang="en" v-on:change="imageChange" style="display: none;" ref="dp_photo">
+              </a>
             </div>
           </div>
         </div>
-        <div class="card-body" v-if="active.edit">
+        <div class="card-body">
           <h6 class="heading-small text-muted mb-4">EDIT DRIVER DATA</h6>
           <div v-for="(section,sec_name,index) in fields">
             <h6 class="heading-small text-muted mb-4">{{sec_name}}</h6>
@@ -60,6 +63,15 @@
             <button type="button" class="btn btn-danger btn-sm" @click="discardEdit()">Cancel</button>
           </div>
         </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Drivers List</h3>
+            </div>
+          </div>
+        </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
@@ -83,11 +95,12 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                       <a class="dropdown-item" href="javascript:;" @click="edit(key-1)" title="Edit Driver Information">Edit Info</a>
+                      <a class="dropdown-item" href="javascript:;" @click="driverOrders(item.id)" title="Edit Driver Information">View Orders</a>
                     </div>
                   </div>
                 </td>
                 <td>{{++key}}</td>
-                <td>{{item.fname}} {{item.lname}}</td>
+                <td>{{item.full_name}}</td>
                 <td><span v-if="item.details">{{item.details.area_id}}</span></td>
                 <td>{{item.email}}</td>
                 <td><span v-if="item.details">{{item.details.dob}}</span></td>
@@ -101,6 +114,55 @@
           <pagination :data="drivers" @pagination-change-page="getDrivers"></pagination>
         </div>
       </div>
+      <b-modal id="driverOrders" ref="driverOrders" title="Orders" hide-footer hide-header>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="mb-0 text-black">Orders</h3>
+          </div>
+          <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th>S.No.</th>
+                <th>Order No</th>
+                <th>Ordered Date</th>
+                <th>Pick Date</th>
+                <th>Drop Date</th>
+                <th>Client</th>
+                <th>Area</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr v-for="item,key in orders.data">
+                <td>{{++key}}</td>
+                <td>{{item.id}}</td>
+                <td>{{dateTime(item.created_at)}}</td>
+                <td>{{dateTime(item.details.PFC)}}</td>
+                <td>{{dateTime(item.details.DAO)}}</td>
+                <td>{{item.customer.full_name}}</td>
+                <td><span v-if="item.pick_location_details && item.pick_location_details.main_area">{{item.pick_location_details.main_area.name}}</span></td>
+                <td>{{orderStatus[item.status]}}</td>
+                <td><template v-if="item.total_amount">AED {{item.total_amount}}</template><template v-else>Pending</template></td>
+                <td>
+                  <template v-if="item.driver_id==active.driver_id && item.drop_driver_id==active.driver_id">
+                    Pick and Drop
+                  </template>
+                  <template v-else="item.driver_id==active.driver_id && item.drop_driver_id!=active.driver_id">
+                    Pick
+                  </template>
+                  <template v-else="item.driver_id!=active.driver_id && item.drop_driver_id==active.driver_id">
+                    Drop
+                  </template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -118,6 +180,7 @@
         fields:{},
         errors:{},
         active:{
+          driver_id:'',
           page:'',
           select:false,
           selectedIds:[],
@@ -125,6 +188,8 @@
         },
         driver:{},
         drivers:[],
+        orders:[],
+        orderStatus:[],
       }
     },
     created(){
@@ -147,6 +212,28 @@
           this.drivers = response.data
         })
       },
+      dateTime(date){
+        if(date){
+          var date = new Date(date+' UTC')
+          return this.$moment(date).format("ddd MMM DD YYYY [at] HH:mm A")
+        }
+        else
+          return ' - '
+      },
+      hideModal() {
+        this.$refs['driverOders'].hide()
+        this.active.driver_id = ''
+      },
+      driverOrders(id){
+        axios.get('/driver/orders/'+id)
+        .then((response) => {
+          this.active.driver_id = id
+          this.orders = response.data.orders
+          this.orderStatus = response.data.orderStatus
+          this.$refs['driverOrders'].show()
+        })
+        
+      },
       edit(key){
         this.active.edit = true
         this.driver = this.drivers.data[key]
@@ -154,12 +241,18 @@
       discardEdit(){
         this.active.edit = false
         this.driver = {}
+        this.getDrivers(this.active.page)
       },
       updateEditedData(){
-        axios.patch('/drivers/'+this.driver.id, this.driver)
+        let formData = new FormData()
+        for (var key in this.driver) {
+          if(this.driver[key])
+            formData.append(key, this.driver[key])
+        }
+        formData.append('_method', 'patch')
+        axios.post('/drivers/'+this.driver.id, formData)
         .then((response) => {
           this.discardEdit()
-          this.getDrivers(this.active.page)
           showNotify('success',response.data.message)
         })
         .catch((error) => {
@@ -168,6 +261,16 @@
             showNotify('danger',error.response.data.errors[prop])
           }  
         })
+      },
+      triggerDPInput(){
+        this.$refs.dp_photo.click()
+      },
+      imageChange(e){
+        this.driver.photo_file = e.target.files[0]
+        this.driver.photo = URL.createObjectURL(this.driver.photo_file)
+      },
+      imageUrl(){
+        return window.location.origin + '/files/users/' + this.driver.id +'/' + this.driver.photo
       }
     },
     computed: {
@@ -199,5 +302,8 @@
     position: relative;
     left: 25px;
     color: white;
+  }
+  #driverOrders .modal-dialog{
+    max-width: 90%;
   }
 </style>

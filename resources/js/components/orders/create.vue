@@ -151,7 +151,7 @@
 
   export default{
     components: {
-      vSelect,DatePicker
+      vSelect, DatePicker
     },
     data(){
       return{

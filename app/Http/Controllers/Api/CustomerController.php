@@ -23,13 +23,12 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = User::select(
-                                'id',
-                                'fname',
-                                'lname',
-                                'phone',
-                                'email',
-                                'created_at')
+        $customer = User::select('id',
+                                 'fname',
+                                 'lname',
+                                 'phone',
+                                 'email',
+                                 'created_at')
                         ->where('id',Auth::id())
                         ->with(
                             'details:user_id,description,photo,referral_id',
@@ -173,7 +172,7 @@ class CustomerController extends Controller
             }
 
 
-            $image = Image::make($request->file('photo'))->orientate();;
+            $image = Image::make($request->file('photo'))->orientate();
             // prevent possible upsizing
             $image->resize(null, 600, function ($constraint) {
                 $constraint->aspectRatio();

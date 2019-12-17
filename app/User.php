@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fname','lname', 'email', 'password','phone','OTP','OTP_timestamp'
+        'fname','lname', 'email', 'username', 'password','phone','OTP','OTP_timestamp'
     ];
 
     protected $appends = ['full_name'];

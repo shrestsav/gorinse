@@ -27,7 +27,7 @@ class DriverController extends Controller
         if($driver->details->photo)
             $driver->details->photo = asset('files/users/'.Auth::id().'/'.$driver->details->photo);
         else
-            $driver->details->photo = null;
+            $driver->details->photo = asset('files/users/no_photo.png');
 
         $appDefaults = AppDefault::first();
         $driverNotes = $appDefaults->driver_notes;
@@ -37,6 +37,7 @@ class DriverController extends Controller
             'driverNotes' => $driverNotes,
             'notificationCount' => User::find(Auth::id())->unreadNotifications->count()
         ]);
+        
         return response()->json($collection);
     }
 

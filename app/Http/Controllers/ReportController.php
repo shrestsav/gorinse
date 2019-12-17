@@ -411,4 +411,19 @@ class ReportController extends Controller
 
       return Excel::download(new Report($data,$head), $report.'.xlsx');
     }
+
+    //Incomplete
+    public function driverOrders(Request $request)
+    {
+      $this->validate($request, [
+        'driver'    => 'required|numeric',
+        'orderType' => 'required|string',
+      ]);
+
+      if($request->orderType=='all')
+        $orders = Order::where('driver_id', $request->driver)
+                       ->orWhere('drop_driver_id', $request->driver);
+      
+      return response()->json($orders);
+    }
 }
