@@ -91,12 +91,19 @@ trait NotificationLogics
 
         $notification = [
             'notifyType' => 'new_order',
-            'message' => $order->customer->fname. ' placed a new order #'.$order->id,
-            'model' => 'order',
-            'url' => $order->id
+            'message'    => $order->customer->fname. ' placed a new order #'.$order->id,
+            'model'      => 'order',
+            'url'        => $order->id
         ];
 
         $customer = User::find($order->customer_id);
+
+        $notifyCustomer = [
+            'emailType' => 'new_order',
+            'message'   => "We've received your New Order: #".$order_id. ". We will contact you soon.",
+            'model'     => 'order',
+            'url'       => $order_id
+        ];
 
         $customerMailData = [
             'emailType' => 'new_order',
@@ -119,6 +126,8 @@ trait NotificationLogics
         foreach($driver_ids as $driver_id){
             User::find($driver_id)->AppNotification($notification);
         }
+        
+        $customer->AppNotification($notifyCustomer); 
         
         return true;
     }

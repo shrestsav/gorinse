@@ -251,7 +251,6 @@ class Order extends Model
         return $grandTotal;
     }
 
-
     //Works for single Service Id
     public function generateInvoiceForUser()
     {
