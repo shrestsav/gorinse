@@ -99,7 +99,7 @@ trait NotificationLogics
         $customer = User::find($order->customer_id);
 
         $notifyCustomer = [
-            'emailType' => 'new_order',
+            'notifyType' => 'new_order',
             'message'   => "We've received your New Order: #".$order_id. ". We will contact you soon.",
             'model'     => 'order',
             'url'       => $order_id
