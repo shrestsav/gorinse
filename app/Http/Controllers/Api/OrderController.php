@@ -56,6 +56,7 @@ class OrderController extends Controller
                                 'drop_driver_id',
                                 'type',
                                 'status',
+                                'pick_date',
                                 'pick_location',
                                 'drop_location',
                                 'created_at')
