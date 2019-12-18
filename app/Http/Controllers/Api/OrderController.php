@@ -60,8 +60,9 @@ class OrderController extends Controller
                                 'drop_location',
                                 'created_at')
                        ->where('customer_id',Auth::id())
-                       ->with('pick_location_details',
-                              'drop_location_details',
+                       ->with('pick_location_details:id,name',
+                              'drop_location_details:id,name',
+                              'details:id,order_id,PFC,DTC',
                               'pickDriver:id,fname,lname,phone',
                               'dropDriver:id,fname,lname,phone')
                        ->where('status','<',7)
@@ -86,7 +87,9 @@ class OrderController extends Controller
         $rows = AppDefault::firstOrFail()->app_rows;
         $orders = Order::select('id','type','status','pick_location','drop_location','created_at')
                        ->where('customer_id',Auth::id())
-                       ->with('details:id,order_id,DTC','pick_location_details','drop_location_details')
+                       ->with('details:id,order_id,DTC,PFC',
+                              'pick_location_details:id,name',
+                              'drop_location_details:id,name')
                        ->where('status','>=',7)
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);
