@@ -195,7 +195,7 @@ export const store = new Vuex.Store({
 	        });
 		},
 		getDrivers(context){
-			axios.get('/drivers')
+			axios.get('/driver/all')
 	        .then(response => {
 	        	context.commit('setDrivers',response.data)
 	        });

@@ -65,7 +65,7 @@
                 class="form-control"  
                 v-model="assign.driver_id" 
                 :options="drivers" 
-                :reduce="fname => fname.id"
+                :reduce="data => data.id"
                 label="fname" 
                 placeholder="Drivers"
               />

@@ -120,7 +120,9 @@
                     <span v-if="item.status >= 5 && item.drop_driver">{{item.drop_driver.full_name}}</span>
                   </td>
                   <td v-if="active.status!='Pending'">
-                    AED {{item.order_invoice.invoice_details.grand_total}}
+                    <template v-if="item.order_invoice.invoice_details">AED {{item.order_invoice.invoice_details.grand_total}}</template>
+                    <!-- <template v-if=""></template> -->
+                    
                   </td>
                   <td>
                     <span>{{ getStatus(item.status) }}</span>
