@@ -22,8 +22,8 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            <a href="https://apps.apple.com/np/app/gorinse/id1482396284"><img height="70px" src="{{asset('system/img/appstore.png')}}"></a>
-            <a href="https://apps.apple.com/np/app/gorinse/id1482396284"><img height="70px" src="{{asset('system/img/googlestore.png')}}"></a>
+            <a href="https://apps.apple.com/np/app/gorinse/id1482396284"><img height="45px" src="{{asset('system/img/appstore.png')}}"></a>
+            <a href="https://apps.apple.com/np/app/gorinse/id1482396284"><img height="45px" src="{{asset('system/img/googlestore.png')}}"></a>
             
             © {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')
         @endcomponent
