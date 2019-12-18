@@ -106,7 +106,7 @@ class OrderController extends Controller
     public function checkCoupon(Request $request)
     {
       $validator = Validator::make($request->all(), [
-        'coupon'  => 'required|string|min:7|max:7'
+        'coupon'  => 'required|string|min:4|max:15'
       ]);
 
       if ($validator->fails()) {
@@ -192,7 +192,7 @@ class OrderController extends Controller
 
         if($request->coupon){
           $validator = Validator::make($request->all(), [
-              'coupon' => 'string|min:7|max:7'
+              'coupon' => 'string|min:4|max:15'
           ]);
 
           if ($validator->fails()) {

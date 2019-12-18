@@ -27,7 +27,7 @@ class CouponController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'code' => 'required|unique:coupons|string|min:7|max:7',
+            'code' => 'required|unique:coupons|string|min:4|max:15',
             'status' => 'required|numeric',
             'description' => 'required',
             'discount' => 'required|numeric',
