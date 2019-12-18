@@ -57,6 +57,7 @@ class OrderController extends Controller
                                 'type',
                                 'status',
                                 'pick_date',
+                                'drop_date',
                                 'pick_location',
                                 'drop_location',
                                 'created_at')
