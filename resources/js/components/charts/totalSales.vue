@@ -40,7 +40,7 @@
     </div>
     <div class="card-body">
       <div class="chart">
-        <canvas id="totalOrdersReport"></canvas>
+        <canvas id="totalSalesReport"></canvas>
       </div>
     </div>
   </div> 
@@ -108,7 +108,7 @@
             }
           ]
         }
-        const ctx = document.getElementById('totalOrdersReport');
+        const ctx = document.getElementById('totalSalesReport');
         const myChart = new Chart(ctx, {
           type: this.chartData.type,
           data: this.chartData.data,

@@ -29,7 +29,7 @@
                   <th>Customer</th>
                   <th>Order Type</th>
                   <th>Pickup From</th>
-                  <th>Pickup Time</th>
+                  <th>Pickup Date</th>
                   <th>Picked By</th>
                   <th v-if="active.status!='Pending' && active.status!='Received'">Dropped By</th>
                   <th v-if="active.status!='Pending'">Grand Total</th>
