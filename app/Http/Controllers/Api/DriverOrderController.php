@@ -167,6 +167,9 @@ class DriverOrderController extends Controller
                 if($order->status==4){
                     $order->display_date = $order->details->PFC;
                 }
+                else{
+                    $order->display_date = $order->details->DTC;
+                }
             }
             elseif($order->driver_id == $userID && $order->drop_driver_id != $userID) {
                 $order->location = $order->pick_location_details;
