@@ -23,7 +23,8 @@
     @slot('footer')
         @component('mail::footer')
             <a href="https://apps.apple.com/np/app/gorinse/id1482396284"><img height="45px" src="{{asset('system/img/appstore.png')}}"></a>
-            <a href="https://play.google.com/store/apps/details?id=com.gorinse"><img height="45px" src="{{asset('system/img/googlestore.png')}}"></a><br>
+            <a href="https://play.google.com/store/apps/details?id=com.gorinse"><img height="45px" src="{{asset('system/img/googlestore.png')}}"></a>
+            <br><br>
             © {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')
         @endcomponent
     @endslot
