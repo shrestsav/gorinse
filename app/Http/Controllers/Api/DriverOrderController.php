@@ -147,9 +147,9 @@ class DriverOrderController extends Controller
                                   ->whereNotIn('status',[5,6]);
                         })
                        ->with('customer:id,fname,lname,phone',
-                              'pick_location_details:id,name',
-                              'drop_location_details:id,name',
-                              'details:order_id,DAO,DTC')
+                              'pick_location_details:id,name,map_coordinates',
+                              'drop_location_details:id,name,map_coordinates',
+                              'details:order_id,PFC,DTC')
                        ->orderBy('created_at','DESC')
                        ->simplePaginate($rows);
 
@@ -159,20 +159,28 @@ class DriverOrderController extends Controller
         
         // $orders = $orders->map(function ($order, $key) use($userID) {
         $orders->setCollection( $orders->getCollection()->map(function ($order, $key) use($userID) {
-            if ($order->driver_id == $userID && $order->drop_driver_id == $userID) {
+            $order->location = null;
+            $order->display_date = null;
+
+            if($order->driver_id == $userID && $order->drop_driver_id == $userID) {
                 $order->location = $order->drop_location_details;
-            } 
+                if($order->status==4){
+                    $order->display_date = $order->details->PFC;
+                }
+            }
             elseif($order->driver_id == $userID && $order->drop_driver_id != $userID) {
                 $order->location = $order->pick_location_details;
+                $order->display_date = $order->details->PFC;
             } 
             elseif($order->driver_id != $userID && $order->drop_driver_id == $userID) {
                 $order->location = $order->drop_location_details;
+                $order->display_date = $order->details->DTC;
             }
             
             return $order;
         }) );
 
-        $orders->setCollection( $orders->getCollection()->makeHidden(['pick_location_details','drop_location_details']));
+        $orders->setCollection( $orders->getCollection()->makeHidden(['pick_location_details','drop_location_details','details']));
 
         $collection = collect([
             'orders' => $orders,
