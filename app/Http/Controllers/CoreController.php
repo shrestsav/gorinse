@@ -10,6 +10,7 @@ use App\Offer;
 use App\Service;
 use Illuminate\Http\Request;
 use Validator;
+use Auth;
 use Illuminate\Support\Str;
 
 class CoreController extends Controller
@@ -224,5 +225,12 @@ class CoreController extends Controller
         $orderTime = $appDefaults->order_time;
 
         return response()->json($orderTime);
+    }
+
+    public function authUser()
+    {
+        $details = Auth::user();
+
+        return response()->json($details);
     }
 }

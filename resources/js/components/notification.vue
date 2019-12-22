@@ -71,25 +71,19 @@
         return this.$store.getters.notifications
       }
     },
+    created(){
+      axios.get('/authUser')
+      .then(response => {
+        Echo.private('App.User.' + response.data.id)
+        .notification((notification) => {
+            this.$swal(notification.message);
+            this.newNotifications.push(notification)
+        })
+      }); 
+      this.$store.dispatch('getUser')
+    },
     mounted(){
       this.$store.dispatch('getNotifications')
-      Echo.private('App.User.' + 1)
-      .notification((notification) => {
-          // console.log(notification);
-          this.$swal(notification.message);
-          this.newNotifications.push(notification)
-          // if(notification.notifyType=='pending_time_exceeded')
-          // {
-          //   const active = {
-          //     order:'',
-          //     page:1,
-          //     order_id:'',
-          //     status:'Pending',
-          //   }
-          //   this.$store.dispatch('getOrders',active)
-          // }
-
-      });
     },
     methods:{
       dateDiff(date){

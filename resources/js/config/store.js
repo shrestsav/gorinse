@@ -24,6 +24,7 @@ export const store = new Vuex.Store({
 		notifications:{},
 		appDefaults:{},
 		orderStatusCount:{},
+		user:{},
 		errors:{},
 	},
 	getters:{
@@ -71,6 +72,9 @@ export const store = new Vuex.Store({
 		},
 		appDefaults(state){
 			return state.appDefaults;
+		},
+		user(state){
+			return state.user;
 		},
 		errors(state){
 			return state.errors;
@@ -133,6 +137,9 @@ export const store = new Vuex.Store({
 		},
 		setOrderStatusCount(state, orderStatusCount){
 			state.orderStatusCount = orderStatusCount
+		},
+		setUser(state, user){
+			state.user = user
 		},
 		setErrors(state, errors){
 			state.errors = errors
@@ -240,6 +247,12 @@ export const store = new Vuex.Store({
 			axios.get('/orders/count/indStatus')
 		        .then(response => {
 		          context.commit('setOrderStatusCount',response.data)
+		        });	
+		},
+		getUser(context){
+			axios.get('/authUser')
+		        .then(response => {
+		          context.commit('setUser',response.data)
 		        });	
 		},
 		getCustomers(context){

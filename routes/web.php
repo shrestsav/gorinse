@@ -27,6 +27,7 @@ Route::get('/', 'HomeController@index')->name('dashboard');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
+	Route::get('/authUser','CoreController@authUser');
 	Route::get('/v/{any}', 'HomeController@index')->where('any', '.*');
 	Route::group(['prefix' => 'admin', 'middleware' => ['role:superAdmin']], function() {
 	    Route::resource('roles','RoleController');
