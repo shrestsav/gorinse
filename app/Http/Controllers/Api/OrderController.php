@@ -134,12 +134,20 @@ class OrderController extends Controller
       $coupon = $coupon->first();
 
       //If coupon is of type single use
-      if($coupon->coupon_type==1){
+      if($coupon->coupon_type==1 || $coupon->coupon_type==3){
         // check if already used
         if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
            return response()->json([
               'status' => '403',
               'message' => "You've already used this coupon",
+          ], 403);
+        }
+      }
+      if($coupon->coupon_type==3 && $coupon->user_id){
+        if($coupon->user_id!=Auth::id()){
+          return response()->json([
+              'status' => '403',
+              'message' => "Sorry you cannot use this coupon",
           ], 403);
         }
       }
@@ -216,16 +224,39 @@ class OrderController extends Controller
               ], 403);
           }
 
+          // //If coupon is of type single use
+          // if($coupon->first()->coupon_type==1){
+          //   // check if already used
+          //   if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
+          //     return response()->json([
+          //         'status' => '403',
+          //         'message' => "You've already used this coupon",
+          //     ], 403);
+          //   }
+          // }
+
           //If coupon is of type single use
-          if($coupon->first()->coupon_type==1){
+          if($coupon->first()->coupon_type==1 || $coupon->first()->coupon_type==3){
             // check if already used
             if(Order::where('customer_id',Auth::id())->where('coupon',$request->coupon)->exists()){
-              return response()->json([
+               return response()->json([
                   'status' => '403',
                   'message' => "You've already used this coupon",
               ], 403);
             }
           }
+          
+          if($coupon->first()->coupon_type==3 && $coupon->first()->user_id){
+            if($coupon->first()->user_id!=Auth::id()){
+              return response()->json([
+                  'status' => '403',
+                  'message' => "Sorry you cannot use this coupon",
+              ], 403);
+            }
+          }
+
+
+
         }
 
         $input = [];

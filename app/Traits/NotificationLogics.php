@@ -577,4 +577,35 @@ trait NotificationLogics
 
         return true;
     }
+
+    /**
+    * Notify Admins and Customer of that specific order
+    */
+    public static function notifyReferralBonus($coupon)
+    {  
+        $notifyCustomer = [
+            'notifyType' => 'referral_bonus',
+            'message'    => 'Congratulations! One of your referral just completed his new order, You have been rewarded with AED '.$coupon->discount.'. You can claim this reward amount by using our Promo code '.$coupon->code.' before '.\Carbon\Carbon::parse($coupon->valid_to)->format('M-d-Y').' on your next order.',
+            'model' => 'coupon',
+            'url' => $coupon->id
+        ];
+        
+        // Send Order Accepted Notification to Customer
+        User::find($coupon->user_id)->AppNotification($notifyCustomer);
+
+        // Email Notification to Customer
+        $customer = User::find($coupon->user_id);
+        $customerMailData = [
+            'emailType' => 'referral_bonus',
+            'name'      => $customer->full_name,
+            'email'     => $customer->email,
+            'subject'   => "GO-RINSE: Congratulations! You have been awarded with Referral Bonus",
+            'message'   => 'Congratulations! One of your referral just completed his new order, You have been rewarded with AED '.$coupon->discount.'. You can claim this reward amount by using our Promo code '.$coupon->code.' before '.\Carbon\Carbon::parse($coupon->valid_to)->format('M-d-Y').' on your next order.'
+        ];
+        
+        // Notify Customer in email
+        Mail::send(new notifyMail($customerMailData));
+
+        return true;
+    }
 }

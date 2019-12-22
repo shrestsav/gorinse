@@ -22,4 +22,8 @@
 
 	@include('mail.__cancelOrder')
 
+@elseif($mailData['emailType']==='referral_bonus')
+
+	@include('mail.__referralBonus')
+
 @endif

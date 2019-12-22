@@ -225,11 +225,12 @@ class AuthController extends Controller
 
         if($request->referred_by){
             $check = UserDetail::where('referral_id',$request->referred_by);
-            if(!$check->exists())
+            if(!$check->exists()){
                 return response()->json([
                     'status' => '404',
                     'message'=> 'Referral ID is Invalid' 
                 ],404);
+            }
         }
 
         $address = User::where('id',Auth::id())->update($userInput);

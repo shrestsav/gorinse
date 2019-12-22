@@ -11,9 +11,12 @@ use App\OrderDetail;
 use App\OrderItem;
 use App\Service;
 use App\User;
+use App\UserDetail;
+use App\Coupon;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Str;
 
 class DriverOrderController extends Controller
 {
@@ -642,6 +645,41 @@ class DriverOrderController extends Controller
                     ], 400);
             }
             User::notifyDroppedAtCustomer($order_id);
+
+            //If this order is first order of customer then generate a coupon code for the referral user of this user
+            $checkIfFirstOrder = Order::where('customer_id', $order->customer_id)->where('status', 7)->get()->count();
+            if($checkIfFirstOrder==1){
+                $customerDetails = UserDetail::where('user_id',$order->customer_id)->first();
+                if($customerDetails && $customerDetails->referred_by){
+                    $referredBy = $customerDetails->referred_by;
+                    $referredByCustomerDetails = UserDetail::where('referral_id',$referredBy)->first();
+                    if($referredByCustomerDetails){
+                        $referredByID = $referredByCustomerDetails->user_id;
+                        $couponCode = $this->generateCoupon();
+
+                        $dateNow             = \Carbon\Carbon::now();
+                        $dateAfterMonth      = \Carbon\Carbon::now()->addMonths(1);
+                        $coupon              = new Coupon();
+                        $coupon->code        = $couponCode;
+                        $coupon->status      = 1;
+                        $coupon->type        = 2;
+                        $coupon->coupon_type = 3;
+                        $coupon->user_id     = $referredByID;
+                        $coupon->discount    = 100;
+                        $coupon->description = 'User First Order Discount Coupon to Refferal';
+                        $coupon->valid_from  = $dateNow;
+                        $coupon->valid_to    = $dateAfterMonth;
+                        $coupon->save();
+
+                        if($coupon){
+                            User::notifyReferralBonus($coupon);
+                        }
+                    } 
+                }
+
+                
+            }
+
             return response()->json([
                     'status' => '200',
                     'message' => 'Order Dropped at Customer',
@@ -653,6 +691,16 @@ class DriverOrderController extends Controller
         ], 400);
     }
 
+    public function generateCoupon()
+    {
+        $random_string = strtoupper(Str::random(3).rand(100,999).Str::random(3));
+        $check = Coupon::where('code',$random_string)->exists();
+        if($check){
+            $this->generateCoupon();
+        }
+        else
+            return $random_string;
+    }
     public function driverOrderInvoice($order_id)
     {
         $order = Order::findOrFail($order_id);
