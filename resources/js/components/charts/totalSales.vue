@@ -1,5 +1,5 @@
 <template>
-  <div class="card bg-default totalSales">
+  <div class="card bg-primary totalSales">
     <div class="card-header bg-transparent">
       <div class="row align-items-center">
         <div class="col-4">
