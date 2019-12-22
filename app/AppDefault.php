@@ -23,6 +23,7 @@ class AppDefault extends Model
 		'FAQS',
 		'app_rows',
 		'sys_rows',
+		'referral_grant',
 		'OTD'
     ];
     

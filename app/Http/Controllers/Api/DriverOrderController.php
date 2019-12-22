@@ -665,7 +665,7 @@ class DriverOrderController extends Controller
                         $coupon->type        = 2;
                         $coupon->coupon_type = 3;
                         $coupon->user_id     = $referredByID;
-                        $coupon->discount    = 100;
+                        $coupon->discount    = AppDefault::firstOrFail()->referral_grant;
                         $coupon->description = 'User First Order Discount Coupon to Refferal';
                         $coupon->valid_from  = $dateNow;
                         $coupon->valid_to    = $dateAfterMonth;

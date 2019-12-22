@@ -31,6 +31,7 @@ class CreateAppDefaultsTable extends Migration
             $table->longText('FAQS')->comment('FREQUENTLY ASKED QUESTIONS');
             $table->integer('app_rows');
             $table->integer('sys_rows');
+            $table->integer('referral_grant');
             $table->text('OTD')->comment('Order Types Description i.e Urgent/Normal');
             $table->timestamps();
         });

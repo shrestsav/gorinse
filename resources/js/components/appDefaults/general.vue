@@ -110,6 +110,20 @@
             </div>
           </div>
         </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="form-control-label">Referral Grant Amount</label>
+            <div class="input-group input-group-merge">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <input class="form-control" type="number" v-model="appDefaults.referral_grant" :class="{'not-validated':errors.referral_grant}">
+              <div class="invalid-feedback" style="display: block;" v-if="errors.referral_grant">
+                {{errors.referral_grant[0]}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="float-right">
         <button class="btn btn-outline-primary" @click="save">Save</button>

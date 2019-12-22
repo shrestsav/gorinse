@@ -160,9 +160,10 @@ class CoreController extends Controller
                 'OTP_expiry' => 'required|numeric',
                 'app_rows' => 'required|numeric',
                 'sys_rows' => 'required|numeric',
+                'referral_grant' => 'required|numeric',
             ]);
 
-            $input = $request->only('VAT', 'delivery_charge','urgent_charge','EDT','OTP_expiry','app_rows','sys_rows');
+            $input = $request->only('VAT', 'delivery_charge','urgent_charge','EDT','OTP_expiry','app_rows','sys_rows','referral_grant');
         }
         if($request->saveType=='supportSetting'){
             $validatedData = $request->validate([
