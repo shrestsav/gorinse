@@ -15,6 +15,9 @@ use App\ReferralGrant;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/phpinfo',function(){
+	return dd(phpinfo());
+});
 
 Route::group(['prefix' => 'test'], function() {
 	Route::get('/notification/{id}','TestController@notification');
