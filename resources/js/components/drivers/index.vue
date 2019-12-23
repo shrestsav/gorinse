@@ -114,65 +114,7 @@
           <pagination :data="drivers" @pagination-change-page="getDrivers"></pagination>
         </div>
       </div>
-      <b-modal id="driverOrders" ref="driverOrders" title="Orders" hide-footer hide-header>
-        <div class="card">
-          <div class="card-header">
-            <div class="row align-items-center">
-              <div class="col-4">
-                <h3 class="mb-0 text-black">Orders</h3>
-              </div>
-              <div class="col-5">
-                
-              </div>
-              <div class="col-3 text-right">
-                <a :href="origin_url+'/reports/export?report=driverOrders&driver_id='+active.driver_id" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
-              </div>
-            </div>
-          </div>
-          <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th>S.No.</th>
-                <th>Order No</th>
-                <th>Ordered Date</th>
-                <th>Pick Date</th>
-                <th>Drop Date</th>
-                <th>Client</th>
-                <th>Area</th>
-                <th>Status</th>
-                <th>Amount</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody class="list">
-              <tr v-for="item,key in orders.data">
-                <td>{{++key}}</td>
-                <td>{{item.id}}</td>
-                <td>{{dateTime(item.created_at)}}</td>
-                <td>{{dateTime(item.details.PFC)}}</td>
-                <td>{{dateTime(item.details.DAO)}}</td>
-                <td>{{item.customer.full_name}}</td>
-                <td><span v-if="item.pick_location_details && item.pick_location_details.main_area">{{item.pick_location_details.main_area.name}}</span></td>
-                <td>{{orderStatus[item.status]}}</td>
-                <td><template v-if="item.total_amount">AED {{item.total_amount}}</template><template v-else>Pending</template></td>
-                <td>
-                  <template v-if="item.driver_id==active.driver_id && item.drop_driver_id==active.driver_id">
-                    Pick and Drop
-                  </template>
-                  <template v-else="item.driver_id==active.driver_id && item.drop_driver_id!=active.driver_id">
-                    Pick
-                  </template>
-                  <template v-else="item.driver_id!=active.driver_id && item.drop_driver_id==active.driver_id">
-                    Drop
-                  </template>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        </div>
-      </b-modal>
+      <orderReport ref="driverOrderModal"></orderReport>
     </div>
   </div>
 </template>
@@ -180,10 +122,11 @@
 <script>
 
   import DatePicker from 'vue2-datepicker'
+  import orderReport from './orderReport.vue'
 
   export default{
     components: {
-      DatePicker
+      DatePicker, orderReport
     },
     data(){
       return{
@@ -198,9 +141,6 @@
         },
         driver:{},
         drivers:[],
-        orders:[],
-        orderStatus:[],
-        origin_url: window.location.origin
       }
     },
     created(){
@@ -208,8 +148,6 @@
       this.$store.commit('changeCurrentMenu', 'driversMenu')
       this.getDrivers()
       this.defSettings()
-    },
-    mounted(){
     },
     methods:{
       defSettings(){
@@ -236,14 +174,8 @@
         this.active.driver_id = ''
       },
       driverOrders(id){
-        axios.get('/driver/orders/'+id)
-        .then((response) => {
-          this.active.driver_id = id
-          this.orders = response.data.orders
-          this.orderStatus = response.data.orderStatus
-          this.$refs['driverOrders'].show()
-        })
-        
+        this.$refs.driverOrderModal.init(id)
+        this.active.driver_id = id
       },
       edit(key){
         this.active.edit = true
@@ -316,5 +248,11 @@
   }
   #driverOrders .modal-dialog{
     max-width: 90%;
+  }
+  #driverOrders___BV_modal_body_{
+    padding: 0;
+  }
+  #driverOrders___BV_modal_body_ .card{
+    margin-bottom: 0;
   }
 </style>

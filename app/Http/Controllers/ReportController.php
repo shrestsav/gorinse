@@ -380,7 +380,11 @@ class ReportController extends Controller
             $paymentType = 'Paypal';
 
           $dataArr['PT'] = $paymentType;
-          $dataArr['ST'] = $order['order_items'][0]['service']['name'];            
+          $st = '';
+          if($order['order_items']){
+            $st = $order['order_items'][0]['service']['name'];
+          }
+          $dataArr['ST'] = $st;            
           $dataArr['amount'] = 'AED '.$order['total_amount'];
 
           array_push($data, $dataArr);
@@ -410,22 +414,43 @@ class ReportController extends Controller
 
         $driver_id = $request->driver_id;
 
-        $orders = Order::where('driver_id',$driver_id)
-                        ->orWhere('drop_driver_id',$driver_id)
+        $orders = Order::where(function ($query) use ($driver_id){
+                            $query->where('driver_id',$driver_id)
+                                  ->orWhere('drop_driver_id',$driver_id);
+                        })
                         ->with('customer:id,fname,lname,phone',
-                           'details:order_id,PFC,DTC,PT',
-                           'pickDriver:id,fname,lname,phone',
-                           'dropDriver:id,fname,lname,phone',
-                           'orderItems:order_id,service_id',
-                           'orderItems.service:id,name',
-                           'pick_location_details:id,area_id',
-                           'pick_location_details.mainArea:id,name')
-                        ->get()
-                        ->makeVisible('total_amount')
-                        ->toArray();;
+                               'details:order_id,PFC,DTC,PT',
+                               'pickDriver:id,fname,lname,phone',
+                               'dropDriver:id,fname,lname,phone',
+                               'orderItems:order_id,service_id',
+                               'orderItems.service:id,name',
+                               'pick_location_details:id,area_id',
+                               'pick_location_details.mainArea:id,name');
+
+        if($request->type=='monthly'){
+          $this->validate($request, [
+              'year_month' => 'required|string'
+          ]);
+
+          $year_month = explode('-',$request->year_month);
+
+          $orders = $orders->whereYear('orders.created_at', '=', $year_month[0])
+                           ->whereMonth('orders.created_at','=', $year_month[1]);
+        }
+
+        if($request->type=='yearly'){
+          $this->validate($request, [
+              'year' => 'required|string',
+          ]);
+          $orders = $orders->whereYear('orders.created_at', '=', $request->year);
+        }
+
+        $orders = $orders->get()
+                         ->makeVisible('total_amount')
+                         ->toArray();
 
         $data = [];
-
+        // return $orders;
         foreach ($orders as $order) {
           $dataArr = [];
 
@@ -456,7 +481,13 @@ class ReportController extends Controller
             $paymentType = 'Paypal';
 
           $dataArr['PT'] = $paymentType;
-          $dataArr['ST'] = $order['order_items'][0]['service']['name'];            
+
+          $st = '';
+          if($order['order_items']){
+            $st = $order['order_items'][0]['service']['name'];
+          }
+
+          $dataArr['ST'] = $st;            
           $dataArr['amount'] = 'AED '.$order['total_amount'];
 
           array_push($data, $dataArr);

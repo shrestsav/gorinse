@@ -62,12 +62,35 @@ class DriverController extends Controller
         return response()->json($drivers);
     }
 
-    public function driverOrders($driver_id)
+    public function driverOrders(Request $request, $driver_id)
     {
-        $orders = Order::where('driver_id',$driver_id)
-                        ->orWhere('drop_driver_id',$driver_id)
-                        ->with('details','customer:id,fname,lname','pick_location_details.mainArea')
-                        ->paginate(Session::get('rows'));
+        $this->validate($request, [
+            'type' => 'required|string',
+        ]);
+
+        $orders = Order::where(function ($query) use ($driver_id){
+                            $query->where('driver_id',$driver_id)
+                                  ->orWhere('drop_driver_id',$driver_id);
+                        })
+                        ->with('details','customer:id,fname,lname','pick_location_details.mainArea');
+
+        if($request->type=='monthly'){
+            $this->validate($request, [
+                'year_month' => 'required|string'
+            ]);
+            $year_month = explode('-',$request->year_month);
+            $orders = $orders->whereYear('created_at', '=', $year_month[0])
+                             ->whereMonth('created_at','=', $year_month[1]);
+        }
+        elseif($request->type=='yearly'){
+          $this->validate($request, [
+              'year' => 'required|string',
+          ]);
+          $orders = $orders->whereYear('created_at', '=', $request->year);
+        }
+
+        $orders = $orders->paginate(Session::get('rows'));
+                        
         $orders->setCollection( $orders->getCollection()->makeVisible('total_amount'));
 
         return response()->json([
