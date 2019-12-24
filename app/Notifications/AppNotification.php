@@ -83,7 +83,8 @@ class AppNotification extends Notification
             $notificationBuilder = new PayloadNotificationBuilder($title);
             $notificationBuilder->setBody($this->message['message'])
                                 ->setIcon("ic_notification")
-                                ->setSound('default');
+                                ->setSound('default')
+                                ->setBadge('badge');
 
             $dataBuilder = new PayloadDataBuilder();
             $dataBuilder->addData([
