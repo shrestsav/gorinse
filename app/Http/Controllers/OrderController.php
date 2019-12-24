@@ -205,8 +205,10 @@ class OrderController extends Controller
 
       $order = Order::create($request->all());
 
-      if($order)
+      if($order){
+        User::notifyNewOrder($order->id);
         return response()->json('Order Created Successfully');
+      }
     }
 
     /**
