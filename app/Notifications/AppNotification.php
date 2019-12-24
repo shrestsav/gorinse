@@ -82,7 +82,7 @@ class AppNotification extends Notification
             $title = implode(' ', array_map('ucfirst', explode('_', $this->message['notifyType'])));
             $notificationBuilder = new PayloadNotificationBuilder($title);
             $notificationBuilder->setBody($this->message['message'])
-                                ->setIcon("https://dummyimage.com/600x400/000/fff")
+                                ->setIcon("ic_launcher")
                                 ->setSound('default');
 
             $dataBuilder = new PayloadDataBuilder();
