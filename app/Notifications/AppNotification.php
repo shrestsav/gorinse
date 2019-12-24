@@ -82,9 +82,8 @@ class AppNotification extends Notification
             $title = implode(' ', array_map('ucfirst', explode('_', $this->message['notifyType'])));
             $notificationBuilder = new PayloadNotificationBuilder($title);
             $notificationBuilder->setBody($this->message['message'])
-                                ->setIcon("ic_launcher")
-                                ->setSound('default')
-                                ->setBadge('badge');
+                                ->setIcon("ic_launcher_round")
+                                ->setSound('default');
 
             $dataBuilder = new PayloadDataBuilder();
             $dataBuilder->addData([
