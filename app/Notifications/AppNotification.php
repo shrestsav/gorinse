@@ -87,17 +87,18 @@ class AppNotification extends Notification
 
             $dataBuilder = new PayloadDataBuilder();
             $dataBuilder->addData([
-                // 'notifyType' => $this->message['notifyType'],
-                // 'message'    => $this->message['message'],
-                // 'url'        => $this->message['url'],
-                // 'created_at' => Date('Y-m-d h:i:s')
+                'notifyType' => $this->message['notifyType'],
+                'message'    => $this->message['message'],
+                'url'        => $this->message['url'],
+                'created_at' => Date('Y-m-d h:i:s')
             ]);
 
             $option = $optionBuilder->build();
             $notification = $notificationBuilder->build();
             $data = $dataBuilder->build();
 
-            $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
+            // $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
+            $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, null);
 
             $expiredTokens = $downstreamResponse->tokensToDelete();
 
