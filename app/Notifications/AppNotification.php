@@ -96,8 +96,8 @@ class AppNotification extends Notification
             $option = $optionBuilder->build();
             $notification = $notificationBuilder->build();
             $data = $dataBuilder->build();
-
-            $downstreamResponse = FCM::sendTo($device_tokens, $option, null, $data);
+            
+            $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
             // $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, null);
 
             $expiredTokens = $downstreamResponse->tokensToDelete();
