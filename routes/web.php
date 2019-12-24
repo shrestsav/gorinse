@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/deleteCustomers','CustomerController@deleteCustomers');
 	Route::get('/address/{customer_id}','CustomerController@address');
 
-	Route::get('/getCustomers','UserController@customers');
+	Route::get('/customer/all','CustomerController@all');
 
 	Route::get('/notifications','UserController@notifications');
 	Route::get('/markAsRead/{notificationId}','UserController@markAsRead');

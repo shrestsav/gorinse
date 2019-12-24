@@ -25,7 +25,7 @@
                       class="form-control"   
                       v-model="order.customer_id" 
                       :options="showCustomers"
-                      :reduce="fname => fname.id"
+                      :reduce="data => data.id"
                       label="fname" 
                       placeholder="Customers"
                     />
@@ -159,6 +159,7 @@
         showCustomers:[],
         showAddress:[],
         customerSelected:false,
+        customers:[],
         errors:{},
       }
     },
@@ -176,6 +177,7 @@
         .then((response) => {
           this.errors = {}
           this.order = {}
+          this.customerSelected = false;
           showNotify('success','Order has been created')
         })
         .catch((error) => {
@@ -186,8 +188,14 @@
         })
       },
       load(){
-        this.$store.dispatch('getCustomers')
         this.$store.dispatch('getAppDefaults')
+        this.getCustomers()
+      },
+      getCustomers(){
+        axios.get('/customer/all')
+        .then(response => {
+          this.customers = response.data
+        }); 
       }
     },
     computed: {
@@ -197,7 +205,7 @@
       selectedCustomer(){
         return this.order.customer_id
       },
-      ...mapState(['customers', 'address', 'appDefaults'])
+      ...mapState(['address', 'appDefaults'])
     },
     watch: {
       selectedCustomer: function (customer_id) {

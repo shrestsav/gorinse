@@ -41,6 +41,23 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all()
+    {
+        $customers = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'customer');
+                          })
+                         ->whereNotNull('fname')
+                         ->whereNotNull('lname')
+                         ->get();
+
+        return $customers;
+    }
+
+    /**
+     * Display a listing of the customers.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function unverifiedCustomers()
     {
         $customers = User::whereHas('roles', function ($query) {

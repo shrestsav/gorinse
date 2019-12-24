@@ -6,9 +6,9 @@
           <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
           <h5 class="h3 text-white mb-0">Customer Signup</h5>
         </div>
-        <div class="col-8">
+        <div class="col-5">
           <div class="row">
-            <div class="col-2">
+            <div class="col-3">
               <h6 class="text-light text-uppercase ls-1 mb-1">View</h6>
               <select class="form-control bg-transparent" v-model="reports.type">
                 <option value="monthly">Month</option>
@@ -22,6 +22,17 @@
             <div class="col-3" v-if="reports.type=='yearly'">
               <h6 class="text-light text-uppercase ls-1 mb-1">Select Year</h6>
               <date-picker @change="getReport" input-class="form-control bg-transparent" v-model="reports.year" lang="en" type="year" format="YYYY" valueType="format" ></date-picker>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 text-right">
+          <div class="row">
+            <div class="col-8 text-right">
+              <h6 class="text-light text-uppercase ls-1 mb-1">Total New Customers</h6>
+              <h5 class="h3 text-white mb-0">{{grandTotal}}</h5>
+            </div>
+            <div class="col-4 text-right">
+              <a :href="origin_url+'/reports/export?report=newCustomers&type='+reports.type+'&year_month='+reports.year_month+'&year='+reports.year" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
             </div>
           </div>
         </div>
@@ -70,7 +81,9 @@
           type:'',
           year:'',
           year_month:'',
-        }
+        },
+        grandTotal:0,
+        origin_url: window.location.origin
       }
     },
     mounted () {
@@ -106,6 +119,7 @@
       getReport() {
         axios.post('/reports/totalCustomers',this.reports)
         .then((response) => {
+          this.grandTotal = response.data.grandTotal
           this.createChart(response.data)
         })
         .catch((error) => {

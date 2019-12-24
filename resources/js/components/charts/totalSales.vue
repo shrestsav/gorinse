@@ -32,7 +32,7 @@
               <h5 class="h3 text-white mb-0">AED {{grandTotal}}</h5>
             </div>
             <div class="col-4 text-right">
-              <a :href="origin_url+'/reports/export?report=deliveredTimewise&type='+reports.type+'&year_month='+reports.year_month+'&year='+reports.year" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
+              <a :href="origin_url+'/reports/export?report=deliveredOrders&type='+reports.type+'&year_month='+reports.year_month+'&year='+reports.year" target="_blank"><button type="button" class="btn btn-success btn-sm">Export <i class="fas fa-file-excel"></i></button></a>
             </div>
           </div>
         </div>
@@ -126,16 +126,6 @@
           showNotify('danger',error.response.data.message)
         })
       },
-      // getExportUrl() {
-      //   var exportUrl = '';
-      //   if(this.reports.type=="monthly"){
-      //     var exportUrl = "http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month="+this.reports.year_month
-      //   }
-      //   elseif(this.reports.type=="yearly"){
-      //     var exportUrl = "http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month="+this.reports.year
-      //   }
-      //   return http://go.rinse/reports/export?report=deliveredTimewise&type=monthly&year_month=2019-12
-      // }
     }
   }
 </script>
