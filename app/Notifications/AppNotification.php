@@ -82,7 +82,7 @@ class AppNotification extends Notification
             $title = implode(' ', array_map('ucfirst', explode('_', $this->message['notifyType'])));
             $notificationBuilder = new PayloadNotificationBuilder($title);
             $notificationBuilder->setBody($this->message['message'])
-                                ->setIcon("ic_launcher.png")
+                                ->setIcon("ic_launcher")
                                 ->setSound('default');
 
             $dataBuilder = new PayloadDataBuilder();
@@ -96,7 +96,7 @@ class AppNotification extends Notification
             $option = $optionBuilder->build();
             $notification = $notificationBuilder->build();
             $data = $dataBuilder->build();
-
+            
             $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, $data);
             // $downstreamResponse = FCM::sendTo($device_tokens, $option, $notification, null);
 
