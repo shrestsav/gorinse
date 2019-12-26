@@ -93,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
 	    Route::post('/totalOrders','ReportController@totalOrders');
 	    Route::post('/totalCustomers','ReportController@totalCustomers');
 	    Route::post('/totalSales','ReportController@totalSales');
-
+	    Route::get('/topCustomers','ReportController@topCustomers');
 	    //Exports
 	    Route::get('/export','ReportController@export');
 	});

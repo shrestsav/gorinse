@@ -330,8 +330,6 @@ class ReportController extends Controller
       else{
         return 'Error';
       }
-
-
     }
 
     public function newCustomers($request)
@@ -738,5 +736,28 @@ class ReportController extends Controller
       }
 
       return Excel::download(new Report($data,$head), $fileName.'.xlsx');
+    }
+
+    public function topCustomers()
+    {
+      $orders = Order::where('status',7)->get()->makeVisible('total_amount');
+      // return $orders->groupBy('customer_id');
+
+      $num = $orders->groupBy('customer_id')
+                    ->map(function ($row) {
+                        return $row->sum('total_amount');
+                    });
+      $data = [];
+      foreach($num as $id => $amount){
+        $newArr = [
+          'id'      =>  $id,
+          'name'    =>  User::find($id)->full_name,
+          'amount'  =>  $amount,
+        ];
+        array_push($data, $newArr);
+      }
+      $collection = collect($data)->sortByDesc('amount')->values()->slice(0, 10);
+
+      return response()->json($collection);
     }
 }

@@ -45,7 +45,7 @@
   </style>
 </head>
 
-<body>
+<body class="g-sidenav-hidden">
 
   <div id="app">
     <vue-progress-bar></vue-progress-bar>

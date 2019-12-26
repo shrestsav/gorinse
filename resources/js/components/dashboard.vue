@@ -128,6 +128,9 @@
       <div class="col-xl-12">
         <customerReport></customerReport>
       </div>
+      <div class="col-xl-12">
+        <topCustomers></topCustomers>
+      </div>
     </div>
   </div>
 </template>
@@ -139,9 +142,10 @@
   import orderGraph from './charts/OrderGraph.vue'
   import customerReport from './charts/CustomerReport.vue'
   import totalSales from './charts/totalSales.vue'
+  import topCustomers from './reports/topCustomers.vue'
   export default{
     components:{
-      orderState, orderGraph, customerReport, totalSales
+      orderState, orderGraph, customerReport, totalSales, topCustomers
     },
     data(){
       return{
