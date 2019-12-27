@@ -404,3 +404,8 @@
   }
 
 </script>
+<style type="text/css">
+  #redeemedOrdersModal___BV_modal_body_{
+    padding: 0;
+  }
+</style>
