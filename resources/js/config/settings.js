@@ -19,7 +19,8 @@ export const settings = {
   },
   'couponType' : {
     1 : 'Single Validity ',
-    2 : 'Multiple Validity'
+    2 : 'Multiple Validity',
+    3 : 'Referral Coupon',
   },
   'status' : {
     0 : 'Inactive',

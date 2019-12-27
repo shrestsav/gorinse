@@ -92,6 +92,26 @@
             </ul>
           </div>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#promo-codes" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="promo-codes" v-bind:class="{active: currentMenu=='couponMenu'}">
+            <i class="ni ni-settings text-info"></i>
+            <span class="nav-link-text">PROMO CODES</span>
+          </a>
+          <div class="collapse" id="promo-codes">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <router-link :to="{ name: 'promoCoupons'}" >
+                  <a href="{{url('/v/promoCoupons')}}" :href="''" class="nav-link" v-bind:class="{active: currentPage=='promo'}">Promo Coupon Codes</a>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'referralCoupons'}" >
+                  <a href="{{url('/v/referralCoupons')}}" :href="''" class="nav-link" v-bind:class="{active: currentPage=='referral'}">Referral Coupon Codes</a>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </div>
   </div>

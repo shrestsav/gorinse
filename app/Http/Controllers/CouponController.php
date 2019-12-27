@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Coupon;
+use App\Order;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
@@ -14,8 +15,37 @@ class CouponController extends Controller
      */
     public function index()
     {
-        $coupons = Coupon::orderBy('id','DESC')->get();
+        $coupons = Coupon::whereIn('coupon_type',[1,2])->orderBy('id','DESC')->paginate(config('settings.rows'));
+        $coupons->setCollection( $coupons->getCollection()->makeVisible('total_redeems'));
         return response()->json($coupons);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function referralCoupons()
+    {
+        $coupons = Coupon::where('coupon_type',3)->with('userWithAccess:id,fname,lname')->orderBy('id','DESC')->paginate(config('settings.rows'));
+        $coupons->setCollection( $coupons->getCollection()->makeVisible('redeemed'));
+        return response()->json($coupons);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redeemedOrders($code)
+    {
+        $orders = Order::where('coupon',$code)
+                        ->with('customer:id,fname,lname')
+                        ->orderBy('customer_id','DESC')
+                        ->orderBy('id','DESC')
+                        ->get();
+
+        return response()->json($orders);
     }
 
     /**
@@ -27,7 +57,7 @@ class CouponController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'code' => 'required|unique:coupons|string|min:4|max:15',
+            'code' => 'required|alpha_num|unique:coupons|string|min:4|max:15',
             'status' => 'required|numeric',
             'description' => 'required',
             'discount' => 'required|numeric',

@@ -4,7 +4,6 @@
       <div class="card-wrapper">
         <general></general>
         <offers></offers>
-        <coupons></coupons>
         <order></order>
         <div class="card">
           <div class="card-header">
@@ -148,7 +147,6 @@
   import general from './general.vue'
   import order from './order.vue'
   import offers from './offers.vue'
-  import coupons from './coupons.vue'
   import TACS from './TACS.vue'
   import FAQS from './FAQS.vue'
   import orderTypesDesc from './orderTypesDesc.vue'
@@ -159,7 +157,6 @@
       general,
       order,
       offers,
-      coupons,
       TACS,
       FAQS,
       orderTypesDesc,
@@ -168,10 +165,6 @@
       return{
         modules:{
           general : {
-            display : false,
-            icon : "+",
-          },
-          coupon : {
             display : false,
             icon : "+",
           },

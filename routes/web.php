@@ -64,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::delete('/offers/{id}','CoreController@deleteOffer');	
 
 	Route::apiResource('/coupons','CouponController');
+	Route::get('/coupon/referral','CouponController@referralCoupons');
+	Route::get('/coupon/orders/{code}','CouponController@redeemedOrders');
 
 	Route::apiResource('/drivers','DriverController');
 	Route::get('/driver/all','DriverController@allDrivers');

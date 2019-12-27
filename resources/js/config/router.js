@@ -19,6 +19,8 @@ import createCategory from '../components/categories/create.vue'
 import items from '../components/items/index.vue'
 import createItem from '../components/items/create.vue'
 import reports from '../components/reports/index.vue'
+import promoCoupons from '../components/coupon/promoCoupons.vue'
+import referralCoupons from '../components/coupon/referralCoupons.vue'
 
 const routes = [
   {name:'dashboard',  path: '/', component: dashboard },
@@ -44,7 +46,10 @@ const routes = [
   {name:'items',  path: '/v/items', component: items },
   {name:'createItem',  path: '/v/items/create', component: createItem },
 
-  {name:'reports',  path: '/v/reports', component: reports }
+  {name:'reports',  path: '/v/reports', component: reports },
+
+  {name:'promoCoupons',  path: '/v/promoCoupons', component: promoCoupons },
+  {name:'referralCoupons',  path: '/v/referralCoupons', component: referralCoupons },
 
 ]
 
