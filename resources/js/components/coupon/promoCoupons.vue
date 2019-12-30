@@ -408,4 +408,7 @@
   #redeemedOrdersModal___BV_modal_body_{
     padding: 0;
   }
+  #redeemedOrdersModal___BV_modal_body_ .card {
+    margin-bottom: 30px;
+  }
 </style>
