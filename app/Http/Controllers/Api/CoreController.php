@@ -140,4 +140,12 @@ class CoreController extends Controller
         
         return response()->json($OTD);
     }
+
+    public function suraj(Request $request)
+    {
+        return response()->json([
+            'message'   => 'This is what i got',
+            'yourdata'  =>  $request->all()
+        ]);
+    }
 }

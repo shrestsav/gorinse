@@ -116,13 +116,15 @@
         }  
       },
       addTime(){
-        if(this.appDefaults.order_time[this.appDefaults.order_time.length-1]!="")
+        if(this.appDefaults.order_time[this.appDefaults.order_time.length-1]!=""){
           this.appDefaults.order_time.push("")
-        else
+        }
+        else{
           this.$swal({
             type: 'error',
             title: 'First Fill Empty Rows',
           });
+        }
       },
       addDriverNotes(){
         if(this.appDefaults.driver_notes[this.appDefaults.driver_notes.length-1]!="")
