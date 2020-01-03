@@ -21,6 +21,7 @@ import createItem from '../components/items/create.vue'
 import reports from '../components/reports/index.vue'
 import promoCoupons from '../components/coupon/promoCoupons.vue'
 import referralCoupons from '../components/coupon/referralCoupons.vue'
+import pushNotification from '../components/pushNotification/index.vue'
 
 const routes = [
   {name:'dashboard',  path: '/', component: dashboard },
@@ -50,6 +51,8 @@ const routes = [
 
   {name:'promoCoupons',  path: '/v/promoCoupons', component: promoCoupons },
   {name:'referralCoupons',  path: '/v/referralCoupons', component: referralCoupons },
+
+  {name:'pushNotification',  path: '/v/push-notification', component: pushNotification },
 
 ]
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\AppDefault;
 use App\Category;
 use App\Item;
+use App\User;
 use App\MainArea;
+use App\PushNotification;
 use App\Offer;
 use App\Service;
 use Illuminate\Http\Request;
@@ -233,5 +235,73 @@ class CoreController extends Controller
         $details = Auth::user();
 
         return response()->json($details);
+    }
+
+    public function sendPushNotification(Request $request)
+    {
+        $validatedData = $request->validate([
+            'type'    => 'required|string',
+            'subject' => 'required|max:30',
+            'message' => 'required|max:300'
+        ]);
+
+        $subject = str_replace(' ', '_', $request->subject);
+
+        $pushNotification = PushNotification::create([
+            'type'      =>  $request->type,
+            'subject'   =>  $request->subject,
+            'message'   =>  $request->message
+        ]);
+
+        $notification = [
+            'notifyType' => $subject,
+            'message'    => $request->message,
+            'model'      => 'PushNotification',
+            'url'        => $pushNotification->id
+        ]; 
+
+        if($request->type==1){
+            $ids = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'customer');
+                          })
+                         ->whereNotNull('fname')
+                         ->whereNotNull('lname')
+                         ->pluck('id');
+        }
+        elseif($request->type==2){
+            $ids = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'driver');
+                        })
+                        ->pluck('id');
+        }
+        elseif($request->type==3){
+            $ids = User::whereHas('roles', function ($query) {
+                            $query->where('name', '=', 'customer')
+                                  ->orWhere('name', '=', 'driver');
+                        })
+                        ->whereNotNull('fname')
+                        ->whereNotNull('lname')
+                        ->pluck('id');
+        }
+        
+        foreach($ids as $id){
+            User::find($id)->AppNotification($notification);
+        }
+
+        $pushNotification->update([
+            'status'    => 1,
+            'sent_to'   =>  $ids
+        ]);
+
+        return response()->json([
+            'message'   =>  'Push Notification Has been sent'
+        ]);
+    }
+
+    public function sentPushNotification(Request $request)
+    {
+        $pushNotifications = PushNotification::orderBy('created_at','DESC')->paginate(config('settings.rows'));
+
+        return response()->json($pushNotifications);
     }
 }

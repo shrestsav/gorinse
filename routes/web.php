@@ -82,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/markAsRead/{notificationId}','UserController@markAsRead');
 	Route::get('/markAllAsRead','UserController@markAllAsRead');
 
+	Route::post('/pushNotification','CoreController@sendPushNotification');
+	Route::get('/pushNotification','CoreController@sentPushNotification');
+
 	Route::get('event',function(){
 		event(new TaskEvent('Hey how are you'));
 	});
