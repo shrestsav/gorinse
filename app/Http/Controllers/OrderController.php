@@ -352,7 +352,8 @@ class OrderController extends Controller
     }
 
     public function filterCraps(){
-      $orders = Order::with('details')->get()->where('details',null);
+      // $orders = Order::with('details')->get()->where('details',null);
+      $orders = Order::where('status','>',0)->whereNull('driver_id')->get();
       return $orders;
     }
   }
