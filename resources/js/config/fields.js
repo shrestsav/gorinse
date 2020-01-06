@@ -116,13 +116,13 @@ export const fields = {
   },
   'createCategory' : {
     'Information' : {
+      'icon' : {
+        'display_name' : 'Icon',
+        'col' : '6',
+        'type' :  'file',
+      },
       'name' : {
         'display_name' : 'Category Name',
-        'col' : '6',
-        'type' :  'text',
-      },
-      'icon' : {
-        'display_name' : 'Icon Code',
         'col' : '6',
         'type' :  'text',
       },

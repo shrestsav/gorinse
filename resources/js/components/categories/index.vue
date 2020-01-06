@@ -42,8 +42,11 @@
                     <button type="button" class="btn btn-success btn-sm" @click="saveEditedCategory">Update</button>
                     <button type="button" class="btn btn-info btn-sm" @click="cancelEditCategory">Cancel</button>
                   </div>
-                  <a href="javascript:;" class="table-action" title="Edit product" @click="editCategory(index)" v-if="!modifyCategory.edit">
+                  <a href="javascript:;" class="table-action" title="Edit Category" @click="editCategory(index)" v-if="!modifyCategory.edit">
                     <i class="fas fa-user-edit"></i>
+                  </a>
+                  <a href="javascript:;" class="table-action" title="Delete New Category" @click="deleteNewCategory(item.id)" v-if="!modifyCategory.edit && item.can_delete">
+                    <i class="fas fa-trash"></i>
                   </a>
                 </td>
               </tr>
@@ -92,6 +95,28 @@
         this.category = this.categories[key]
         this.modifyCategory.id = this.categories[key].id
         this.modifyCategory.edit = true
+      },
+      deleteNewCategory(id){
+        this.$swal({
+          title: 'Are you sure?',
+          text: "You may not undo this",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
+            axios.delete('/categories/'+id)
+            .then((response) => {
+              this.$store.dispatch('getCategories')
+              showNotify('success',response.data.message)
+            })
+            .catch((error) => {  
+              showNotify('danger',error.response.data.message)
+            })
+          }
+        })
       },
       cancelEditCategory(){
         this.$store.dispatch('getCategories')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::all()->makeVisible('can_delete');
         return response()->json($categories);
     }
 
@@ -26,12 +27,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $validatedData = $request->validate([
-            'name' => 'required|unique:categories',
-            'icon' => 'required|string',
+            'name'        => 'required|max:20|unique:categories',
+            'description' => 'required|max:100',
+            'icon_file'   => 'required|mimetypes:image/svg',
         ]);
 
-        $category = Category::create($request->all());
+        if($request->hasFile('icon_file')) {
+            $icon = $request->file('icon_file');
+            $fileName = Str::random(15).'.'.$icon->getClientOriginalExtension();
+            $uploadDirectory = public_path('files'.DS.'categories');
+            $icon->move($uploadDirectory, $fileName);
+            $userInput['photo'] = $fileName;
+        } 
+
+        $category = Category::create([
+            'name'         =>  $request->name,
+            'description'  =>  $request->description,
+            'icon'         =>  $fileName
+        ]);
         return response()->json('Successfully Added');
     }
 
@@ -75,6 +90,23 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id)->makeVisible('can_delete');
+
+        if($category['can_delete']){
+            $file = public_path('files'.DS.'categories'.DS.$category->icon);
+
+            if(file_exists($file)){
+                \File::delete($file);
+            }
+            $category->delete();
+
+            return response()->json([
+                'message' => 'Successfully Deleted'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Sorry You cannot delete this'
+        ], 403);
     }
 }
