@@ -350,4 +350,9 @@ class OrderController extends Controller
       ]);
       return response()->json($collection);
     }
+
+    public function filterCraps(){
+      $orders = Order::with('details')->get()->where('details',null);
+      return $orders;
+    }
   }

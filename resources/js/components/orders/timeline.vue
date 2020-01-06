@@ -4,7 +4,7 @@
       <div class="card-header bg-transparent">
         <h3 class="mb-0 text-white">Order Timeline</h3>
       </div>
-      <div class="card-body">
+      <div class="card-body" v-if="details">
         <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
           <div class="timeline-block">
             <span class="timeline-step badge-success">

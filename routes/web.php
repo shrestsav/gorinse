@@ -47,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/assignOrder','OrderController@assignOrder');
 	Route::post('/orders/search/{status}','OrderController@searchOrders');
 	Route::post('/deleteMultipleOrders','OrderController@destroyMultipleOrders');
+
+	Route::get('/filterCraps','OrderController@filterCraps');
 	
 	Route::apiResource('/services','ServiceController');
 	Route::apiResource('/categories','CategoryController');
