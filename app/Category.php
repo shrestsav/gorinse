@@ -8,9 +8,9 @@ class Category extends Model
 {
     protected $fillable = ['name','description','icon','status'];
 
-    protected $appends = ['can_delete'];
+    protected $appends = ['can_delete','icon_src'];
 
-    protected $hidden = ['can_delete'];
+    protected $hidden = ['can_delete','icon_src'];
 
     public function items()
     {
@@ -31,5 +31,12 @@ class Category extends Model
         }
         
         return $status;
+    }    
+
+    public function getIconSrcAttribute()
+    {
+  		$src = $this->icon ? asset('files/categories/'.$this->icon) : asset('files/categories/no_image.png');
+  		
+        return $src;
     }
 }

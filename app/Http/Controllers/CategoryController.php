@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all()->makeVisible('can_delete');
+        $categories = Category::all()->makeVisible(['can_delete','icon_src']);
         return response()->json($categories);
     }
 
@@ -39,7 +39,6 @@ class CategoryController extends Controller
             $fileName = Str::random(15).'.'.$icon->getClientOriginalExtension();
             $uploadDirectory = public_path('files'.DS.'categories');
             $icon->move($uploadDirectory, $fileName);
-            $userInput['photo'] = $fileName;
         } 
 
         $category = Category::create([
@@ -71,13 +70,31 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'id' => 'required|numeric',
-            'description' => 'required',
+            'id'          => 'required|numeric',
+            'description' => 'required|max:100',
+            'icon_file'   => 'mimetypes:image/svg',
         ]);
 
-        $service = Category::findOrFail($request->id);
-        $service->description = $request->description;
-        $service->save();
+        $category = Category::findOrFail($request->id);
+        $fileName = $category->icon;
+        if($request->hasFile('icon_file')) {
+
+            $file = public_path('files'.DS.'categories'.DS.$fileName);
+
+            if(file_exists($file)){
+                \File::delete($file);
+            }
+
+            $icon = $request->file('icon_file');
+            $fileName = Str::random(15).'.'.$icon->getClientOriginalExtension();
+            $uploadDirectory = public_path('files'.DS.'categories');
+            $icon->move($uploadDirectory, $fileName);
+        }
+
+        
+        $category->description = $request->description;
+        $category->icon = $fileName;
+        $category->save();
 
         return response()->json('Successfully Updated');
     }

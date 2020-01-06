@@ -20,6 +20,7 @@
               <tr>
                 <th>S.No.</th>
                 <th>Category Name</th>
+                <th>Category Icon</th>
                 <th>Description</th>
                 <th>Action</th>
               </tr>
@@ -28,6 +29,16 @@
               <tr v-for="(item,index) in categories">
                 <td>{{index+1}}</td>
                 <td>{{item.name}}</td>
+                <td>
+                  <template v-if="editExistingCategory(item.id)">
+                    <img :src="category.icon_src" class="rounded-circle" @click="triggerIconInput(index)" :class="{'img-not-validated':errors.icon_file}" >
+                    <input type="file" class="custom-file-input" lang="en" v-on:change="imageChange" style="display: none;" :ref="'icon_file_'+index">
+                    <div class="invalid-feedback" style="display: block;" v-if="errors.icon_file">
+                      {{errors.icon_file[0]}}
+                    </div>
+                  </template>
+                  <img v-else :src="item.icon_src">
+                </td>
                 <td>
                   <div class="form-group" v-if="editExistingCategory(item.id)">
                     <textarea v-model="category.description" :class="{'not-validated':errors.description}" class="form-control" rows="3" placeholder="BRIEF DESCRIPTION OF CATEGORY"></textarea>
@@ -125,8 +136,15 @@
         this.modifyCategory.edit = false
       },
       saveEditedCategory(){
-        axios.patch('/categories/'+this.category.id,this.category)
+        let formData = new FormData()
+        formData.append('_method', 'PUT')
+        for (var key in this.category) {
+            formData.append(key, this.category[key]);
+        }
+
+        axios.post('/categories/'+this.category.id,formData)
         .then((response) => {
+          console.log(response.data)
           this.cancelEditCategory()
           showNotify('success',response.data)
         })
@@ -137,6 +155,13 @@
           }  
         })
       },
+      triggerIconInput(key) {
+        this.$refs['icon_file_'+key][0].click()
+      },
+      imageChange(e) {
+        this.category.icon_file = e.target.files[0]
+        this.category.icon_src = URL.createObjectURL(this.category.icon_file)
+      }
     },
     computed: {
       categories(){
