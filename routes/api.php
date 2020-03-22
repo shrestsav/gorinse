@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/testPost','Api\CoreController@suraj');
 Route::post('/phoneRegister','Api\AuthController@phoneRegister');
 Route::post('/verifyOTP','Api\AuthController@verifyOTP');
 

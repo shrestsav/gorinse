@@ -65,14 +65,37 @@ class DriverController extends Controller
     public function driverOrders(Request $request, $driver_id)
     {
         $this->validate($request, [
-            'type' => 'required|string',
+            'type'     => 'required|string',
+            'job_type' => 'required|string'
         ]);
 
-        $orders = Order::where(function ($query) use ($driver_id){
-                            $query->where('driver_id',$driver_id)
-                                  ->orWhere('drop_driver_id',$driver_id);
-                        })
-                        ->with('details','customer:id,fname,lname','pick_location_details.mainArea');
+        $orders = Order::with('details','customer:id,fname,lname','pick_location_details.mainArea');
+
+        if($request->job_type=='pick'){
+            $orders = $orders->where('driver_id',$driver_id)
+                             ->where(function ($query) use ($driver_id){
+                                $query->where('drop_driver_id','!=',$driver_id)
+                                      ->orWhereNull('drop_driver_id');
+                             });
+        }
+        elseif($request->job_type=='drop'){
+            $orders = $orders->where('drop_driver_id',$driver_id)
+                             ->where(function ($query) use ($driver_id){
+                                $query->where('driver_id','!=',$driver_id)
+                                      ->orWhereNull('driver_id');
+                             });
+        }
+        elseif($request->job_type=='pick_drop'){
+            $orders = $orders->where('driver_id',$driver_id)
+                             ->where('drop_driver_id',$driver_id);
+        }
+        elseif($request->job_type=='any'){
+            $orders = $orders->where(function ($query) use ($driver_id){
+                                $query->where('driver_id',$driver_id)
+                                      ->orWhere('drop_driver_id',$driver_id);
+                            });
+        }
+        
 
         if($request->type=='monthly'){
             $this->validate($request, [
@@ -93,7 +116,10 @@ class DriverController extends Controller
                         
         $orders->setCollection( $orders->getCollection()->makeVisible('total_amount'));
 
+        $driverDetails = User::find($driver_id);
+
         return response()->json([
+            'driver'      =>  $driverDetails,
             'orders'      =>  $orders,
             'orderStatus' => config('settings.orderStatuses')
         ]);

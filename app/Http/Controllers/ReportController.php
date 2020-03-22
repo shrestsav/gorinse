@@ -393,11 +393,7 @@ class ReportController extends Controller
 
       $driver_id = $request->driver_id;
 
-      $orders = Order::where(function ($query) use ($driver_id){
-                          $query->where('driver_id',$driver_id)
-                                ->orWhere('drop_driver_id',$driver_id);
-                      })
-                      ->with('customer:id,fname,lname,phone',
+      $orders = Order::with('customer:id,fname,lname,phone',
                              'details:order_id,PFC,DTC,PT',
                              'pickDriver:id,fname,lname,phone',
                              'dropDriver:id,fname,lname,phone',
@@ -405,6 +401,31 @@ class ReportController extends Controller
                              'orderItems.service:id,name',
                              'pick_location_details:id,area_id',
                              'pick_location_details.mainArea:id,name');
+
+      if($request->job_type=='pick'){
+            $orders = $orders->where('driver_id',$driver_id)
+                             ->where(function ($query) use ($driver_id){
+                                $query->where('drop_driver_id','!=',$driver_id)
+                                      ->orWhereNull('drop_driver_id');
+                             });
+        }
+        elseif($request->job_type=='drop'){
+            $orders = $orders->where('drop_driver_id',$driver_id)
+                             ->where(function ($query) use ($driver_id){
+                                $query->where('driver_id','!=',$driver_id)
+                                      ->orWhereNull('driver_id');
+                             });
+        }
+        elseif($request->job_type=='pick_drop'){
+            $orders = $orders->where('driver_id',$driver_id)
+                             ->where('drop_driver_id',$driver_id);
+        }
+        elseif($request->job_type=='any'){
+            $orders = $orders->where(function ($query) use ($driver_id){
+                                $query->where('driver_id',$driver_id)
+                                      ->orWhere('drop_driver_id',$driver_id);
+                            });
+        }
 
       if($request->type=='monthly'){
         $this->validate($request, [
@@ -430,7 +451,7 @@ class ReportController extends Controller
                        ->toArray();
 
       $data = [];
-
+      $totalAmount = 0;
       foreach ($orders as $order) {
         $dataArr = [];
 
@@ -478,11 +499,67 @@ class ReportController extends Controller
         }
 
         $dataArr['ST'] = $st;            
-        $dataArr['amount'] = 'AED '.$order['total_amount'];
-
+        $dataArr['amount'] = $order['total_amount'] ? 'AED '.$order['total_amount'] : '';
+        $totalAmount += $dataArr['amount'] ? $order['total_amount'] : 0;
         array_push($data, $dataArr);
 
       }
+
+      $totalArr = [
+        '1'   =>  '',
+        '2'   =>  '',
+        '3'   =>  '',
+        '4'   =>  '',
+        '5'   =>  '',
+        '6'   =>  '',
+        '7'   =>  '',
+        '8'   =>  '',
+        '9'   =>  '',
+        '10'  =>  '',
+        '11'  =>  '',
+        '12'  =>  '',
+        '13'  =>  'Grand Total',
+        '14'  =>  $totalAmount
+      ];
+      array_push($data, $totalArr);
+
+      $totalOrdArr = [
+        '1'   =>  '',
+        '2'   =>  '',
+        '3'   =>  '',
+        '4'   =>  '',
+        '5'   =>  '',
+        '6'   =>  '',
+        '7'   =>  '',
+        '8'   =>  '',
+        '9'   =>  '',
+        '10'  =>  '',
+        '11'  =>  '',
+        '12'  =>  '',
+        '13'  =>  'Total Order',
+        '14'  =>  count($orders)
+      ];
+      array_push($data, $totalOrdArr);
+
+      $driver = User::find($driver_id);
+
+      $driverArr = [
+        '1'   =>  '',
+        '2'   =>  '',
+        '3'   =>  '',
+        '4'   =>  '',
+        '5'   =>  '',
+        '6'   =>  '',
+        '7'   =>  '',
+        '8'   =>  '',
+        '9'   =>  '',
+        '10'  =>  '',
+        '11'  =>  '',
+        '12'  =>  '',
+        '13'  =>  'Driver Name',
+        '14'  =>  $driver->full_name
+      ];
+      array_push($data, $driverArr);
 
       $head = [
         'ORDER ID',
